@@ -1,0 +1,27 @@
+using Project.Runtime.ECS.Views;
+using Project.Runtime.Scriptable.Buildings;
+using UnityEngine;
+
+namespace Project.Runtime.ECS
+{
+    public class WorldSetup : MonoBehaviour
+    {
+        [SerializeField] private Transform spawnBasePoint;
+        [SerializeField] private BuildingConfig baseBuildingConfig;
+        [Space]
+        [SerializeField] private WorldProgressBarView worldProgressBarView;
+        [SerializeField] private WorkerUnitView unitLumberjack;
+        [SerializeField] private WorkerUnitView unitMiner;
+        [SerializeField] private BuildingConfig treeConfig;
+        [SerializeField] private BuildingConfig stoneConfig;
+
+        public Transform SpawnBasePoint => spawnBasePoint;
+        public BuildingConfig BaseBuildingConfig => baseBuildingConfig;
+
+        public WorldProgressBarView WorldProgressBarView => worldProgressBarView;
+        public WorkerUnitView UnitLumberjack => unitLumberjack;
+        public WorkerUnitView UnitMiner => unitMiner;
+        public BuildingConfig TreeConfig => treeConfig;
+        public BuildingConfig StoneConfig => stoneConfig;
+    }
+}

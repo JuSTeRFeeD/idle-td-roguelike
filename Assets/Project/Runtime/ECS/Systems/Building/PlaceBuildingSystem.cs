@@ -1,0 +1,132 @@
+using System;
+using Project.Runtime.ECS.Components;
+using Project.Runtime.ECS.Extensions;
+using Project.Runtime.ECS.Views;
+using Project.Runtime.Features.Building;
+using Project.Runtime.Features.CameraControl;
+using Project.Runtime.Scriptable.Buildings;
+using Scellecs.Morpeh;
+using UnityEngine;
+using VContainer;
+using Object = UnityEngine.Object;
+
+namespace Project.Runtime.ECS.Systems.Building
+{
+    public class PlaceBuildingSystem : ISystem
+    {
+        [Inject] private WorldSetup _worldSetup;
+        [Inject] private MapManager _mapManager;
+        [Inject] private CameraController _cameraController;
+        
+        public World World { get; set; }
+
+        private Filter _filter;
+
+        public void OnAwake()
+        {
+            _filter = World.Filter
+                .With<PlaceBuildingRequest>()
+                .With<PlacingBuilding>()
+                .Build();
+        }
+
+        public void OnUpdate(float deltaTime)
+        {
+            foreach (var entity in _filter)
+            {
+                var placingBuilding = entity.GetComponent<PlacingBuilding>();
+                
+                var view = _mapManager.PutBuilding(placingBuilding.BuildingConfig, GridUtils.ConvertWorldToGridPos(placingBuilding.CurrentPosition), Quaternion.identity);
+                var buildingEntity = World.CreateEntity();
+                buildingEntity.LinkView(view);
+
+                SetupEntity(buildingEntity, placingBuilding.BuildingConfig, view);
+                
+                _cameraController.SetPosition(placingBuilding.CurrentPosition);
+                _cameraController.ResetTarget();
+
+                if (placingBuilding.Preview)
+                {
+                    Object.Destroy(placingBuilding.Preview.gameObject);
+                }
+                entity.Dispose();
+            }
+        }
+
+        private void SetupEntity(in Entity buildingEntity, in BuildingConfig buildingConfig, in EntityView view)
+        {
+            switch (buildingConfig)
+            {
+                case BaseBuildingConfig baseBuilding:
+                    buildingEntity.SetComponent(new BuildingTag());
+                    buildingEntity.SetComponent(new BaseBuildingTag());
+                    
+                    buildingEntity.SetComponent(new HealthDefault
+                    {
+                        Value = baseBuilding.Health
+                    });
+                    buildingEntity.SetComponent(new HealthCurrent
+                    {
+                        Value = baseBuilding.Health
+                    });
+                    buildingEntity.SetComponent(new LumberjackUnitsOwnedTag
+                    {
+                        CurrentCapacity = baseBuilding.LumberjacksCapacity.min,
+                        Capacity = baseBuilding.LumberjacksCapacity,
+                    });
+                    buildingEntity.SetComponent(new WoodStorage
+                    {
+                        Current = 0,
+                        Max = baseBuilding.WoodStorageSize
+                    });
+                    buildingEntity.SetComponent(new MinerUnitsOwnedTag
+                    {
+                        CurrentCapacity = baseBuilding.MinerCapacity.min,
+                        Capacity = baseBuilding.MinerCapacity
+                    });
+                    buildingEntity.SetComponent(new StoneStorage
+                    {
+                        Current = 0,
+                        Max = baseBuilding.StoneStorageSize
+                    });
+                    for (var i = 0; i < baseBuilding.UnitsCountDefault; i++)
+                    {
+                        var spawnUnitRequest = World.CreateEntity();
+                        spawnUnitRequest.SetComponent(new SpawnUnitRequest
+                        {
+                            AtPosition = view.transform.position + Vector3.right * 2f,
+                            ForTowerOwner = buildingEntity,
+                            UnitType = UnitType.Lumberjack
+                        });
+                    }
+                    break;
+                
+                case MapResourceConfig resource:
+                    buildingEntity.SetComponent(new HealthDefault
+                    {
+                        Value = resource.health
+                    });
+                    buildingEntity.SetComponent(new HealthCurrent
+                    {
+                        Value = resource.health
+                    });
+                    switch (resource.resourceType)
+                    {
+                        case ResourceType.Wood:
+                            buildingEntity.SetComponent(new TreeTag());
+                            break;
+                        case ResourceType.Stone:
+                            buildingEntity.SetComponent(new StoneTag());
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                    break;
+            }
+        }
+
+        public void Dispose()
+        {
+        }
+    }
+}
