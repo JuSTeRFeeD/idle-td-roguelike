@@ -20,9 +20,13 @@ namespace Project.Runtime.Core
         [SerializeField] private HeaderUI headerUI;
         [SerializeField] private PanelsManager panelsManager;
         [SerializeField] private BuildingManagementPanel buildingManagementPanel;
+        [Space]
+        [SerializeField] private DayNightCycleEffects dayNightCycleEffects;
         
         protected override void Configure(IContainerBuilder builder)
         {
+            builder.RegisterInstance<DayNightCycleEffects>(dayNightCycleEffects);
+            
             builder.RegisterInstance<PanelsManager>(panelsManager);
             builder.RegisterInstance<BuildingManagementPanel>(buildingManagementPanel);
             

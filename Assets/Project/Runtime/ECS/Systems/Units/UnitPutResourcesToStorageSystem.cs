@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Project.Runtime.ECS.Components;
 using Scellecs.Morpeh;
+using UnityEngine;
 
 namespace Project.Runtime.ECS.Systems.Units
 {
@@ -42,8 +43,8 @@ namespace Project.Runtime.ECS.Systems.Units
             foreach (var entity in unitFilter)
             {
                 ref var backpack = ref entity.GetComponent<UnitBackpack>(); 
-                var storageEntity = entity.GetComponent<MoveToStorage>().Entity;
                 ref var storage = ref entity.GetComponent<MoveToStorage>().Entity.GetComponent<T>();
+                var storageEntity = entity.GetComponent<MoveToStorage>().Entity;
 
                 var possiblePutIntoStorage = storage.Max - storage.Current;
                 
@@ -63,11 +64,23 @@ namespace Project.Runtime.ECS.Systems.Units
                 else
                 {
                     var possible = backpack.Amount - possiblePutIntoStorage;
+                    // var possible = 0; // Mathf.Abs(backpack.Amount - possiblePutIntoStorage);
+                    // if (backpack.Amount > possiblePutIntoStorage)
+                    // {
+                        // possible = possiblePutIntoStorage - backpack.Amount;
+                    // }
+                    // else
+                    // {
+                        // possible = backpack.Amount - possiblePutIntoStorage;
+                    // }
+                    
                     storage.Current += possible;
                     backpack.Amount -= possible;
                     entity.RemoveComponent<MoveToStorage>();
                     entity.SetComponent(new FindStorageRequest());
                 }
+                
+                Debug.Log($"storage {storage.Current} / {storage.Max}");
 
                 if (buff.ContainsKey(storageEntity)) buff[storageEntity] = storage.Current;
                 else buff.Add(storageEntity, storage.Current);

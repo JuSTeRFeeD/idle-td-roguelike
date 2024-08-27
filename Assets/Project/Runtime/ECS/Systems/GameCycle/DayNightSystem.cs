@@ -8,6 +8,7 @@ namespace Project.Runtime.ECS.Systems.GameCycle
     public class DayNightSystem : ISystem
     {
         [Inject] private HeaderUI _headerUI;
+        [Inject] private DayNightCycleEffects _dayNightCycleEffects;
         
         public World World { get; set; }
 
@@ -31,10 +32,17 @@ namespace Project.Runtime.ECS.Systems.GameCycle
                 if (dayNight.EstimateTime > 0f)
                 {
                     _headerUI.SetDayNight(dayNight, entity.Has<IsDayTimeTag>());
+
+                    if (dayNight.EstimateTime <= _dayNightCycleEffects.transitionDuration)
+                    {
+                        _dayNightCycleEffects.SetTime(!entity.Has<IsDayTimeTag>());
+                    }
+                    
                     continue;
                 }
 
-                if (entity.Has<IsDayTimeTag>())
+                var isPreviousDay = entity.Has<IsDayTimeTag>();
+                if (isPreviousDay)
                 {
                     dayNight.EstimateTime = dayNight.NightTime;
                     entity.RemoveComponent<IsDayTimeTag>();
@@ -48,7 +56,7 @@ namespace Project.Runtime.ECS.Systems.GameCycle
                     entity.AddComponent<IsDayTimeTag>();
                 }
                 
-                _headerUI.SetDayNight(dayNight, entity.Has<IsDayTimeTag>());
+                _headerUI.SetDayNight(dayNight, !isPreviousDay);
             }
         }
 
