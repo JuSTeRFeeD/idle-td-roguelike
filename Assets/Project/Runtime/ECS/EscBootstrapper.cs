@@ -3,6 +3,7 @@ using Project.Runtime.ECS.Components;
 using Project.Runtime.ECS.Extensions;
 using Project.Runtime.ECS.Systems;
 using Project.Runtime.ECS.Systems.Building;
+using Project.Runtime.ECS.Systems.GameCycle;
 using Project.Runtime.ECS.Systems.Player;
 using Project.Runtime.ECS.Systems.Units;
 using Scellecs.Morpeh;
@@ -47,6 +48,7 @@ namespace Project.Runtime.ECS
 
         private void AddCommonSystems()
         {
+            _commonSystemsGroup.AddInitializer<DayNightInitializer>();
             _commonSystemsGroup.AddInitializer<PlayerDataInitializer>();
             _commonSystemsGroup.AddInitializer<ViewEntityDisposableInitializer>();
             
@@ -83,6 +85,7 @@ namespace Project.Runtime.ECS
         {
             _postTickSystems.AddSystem<TotalUnitsCountSystem>();
             _postTickSystems.AddSystem<TotalResourcesCountSystem>();
+            _commonSystemsGroup.AddSystem<DayNightSystem>();
                 
             _world.AddSystemsGroup(4, _postTickSystems);
         }

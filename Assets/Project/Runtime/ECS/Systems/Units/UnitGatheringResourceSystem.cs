@@ -54,7 +54,6 @@ namespace Project.Runtime.ECS.Systems.Units
                 if (targetHealth <= 0)
                 {
                     // TODO: нужно нормально "наносить урон" и уночтижать рес и view
-                    Debug.Log("Remove entity resource");
                     gathering.TargetResource.Dispose();
 
                     if (backpack.Amount < backpack.Capacity)

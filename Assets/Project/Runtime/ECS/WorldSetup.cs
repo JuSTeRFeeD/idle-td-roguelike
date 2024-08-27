@@ -1,4 +1,5 @@
 using Project.Runtime.ECS.Views;
+using Project.Runtime.Scriptable;
 using Project.Runtime.Scriptable.Buildings;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ namespace Project.Runtime.ECS
 {
     public class WorldSetup : MonoBehaviour
     {
+        [SerializeField] private DayNightConfig dayNightConfig;
+        [Space]
         [SerializeField] private Transform spawnBasePoint;
         [SerializeField] private BuildingConfig baseBuildingConfig;
         [Space]
@@ -15,6 +18,8 @@ namespace Project.Runtime.ECS
         [SerializeField] private BuildingConfig treeConfig;
         [SerializeField] private BuildingConfig stoneConfig;
 
+        public DayNightConfig DayNightConfig => dayNightConfig;
+        
         public Transform SpawnBasePoint => spawnBasePoint;
         public BuildingConfig BaseBuildingConfig => baseBuildingConfig;
 

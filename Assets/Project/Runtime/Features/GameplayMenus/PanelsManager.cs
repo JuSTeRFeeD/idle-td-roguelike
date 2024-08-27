@@ -19,7 +19,8 @@ namespace Project.Runtime.Features.GameplayMenus
         private readonly Dictionary<PanelType, PanelSetup> panelsByType = new();
 
         public PanelType ActivePanel { get; private set; }
-
+        public event Action<PanelType> OnChangePanel;
+        
         private void Start()
         {
             foreach (var panelSetup in panels)
@@ -31,6 +32,9 @@ namespace Project.Runtime.Features.GameplayMenus
 
         public void SetPanel(PanelType panelType)
         {
+            if (panelType == ActivePanel) return;
+            
+            Debug.Log($"[PanelsManager] SetPanel {panelType} | CurrentPanel {ActivePanel}");
             if (panelsByType.TryGetValue(ActivePanel, out var oldPanel))
             {
                 oldPanel.panel.Hide();
@@ -42,6 +46,8 @@ namespace Project.Runtime.Features.GameplayMenus
             {
                 newPanel.panel.Show();
             }
+            
+            OnChangePanel?.Invoke(ActivePanel);
         }
     }
 

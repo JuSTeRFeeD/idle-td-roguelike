@@ -29,6 +29,7 @@ namespace Project.Runtime.ECS.Systems.Player
         public void OnAwake()
         {
             _cameraController.OnEntityViewClick += OnClickEntityView;
+            _buildingManagementPanel.OnCloseClick += CloseManagement;
             Debug.Log("Building click system inited");
 
             _lumberjackUnitsFilter = World.Filter
@@ -51,8 +52,9 @@ namespace Project.Runtime.ECS.Systems.Player
                 .Build();
         }
 
-        private void DeselectEntity()
+        private void CloseManagement()
         {
+            _panelsManager.SetPanel(PanelType.None);
             _selectedEntity = null;
         }
 
@@ -104,6 +106,8 @@ namespace Project.Runtime.ECS.Systems.Player
 
         private void AddUnitClick(UnitType unitType)
         {
+            // TODO: handle building unit limits 
+            
             foreach (var entity in _chillingUnitsFilter)
             {
                 entity.AddComponent<FindResourceRequest>();

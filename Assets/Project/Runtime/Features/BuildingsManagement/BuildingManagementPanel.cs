@@ -8,11 +8,15 @@ using Scellecs.Morpeh;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using VContainer;
 
 namespace Project.Runtime.Features.BuildingsManagement
 {
     public class BuildingManagementPanel : PanelBase
     {
+        [Inject] private PanelsManager _panelsManager;
+        
+        [SerializeField] private Button closeButton;
         [SerializeField] private TextMeshProUGUI panelTitleText;
         [SerializeField] private Image upgadeProgressBg;
         [SerializeField] private Image upgadeProgress;
@@ -22,15 +26,42 @@ namespace Project.Runtime.Features.BuildingsManagement
         [SerializeField] private StorageInfoWidget storageInfoWidgetPrefab;
 
         private StorageInfoWidget _storageInfoWidget;
-        private Dictionary<UnitType, UnitsWidget> _unitsWidgetByType = new();
+        private readonly Dictionary<UnitType, UnitsWidget> _unitsWidgetByType = new();
+
+        public event Action OnCloseClick;
+        
+        private void Start()
+        {
+            closeButton.onClick.AddListener(ClosePanel);
+            _panelsManager.OnChangePanel += OnChangePanel;
+        }
+
+        private void OnDestroy()
+        {
+            closeButton.onClick.RemoveListener(ClosePanel);
+            _panelsManager.OnChangePanel -= OnChangePanel;
+        }
+
+        private void OnChangePanel(PanelType panelType)
+        {
+            if (panelType == PanelType.TowerManagement) return;
+            ClosePanel();
+        }
+
+        private void ClosePanel()
+        {
+            OnCloseClick?.Invoke();
+        }
 
         public override void Hide()
         {
+            Debug.Log("Clear widgets");
             foreach (Transform widgetTransform in container)
             {
                 Destroy(widgetTransform.gameObject);
             }
-
+            _unitsWidgetByType.Clear();
+            _storageInfoWidget = null;
             base.Hide();
         }
 
@@ -69,6 +100,9 @@ namespace Project.Runtime.Features.BuildingsManagement
 
         public void SetUnitsWidgetValues(UnitType unitType, int usedUnits, int currentCapacity, int maxCapacity)
         {
+#if UNITY_EDITOR
+            if (!_unitsWidgetByType.ContainsKey(unitType)) Debug.LogError($"UnitType {unitType} doesn't added to panel!");
+#endif
             _unitsWidgetByType[unitType].SetUnits(usedUnits, currentCapacity, maxCapacity);
         }
     }

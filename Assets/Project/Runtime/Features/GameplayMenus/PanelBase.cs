@@ -6,13 +6,17 @@ namespace Project.Runtime.Features.GameplayMenus
     {
         [SerializeField] private Canvas canvas;
         
+        public bool IsPanelActive { get; private set; }
+        
         public virtual void Show()
         {
+            IsPanelActive = true;
             canvas.enabled = true;
         }
         
         public virtual void Hide()
         {
+            IsPanelActive = false;
             canvas.enabled = false;
         }
     }
