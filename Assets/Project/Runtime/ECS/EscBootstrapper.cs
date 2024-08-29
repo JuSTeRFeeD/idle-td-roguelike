@@ -5,6 +5,7 @@ using Project.Runtime.ECS.Systems;
 using Project.Runtime.ECS.Systems.Building;
 using Project.Runtime.ECS.Systems.GameCycle;
 using Project.Runtime.ECS.Systems.Player;
+using Project.Runtime.ECS.Systems.Player.Upgrades;
 using Project.Runtime.ECS.Systems.Units;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Helpers.OneFrame;
@@ -83,9 +84,15 @@ namespace Project.Runtime.ECS
 
         private void AddPostTickSystems()
         {
+            _postTickSystems.AddSystem<AddExpMultiplierPerkSystem>();
+            _postTickSystems.AddSystem<AddExpSystem>();
+
+            _postTickSystems.AddSystem<LevelUpSystem>();
+            
             _postTickSystems.AddSystem<TotalUnitsCountSystem>();
             _postTickSystems.AddSystem<TotalResourcesCountSystem>();
-            _commonSystemsGroup.AddSystem<DayNightSystem>();
+            
+            _postTickSystems.AddSystem<DayNightSystem>();
                 
             _world.AddSystemsGroup(4, _postTickSystems);
         }

@@ -1,6 +1,7 @@
 using Project.Runtime.ECS.Views;
 using Project.Runtime.Scriptable;
 using Project.Runtime.Scriptable.Buildings;
+using Project.Runtime.Scriptable.Card;
 using UnityEngine;
 
 namespace Project.Runtime.ECS
@@ -8,6 +9,8 @@ namespace Project.Runtime.ECS
     public class WorldSetup : MonoBehaviour
     {
         [SerializeField] private DayNightConfig dayNightConfig;
+        [SerializeField] private PlayerLevelsConfig playerLevelsConfig;
+        [SerializeField] private ActiveCardsListConfig activeCardsListConfig;
         [Space]
         [SerializeField] private Transform spawnBasePoint;
         [SerializeField] private BuildingConfig baseBuildingConfig;
@@ -19,6 +22,8 @@ namespace Project.Runtime.ECS
         [SerializeField] private BuildingConfig stoneConfig;
 
         public DayNightConfig DayNightConfig => dayNightConfig;
+        public PlayerLevelsConfig PlayerLevelsConfig => playerLevelsConfig;
+        public ActiveCardsListConfig ActiveCardsListConfig => activeCardsListConfig;
         
         public Transform SpawnBasePoint => spawnBasePoint;
         public BuildingConfig BaseBuildingConfig => baseBuildingConfig;

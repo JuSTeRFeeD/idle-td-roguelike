@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using System.Reflection;
-using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -14,7 +12,7 @@ namespace Project.Runtime.Core
         [Sirenix.OdinInspector.Button("Find GameObjects to inject")]
         public void Refresh()
         {
-            if (PrefabStageUtility.GetCurrentPrefabStage() != null)
+            if (UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage() != null)
             {
                 Debug.LogError("You cant refresh object to inject in prefab mode!");
             }
@@ -31,7 +29,7 @@ namespace Project.Runtime.Core
             foreach (var obj in gameObjects)
             {
                 // Sometimes adds prefabs from assets folder. Here we are check to skip this objects
-                if (PrefabUtility.IsPartOfPrefabAsset(obj)) continue;
+                if (UnityEditor.PrefabUtility.IsPartOfPrefabAsset(obj)) continue;
 
                 // Get all components attached to the game object
                 var components = obj.GetComponents<Component>();

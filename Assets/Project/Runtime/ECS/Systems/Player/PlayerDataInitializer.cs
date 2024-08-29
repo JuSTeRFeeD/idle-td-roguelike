@@ -1,10 +1,15 @@
 using Project.Runtime.ECS.Components;
+using Project.Runtime.Features;
 using Scellecs.Morpeh;
+using VContainer;
 
 namespace Project.Runtime.ECS.Systems.Player
 {
     public class PlayerDataInitializer : IInitializer
     {
+        [Inject] private WorldSetup _worldSetup;
+        [Inject] private HeaderUI _headerUI;
+        
         public World World { get; set; }
 
         public void OnAwake()
@@ -15,11 +20,24 @@ namespace Project.Runtime.ECS.Systems.Player
                 StoneAmount = 0,
                 WoodAmount = 0
             });
-            dataEntity.SetComponent(new TotalUnitsData()
+            dataEntity.SetComponent(new TotalUnitsData
             {
                 UsedUnitsAmount = 0,
                 TotalUnitsAmount = 0
             });
+
+            var expByLevel = _worldSetup.PlayerLevelsConfig.ExpByLevel;
+            dataEntity.SetComponent(new PlayerLevel
+            {
+                Level = 0,
+                CurrentExp = 0,
+                TargetExp = expByLevel[0],
+                ExpByLevel = expByLevel
+            });
+            
+            // Just reset ui data on start
+            _headerUI.SetLevel(0);
+            _headerUI.SetLevelExp(0, 1);
         }
 
         public void Dispose()

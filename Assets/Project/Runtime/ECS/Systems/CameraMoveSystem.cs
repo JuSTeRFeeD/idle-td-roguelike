@@ -13,7 +13,7 @@ namespace Project.Runtime.ECS.Systems
         private Filter _filter;
 
         private Vector3 _dragOrigin;
-        private const float DragSpeed = 10f;
+        private const float DragSpeed = 6f;
         
         public World World { get; set; }
 

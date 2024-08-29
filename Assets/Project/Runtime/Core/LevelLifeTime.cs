@@ -4,6 +4,7 @@ using Project.Runtime.Features.Building;
 using Project.Runtime.Features.BuildingsManagement;
 using Project.Runtime.Features.CameraControl;
 using Project.Runtime.Features.GameplayMenus;
+using Project.Runtime.Features.Leveling;
 using Scellecs.Morpeh;
 using UnityEngine;
 using VContainer;
@@ -22,6 +23,7 @@ namespace Project.Runtime.Core
         [SerializeField] private BuildingManagementPanel buildingManagementPanel;
         [Space]
         [SerializeField] private DayNightCycleEffects dayNightCycleEffects;
+        [SerializeField] private LevelUpPanel levelUpPanel;
         
         protected override void Configure(IContainerBuilder builder)
         {
@@ -37,6 +39,8 @@ namespace Project.Runtime.Core
             builder.RegisterInstance<MapManager>(mapManager);
             
             builder.RegisterInstance<HeaderUI>(headerUI);
+            
+            builder.RegisterInstance<LevelUpPanel>(levelUpPanel);
             
             // Initialize ecs
             if (World.Default == null) World.Create();

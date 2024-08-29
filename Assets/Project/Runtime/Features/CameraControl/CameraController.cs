@@ -2,12 +2,13 @@ using System;
 using Cinemachine;
 using Project.Runtime.ECS.Views;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Project.Runtime.Features.CameraControl
 {
     public class CameraController : MonoBehaviour
     {
-        [SerializeField] private CinemachineVirtualCamera _virtualCamera;
+        [SerializeField] private CinemachineVirtualCamera virtualCamera;
         [SerializeField] private Camera mainCamera;
         [SerializeField] private Transform target;
 
@@ -28,14 +29,14 @@ namespace Project.Runtime.Features.CameraControl
 
         public void OverrideTarget(Transform tempTarget)
         {
-            _virtualCamera.Follow = tempTarget;
-            _virtualCamera.LookAt = tempTarget;
+            virtualCamera.Follow = tempTarget;
+            virtualCamera.LookAt = tempTarget;
         }
         
         public void ResetTarget()
         {
-            _virtualCamera.Follow = target;
-            _virtualCamera.LookAt = target;
+            virtualCamera.Follow = target;
+            virtualCamera.LookAt = target;
         }
 
         public void SetPosition(Vector3 position)
@@ -46,6 +47,10 @@ namespace Project.Runtime.Features.CameraControl
         private void ClickHandle()
         {
             if (!Input.GetMouseButtonDown(0)) return;
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                return;
+            }
 
             var ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             if (!Physics.Raycast(ray, out var hit)) return;

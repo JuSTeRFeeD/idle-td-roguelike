@@ -1,13 +1,21 @@
 using Project.Runtime.ECS.Components;
+using Project.Runtime.Scriptable.Buildings;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Project.Runtime.Features.Widgets
 {
     public class AmountWidget : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI amountText;
+        [SerializeField] private Image iconImage;
 
+        public void OverrideIcon(ResourceType resourceType)
+        {
+            // todo change iconImage.sprite
+        }
+        
         public void SetText(string amount)
         {
             amountText.SetText(amount);

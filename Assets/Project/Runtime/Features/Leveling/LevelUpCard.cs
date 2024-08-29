@@ -1,0 +1,55 @@
+using System;
+using DG.Tweening;
+using Project.Runtime.Scriptable.Card;
+using TMPro;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+
+namespace Project.Runtime.Features.Leveling
+{
+    public class LevelUpCard : MonoBehaviour, IPointerClickHandler
+    {
+        [SerializeField] private Image bgImage;
+        [SerializeField] private Image iconImage;
+        [SerializeField] private TextMeshProUGUI cardTitleText;
+        
+        private Vector3 _initScale;
+        private const float AnimDuration = 0.1f;
+
+        public event Action<int> OnClick;
+        public int Id { get; private set; }
+        public CardConfig CardConfig { get; private set; }
+
+        public void Init(int id)
+        {
+            Id = id;
+        }
+
+        public void SetConfig(CardConfig cardConfig)
+        {
+            CardConfig = cardConfig;
+            iconImage.sprite = cardConfig.Icon;
+            cardTitleText.SetText(cardConfig.Title);
+        }
+
+        private void Start()
+        {
+            _initScale = bgImage.transform.localScale;
+        }
+
+        public void SetIsSelected(bool value)
+        {
+            bgImage.transform.DOKill();
+            bgImage.transform
+                .DOScale(value ? _initScale * 1.1f : _initScale, AnimDuration * Time.timeScale)
+                .SetLink(gameObject);
+            
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            OnClick?.Invoke(Id);
+        }
+    }
+}

@@ -2,6 +2,7 @@ using Project.Runtime.ECS.Components;
 using Project.Runtime.Features.Widgets;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Project.Runtime.Features
 {
@@ -12,6 +13,9 @@ namespace Project.Runtime.Features
         [SerializeField] private AmountWidget unitsAmountText;
         [Space]
         [SerializeField] private TextMeshProUGUI dayNightText;
+        [Space] 
+        [SerializeField] private TextMeshProUGUI playerLevelText;
+        [SerializeField] private Image playerLevelExpFillImage;
 
         public void SetResourcesAmount(TotalResourcesData totalResourcesData)
         {
@@ -31,6 +35,16 @@ namespace Project.Runtime.Features
                 ? $"{(int)dayNight.EstimateTime}" 
                 : $"{dayNight.EstimateTime:#.0}";
             dayNightText.SetText($"{dayOrNight} {time} sec\n<size=80%>Day {dayNight.DayNumber}");
+        }
+
+        public void SetLevelExp(float current, float target)
+        {
+            playerLevelExpFillImage.fillAmount = current / target;
+        }
+        
+        public void SetLevel(int level)
+        {
+            playerLevelText.SetText($"{level}\n<size=40%>LEVEL");
         }
     }
 }
