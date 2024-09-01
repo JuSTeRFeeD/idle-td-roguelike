@@ -1,4 +1,5 @@
 using Project.Runtime.ECS.Components;
+using Project.Runtime.ECS.Extensions;
 using Project.Runtime.Features.Building;
 using Project.Runtime.Features.CameraControl;
 using Scellecs.Morpeh;
@@ -15,55 +16,61 @@ namespace Project.Runtime.ECS.Systems.Building
         public World World { get; set; }
 
         private Filter _filter;
+
+        private const int GroundLayer = 1 << 3;
         
-        private const float MoveSpeed = 12f;
-        private Vector3 _dragOrigin;
+        private Vector3 _placePosition;
         
         public void OnAwake()
         {
             _filter = World.Filter
-                .With<PlacingBuilding>()
+                .With<PlacingBuildingCard>()
+                .With<ViewEntity>()
                 .Build();
         }
 
         public void OnUpdate(float deltaTime)
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                _dragOrigin = Input.mousePosition;
-                return;
-            }
-
-            var difference = Vector3.zero;
-            if (Input.GetMouseButton(0))
-            {
-                var currentMousePos = Input.mousePosition;
-                difference = _dragOrigin - currentMousePos;
-                _dragOrigin = currentMousePos;
-            }
+            var mousePos = Input.mousePosition;
             
             foreach (var entity in _filter)
             {
-                var anyPartCollision = false;
-                ref var placingBuilding = ref entity.GetComponent<PlacingBuilding>();
-                if (!placingBuilding.Preview) continue;
+                var isAnyCollisionDetected = false;
+                ref var placingBuilding = ref entity.GetComponent<PlacingBuildingCard>();
                     
-                var mainCameraTransform = _cameraController.MainCamera.transform;
-                var forward = mainCameraTransform.forward * difference.y;
-                var right = mainCameraTransform.right * difference.x;
-                var move = forward + right;
-                move.y = 0;
+                var ray = _cameraController.MainCamera.ScreenPointToRay(mousePos);
+                if (Physics.Raycast(ray, out var hit, 100f, GroundLayer))
+                {
+                    _placePosition = hit.point;
+                    _placePosition.y = 0;
+                }
 
-                var additionalSpeedByDist = difference.magnitude * .2f;
-                placingBuilding.CurrentPosition += move.normalized * MoveSpeed * deltaTime * additionalSpeedByDist;
-                placingBuilding.Preview.transform.position = placingBuilding.CurrentPosition;
+                var additionalOffset = Vector3.zero;
+                var buildingSize = placingBuilding.BuildingConfig.Size;
+                if (buildingSize != Vector2Int.one)
+                {
+                    additionalOffset = new Vector3(
+                        buildingSize.x / 2f * GridUtils.CellHalf,
+                        0,
+                        buildingSize.y / 2f * GridUtils.CellHalf);   
+                }
+                _placePosition = GridUtils.ConvertGridToWorldPos(GridUtils.ConvertWorldToGridPos(_placePosition)) 
+                                 + additionalOffset;
 
+                var gridPos = GridUtils.ConvertWorldToGridPos(placingBuilding.CurrentPosition);
+                isAnyCollisionDetected = _mapManager.CheckCollision(gridPos.x, gridPos.y, buildingSize.x, buildingSize.y);
+                
+                placingBuilding.CurrentPosition = _placePosition;
+                placingBuilding.IsCollisionDetected = isAnyCollisionDetected;
+                entity.ViewTransform().position = _placePosition;
+                
                 // TODO: place building throw UI for mobile
                 // Put building
-                if (Input.GetMouseButtonDown(1))
+                if (Input.GetMouseButtonUp(0))
                 {
-                    if (anyPartCollision) continue;
-                    entity.SetComponent(new PlaceBuildingRequest());
+                    Debug.Log("Place building");
+                    if (isAnyCollisionDetected) continue;
+                    entity.SetComponent(new PlaceBuildingCardRequest());
                 }
             }
         }

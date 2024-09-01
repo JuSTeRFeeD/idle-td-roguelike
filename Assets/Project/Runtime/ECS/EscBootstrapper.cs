@@ -5,7 +5,6 @@ using Project.Runtime.ECS.Systems;
 using Project.Runtime.ECS.Systems.Building;
 using Project.Runtime.ECS.Systems.GameCycle;
 using Project.Runtime.ECS.Systems.Player;
-using Project.Runtime.ECS.Systems.Player.Upgrades;
 using Project.Runtime.ECS.Systems.Units;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Helpers.OneFrame;
@@ -53,13 +52,13 @@ namespace Project.Runtime.ECS
             _commonSystemsGroup.AddInitializer<PlayerDataInitializer>();
             _commonSystemsGroup.AddInitializer<ViewEntityDisposableInitializer>();
             
-            _commonSystemsGroup.AddSystem<CameraMoveSystem>();
-            
             _commonSystemsGroup.AddInitializer<SpawnBaseInitializer>();
             
             _commonSystemsGroup.AddSystem<StartPlacingBuildingSystem>();
             _commonSystemsGroup.AddSystem<PlacingBuildingSystem>();
             _commonSystemsGroup.AddSystem<PlaceBuildingSystem>();
+            
+            _commonSystemsGroup.AddSystem<CameraMoveSystem>();
             
             // стоит после систем размещения чтобы снач поставить строения а потом разместить ресы 
             _commonSystemsGroup.AddInitializer<RandomResourcesSpawnInitializer>(); 

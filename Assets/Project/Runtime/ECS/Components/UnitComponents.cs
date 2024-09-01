@@ -1,5 +1,4 @@
 using Scellecs.Morpeh;
-using UnityEditor;
 using UnityEngine;
 
 namespace Project.Runtime.ECS.Components

@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Project.Runtime.Features.Building
@@ -7,14 +8,16 @@ namespace Project.Runtime.Features.Building
         public const float CellSize = 1f;
         public const float CellHalf = CellSize / 2;
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 Vec3ToCellPos(Vector3 pos)
         {
             pos.y = 0;
-            pos.x = Mathf.RoundToInt((pos.x + CellHalf) / CellSize) * CellSize - CellHalf;
-            pos.z = Mathf.RoundToInt((pos.z + CellHalf) / CellSize) * CellSize - CellHalf;
+            pos.x = Mathf.RoundToInt((pos.x - CellHalf) / CellSize) * CellSize + CellHalf;
+            pos.z = Mathf.RoundToInt((pos.z - CellHalf) / CellSize) * CellSize + CellHalf;
             return pos;
         }
         
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2Int ConvertWorldToGridPos(Vector3 pos)
         {
             return new Vector2Int(
@@ -22,6 +25,7 @@ namespace Project.Runtime.Features.Building
                 Mathf.RoundToInt((pos.z - CellHalf) / CellSize));
         }
         
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 ConvertGridToWorldPos(Vector2Int pos)
         {
             return new Vector3(

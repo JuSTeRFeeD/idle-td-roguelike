@@ -12,6 +12,7 @@ namespace Project.Runtime.ECS
         [SerializeField] private PlayerLevelsConfig playerLevelsConfig;
         [SerializeField] private ActiveCardsListConfig activeCardsListConfig;
         [Space]
+        [SerializeField] private PlacingCellView placingCellView;
         [SerializeField] private Transform spawnBasePoint;
         [SerializeField] private BuildingConfig baseBuildingConfig;
         [Space]
@@ -24,7 +25,8 @@ namespace Project.Runtime.ECS
         public DayNightConfig DayNightConfig => dayNightConfig;
         public PlayerLevelsConfig PlayerLevelsConfig => playerLevelsConfig;
         public ActiveCardsListConfig ActiveCardsListConfig => activeCardsListConfig;
-        
+
+        public PlacingCellView PlacingCellView => placingCellView;
         public Transform SpawnBasePoint => spawnBasePoint;
         public BuildingConfig BaseBuildingConfig => baseBuildingConfig;
 

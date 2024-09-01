@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using NTC.Pool;
 using Project.Runtime.ECS.Views;
 using Project.Runtime.Features.Building.Data;
@@ -27,7 +28,7 @@ namespace Project.Runtime.Features.Building
 
         public EntityView PutBuilding(BuildingConfig buildingConfig, Vector2Int gridPos, Quaternion rotation)
         {
-            EntityView result = null;
+            EntityView viewResult = null;
             for (var x = 0; x < buildingConfig.Size.x; x++)
             {
                 for (var z = 0; z < buildingConfig.Size.y; z++)
@@ -47,14 +48,19 @@ namespace Project.Runtime.Features.Building
                         if (buildingConfig.Size != Vector2Int.one)
                         {
                             additionalOffset = new Vector3(
-                                buildingConfig.Size.x / 2f * GridUtils.CellSize / 2f,
+                                buildingConfig.Size.x / 2f * GridUtils.CellHalf,
                                 0,
-                                buildingConfig.Size.y / 2f * GridUtils.CellSize / 2f);   
+                                buildingConfig.Size.y / 2f * GridUtils.CellHalf);   
                         }
-                        result = NightPool.Spawn(
+                        viewResult = NightPool.Spawn(
                             buildingConfig.Prefab,
                             GridUtils.ConvertGridToWorldPos(pos) + additionalOffset,
                             rotation);
+
+                        // TODO: animate with scale placed object
+                        // viewResult.transform
+                            // .DOPunchScale(Vector3.up * .25f, 0.25f, 10, 2f)
+                            // .SetLink(viewResult.gameObject);
                     }
                 }
             }
@@ -66,7 +72,7 @@ namespace Project.Runtime.Features.Building
             
             // Save();
 
-            return result;
+            return viewResult;
         }
         
         private int ConvertToIndex(Vector2Int coordinates)

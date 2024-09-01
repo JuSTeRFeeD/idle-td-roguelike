@@ -4,6 +4,7 @@ using Project.Runtime.ECS.Extensions;
 using Project.Runtime.ECS.Views;
 using Project.Runtime.Features.Building;
 using Project.Runtime.Features.CameraControl;
+using Project.Runtime.Features.Inventory;
 using Project.Runtime.Scriptable.Buildings;
 using Scellecs.Morpeh;
 using UnityEngine;
@@ -17,6 +18,7 @@ namespace Project.Runtime.ECS.Systems.Building
         [Inject] private WorldSetup _worldSetup;
         [Inject] private MapManager _mapManager;
         [Inject] private CameraController _cameraController;
+        [Inject] private HandsManager _handsManager;
         
         public World World { get; set; }
 
@@ -25,8 +27,8 @@ namespace Project.Runtime.ECS.Systems.Building
         public void OnAwake()
         {
             _filter = World.Filter
-                .With<PlaceBuildingRequest>()
-                .With<PlacingBuilding>()
+                .With<PlaceBuildingCardRequest>()
+                .With<PlacingBuildingCard>()
                 .Build();
         }
 
@@ -34,21 +36,23 @@ namespace Project.Runtime.ECS.Systems.Building
         {
             foreach (var entity in _filter)
             {
-                var placingBuilding = entity.GetComponent<PlacingBuilding>();
+                _handsManager.SetPlacingEnabledEnabled(false);
+                _handsManager.SetIsCardDrag(false);
                 
-                var view = _mapManager.PutBuilding(placingBuilding.BuildingConfig, GridUtils.ConvertWorldToGridPos(placingBuilding.CurrentPosition), Quaternion.identity);
+                var placingBuilding = entity.GetComponent<PlacingBuildingCard>();
+                
+                var view = _mapManager.PutBuilding(
+                    placingBuilding.BuildingConfig, 
+                    GridUtils.ConvertWorldToGridPos(placingBuilding.CurrentPosition - new Vector3(GridUtils.CellHalf, 0, GridUtils.CellHalf)),
+                    Quaternion.identity);
                 var buildingEntity = World.CreateEntity();
                 buildingEntity.LinkView(view);
 
                 SetupEntity(buildingEntity, placingBuilding.BuildingConfig, view);
                 
-                _cameraController.SetPosition(placingBuilding.CurrentPosition);
                 _cameraController.ResetTarget();
 
-                if (placingBuilding.Preview)
-                {
-                    Object.Destroy(placingBuilding.Preview.gameObject);
-                }
+                placingBuilding.CellEntity?.Dispose();
                 entity.Dispose();
             }
         }

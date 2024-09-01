@@ -25,7 +25,7 @@ namespace Project.Runtime.ECS.Components
         
         public void Dispose()
         {
-            NightPool.Despawn(Value);
+            if (Value) NightPool.Despawn(Value);
         }
     }
 

@@ -12,12 +12,14 @@ namespace Project.Runtime.Scriptable.Card
         [PreviewField]
         [SerializeField] private Sprite icon;
         [SerializeField] private string title;
+        [SerializeField] private bool isBuildingOrSpell;
 
         [Header("Upgrade Params")]
         [SerializeField] private List<PerkConfig> perks = new();
 
         public Sprite Icon => icon;
         public string Title => title;
+        public bool IsBuildingOrSpell => isBuildingOrSpell;
         public List<IPerk> Perks => perks.ConvertAll<IPerk>(perk => perk);
     }
 }

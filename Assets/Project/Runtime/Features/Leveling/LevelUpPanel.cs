@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using Project.Runtime.ECS;
 using Project.Runtime.Features.GameplayMenus;
+using Project.Runtime.Features.Widgets;
 using Project.Runtime.Scriptable.Card;
 using UnityEngine;
 using VContainer;
@@ -14,7 +15,7 @@ namespace Project.Runtime.Features.Leveling
     {
         [Inject] private WorldSetup _worldSetup;
         
-        [SerializeField] private List<LevelUpCard> cards = new();
+        [SerializeField] private List<CardWidget> cards = new();
 
         public event Action<CardConfig> OnCardSelect; 
         private int _selectedCardId = -1;
@@ -28,11 +29,11 @@ namespace Project.Runtime.Features.Leveling
             {
                 card.SetIsSelected(false);
                 card.Init(idx++);
-                card.OnClick += OnCardClick;
+                card.OnClickCard += OnCardClickCard;
             }
         }
 
-        private void OnCardClick(int id)
+        private void OnCardClickCard(int id)
         {
             if (_selectedCardId == id)
             {
@@ -72,14 +73,14 @@ namespace Project.Runtime.Features.Leveling
             base.Show();
         }
 
-        private static int AnimateCardShow(LevelUpCard card, int idx)
+        private static int AnimateCardShow(CardWidget cardWidget, int idx)
         {
             Transform cardTransform;
-            (cardTransform = card.transform).DOKill();
+            (cardTransform = cardWidget.transform).DOKill();
             cardTransform.localScale = new Vector3(0, 1, 1);
             cardTransform
-                .DOScaleX(1f, 0.235f)
-                .SetDelay(idx * 0.1f)
+                .DOScaleX(1f, 0.0235f)
+                .SetDelay(idx * 0.02f)
                 .SetLink(cardTransform.gameObject);
             return idx;
         }

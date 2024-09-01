@@ -1,4 +1,3 @@
-using Project.Runtime.ECS.Views;
 using Project.Runtime.Scriptable.Buildings;
 using Scellecs.Morpeh;
 using UnityEngine;
@@ -51,23 +50,28 @@ namespace Project.Runtime.ECS.Components
     }
 
     // Building placing
-    public struct StartPlaceBuildingRequest : IComponent
+    public struct StartPlaceBuildingCardRequest : IComponent
     {
         public BuildingConfig BuildingConfig;
         public Vector3 StartPlacingPosition;
     }
-    public struct PlacingBuilding : IComponent
+    public struct PlacingBuildingCard : IComponent
     {
         public BuildingConfig BuildingConfig;
-        public EntityView Preview;
+        /// отображение клетки где размещаем объект
+        public Entity CellEntity; 
         public Vector3 CurrentPosition;
+        public bool IsCollisionDetected;
     }
-    public struct PlaceBuildingRequest : IComponent
+    public struct PlaceBuildingCardRequest : IComponent
     {
     }
 
     public enum BuildingType
     {
-        Base = 0,
+        BaseTower = 0,
+        TreeResource = 1,
+        StoneResource = 2,
+        AttackTower = 3,
     }
 }

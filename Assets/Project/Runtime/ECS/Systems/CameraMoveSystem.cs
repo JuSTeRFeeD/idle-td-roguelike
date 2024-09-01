@@ -2,6 +2,7 @@ using Project.Runtime.ECS.Components;
 using Project.Runtime.Features.CameraControl;
 using Scellecs.Morpeh;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using VContainer;
 
 namespace Project.Runtime.ECS.Systems
@@ -10,29 +11,41 @@ namespace Project.Runtime.ECS.Systems
     {
         [Inject] private CameraController _cameraController;
 
-        private Filter _filter;
+        private Filter _isBuildingFilter;
 
         private Vector3 _dragOrigin;
+        private bool _isDrag; 
         private const float DragSpeed = 6f;
         
         public World World { get; set; }
 
         public void OnAwake()
         {
-            _filter = World.Filter
-                .With<PlacingBuilding>()
+            _isBuildingFilter = World.Filter
+                .With<PlacingBuildingCard>()
                 .Build();
         }
 
         public void OnUpdate(float deltaTime)
         {
-            if (_filter.IsNotEmpty()) return;
+            // No need move camera while building
+            if (_isBuildingFilter.IsNotEmpty()) return;
 
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonUp(0))
             {
-                _dragOrigin = Input.mousePosition;
-                return;
+                _isDrag = false;
             }
+            
+            if (!_isDrag)
+            {
+                if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
+                {
+                    _dragOrigin = Input.mousePosition;
+                    _isDrag = true;
+                }
+            }
+
+            if (!_isDrag) return;
 
             var difference = Vector3.zero;
             if (Input.GetMouseButton(0))

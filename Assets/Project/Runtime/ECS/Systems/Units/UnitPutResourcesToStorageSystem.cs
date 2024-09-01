@@ -21,6 +21,7 @@ namespace Project.Runtime.ECS.Systems.Units
                 .With<MoveToStorage>()
                 .With<MoveToTargetComplete>()
                 .Build();
+            
             _minerFilter = World.Filter
                 .With<UnitTag>()
                 .With<MinerTag>()
@@ -36,7 +37,7 @@ namespace Project.Runtime.ECS.Systems.Units
             PutResources<StoneStorage>(_minerFilter);
         }
 
-        private static void PutResources<T>(Filter unitFilter) where T : struct, IStorage
+        private static void PutResources<T>(in Filter unitFilter) where T : struct, IStorage
         {
             var buff = new Dictionary<Entity, int>();
             
@@ -80,7 +81,7 @@ namespace Project.Runtime.ECS.Systems.Units
                     entity.SetComponent(new FindStorageRequest());
                 }
                 
-                Debug.Log($"storage {storage.Current} / {storage.Max}");
+                // Debug.Log($"storage {storage.Current} / {storage.Max}");
 
                 if (buff.ContainsKey(storageEntity)) buff[storageEntity] = storage.Current;
                 else buff.Add(storageEntity, storage.Current);

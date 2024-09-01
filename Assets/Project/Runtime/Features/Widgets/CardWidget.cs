@@ -6,9 +6,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Project.Runtime.Features.Leveling
+namespace Project.Runtime.Features.Widgets
 {
-    public class LevelUpCard : MonoBehaviour, IPointerClickHandler
+    public class CardWidget : MonoBehaviour, IPointerClickHandler, IDragHandler
     {
         [SerializeField] private Image bgImage;
         [SerializeField] private Image iconImage;
@@ -17,10 +17,12 @@ namespace Project.Runtime.Features.Leveling
         private Vector3 _initScale;
         private const float AnimDuration = 0.1f;
 
-        public event Action<int> OnClick;
         public int Id { get; private set; }
         public CardConfig CardConfig { get; private set; }
 
+        public event Action<int> OnClickCard;
+        public event Action<CardWidget, PointerEventData> OnDragCard; 
+        
         public void Init(int id)
         {
             Id = id;
@@ -49,7 +51,12 @@ namespace Project.Runtime.Features.Leveling
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            OnClick?.Invoke(Id);
+            OnClickCard?.Invoke(Id);
+        }
+
+        public void OnDrag(PointerEventData eventData)
+        {
+            OnDragCard?.Invoke(this, eventData);
         }
     }
 }

@@ -20,12 +20,12 @@ namespace Project.Runtime.ECS.Systems.Building
         {
             var request = World.CreateEntity();
             var position = _worldSetup.SpawnBasePoint.position;
-            request.SetComponent(new PlacingBuilding
+            request.SetComponent(new PlacingBuildingCard
             {
                 CurrentPosition = position,
                 BuildingConfig = _worldSetup.BaseBuildingConfig
             });
-            request.SetComponent(new PlaceBuildingRequest());
+            request.SetComponent(new PlaceBuildingCardRequest());
         }
 
         public void Dispose()

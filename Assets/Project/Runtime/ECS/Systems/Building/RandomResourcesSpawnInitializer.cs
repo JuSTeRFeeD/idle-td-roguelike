@@ -27,12 +27,12 @@ namespace Project.Runtime.ECS.Systems.Building
                 empty.RemoveAt(idx);
 
                 var spawnRequest = World.CreateEntity();
-                spawnRequest.SetComponent(new PlacingBuilding
+                spawnRequest.SetComponent(new PlacingBuildingCard
                 {
                     BuildingConfig = _worldSetup.TreeConfig,
                     CurrentPosition = GridUtils.ConvertGridToWorldPos(cellPos)
                 });
-                spawnRequest.SetComponent(new PlaceBuildingRequest());
+                spawnRequest.SetComponent(new PlaceBuildingCardRequest());
             }
             
             for (var i = 0; i < 75; i++)
@@ -42,12 +42,12 @@ namespace Project.Runtime.ECS.Systems.Building
                 empty.RemoveAt(idx);
 
                 var spawnRequest = World.CreateEntity();
-                spawnRequest.SetComponent(new PlacingBuilding
+                spawnRequest.SetComponent(new PlacingBuildingCard
                 {
                     BuildingConfig = _worldSetup.StoneConfig,
                     CurrentPosition = GridUtils.ConvertGridToWorldPos(cellPos)
                 });
-                spawnRequest.SetComponent(new PlaceBuildingRequest());
+                spawnRequest.SetComponent(new PlaceBuildingCardRequest());
             }
         }
 

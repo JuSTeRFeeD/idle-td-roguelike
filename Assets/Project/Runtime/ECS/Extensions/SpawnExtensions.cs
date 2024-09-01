@@ -34,6 +34,15 @@ namespace Project.Runtime.ECS.Extensions
         }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T InstantiateView<T>(this Entity forEntity, EntityView view, Vector3 position, Quaternion quaternion)
+            where T : EntityView
+        {
+            var spawned = NightPool.Spawn(view, position, quaternion);
+            LinkView(forEntity, spawned);
+            return spawned as T;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void InstantiateView(this Entity forEntity, EntityView view, Vector3 position, Quaternion quaternion)
         {
             var spawned = NightPool.Spawn(view, position, quaternion);
