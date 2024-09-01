@@ -17,6 +17,7 @@ MonoBehaviour:
   title: Attack Tower
   prefab: {fileID: 5263509739269346577, guid: 04d763664103e0442baddaa8aba7ce75, type: 3}
   size: {x: 2, y: 2}
+  health: 0
   damage: 10
   attackCooldown: 1.5
   attackRange: 5

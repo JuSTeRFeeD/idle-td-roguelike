@@ -72,7 +72,7 @@ namespace Project.Runtime.ECS.Systems.Player
             _panelsManager.SetPanel(PanelType.TowerManagement);
             
             // Title
-            if (entity.Has<BaseBuildingTag>())
+            if (entity.Has<BaseTowerTag>())
             {
                 _buildingManagementPanel.SetTitleAndLevel("Chabumba", 1, 0.1f);
             }

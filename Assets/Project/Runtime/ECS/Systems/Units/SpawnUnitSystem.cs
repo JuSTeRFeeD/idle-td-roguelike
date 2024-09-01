@@ -38,6 +38,8 @@ namespace Project.Runtime.ECS.Systems.Units
                 {
                     Entity = request.ForTowerOwner
                 });
+                
+                unitEntity.AddComponent<MoveSpeedRuntime>();
                 unitEntity.SetComponent(new MoveSpeed
                 {
                     Value = 5f,

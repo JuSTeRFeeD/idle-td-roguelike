@@ -9,7 +9,6 @@ using Project.Runtime.Scriptable.Buildings;
 using Scellecs.Morpeh;
 using UnityEngine;
 using VContainer;
-using Object = UnityEngine.Object;
 
 namespace Project.Runtime.ECS.Systems.Building
 {
@@ -62,9 +61,10 @@ namespace Project.Runtime.ECS.Systems.Building
             switch (buildingConfig)
             {
                 case BaseBuildingConfig baseBuilding:
+                {
                     buildingEntity.SetComponent(new BuildingTag());
-                    buildingEntity.SetComponent(new BaseBuildingTag());
-                    
+                    buildingEntity.SetComponent(new BaseTowerTag());
+
                     buildingEntity.SetComponent(new HealthDefault
                     {
                         Value = baseBuilding.Health
@@ -103,9 +103,12 @@ namespace Project.Runtime.ECS.Systems.Building
                             UnitType = UnitType.Lumberjack
                         });
                     }
+
                     break;
-                
-                case MapResourceConfig resource:
+                }
+
+                case MapResourceConfig resource: 
+                {
                     buildingEntity.SetComponent(new HealthDefault
                     {
                         Value = resource.health
@@ -125,7 +128,25 @@ namespace Project.Runtime.ECS.Systems.Building
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
+                    
                     break;
+                }
+
+                case AttackTowerBuildingConfig attackTower:
+                {
+                    buildingEntity.SetComponent(new BuildingTag());
+                    buildingEntity.SetComponent(new AttackTowerTag());
+
+                    buildingEntity.SetComponent(new HealthDefault
+                    {
+                        Value = attackTower.Health
+                    });
+                    buildingEntity.SetComponent(new HealthCurrent
+                    {
+                        Value = attackTower.Health
+                    });
+                    break;
+                }
             }
         }
 

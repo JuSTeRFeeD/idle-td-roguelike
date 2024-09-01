@@ -4,8 +4,10 @@ using Project.Runtime.ECS.Extensions;
 using Project.Runtime.ECS.Systems;
 using Project.Runtime.ECS.Systems.Building;
 using Project.Runtime.ECS.Systems.GameCycle;
+using Project.Runtime.ECS.Systems.Pathfinding;
 using Project.Runtime.ECS.Systems.Player;
 using Project.Runtime.ECS.Systems.Units;
+using Project.Runtime.Features.Enemies;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Helpers.OneFrame;
 using UnityEngine;
@@ -43,7 +45,7 @@ namespace Project.Runtime.ECS
         private void AddOneFrames()
         {
             _world.RegisterOneFrame<EntityClickEvent>();
-            _world.RegisterOneFrame<MoveToTargetComplete>();
+            _world.RegisterOneFrame<MoveToTargetCompleted>();
         }
 
         private void AddCommonSystems()
@@ -52,31 +54,45 @@ namespace Project.Runtime.ECS
             _commonSystemsGroup.AddInitializer<PlayerDataInitializer>();
             _commonSystemsGroup.AddInitializer<ViewEntityDisposableInitializer>();
             
-            _commonSystemsGroup.AddInitializer<SpawnBaseInitializer>();
+            _commonSystemsGroup.AddSystem<RuntimeStatsResetSystem>();
             
+            // --- Building ---
+            _commonSystemsGroup.AddInitializer<SpawnBaseInitializer>();
+            // Building by user
             _commonSystemsGroup.AddSystem<StartPlacingBuildingSystem>();
             _commonSystemsGroup.AddSystem<PlacingBuildingSystem>();
             _commonSystemsGroup.AddSystem<PlaceBuildingSystem>();
+            // Random resources dispenser
+            // Стоит после систем размещения чтобы снач поставить строения а потом разместить ресы 
+            _commonSystemsGroup.AddInitializer<RandomResourcesSpawnInitializer>(); 
             
             _commonSystemsGroup.AddSystem<CameraMoveSystem>();
             
-            // стоит после систем размещения чтобы снач поставить строения а потом разместить ресы 
-            _commonSystemsGroup.AddInitializer<RandomResourcesSpawnInitializer>(); 
+            // --- Pathfinding ---
+            _commonSystemsGroup.AddSystem<AStarPathfindingSystem>();
+            _commonSystemsGroup.AddSystem<AStarMoveSystem>();
             
+            // --- Units---
             _commonSystemsGroup.AddSystem<SpawnUnitSystem>();
-            
+            // Gathering
             _commonSystemsGroup.AddSystem<UnitFindResourceTargetSystem>();
-            _commonSystemsGroup.AddSystem<UnitMoveToTargetResourceSystem>();
+            // _commonSystemsGroup.AddSystem<UnitMoveToTargetResourceSystem>(); // todo remove cuz rewrited with AStarMoveSystem
             _commonSystemsGroup.AddSystem<UnitGatheringResourceStartSystem>();
             _commonSystemsGroup.AddSystem<UnitGatheringResourceSystem>();
-            
+            // Move and put to storage
             _commonSystemsGroup.AddSystem<UnitFindStorageSystem>();
-            _commonSystemsGroup.AddSystem<UnitMoveToStorageSystem>();
+            // _commonSystemsGroup.AddSystem<UnitMoveToStorageSystem>(); // todo remove cuz rewrited with AStarMoveSystem
             _commonSystemsGroup.AddSystem<UnitPutResourcesToStorageSystem>();
             
             _commonSystemsGroup.AddSystem<FollowOwnerSystem>();
             
             _commonSystemsGroup.AddSystem<BuildingClickSystem>();
+
+            _commonSystemsGroup.AddSystem<FindAttackTargetByRangeSystem>();
+                
+            // --- Enemies ---
+            _commonSystemsGroup.AddSystem<NightTimeWaveSystem>();
+            _commonSystemsGroup.AddSystem<SpawnEnemySystem>();
             
             _world.AddSystemsGroup(0, _commonSystemsGroup);
         }

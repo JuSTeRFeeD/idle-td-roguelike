@@ -12,11 +12,9 @@ namespace Project.Runtime.Scriptable.Buildings
         [SerializeField] private string title;
         [SerializeField] private EntityView prefab;
         [SerializeField] private Vector2Int size = Vector2Int.one;
-        [SerializeField] private BuildingType buildingType;
         
         public string Title => title;
         public EntityView Prefab => prefab;
         public Vector2Int Size => size;
-        public BuildingType BuildingType => buildingType;
     }
 }

@@ -1,4 +1,5 @@
 using Project.Runtime.ECS.Components;
+using Project.Runtime.ECS.Extensions;
 using Scellecs.Morpeh;
 
 namespace Project.Runtime.ECS.Systems.Units
@@ -55,6 +56,11 @@ namespace Project.Runtime.ECS.Systems.Units
                     ref var storage = ref storageEntity.GetComponent<T>();
                     if (storage.Current >= storage.Max) continue;
 
+                    unitEntity.SetComponent(new AStarCalculatePathRequest
+                    {
+                        WithoutFirstPoint = true,
+                        TargetPosition = storageEntity.ViewPosition()
+                    });
                     unitEntity.SetComponent(new MoveToStorage
                     {
                         Entity = storageEntity

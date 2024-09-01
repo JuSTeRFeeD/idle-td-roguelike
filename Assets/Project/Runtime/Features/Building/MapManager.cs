@@ -11,7 +11,9 @@ namespace Project.Runtime.Features.Building
 {
     public class MapManager : MonoBehaviour
     {
-        public int mapSize;
+        [SerializeField] private int mapSize = 6;
+
+        public int MapSize => mapSize;
 
         public readonly Dictionary<Vector2Int, BuildingData> Buildings = new();
 
@@ -50,8 +52,9 @@ namespace Project.Runtime.Features.Building
                             additionalOffset = new Vector3(
                                 buildingConfig.Size.x / 2f * GridUtils.CellHalf,
                                 0,
-                                buildingConfig.Size.y / 2f * GridUtils.CellHalf);   
+                                buildingConfig.Size.y / 2f * GridUtils.CellHalf);
                         }
+
                         viewResult = NightPool.Spawn(
                             buildingConfig.Prefab,
                             GridUtils.ConvertGridToWorldPos(pos) + additionalOffset,
@@ -59,22 +62,22 @@ namespace Project.Runtime.Features.Building
 
                         // TODO: animate with scale placed object
                         // viewResult.transform
-                            // .DOPunchScale(Vector3.up * .25f, 0.25f, 10, 2f)
-                            // .SetLink(viewResult.gameObject);
+                        // .DOPunchScale(Vector3.up * .25f, 0.25f, 10, 2f)
+                        // .SetLink(viewResult.gameObject);
                     }
                 }
             }
 
             // if (!isInitialized)
             // {
-                // return;
+            // return;
             // }
-            
+
             // Save();
 
             return viewResult;
         }
-        
+
         private int ConvertToIndex(Vector2Int coordinates)
         {
             var x = coordinates.x;
@@ -88,7 +91,7 @@ namespace Project.Runtime.Features.Building
 
             return y * mapSize + x;
         }
-        
+
         private Vector2Int ConvertToGirdPos(int gridIndex)
         {
             if (gridIndex < 0 || gridIndex >= mapSize * mapSize)
@@ -99,7 +102,7 @@ namespace Project.Runtime.Features.Building
 
             return new Vector2Int(gridIndex / mapSize, gridIndex % mapSize);
         }
-        
+
         /// <summary>
         /// Проверяем, заняты ли клетки в области размещения постройки
         /// </summary>
@@ -111,11 +114,11 @@ namespace Project.Runtime.Features.Building
         public bool CheckCollision(int posX, int posZ, int width, int height)
         {
             // out of bounds
-            if (posX < 0 || posX > mapSize || 
-                posX + width > mapSize || 
+            if (posX < 0 || posX > mapSize ||
+                posX + width > mapSize ||
                 posZ < 0 || posZ > mapSize ||
                 posZ + height > mapSize) return false;
-            
+
             for (var x = 0; x < width; x++)
             {
                 for (var z = 0; z < height; z++)
@@ -129,7 +132,7 @@ namespace Project.Runtime.Features.Building
 
             return false;
         }
-        
+
         /// <summary>
         /// Занята ли клетка
         /// </summary>
@@ -139,24 +142,56 @@ namespace Project.Runtime.Features.Building
         public bool CheckCollision(int posX, int posZ)
         {
             // out of bounds
-            if (posX < 0 || posX > mapSize || 
+            if (posX < 0 || posX > mapSize ||
                 posZ < 0 || posZ > mapSize) return false;
-            
+
             return Buildings[new Vector2Int(posX, posZ)] != null;
         }
-        
+
         private void OnDrawGizmos()
         {
-            Gizmos.color = Color.grey;
-            for (var x = 0; x < mapSize; x++)
+            if (Application.isPlaying)
             {
-                for (var z = 0; z < mapSize; z++)
+                for (var x = 0; x < mapSize; x++)
                 {
-                    // + (x % 2 == 0 ? 0 : GridUtils.CellSize / 2f)
-                    Gizmos.DrawWireCube(
-                        new Vector3(x * GridUtils.CellSize, .01f, z * GridUtils.CellSize) + new Vector3(GridUtils.CellHalf, 0, GridUtils.CellHalf),
-                        new Vector3(GridUtils.CellSize, 0, GridUtils.CellSize)
+                    for (var z = 0; z < mapSize; z++)
+                    {
+                        if (Buildings[new Vector2Int(x, z)] != null)
+                        {
+                            Gizmos.color = Color.yellow;
+                            Gizmos.DrawCube(
+                                new Vector3(x * GridUtils.CellSize, .01f, z * GridUtils.CellSize) +
+                                new Vector3(GridUtils.CellHalf, 0, GridUtils.CellHalf),
+                                new Vector3(GridUtils.CellSize, 0, GridUtils.CellSize)
+                            );
+                        }
+                        else
+                        {
+                            Gizmos.color = Color.white;
+                            Gizmos.DrawWireCube(
+                                new Vector3(x * GridUtils.CellSize, .01f, z * GridUtils.CellSize) +
+                                new Vector3(GridUtils.CellHalf, 0, GridUtils.CellHalf),
+                                new Vector3(GridUtils.CellSize, 0, GridUtils.CellSize)
+                            );
+                        }
+
+                        // + (x % 2 == 0 ? 0 : GridUtils.CellSize / 2f)
+                    }
+                }
+            }
+            else
+            {
+                for (var x = 0; x < mapSize; x++)
+                {
+                    for (var z = 0; z < mapSize; z++)
+                    {
+                        Gizmos.color = Color.white;
+                        Gizmos.DrawWireCube(
+                            new Vector3(x * GridUtils.CellSize, .01f, z * GridUtils.CellSize) +
+                            new Vector3(GridUtils.CellHalf, 0, GridUtils.CellHalf),
+                            new Vector3(GridUtils.CellSize, 0, GridUtils.CellSize)
                         );
+                    }
                 }
             }
         }

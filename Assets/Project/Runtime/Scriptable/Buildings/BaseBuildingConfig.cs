@@ -15,7 +15,6 @@ namespace Project.Runtime.Scriptable.Buildings
         [SerializeField] private int woodStorageSize;
         [SerializeField] private int stoneStorageSize;
         
-        
         public float Health => health;
         
         public int UnitsCountDefault => unitsCountDefault;

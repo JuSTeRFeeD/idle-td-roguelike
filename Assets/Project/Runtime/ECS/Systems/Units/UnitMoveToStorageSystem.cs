@@ -31,9 +31,9 @@ namespace Project.Runtime.ECS.Systems.Units
                 var direction = (storagePos - transform.position).normalized;
                 var targetPos = storagePos - direction;
 
-                var rot = direction;
-                rot.y = 0;
-                transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
+                var rotation = direction;
+                rotation.y = 0;
+                transform.rotation = Quaternion.LookRotation(rotation, Vector3.up);
                 
                 var step = moveSpeed * deltaTime;
                 transform.position = Vector3.MoveTowards(transform.position, targetPos, step);
@@ -41,7 +41,7 @@ namespace Project.Runtime.ECS.Systems.Units
                 if (Vector3.Distance(transform.position, targetPos) < 0.001f)
                 {
                     transform.position = targetPos;
-                    entity.SetComponent(new MoveToTargetComplete());
+                    entity.SetComponent(new MoveToTargetCompleted());
                 }
             }
         }

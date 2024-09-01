@@ -57,6 +57,7 @@ namespace Project.Runtime.ECS.Systems.Units
             {
                 var unitPos = unitEntity.GetComponent<ViewEntity>().Value.transform.position;
                 var minSqrDis = float.MaxValue;
+                var nearestPosition = Vector3.zero;
                 Entity nearestEntity = null; 
                 
                 foreach (var resourceEntity in resourceFilter)
@@ -71,10 +72,16 @@ namespace Project.Runtime.ECS.Systems.Units
 
                     minSqrDis = sqrDist;
                     nearestEntity = resourceEntity;
+                    nearestPosition = pos;
                 }
                 
                 if (nearestEntity == null) continue;
                 
+                unitEntity.SetComponent(new AStarCalculatePathRequest
+                {
+                    WithoutFirstPoint = true,
+                    TargetPosition = nearestPosition
+                });
                 unitEntity.SetComponent(new MoveToResource
                 {
                     Entity = nearestEntity

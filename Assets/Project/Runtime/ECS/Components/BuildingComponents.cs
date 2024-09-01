@@ -4,11 +4,21 @@ using UnityEngine;
 
 namespace Project.Runtime.ECS.Components
 {
+    /// MapResource/Tower 
     public struct BuildingTag : IComponent
     {
     }
+
+    /// Tower destroyed, днем нуждается в починке юнитами 
+    public struct BuildingDestroyedTag : IComponent
+    {
+    }
     
-    public struct BaseBuildingTag : IComponent
+    public struct BaseTowerTag : IComponent
+    {
+    }
+
+    public struct AttackTowerTag : IComponent
     {
     }
 
@@ -70,8 +80,7 @@ namespace Project.Runtime.ECS.Components
     public enum BuildingType
     {
         BaseTower = 0,
-        TreeResource = 1,
-        StoneResource = 2,
-        AttackTower = 3,
+        MapResource = 1,
+        AttackTower = 2,
     }
 }

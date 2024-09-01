@@ -19,7 +19,7 @@ namespace Project.Runtime.ECS.Systems.Units
                 .With<LumberjackTag>()
                 .With<UnitBackpack>()
                 .With<MoveToStorage>()
-                .With<MoveToTargetComplete>()
+                .With<MoveToTargetCompleted>()
                 .Build();
             
             _minerFilter = World.Filter
@@ -27,7 +27,7 @@ namespace Project.Runtime.ECS.Systems.Units
                 .With<MinerTag>()
                 .With<UnitBackpack>()
                 .With<MoveToStorage>()
-                .With<MoveToTargetComplete>()
+                .With<MoveToTargetCompleted>()
                 .Build();
         }
 

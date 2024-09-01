@@ -21,6 +21,11 @@ namespace Project.Runtime.ECS.Components
     {
         public float Value;
     }
+
+    public struct AttackTarget : IComponent
+    {
+        public Entity Value;
+    }
     
     public struct AttackCooldown : IComponent
     {

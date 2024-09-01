@@ -50,7 +50,7 @@ namespace Project.Runtime.ECS.Systems.Units
                 if (Vector3.Distance(transform.position, targetPos) <= 0.001f)
                 {
                     transform.position = targetPos;
-                    entity.SetComponent(new MoveToTargetComplete());   
+                    entity.SetComponent(new MoveToTargetCompleted());   
                 }
             }
         }

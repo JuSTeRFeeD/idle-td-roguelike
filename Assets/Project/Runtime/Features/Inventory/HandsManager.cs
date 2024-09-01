@@ -98,8 +98,7 @@ namespace Project.Runtime.Features.Inventory
 
         public void SetPlacingEnabledEnabled(bool value)
         {
-            // grid.SetActive(value);
-            grid.SetActive(true);
+            grid.SetActive(value);
             handsCardDropFrame.SetActive(value);
         }
     }

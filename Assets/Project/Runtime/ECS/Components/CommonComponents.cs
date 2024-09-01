@@ -48,4 +48,9 @@ namespace Project.Runtime.ECS.Components
     {
         public float Value;
     }
+    
+    public struct MoveSpeedRuntime : IComponent
+    {
+        public float Value;
+    }
 }

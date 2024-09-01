@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Scellecs.Morpeh;
 using UnityEngine;
 
@@ -83,7 +84,21 @@ namespace Project.Runtime.ECS.Components
         public Entity Entity;
     }
     
-    public struct MoveToTargetComplete : IComponent
+    public struct MoveToTargetCompleted : IComponent
     {
+    }
+
+    public struct AStarCalculatePathRequest : IComponent
+    {
+        public bool WithoutFirstPoint;
+        public Vector3 TargetPosition;
+    }
+
+    public struct AStarPath : IComponent
+    {
+        public int CurrentPathIndex;
+        public Vector3 CurrentTargetPosition;
+        public Vector3 RealTargetPosition;
+        public List<Vector2Int> Path;
     }
 }

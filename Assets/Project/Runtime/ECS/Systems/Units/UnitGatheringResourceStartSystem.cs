@@ -18,7 +18,7 @@ namespace Project.Runtime.ECS.Systems.Units
         {
             _filter = World.Filter
                 .With<UnitTag>()
-                .With<MoveToTargetComplete>()
+                .With<MoveToTargetCompleted>()
                 .With<MoveToResource>()
                 .Build();
         }
