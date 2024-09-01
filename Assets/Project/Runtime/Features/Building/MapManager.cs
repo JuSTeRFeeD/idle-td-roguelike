@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using DG.Tweening;
 using NTC.Pool;
 using Project.Runtime.ECS.Views;
 using Project.Runtime.Features.Building.Data;
@@ -46,18 +45,9 @@ namespace Project.Runtime.Features.Building
                     };
                     if (isRootPos)
                     {
-                        var additionalOffset = Vector3.zero;
-                        if (buildingConfig.Size != Vector2Int.one)
-                        {
-                            additionalOffset = new Vector3(
-                                buildingConfig.Size.x / 2f * GridUtils.CellHalf,
-                                0,
-                                buildingConfig.Size.y / 2f * GridUtils.CellHalf);
-                        }
-
                         viewResult = NightPool.Spawn(
                             buildingConfig.Prefab,
-                            GridUtils.ConvertGridToWorldPos(pos) + additionalOffset,
+                            GridUtils.ConvertGridToWorldPos(pos) + GridUtils.BuildingSizeOffset(buildingConfig.Size),
                             rotation);
 
                         // TODO: animate with scale placed object

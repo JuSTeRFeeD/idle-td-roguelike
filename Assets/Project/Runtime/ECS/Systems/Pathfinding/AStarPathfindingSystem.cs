@@ -36,13 +36,11 @@ namespace Project.Runtime.ECS.Systems.Pathfinding
                 var result = FindPath(gridPos, targetGridPos);
                 if (result == null)
                 {
-                    Debug.Log("Путь НЕ найден");
                     continue;
                 }
                 
                 // if (request.WithoutFirstPoint) result.RemoveAt(0);
                     
-                Debug.Log("Путь найден");
                 entity.RemoveComponent<AStarCalculatePathRequest>();
                 entity.SetComponent(new AStarPath
                 {
@@ -74,7 +72,7 @@ namespace Project.Runtime.ECS.Systems.Pathfinding
             }
         }
 
-        private List<Vector2Int> GetNeighbors(Vector2Int position, int mapSize)
+        public static List<Vector2Int> GetNeighbors(Vector2Int position, int mapSize)
         {
             var neighbors = new List<Vector2Int>
             {
@@ -97,8 +95,6 @@ namespace Project.Runtime.ECS.Systems.Pathfinding
         // Метод для поиска пути от start до end
         private List<Vector2Int> FindPath(Vector2Int start, Vector2Int end)
         {
-            Debug.Log($"FindPath Start:{start} End:{end} Старт занят: {_mapManager.Buildings[start] != null} EndЗанят: {_mapManager.Buildings[end] != null}");
-            
             var openSet = new List<PathNode>();
             var closedSet = new HashSet<Vector2Int>();
             var cameFrom = new Dictionary<Vector2Int, Vector2Int>();

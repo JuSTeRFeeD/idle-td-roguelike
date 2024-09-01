@@ -43,33 +43,28 @@ namespace Project.Runtime.ECS.Systems.Building
                 {
                     _placePosition = hit.point;
                     _placePosition.y = 0;
+                    // Для корректного размещения 
+                    _placePosition -= new Vector3(GridUtils.CellHalf, 0, GridUtils.CellHalf);
                 }
 
-                var additionalOffset = Vector3.zero;
                 var buildingSize = placingBuilding.BuildingConfig.Size;
-                if (buildingSize != Vector2Int.one)
-                {
-                    additionalOffset = new Vector3(
-                        buildingSize.x / 2f * GridUtils.CellHalf,
-                        0,
-                        buildingSize.y / 2f * GridUtils.CellHalf);   
-                }
-                _placePosition = GridUtils.ConvertGridToWorldPos(GridUtils.ConvertWorldToGridPos(_placePosition)) 
-                                 + additionalOffset;
+                var gridPos = GridUtils.ConvertWorldToGridPos(_placePosition);
+                _placePosition = GridUtils.ConvertGridToWorldPos(gridPos) + GridUtils.BuildingSizeOffset(buildingSize);
 
-                var gridPos = GridUtils.ConvertWorldToGridPos(placingBuilding.CurrentPosition);
-                isAnyCollisionDetected = _mapManager.CheckCollision(gridPos.x, gridPos.y, buildingSize.x, buildingSize.y);
+                isAnyCollisionDetected = _mapManager.CheckCollision(
+                    gridPos.x, gridPos.y, buildingSize.x, buildingSize.y);
                 
-                placingBuilding.CurrentPosition = _placePosition;
+                placingBuilding.CurrentPosition = GridUtils.ConvertGridToWorldPos(gridPos);
                 placingBuilding.IsCollisionDetected = isAnyCollisionDetected;
                 entity.ViewTransform().position = _placePosition;
                 
-                // TODO: place building throw UI for mobile
                 // Put building
                 if (Input.GetMouseButtonUp(0))
                 {
-                    Debug.Log("Place building");
-                    if (isAnyCollisionDetected) continue;
+                    if (isAnyCollisionDetected)
+                    {
+                        continue;
+                    }
                     entity.SetComponent(new PlaceBuildingCardRequest());
                 }
             }

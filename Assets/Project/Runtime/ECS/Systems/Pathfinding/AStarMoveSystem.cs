@@ -35,7 +35,10 @@ namespace Project.Runtime.ECS.Systems.Pathfinding
 
                 var direction = diff;
                     direction.y = 0;
+                if (!diff.Equals(Vector3.zero))
+                {
                     viewTransform.rotation = Quaternion.LookRotation(direction, Vector3.up);
+                }
                     
                 var step = moveSpeedRuntime * deltaTime;
                 viewTransform.position = Vector3.MoveTowards(viewPosition, path.CurrentTargetPosition, step);
@@ -50,7 +53,6 @@ namespace Project.Runtime.ECS.Systems.Pathfinding
                         direction.y = 0;
                         viewTransform.rotation = Quaternion.LookRotation(direction, Vector3.up);
                         
-                        Debug.Log("Путь завершен");
                         entity.SetComponent(new MoveToTargetCompleted());
                         entity.RemoveComponent<AStarPath>();
                         continue;

@@ -32,7 +32,6 @@ namespace Project.Runtime.ECS.Systems.Player
                 {
                     ref var addExp = ref entity.GetComponent<PlayerAddExp>();
                     addExp.Value *= multiplier;
-                    Debug.Log($"работает перк увеличения опыта, лол multiplier: {multiplier}");
                 }
             }
         }

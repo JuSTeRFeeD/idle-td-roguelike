@@ -22,7 +22,6 @@ namespace Project.Runtime.ECS.Systems.GameCycle
                 EstimateTime = _worldSetup.DayNightConfig.DayTime
             });
             entity.SetComponent(new IsDayTimeTag());
-            Debug.Log("created");
         }
 
         public void Dispose()

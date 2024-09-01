@@ -57,14 +57,12 @@ namespace Project.Runtime.ECS
             _commonSystemsGroup.AddSystem<RuntimeStatsResetSystem>();
             
             // --- Building ---
-            _commonSystemsGroup.AddInitializer<SpawnBaseInitializer>();
+            _commonSystemsGroup.AddInitializer<InitFirstBuildingsInitializer>();
+            _commonSystemsGroup.AddInitializer<RandomResourcesSpawnInitializer>(); 
             // Building by user
             _commonSystemsGroup.AddSystem<StartPlacingBuildingSystem>();
             _commonSystemsGroup.AddSystem<PlacingBuildingSystem>();
             _commonSystemsGroup.AddSystem<PlaceBuildingSystem>();
-            // Random resources dispenser
-            // Стоит после систем размещения чтобы снач поставить строения а потом разместить ресы 
-            _commonSystemsGroup.AddInitializer<RandomResourcesSpawnInitializer>(); 
             
             _commonSystemsGroup.AddSystem<CameraMoveSystem>();
             

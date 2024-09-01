@@ -42,7 +42,7 @@ namespace Project.Runtime.ECS.Systems.Building
                 
                 var view = _mapManager.PutBuilding(
                     placingBuilding.BuildingConfig, 
-                    GridUtils.ConvertWorldToGridPos(placingBuilding.CurrentPosition - new Vector3(GridUtils.CellHalf, 0, GridUtils.CellHalf)),
+                    GridUtils.ConvertWorldToGridPos(placingBuilding.CurrentPosition),
                     Quaternion.identity);
                 var buildingEntity = World.CreateEntity();
                 buildingEntity.LinkView(view);

@@ -18,12 +18,12 @@ MonoBehaviour:
   prefab: {fileID: 2426575903459579230, guid: eb4444ec3d4389d4d8d3266551ead662, type: 3}
   size: {x: 3, y: 3}
   health: 100
-  unitsCountDefault: 10
+  unitsCountDefault: 100
   lumberjacksCapacity:
     min: 3
     max: 4
   minerCapacity:
     min: 3
     max: 4
-  woodStorageSize: 30
+  woodStorageSize: 10000
   stoneStorageSize: 30
