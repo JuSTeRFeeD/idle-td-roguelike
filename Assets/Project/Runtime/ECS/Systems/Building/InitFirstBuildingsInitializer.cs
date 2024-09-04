@@ -23,7 +23,7 @@ namespace Project.Runtime.ECS.Systems.Building
 
         private readonly HashSet<Vector2Int> _excludePoints = new();
 
-        private const int ResourcesToSpawn = 150;
+        private const int ResourcesToSpawn = 100;
         
         public void OnAwake()
         {
@@ -33,9 +33,7 @@ namespace Project.Runtime.ECS.Systems.Building
 
         private void AddExcludePoints(BuildingConfig buildingConfig, Vector3 position)
         {
-            var gridPos = GridUtils.ConvertWorldToGridPos(
-                position - new Vector3(GridUtils.CellHalf, 0, GridUtils.CellHalf)
-            );
+            var gridPos = GridUtils.ConvertWorldToGridPos(position);
 
             for (var x = 0; x < buildingConfig.Size; x++)
             {
@@ -44,6 +42,10 @@ namespace Project.Runtime.ECS.Systems.Building
                     var pos = new Vector2Int(gridPos.x + x, gridPos.y + z);
                     _excludePoints.Add(pos);
                 }
+            }
+            foreach (var pos in AStarPathfindingSystem.GetNeighbors(gridPos, _mapManager.MapSize, buildingConfig.Size + 1))
+            {
+                _excludePoints.Add(pos);
             }
         }
 

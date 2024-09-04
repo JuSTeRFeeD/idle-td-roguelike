@@ -1,58 +1,48 @@
+using Project.Runtime.ECS.Views;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
+using UnityEngine;
 
 namespace Project.Runtime.ECS.Components
 {
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct TotalResourcesData : IComponent
+    public struct ProjectileTag : IComponent
     {
-        public int WoodAmount;
-        public int WoodCapacity;
-        
-        public int StoneAmount;
-        public int StoneCapacity;
-    }
-
-    [Il2CppSetOption(Option.NullChecks, false)]
-    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
-    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct TotalUnitsData : IComponent
-    {
-        public int UsedUnitsAmount;
-        public int TotalUnitsAmount;
-    }
-
-    [Il2CppSetOption(Option.NullChecks, false)]
-    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
-    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct PlayerLevel : IComponent
-    {
-        public float CurrentExp;
-        public float TargetExp;
-        public int Level;
-        public int[] ExpByLevel;
-    }
-
-    [Il2CppSetOption(Option.NullChecks, false)]
-    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
-    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct PlayerAddExp : IComponent
-    {
-        public float Value;
-    }
-
-    [Il2CppSetOption(Option.NullChecks, false)]
-    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
-    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct LevelUp : IComponent
-    {
-        public int LevelUpsCount;
     }
     
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct IsChoosingLevelUpCard : IComponent {}
+    public struct TrajectoryProjectile : IComponent
+    {
+        public float MaxAdditionalHeight;
+    }
+
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct ProjectileMoveData : IComponent
+    {
+        public Vector3 StartMovePosition;
+        public float TravelTime;
+    }
+    
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct ShootPoint : IComponent
+    {
+        public Transform Value;
+    }
+
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct ProjectileParams : IComponent
+    {
+        public EntityView EntityView;
+        public float ProjectileSpeed;
+    }
 }

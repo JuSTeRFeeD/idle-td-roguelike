@@ -101,7 +101,7 @@ namespace Project.Runtime.ECS.Systems.Building
                         var spawnUnitRequest = World.CreateEntity();
                         spawnUnitRequest.SetComponent(new SpawnUnitRequest
                         {
-                            AtPosition = view.transform.position + Vector3.right * 2f,
+                            AtPosition = view.transform.position + Vector3.right * 3f,
                             ForTowerOwner = buildingEntity,
                             UnitType = UnitType.Lumberjack
                         });
@@ -169,6 +169,11 @@ namespace Project.Runtime.ECS.Systems.Building
                     buildingEntity.SetComponent(new AttackCooldown
                     {
                         Value = attackTower.AttackCooldown
+                    });
+                    buildingEntity.SetComponent(new ProjectileParams
+                    {
+                        EntityView = attackTower.ProjectileView,
+                        ProjectileSpeed = 6f,
                     });
                     break;
                 }

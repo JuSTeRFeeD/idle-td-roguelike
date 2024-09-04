@@ -13,35 +13,40 @@ namespace Project.Runtime.ECS.Systems.GameCycle
         public World World { get; set; }
 
         private Filter _filter;
+        private Stash<DayNight> _dayNightStash;
+        private Stash<IsDayTimeTag> _isDayTimeTagStash;
         
         public void OnAwake()
         {
             _filter = World.Filter
                 .With<DayNight>()
                 .Build();
+            
+            _dayNightStash = World.GetStash<DayNight>();
+            _isDayTimeTagStash = World.GetStash<IsDayTimeTag>();
         }
 
         public void OnUpdate(float deltaTime)
         {
             foreach (var entity in _filter)
             {
-                ref var dayNight = ref entity.GetComponent<DayNight>();
+                ref var dayNight = ref _dayNightStash.Get(entity);
                 
                 dayNight.EstimateTime -= deltaTime;
 
                 if (dayNight.EstimateTime > 0f)
                 {
-                    _headerUI.SetDayNight(dayNight, entity.Has<IsDayTimeTag>());
+                    _headerUI.SetDayNight(dayNight, _isDayTimeTagStash.Has(entity));
 
                     if (dayNight.EstimateTime <= _dayNightCycleEffects.transitionDuration)
                     {
-                        _dayNightCycleEffects.SetTime(!entity.Has<IsDayTimeTag>());
+                        _dayNightCycleEffects.SetTime(!_isDayTimeTagStash.Has(entity));
                     }
                     
                     continue;
                 }
 
-                var isPreviousDay = entity.Has<IsDayTimeTag>();
+                var isPreviousDay = _isDayTimeTagStash.Has(entity);
                 if (isPreviousDay)
                 {
                     dayNight.EstimateTime = dayNight.NightTime;

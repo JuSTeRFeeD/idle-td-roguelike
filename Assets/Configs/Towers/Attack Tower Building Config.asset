@@ -16,8 +16,10 @@ MonoBehaviour:
   uniqueID: de5ad661-607b-4ba3-b0b8-71416a8f5491
   title: Attack Tower
   prefab: {fileID: 1583291249685556938, guid: 04d763664103e0442baddaa8aba7ce75, type: 3}
-  size: {x: 2, y: 2}
-  health: 0
+  size: 2
+  projectileView: {fileID: -1677189479211087335, guid: 182c90b664191fb4d8d15aa3e27d4deb,
+    type: 3}
+  health: 50
   damage: 10
   attackCooldown: 1.5
   attackRange: 5

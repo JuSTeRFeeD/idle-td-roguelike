@@ -40,7 +40,7 @@ Material:
     m_Floats:
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Size: 1
+    - _Size: 0.5
     - _Thickness: 0.1
     m_Colors:
     - _Color: {r: 0.28488788, g: 0.6226415, b: 0.46341476, a: 1}

@@ -1,5 +1,6 @@
 using Project.Runtime.ECS.Components;
 using Project.Runtime.ECS.Extensions;
+using Project.Runtime.Features.Building;
 using Scellecs.Morpeh;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,7 +15,10 @@ namespace Project.Runtime.ECS.Views
 
         public void SetSize(int size)
         {
-            transform.localScale = new Vector3(0.01f * size, 0.01f * size, 1f);
+            transform.localScale = new Vector3(
+                GridUtils.CellSize * 0.01f * size, 
+                GridUtils.CellSize * 0.01f * size, 
+                1f);
         }
         
         public void SetCollided(bool value)
@@ -26,7 +30,7 @@ namespace Project.Runtime.ECS.Views
         {
             ref readonly var owner = ref Entity.Owner();
             var targetPos = owner.ViewTransform().position;
-            targetPos.y = 0.1f;
+            targetPos.y = 0.2f;
             transform.position = targetPos;
             SetCollided(owner.GetComponent<PlacingBuildingCard>().IsCollisionDetected);
         }

@@ -14,8 +14,10 @@ namespace Project.Runtime.ECS.Systems
         private Filter _isBuildingFilter;
 
         private Vector3 _dragOrigin;
-        private bool _isDrag; 
+        private Vector3 _currentVelocity;
+        private bool _isDrag;
         private const float DragSpeed = 6f;
+        private const float InertiaDamping = 5f; // Коэффициент демпфирования инерции
         
         public World World { get; set; }
 
@@ -28,14 +30,14 @@ namespace Project.Runtime.ECS.Systems
 
         public void OnUpdate(float deltaTime)
         {
-            // No need move camera while building
+            // Нет необходимости двигать камеру во время постройки
             if (_isBuildingFilter.IsNotEmpty()) return;
 
             if (Input.GetMouseButtonUp(0))
             {
                 _isDrag = false;
             }
-            
+
             if (!_isDrag)
             {
                 if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
@@ -45,24 +47,31 @@ namespace Project.Runtime.ECS.Systems
                 }
             }
 
-            if (!_isDrag) return;
-
             var difference = Vector3.zero;
-            if (Input.GetMouseButton(0))
+            if (_isDrag && Input.GetMouseButton(0))
             {
                 var currentMousePos = Input.mousePosition;
                 difference = _dragOrigin - currentMousePos;
                 _dragOrigin = currentMousePos;
+
+                var mainCameraTransform = _cameraController.MainCamera.transform;
+                var forward = mainCameraTransform.forward * difference.y;
+                var right = mainCameraTransform.right * difference.x;
+                var move = forward + right;
+                move.y = 0;
+
+                var additionalSpeedByDist = difference.magnitude * .2f;
+                _currentVelocity = move.normalized * DragSpeed * additionalSpeedByDist;
             }
 
-            var mainCameraTransform = _cameraController.MainCamera.transform;
-            var forward = mainCameraTransform.forward * difference.y;
-            var right = mainCameraTransform.right * difference.x;
-            var move = forward + right;
-            move.y = 0;
+            // Плавное замедление после отпускания мыши
+            if (!_isDrag && _currentVelocity != Vector3.zero)
+            {
+                _currentVelocity = Vector3.Lerp(_currentVelocity, Vector3.zero, InertiaDamping * deltaTime);
+            }
 
-            var additionalSpeedByDist = difference.magnitude * .2f;
-            var newPos = _cameraController.OriginTargetPosition + move.normalized * DragSpeed * deltaTime * additionalSpeedByDist;
+            // Обновление позиции камеры
+            var newPos = _cameraController.OriginTargetPosition + _currentVelocity * deltaTime;
             _cameraController.SetPosition(newPos);
         }
 

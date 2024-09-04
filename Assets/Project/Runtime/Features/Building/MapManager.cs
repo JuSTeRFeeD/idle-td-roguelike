@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using NTC.Pool;
 using Project.Runtime.ECS.Views;
 using Project.Runtime.Features.Building.Data;
@@ -68,6 +69,20 @@ namespace Project.Runtime.Features.Building
             return viewResult;
         }
 
+        public void DestroyBuilding(Vector3 viewPosition)
+        {
+            var gridPos = GridUtils.ConvertWorldToGridPos(viewPosition);
+            if (Buildings[gridPos].IsRootPos)
+            {
+                Buildings[gridPos] = null;
+                return;
+            }
+            // TODO: get buildingConfig by id
+            // then set Buildings[i] = null for from gridPos to size 
+            // Buildings[gridPos].id
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private int ConvertToIndex(Vector2Int coordinates)
         {
             var x = coordinates.x;
@@ -80,17 +95,6 @@ namespace Project.Runtime.Features.Building
             }
 
             return y * mapSize + x;
-        }
-
-        private Vector2Int ConvertToGirdPos(int gridIndex)
-        {
-            if (gridIndex < 0 || gridIndex >= mapSize * mapSize)
-            {
-                // return new Vector2Int(-1, -1);
-                throw new Exception($"Out of bounds grid index {gridIndex}");
-            }
-
-            return new Vector2Int(gridIndex / mapSize, gridIndex % mapSize);
         }
 
         /// <summary>

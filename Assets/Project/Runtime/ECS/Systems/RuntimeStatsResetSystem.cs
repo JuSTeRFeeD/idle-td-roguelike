@@ -19,6 +19,10 @@ namespace Project.Runtime.ECS.Systems
         private Stash<AttackDamage> _attackDamageStash;
         private Stash<AttackDamageRuntime> _attackDamageRuntimeStash;
         
+        private Filter _attackCooldownFilter;
+        private Stash<AttackCooldown> _attackCooldownStash;
+        private Stash<AttackCooldownRuntime> _attackCooldownRuntimeStash;
+        
         public void OnAwake()
         {
             _moveSpeedFilter = World.Filter.With<MoveSpeed>().With<MoveSpeedRuntime>().Build();
@@ -32,6 +36,10 @@ namespace Project.Runtime.ECS.Systems
              _attackDamageFilter = World.Filter.With<AttackDamage>().With<AttackDamageRuntime>().Build();
              _attackDamageStash = World.GetStash<AttackDamage>();
              _attackDamageRuntimeStash = World.GetStash<AttackDamageRuntime>();
+
+             _attackCooldownFilter = World.Filter.With<AttackCooldown>().With<AttackCooldownRuntime>().Build();
+             _attackCooldownStash = World.GetStash<AttackCooldown>();
+             _attackCooldownRuntimeStash = World.GetStash<AttackCooldownRuntime>();
         }
 
         public void OnUpdate(float deltaTime)
@@ -52,6 +60,12 @@ namespace Project.Runtime.ECS.Systems
             foreach (var entity in _attackDamageFilter)
             {
                 _attackDamageRuntimeStash.Get(entity).Value = _attackDamageStash.Get(entity).Value;
+            }
+            
+            // Reset AttackCooldownRuntime
+            foreach (var entity in _attackDamageFilter)
+            {
+                _attackCooldownRuntimeStash.Get(entity).Value = _attackCooldownStash.Get(entity).Value;
             }
         }
 

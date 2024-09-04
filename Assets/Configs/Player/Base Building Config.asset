@@ -16,9 +16,9 @@ MonoBehaviour:
   uniqueID: d1f7aa07-5c61-46b9-8cd5-ab40641f9a85
   title: Base Tower
   prefab: {fileID: 2426575903459579230, guid: eb4444ec3d4389d4d8d3266551ead662, type: 3}
-  size: {x: 3, y: 3}
+  size: 2
   health: 100
-  unitsCountDefault: 4
+  unitsCountDefault: 10
   lumberjacksCapacity:
     min: 3
     max: 4

@@ -42,12 +42,12 @@ namespace Project.Runtime.ECS.Systems.Units
                 unitEntity.AddComponent<MoveSpeedRuntime>();
                 unitEntity.SetComponent(new MoveSpeed
                 {
-                    Value = 5f,
+                    Value = 3f,
                 });
                 
                 unitEntity.SetComponent(new UnitBackpack
                 {
-                    Capacity = 1,
+                    Capacity = 3,
                     Amount = 0
                 });
                 

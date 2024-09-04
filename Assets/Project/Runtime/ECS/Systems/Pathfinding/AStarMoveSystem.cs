@@ -11,6 +11,10 @@ namespace Project.Runtime.ECS.Systems.Pathfinding
         public World World { get; set; }
 
         private Filter _filter;
+        private Stash<AStarPath> _pathStash;
+        private Stash<ViewEntity> _viewStash;
+        private Stash<MoveSpeedRuntime> _speedStash;
+        
         private const float DistToCompletePath = 0.001f;
         
         public void OnAwake()
@@ -20,17 +24,21 @@ namespace Project.Runtime.ECS.Systems.Pathfinding
                 .With<ViewEntity>()
                 .With<MoveSpeedRuntime>()
                 .Build();
+            
+            _pathStash = World.GetStash<AStarPath>();
+            _viewStash = World.GetStash<ViewEntity>();
+            _speedStash = World.GetStash<MoveSpeedRuntime>();
         }
 
         public void OnUpdate(float deltaTime)
         {
             foreach (var entity in _filter)
             {
-                var viewTransform = entity.ViewTransform();
+                var viewTransform = _viewStash.Get(entity).Value.transform;
                 var viewPosition = viewTransform.position;
 
-                ref readonly var moveSpeedRuntime = ref entity.GetComponent<MoveSpeedRuntime>().Value;
-                ref var path = ref entity.GetComponent<AStarPath>();
+                ref readonly var moveSpeedRuntime = ref _speedStash.Get(entity).Value;
+                ref var path = ref _pathStash.Get(entity);
                 var diff = path.CurrentTargetPosition - viewPosition;
 
                 var direction = diff;
@@ -43,7 +51,7 @@ namespace Project.Runtime.ECS.Systems.Pathfinding
                 var step = moveSpeedRuntime * deltaTime;
                 viewTransform.position = Vector3.MoveTowards(viewPosition, path.CurrentTargetPosition, step);
 
-                if (Vector3.Distance(viewTransform.position, path.CurrentTargetPosition) <= DistToCompletePath)
+                if (Vector3.SqrMagnitude(path.CurrentTargetPosition - viewTransform.position) <= DistToCompletePath * DistToCompletePath)
                 {
                     viewTransform.position = path.CurrentTargetPosition;
                     path.CurrentPathIndex++;

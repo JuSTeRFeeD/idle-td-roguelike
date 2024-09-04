@@ -9,7 +9,10 @@ namespace Project.Runtime.ECS.Views
 
         public void SetEntity(Entity e)
         {
-            Entity = e;   
+            Entity = e;
+            OnSetEntity();
         }
+
+        protected virtual void OnSetEntity() { }
     }
 }

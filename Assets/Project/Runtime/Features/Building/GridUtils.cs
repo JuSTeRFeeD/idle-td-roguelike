@@ -5,7 +5,7 @@ namespace Project.Runtime.Features.Building
 {
     public static class GridUtils
     {
-        public const float CellSize = 1f;
+        public const float CellSize = 2f;
         public const float CellHalf = CellSize / 2;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -32,6 +32,8 @@ namespace Project.Runtime.Features.Building
                 pos.x * CellSize,
                 0f,
                 pos.y* CellSize) + new Vector3(CellHalf - 0.001f, 0, CellHalf - 0.001f);
+            
+            // What happening?
             // Отнимаем -0.01f чтобы округление в ConvertWorldToGridPos с 0.5 не было вверх
             // Example: Mathf.RoundToInt(59.5) даст 60 и мы выйдем за пределы карты
         }
