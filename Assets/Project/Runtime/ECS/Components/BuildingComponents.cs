@@ -7,6 +7,7 @@ namespace Project.Runtime.ECS.Components
     /// MapResource/Tower 
     public struct BuildingTag : IComponent
     {
+        public int Size;
     }
 
     /// Tower destroyed, днем нуждается в починке юнитами 

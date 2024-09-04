@@ -79,7 +79,7 @@ namespace Project.Runtime.ECS.Systems.Units
                 
                 unitEntity.SetComponent(new AStarCalculatePathRequest
                 {
-                    WithoutFirstPoint = true,
+                    Entity = nearestEntity,
                     TargetPosition = nearestPosition
                 });
                 unitEntity.SetComponent(new MoveToResource

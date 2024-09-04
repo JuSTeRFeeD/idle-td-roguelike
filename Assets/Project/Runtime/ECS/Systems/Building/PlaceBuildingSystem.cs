@@ -62,7 +62,10 @@ namespace Project.Runtime.ECS.Systems.Building
             {
                 case BaseBuildingConfig baseBuilding:
                 {
-                    buildingEntity.SetComponent(new BuildingTag());
+                    buildingEntity.SetComponent(new BuildingTag
+                    {
+                        Size = buildingConfig.Size
+                    });
                     buildingEntity.SetComponent(new BaseTowerTag());
 
                     buildingEntity.SetComponent(new HealthDefault
@@ -134,7 +137,10 @@ namespace Project.Runtime.ECS.Systems.Building
 
                 case AttackTowerBuildingConfig attackTower:
                 {
-                    buildingEntity.SetComponent(new BuildingTag());
+                    buildingEntity.SetComponent(new BuildingTag
+                    {
+                        Size = buildingConfig.Size
+                    });
                     buildingEntity.SetComponent(new AttackTowerTag());
 
                     buildingEntity.SetComponent(new HealthDefault

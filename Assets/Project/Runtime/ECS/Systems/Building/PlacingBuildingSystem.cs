@@ -52,7 +52,7 @@ namespace Project.Runtime.ECS.Systems.Building
                 _placePosition = GridUtils.ConvertGridToWorldPos(gridPos) + GridUtils.BuildingSizeOffset(buildingSize);
 
                 isAnyCollisionDetected = _mapManager.CheckCollision(
-                    gridPos.x, gridPos.y, buildingSize.x, buildingSize.y);
+                    gridPos.x, gridPos.y, buildingSize, buildingSize);
                 
                 placingBuilding.CurrentPosition = GridUtils.ConvertGridToWorldPos(gridPos);
                 placingBuilding.IsCollisionDetected = isAnyCollisionDetected;

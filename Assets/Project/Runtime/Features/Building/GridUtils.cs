@@ -37,17 +37,17 @@ namespace Project.Runtime.Features.Building
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector3 BuildingSizeOffset(Vector2Int buildingSize)
+        public static Vector3 BuildingSizeOffset(int buildingSize = 1)
         {
-            if (buildingSize == Vector2Int.one)
+            if (buildingSize == 1)
             {
                 return Vector3.zero;
             }
             
             return new Vector3(
-                buildingSize.x / 2f * CellHalf,
+                buildingSize / 2f * CellHalf,
                 0,
-                buildingSize.y / 2f * CellHalf);   
+                buildingSize / 2f * CellHalf);   
         }
     }
 }

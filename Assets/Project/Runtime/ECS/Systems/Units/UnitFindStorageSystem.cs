@@ -58,7 +58,7 @@ namespace Project.Runtime.ECS.Systems.Units
 
                     unitEntity.SetComponent(new AStarCalculatePathRequest
                     {
-                        WithoutFirstPoint = true,
+                        Entity = storageEntity,
                         TargetPosition = storageEntity.ViewPosition()
                     });
                     unitEntity.SetComponent(new MoveToStorage

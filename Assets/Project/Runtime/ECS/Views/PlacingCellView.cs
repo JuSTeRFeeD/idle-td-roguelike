@@ -1,4 +1,3 @@
-using System;
 using Project.Runtime.ECS.Components;
 using Project.Runtime.ECS.Extensions;
 using Scellecs.Morpeh;
@@ -13,9 +12,9 @@ namespace Project.Runtime.ECS.Views
         [SerializeField] private Color collidedColor;
         [SerializeField] private Color baseColor;
 
-        public void SetSize(Vector2Int size)
+        public void SetSize(int size)
         {
-            transform.localScale = new Vector3(0.01f * size.x, 0.01f * size.y, 1f);
+            transform.localScale = new Vector3(0.01f * size, 0.01f * size, 1f);
         }
         
         public void SetCollided(bool value)

@@ -37,9 +37,9 @@ namespace Project.Runtime.ECS.Systems.Building
                 position - new Vector3(GridUtils.CellHalf, 0, GridUtils.CellHalf)
             );
 
-            for (var x = 0; x < buildingConfig.Size.x; x++)
+            for (var x = 0; x < buildingConfig.Size; x++)
             {
-                for (var z = 0; z < buildingConfig.Size.y; z++)
+                for (var z = 0; z < buildingConfig.Size; z++)
                 {
                     var pos = new Vector2Int(gridPos.x + x, gridPos.y + z);
                     _excludePoints.Add(pos);

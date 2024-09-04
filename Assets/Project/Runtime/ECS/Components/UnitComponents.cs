@@ -90,7 +90,7 @@ namespace Project.Runtime.ECS.Components
 
     public struct AStarCalculatePathRequest : IComponent
     {
-        public bool WithoutFirstPoint;
+        public Entity Entity;
         public Vector3 TargetPosition;
     }
 

@@ -30,9 +30,9 @@ namespace Project.Runtime.Features.Building
         public EntityView PutBuilding(BuildingConfig buildingConfig, Vector2Int gridPos, Quaternion rotation)
         {
             EntityView viewResult = null;
-            for (var x = 0; x < buildingConfig.Size.x; x++)
+            for (var x = 0; x < buildingConfig.Size; x++)
             {
-                for (var z = 0; z < buildingConfig.Size.y; z++)
+                for (var z = 0; z < buildingConfig.Size; z++)
                 {
                     var pos = new Vector2Int(gridPos.x + x, gridPos.y + z);
                     var isRootPos = pos.Equals(gridPos);
@@ -140,6 +140,9 @@ namespace Project.Runtime.Features.Building
 
         private void OnDrawGizmos()
         {
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(GridUtils.ConvertGridToWorldPos(new Vector2Int(31, 31)) + Vector3.up, 0.5f);
+            
             if (Application.isPlaying)
             {
                 for (var x = 0; x < mapSize; x++)
