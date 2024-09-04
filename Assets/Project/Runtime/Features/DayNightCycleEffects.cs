@@ -1,13 +1,13 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Rendering;
+using UnityEngine.Rendering.PostProcessing;
 
 namespace Project.Runtime.Features
 {
     public class DayNightCycleEffects : MonoBehaviour
     {
-        public Volume dayVolume;
-        public Volume nightVolume;
+        public PostProcessVolume dayVolume;
+        public PostProcessVolume nightVolume;
         public float transitionDuration = 2f;
         
         private float _transitionProgress = 0f;
@@ -20,28 +20,28 @@ namespace Project.Runtime.Features
             _isDay = !_isDay;
             StopAllCoroutines();
             StartCoroutine(Transition(
-                _isDay ? nightVolume : dayVolume, 
-                _isDay ? dayVolume : nightVolume));
+            _isDay ? nightVolume : dayVolume, 
+            _isDay ? dayVolume : nightVolume));
         }
 
-        private IEnumerator Transition(Volume currentProfile, Volume targetProfile)
+        private IEnumerator Transition(PostProcessVolume currentProfile, PostProcessVolume targetProfile)
         {
             var elapsedTime = 0f;
-
+        
             while (elapsedTime < transitionDuration)
             {
                 _transitionProgress = elapsedTime / transitionDuration;
-
+        
                 InterpolateVolumes(currentProfile, targetProfile, _transitionProgress);
-
+        
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
-
+        
             InterpolateVolumes(currentProfile, targetProfile, 1f); // Завершить интерполяцию
         }
-
-        private static void InterpolateVolumes(Volume from, Volume to, float t)
+        
+        private static void InterpolateVolumes(PostProcessVolume from, PostProcessVolume to, float t)
         {
             from.weight = 1f - t;
             to.weight = t;
