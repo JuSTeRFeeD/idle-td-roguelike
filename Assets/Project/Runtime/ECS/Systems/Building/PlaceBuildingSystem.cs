@@ -145,6 +145,25 @@ namespace Project.Runtime.ECS.Systems.Building
                     {
                         Value = attackTower.Health
                     });
+                    buildingEntity.SetComponent(new ShootPoint
+                    {
+                        Value = ((AttackTowerView)view).ShootPoint
+                    });
+                    buildingEntity.AddComponent<AttackDamageRuntime>();
+                    buildingEntity.SetComponent(new AttackDamage
+                    {
+                        Value = attackTower.Damage
+                    });
+                    buildingEntity.AddComponent<AttackRangeRuntime>();
+                    buildingEntity.SetComponent(new AttackRange
+                    {
+                        Value = attackTower.AttackRange
+                    });
+                    buildingEntity.AddComponent<AttackCooldownRuntime>();
+                    buildingEntity.SetComponent(new AttackCooldown
+                    {
+                        Value = attackTower.AttackCooldown
+                    });
                     break;
                 }
             }

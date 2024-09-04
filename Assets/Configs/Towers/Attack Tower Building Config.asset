@@ -15,7 +15,7 @@ MonoBehaviour:
   <ShowUniqueId>k__BackingField: 0
   uniqueID: de5ad661-607b-4ba3-b0b8-71416a8f5491
   title: Attack Tower
-  prefab: {fileID: 5263509739269346577, guid: 04d763664103e0442baddaa8aba7ce75, type: 3}
+  prefab: {fileID: 1583291249685556938, guid: 04d763664103e0442baddaa8aba7ce75, type: 3}
   size: {x: 2, y: 2}
   health: 0
   damage: 10

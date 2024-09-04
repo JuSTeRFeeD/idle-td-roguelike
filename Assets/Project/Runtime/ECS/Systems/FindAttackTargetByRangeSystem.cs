@@ -12,6 +12,7 @@ namespace Project.Runtime.ECS.Systems
 
         private Filter _filter;
         private Filter _enemiesFilter;
+        private Filter _allyBuildingsFilter;
         
         public void OnAwake()
         {
@@ -25,6 +26,11 @@ namespace Project.Runtime.ECS.Systems
                 .With<EnemyTag>()
                 .With<ViewEntity>()
                 .Build();
+            _allyBuildingsFilter = World.Filter
+                .With<BuildingTag>()
+                .With<ViewEntity>()
+                .Without<BuildingDestroyedTag>()
+                .Build();
         }
 
         public void OnUpdate(float deltaTime)
@@ -34,6 +40,11 @@ namespace Project.Runtime.ECS.Systems
                 if (entity.Has<BuildingTag>())
                 {
                     FindTargetWithFilter(entity, _enemiesFilter);
+                    continue;
+                }
+                if (entity.Has<EnemyTag>())
+                {
+                    FindTargetWithFilter(entity, _allyBuildingsFilter);
                     continue;
                 }
             }

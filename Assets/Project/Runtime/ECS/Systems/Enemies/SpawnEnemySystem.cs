@@ -4,7 +4,7 @@ using Project.Runtime.ECS.Extensions;
 using Scellecs.Morpeh;
 using UnityEngine;
 
-namespace Project.Runtime.Features.Enemies
+namespace Project.Runtime.ECS.Systems.Enemies
 {
     public class SpawnEnemySystem : ISystem
     {

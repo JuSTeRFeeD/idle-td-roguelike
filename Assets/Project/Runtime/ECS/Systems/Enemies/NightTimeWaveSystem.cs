@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Project.Runtime.ECS;
 using Project.Runtime.ECS.Components;
 using Project.Runtime.ECS.Components.Enemies;
 using Project.Runtime.ECS.Extensions;
@@ -8,7 +7,7 @@ using Scellecs.Morpeh;
 using UnityEngine;
 using VContainer;
 
-namespace Project.Runtime.Features.Enemies
+namespace Project.Runtime.ECS.Systems.Enemies
 {
     public class NightTimeWaveSystem : ISystem
     {

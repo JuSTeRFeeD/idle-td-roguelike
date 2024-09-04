@@ -1,4 +1,5 @@
 using Scellecs.Morpeh;
+using UnityEngine;
 
 namespace Project.Runtime.ECS.Components
 {
@@ -40,5 +41,10 @@ namespace Project.Runtime.ECS.Components
     public struct EstimateAttackCooldownTime : IComponent
     {
         public float Value;
+    }
+
+    public struct ShootPoint : IComponent
+    {
+        public Transform Value;
     }
 }

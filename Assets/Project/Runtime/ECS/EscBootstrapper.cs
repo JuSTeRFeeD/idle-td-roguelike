@@ -3,11 +3,11 @@ using Project.Runtime.ECS.Components;
 using Project.Runtime.ECS.Extensions;
 using Project.Runtime.ECS.Systems;
 using Project.Runtime.ECS.Systems.Building;
+using Project.Runtime.ECS.Systems.Enemies;
 using Project.Runtime.ECS.Systems.GameCycle;
 using Project.Runtime.ECS.Systems.Pathfinding;
 using Project.Runtime.ECS.Systems.Player;
 using Project.Runtime.ECS.Systems.Units;
-using Project.Runtime.Features.Enemies;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Helpers.OneFrame;
 using UnityEngine;
@@ -58,7 +58,6 @@ namespace Project.Runtime.ECS
             
             // --- Building ---
             _commonSystemsGroup.AddInitializer<InitFirstBuildingsInitializer>();
-            _commonSystemsGroup.AddInitializer<RandomResourcesSpawnInitializer>(); 
             // Building by user
             _commonSystemsGroup.AddSystem<StartPlacingBuildingSystem>();
             _commonSystemsGroup.AddSystem<PlacingBuildingSystem>();
@@ -91,6 +90,7 @@ namespace Project.Runtime.ECS
             // --- Enemies ---
             _commonSystemsGroup.AddSystem<NightTimeWaveSystem>();
             _commonSystemsGroup.AddSystem<SpawnEnemySystem>();
+            _commonSystemsGroup.AddSystem<EnemyFindTargetSystem>();
             
             _world.AddSystemsGroup(0, _commonSystemsGroup);
         }
