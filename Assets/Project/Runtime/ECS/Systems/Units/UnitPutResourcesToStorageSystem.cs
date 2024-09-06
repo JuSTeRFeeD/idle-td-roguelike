@@ -39,21 +39,12 @@ namespace Project.Runtime.ECS.Systems.Units
 
         private static void PutResources<T>(in Filter unitFilter) where T : struct, IStorage
         {
-            var buff = new Dictionary<Entity, int>();
-            
             foreach (var entity in unitFilter)
             {
                 ref var backpack = ref entity.GetComponent<UnitBackpack>(); 
                 ref var storage = ref entity.GetComponent<MoveToStorage>().Entity.GetComponent<T>();
-                var storageEntity = entity.GetComponent<MoveToStorage>().Entity;
 
                 var possiblePutIntoStorage = storage.Max - storage.Current;
-                
-                // TODO: чекнуть почему при большом кол-ве юнитов в storage current может превысить max
-                // if (buff.TryGetValue(storageEntity, out var curInBuff)) // вроде как это реально нужно нам
-                // {
-                    // possiblePutIntoStorage = storage.Max - curInBuff;
-                // }
                 
                 if (possiblePutIntoStorage >= backpack.Amount)
                 {
@@ -64,27 +55,11 @@ namespace Project.Runtime.ECS.Systems.Units
                 }
                 else
                 {
-                    var possible = backpack.Amount - possiblePutIntoStorage;
-                    // var possible = 0; // Mathf.Abs(backpack.Amount - possiblePutIntoStorage);
-                    // if (backpack.Amount > possiblePutIntoStorage)
-                    // {
-                        // possible = possiblePutIntoStorage - backpack.Amount;
-                    // }
-                    // else
-                    // {
-                        // possible = backpack.Amount - possiblePutIntoStorage;
-                    // }
-                    
-                    storage.Current += possible;
-                    backpack.Amount -= possible;
+                    storage.Current += possiblePutIntoStorage;
+                    backpack.Amount -= possiblePutIntoStorage;
                     entity.RemoveComponent<MoveToStorage>();
                     entity.SetComponent(new FindStorageRequest());
                 }
-                
-                // Debug.Log($"storage {storage.Current} / {storage.Max}");
-
-                if (buff.ContainsKey(storageEntity)) buff[storageEntity] = storage.Current;
-                else buff.Add(storageEntity, storage.Current);
             }
         }
 
