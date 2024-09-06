@@ -63,7 +63,7 @@ namespace Project.Runtime.ECS.Systems
             }
             
             // Reset AttackCooldownRuntime
-            foreach (var entity in _attackDamageFilter)
+            foreach (var entity in _attackCooldownFilter)
             {
                 _attackCooldownRuntimeStash.Get(entity).Value = _attackCooldownStash.Get(entity).Value;
             }

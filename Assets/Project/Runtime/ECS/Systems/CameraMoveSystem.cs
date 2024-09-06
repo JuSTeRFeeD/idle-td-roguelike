@@ -15,10 +15,12 @@ namespace Project.Runtime.ECS.Systems
 
         private Vector3 _dragOrigin;
         private Vector3 _currentVelocity;
+        private Vector3 _targetVelocity;
         private bool _isDrag;
         private const float DragSpeed = 6f;
         private const float InertiaDamping = 5f; // Коэффициент демпфирования инерции
-        
+        private const float SmoothTime = 0.1f; // Время для сглаживания движения при зажатой мыши
+
         public World World { get; set; }
 
         public void OnAwake()
@@ -61,7 +63,10 @@ namespace Project.Runtime.ECS.Systems
                 move.y = 0;
 
                 var additionalSpeedByDist = difference.magnitude * .2f;
-                _currentVelocity = move.normalized * DragSpeed * additionalSpeedByDist;
+                _targetVelocity = move.normalized * DragSpeed * additionalSpeedByDist;
+
+                // Плавная интерполяция текущей скорости к целевой во время зажатия мыши
+                _currentVelocity = Vector3.Lerp(_currentVelocity, _targetVelocity, SmoothTime / deltaTime);
             }
 
             // Плавное замедление после отпускания мыши
