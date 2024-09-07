@@ -23,6 +23,8 @@ namespace Project.Runtime.ECS.Systems.Pathfinding
         private Filter _filter;
 
         // private Dictionary<(Vector2Int, Vector2Int), List<Vector2Int>> _pathCache = new();
+        private float _delay = 0;
+        private const float DelayTime = 0.3f;
         
         public void OnAwake()
         {
@@ -34,6 +36,10 @@ namespace Project.Runtime.ECS.Systems.Pathfinding
 
         public void OnUpdate(float deltaTime)
         {
+            _delay -= deltaTime;
+            if (_delay > 0) return;
+            _delay = DelayTime;
+            
             foreach (var entity in _filter)
             {
                 ref readonly var request = ref entity.GetComponent<AStarCalculatePathRequest>();

@@ -60,7 +60,7 @@ namespace Project.Runtime.ECS
             _commonSystemsGroup.AddSystem<RuntimeStatsResetSystem>();
             
             // --- Building ---
-            _commonSystemsGroup.AddInitializer<InitFirstBuildingsInitializer>();
+            _commonSystemsGroup.AddInitializer<SpawnFirstBuildingsInitializer>();
             // Building by user
             _commonSystemsGroup.AddSystem<StartPlacingBuildingSystem>();
             _commonSystemsGroup.AddSystem<PlacingBuildingSystem>();

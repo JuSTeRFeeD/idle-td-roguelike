@@ -34,7 +34,7 @@ namespace Project.Runtime.Features.Building
                 pos.y* CellSize) + new Vector3(CellHalf - 0.001f, 0, CellHalf - 0.001f);
             
             // What happening?
-            // Отнимаем -0.01f чтобы округление в ConvertWorldToGridPos с 0.5 не было вверх
+            // Отнимаем -0.001f чтобы округление в ConvertWorldToGridPos с 0.5 не было вверх
             // Example: Mathf.RoundToInt(59.5) даст 60 и мы выйдем за пределы карты
         }
 

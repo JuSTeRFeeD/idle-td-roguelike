@@ -173,7 +173,7 @@ namespace Project.Runtime.ECS.Systems.Building
                     buildingEntity.SetComponent(new ProjectileParams
                     {
                         EntityView = attackTower.ProjectileView,
-                        ProjectileSpeed = 6f,
+                        ProjectileSpeed = 8f,
                     });
                     break;
                 }

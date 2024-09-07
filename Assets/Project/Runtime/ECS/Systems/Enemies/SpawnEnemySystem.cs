@@ -30,6 +30,16 @@ namespace Project.Runtime.ECS.Systems.Enemies
                 
                 enemy.SetComponent(new EnemyTag());
                 
+                // Health
+                enemy.SetComponent(new HealthDefault
+                {
+                    Value = request.EnemyConfig.Health
+                });
+                enemy.SetComponent(new HealthCurrent
+                {
+                    Value = request.EnemyConfig.Health
+                });
+                
                 // Move
                 enemy.SetComponent(new MoveSpeed
                 {

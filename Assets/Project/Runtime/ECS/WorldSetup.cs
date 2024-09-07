@@ -22,6 +22,9 @@ namespace Project.Runtime.ECS
         [SerializeField] private Transform spawnBasePoint;
         [SerializeField] private BuildingConfig baseBuildingConfig;
         
+        [Header("Environment Props")]
+        [SerializeField] private BuildingConfig rock01;
+        
         [Header("Views")]
         [SerializeField] private WorldProgressBarView worldProgressBarView;
         [SerializeField] private WorkerUnitView unitLumberjack;
@@ -29,16 +32,24 @@ namespace Project.Runtime.ECS
         [SerializeField] private BuildingConfig treeConfig;
         [SerializeField] private BuildingConfig stoneConfig;
 
+        // Player And World
         public DayNightConfig DayNightConfig => dayNightConfig;
         public PlayerLevelsConfig PlayerLevelsConfig => playerLevelsConfig;
         public ActiveCardsListConfig ActiveCardsListConfig => activeCardsListConfig;
 
+        // Waves & Enemies
         public NightWavesConfig NightWavesConfig => nightWavesConfig;
         
+        
+        // Building
         public PlacingCellView PlacingCellView => placingCellView;
         public Transform SpawnBasePoint => spawnBasePoint;
         public BuildingConfig BaseBuildingConfig => baseBuildingConfig;
 
+        // Environment props
+        public BuildingConfig Rock01 => rock01;
+        
+        // Views
         public WorldProgressBarView WorldProgressBarView => worldProgressBarView;
         public WorkerUnitView UnitLumberjack => unitLumberjack;
         public WorkerUnitView UnitMiner => unitMiner;

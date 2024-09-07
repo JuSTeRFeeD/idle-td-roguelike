@@ -1,11 +1,10 @@
-using Project.Runtime.ECS.Components;
 using Project.Runtime.ECS.Views;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Project.Runtime.Scriptable.Buildings
 {
-    // [CreateAssetMenu(menuName = "Game/Buildings/Building")]
+    [CreateAssetMenu(menuName = "Game/Buildings/Environment Building")]
     public class BuildingConfig : UniqueConfig
     {
         [Title("Building")]

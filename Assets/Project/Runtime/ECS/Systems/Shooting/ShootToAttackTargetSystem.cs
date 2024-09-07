@@ -28,8 +28,15 @@ namespace Project.Runtime.ECS.Systems.Shooting
         {
             foreach (var entity in _filter)
             {
-                ref readonly var attackRangeRuntime = ref entity.GetComponent<AttackRangeRuntime>().Value;
                 ref readonly var attackTarget = ref entity.GetComponent<AttackTarget>().Value;
+                
+                if (attackTarget.IsNullOrDisposed())
+                {
+                    entity.RemoveComponent<AttackTarget>();
+                    continue;
+                }
+                
+                ref readonly var attackRangeRuntime = ref entity.GetComponent<AttackRangeRuntime>().Value;
                 
                 // Now this entity out of range
                 if (Vector3.SqrMagnitude(attackTarget.ViewPosition() - entity.ViewPosition()) >

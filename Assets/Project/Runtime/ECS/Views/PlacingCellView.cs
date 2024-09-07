@@ -30,7 +30,7 @@ namespace Project.Runtime.ECS.Views
         {
             ref readonly var owner = ref Entity.Owner();
             var targetPos = owner.ViewTransform().position;
-            targetPos.y = 0.2f;
+            targetPos.y = 0.1f;
             transform.position = targetPos;
             SetCollided(owner.GetComponent<PlacingBuildingCard>().IsCollisionDetected);
         }

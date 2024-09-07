@@ -83,6 +83,21 @@ namespace Project.Runtime.Features.Building
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector2Int ConvertToGrid(int index)
+        {
+            if (index < 0 || index >= mapSize * mapSize)
+            {
+                throw new Exception($"Index {index} is out of bounds");
+            }
+
+            int x = index % mapSize;
+            int y = index / mapSize;
+
+            return new Vector2Int(x, y);
+        }
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private int ConvertToIndex(Vector2Int coordinates)
         {
             var x = coordinates.x;
@@ -90,8 +105,7 @@ namespace Project.Runtime.Features.Building
 
             if (x < 0 || x >= mapSize || y < 0 || y >= mapSize)
             {
-                Debug.LogError("Coordinates are out of bounds!");
-                return -1;
+                throw new Exception($"Coordinates ${coordinates} are out of bounds");
             }
 
             return y * mapSize + x;

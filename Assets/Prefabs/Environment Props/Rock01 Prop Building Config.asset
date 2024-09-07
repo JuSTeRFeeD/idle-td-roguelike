@@ -9,15 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1192c25d6bb944df8e5380c210c54a6a, type: 3}
-  m_Name: Dev Enemy
+  m_Script: {fileID: 11500000, guid: d47d5da7bf4e4cfdb422cb6a4f3b3817, type: 3}
+  m_Name: Rock01 Prop Building Config
   m_EditorClassIdentifier: 
   <ShowUniqueId>k__BackingField: 0
-  uniqueID: 3f89bcfc-2a4b-4b82-9eb3-39af094beed3
-  enemyView: {fileID: 1345247304330114684, guid: d9bcf2e4c5957fd429bbcd7386433d2f,
-    type: 3}
-  health: 30
-  moveSpeed: 3
-  attackDamage: 5
-  attackRange: 3
-  attackCooldown: 1
+  uniqueID: 9f8f5a96-40ce-40ea-afe7-bc5b16efd471
+  title: 
+  prefab: {fileID: -4447984726544198524, guid: 874e4a1eb37d2614ba1b1b60ea0cd6d9, type: 3}
+  size: 2
