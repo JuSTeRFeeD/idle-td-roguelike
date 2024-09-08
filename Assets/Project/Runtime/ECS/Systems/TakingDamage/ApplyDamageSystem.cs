@@ -1,11 +1,15 @@
 using Project.Runtime.ECS.Components;
+using Project.Runtime.ECS.Extensions;
 using Scellecs.Morpeh;
 using UnityEngine;
+using VContainer;
 
 namespace Project.Runtime.ECS.Systems.TakingDamage
 {
     public class ApplyDamageSystem : ISystem
     {
+        [Inject] private WorldSetup _worldSetup;
+        
         public World World { set; get; }
     
         private Filter _filter;
@@ -39,11 +43,40 @@ namespace Project.Runtime.ECS.Systems.TakingDamage
                 entity.RemoveComponent<DamageAccumulator>();
                 
                 Debug.Log($"Taked damage {damageAccumulator}. CurHP {healthCurrent}");
+
+                if (healthCurrent > 0)
+                {
+                    SpawnHealthbarIfNotSpawned(entity);
+                    continue;
+                }
+
+                // destroy healthbar
+                if (entity.Has<HealthbarEntityRef>()) 
+                {
+                    entity.GetComponent<HealthbarEntityRef>().Value.Dispose();
+                }
+                // destroy entity
+                entity.Dispose(); 
                 
-                if (healthCurrent > 0) continue;
-                
-                entity.Dispose();
             }
+        }
+
+        private void SpawnHealthbarIfNotSpawned(in Entity entity)
+        {
+            if (entity.Has<HealthbarEntityRef>()) return;
+            
+            var hbEntity = World.CreateEntity();
+            hbEntity.SetComponent(new Owner()
+            {
+                Entity = entity
+            });
+            hbEntity.SetComponent(new HealthbarTag());
+            hbEntity.InstantiateView(_worldSetup.WorldHealthBarView, entity.ViewPosition(), Quaternion.identity);
+            
+            entity.SetComponent(new HealthbarEntityRef
+            {
+                Value = hbEntity
+            });
         }
 
         public void Dispose()

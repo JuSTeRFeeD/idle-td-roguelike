@@ -46,7 +46,8 @@ namespace Project.Runtime.ECS.Systems.Enemies
                 }
                 _currentSpawnDelay = Random.Range(_waveData.spawnDelayBetween.x, _waveData.spawnDelayBetween.y);
 
-                var baseTowerPos = _baseTowerFilter.First().ViewPosition();
+                var baseTowerPos = _baseTowerFilter.First();
+                if (baseTowerPos.IsNullOrDisposed()) return;
                 
                 foreach (var waveDataEnemy in _waveData.enemies)
                 {
@@ -59,7 +60,7 @@ namespace Project.Runtime.ECS.Systems.Enemies
                     spawnRequest.SetComponent(new SpawnEnemyRequest
                     {
                         EnemyConfig = waveDataEnemy.enemyConfig,
-                        Position = baseTowerPos + spawnDir.normalized * SpawnRadius
+                        Position = baseTowerPos.ViewPosition() + spawnDir.normalized * SpawnRadius
                     });
                         
                     if (--_limits[waveDataEnemy.enemyConfig] <= 0)

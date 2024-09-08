@@ -170,7 +170,7 @@ namespace Project.Runtime.ECS.Systems.Building
                     {
                         Value = attackTower.AttackCooldown
                     });
-                    buildingEntity.SetComponent(new ProjectileParams
+                    buildingEntity.SetComponent(new AttackProjectileData
                     {
                         EntityView = attackTower.ProjectileView,
                         ProjectileSpeed = 8f,

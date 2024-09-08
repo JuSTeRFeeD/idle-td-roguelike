@@ -21,8 +21,8 @@ namespace Project.Runtime.Features.Building
         public static Vector2Int ConvertWorldToGridPos(Vector3 pos)
         {
             return new Vector2Int(
-                Mathf.RoundToInt(pos.x / CellSize), 
-                Mathf.RoundToInt(pos.z / CellSize));
+                Mathf.FloorToInt(pos.x / CellSize), 
+                Mathf.FloorToInt(pos.z / CellSize));
         }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

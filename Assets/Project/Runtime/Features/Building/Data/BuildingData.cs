@@ -14,5 +14,11 @@ namespace Project.Runtime.Features.Building.Data
         /// </summary>
         [System.NonSerialized]
         public bool IsRootPos;
+
+        /// <summary>
+        /// Указывавет какой idx является rootIdx 
+        /// </summary>
+        [System.NonSerialized]
+        public int RootIdx;
     }
 }

@@ -82,4 +82,19 @@ namespace Project.Runtime.ECS.Components
     {
         public float Value;
     }
+
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct HealthbarTag : IComponent
+    {
+    }
+
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct HealthbarEntityRef : IComponent
+    {
+        public Entity Value;
+    }
 }

@@ -22,4 +22,4 @@ MonoBehaviour:
   health: 50
   damage: 10
   attackCooldown: 1.5
-  attackRange: 5
+  attackRange: 8

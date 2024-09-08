@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Project.Runtime.ECS.Components;
+using Project.Runtime.ECS.Extensions;
 using Scellecs.Morpeh;
 using UnityEngine;
 
@@ -62,7 +63,7 @@ namespace Project.Runtime.ECS.Systems.Units
                 
                 foreach (var resourceEntity in resourceFilter)
                 {
-                    var pos = resourceEntity.GetComponent<ViewEntity>().Value.transform.position;
+                    var pos = resourceEntity.ViewPosition();
 
                     var sqrDist = Vector3.SqrMagnitude(pos - unitPos);
                     if (sqrDist > minSqrDis || used.Contains(resourceEntity))

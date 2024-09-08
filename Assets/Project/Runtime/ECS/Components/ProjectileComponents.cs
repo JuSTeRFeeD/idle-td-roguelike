@@ -40,7 +40,7 @@ namespace Project.Runtime.ECS.Components
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct ProjectileParams : IComponent
+    public struct AttackProjectileData : IComponent
     {
         public EntityView EntityView;
         public float ProjectileSpeed;

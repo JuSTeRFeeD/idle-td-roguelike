@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac09601f823c4702b409dbc5263e4831, type: 3}
   m_Name: Day Night Time Config
   m_EditorClassIdentifier: 
-  dayTime: 15
+  dayTime: 2
   nightTime: 15

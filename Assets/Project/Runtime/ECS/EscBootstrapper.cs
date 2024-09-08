@@ -94,6 +94,7 @@ namespace Project.Runtime.ECS
             _commonSystemsGroup.AddSystem<NightTimeWaveSystem>();
             _commonSystemsGroup.AddSystem<SpawnEnemySystem>();
             _commonSystemsGroup.AddSystem<EnemyFindTargetSystem>();
+            _commonSystemsGroup.AddSystem<EnemyMeleeAttackSystem>();
             
             // --- Combat ---
             _postTickSystems.AddSystem<AttackCooldownSystem>();

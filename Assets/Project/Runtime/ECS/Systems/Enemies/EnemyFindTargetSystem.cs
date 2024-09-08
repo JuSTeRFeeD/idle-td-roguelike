@@ -20,6 +20,7 @@ namespace Project.Runtime.ECS.Systems.Enemies
                 .With<EnemyTag>()
                 .Without<AStarPath>()
                 .Without<AStarCalculatePathRequest>()
+                .Without<AttackTarget>()
                 .Build();
             
             _buildingsFilter = World.Filter
@@ -34,7 +35,7 @@ namespace Project.Runtime.ECS.Systems.Enemies
             foreach (var entity in _filter)
             {
                 var entityPos = entity.ViewPosition();
-                Entity nearest = null;
+                Entity nearestBuildingEntity = null;
                 var nearestPosition = Vector3.zero;
                 var minSqrDist = float.MaxValue;
                 foreach (var buildingEntity in _buildingsFilter)
@@ -43,14 +44,15 @@ namespace Project.Runtime.ECS.Systems.Enemies
                     var sqrDist = Vector3.SqrMagnitude(pos - entityPos);
                     if (sqrDist > minSqrDist) continue;
                     minSqrDist = sqrDist;
-                    nearest = buildingEntity;
+                    nearestBuildingEntity = buildingEntity;
                     nearestPosition = pos;
                 }
 
-                if (nearest == null) continue;
+                if (nearestBuildingEntity == null) continue;
                 
                 entity.SetComponent(new AStarCalculatePathRequest
                 {
+                    Entity = nearestBuildingEntity,
                     TargetPosition = nearestPosition
                 });
             }

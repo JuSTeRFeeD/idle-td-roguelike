@@ -16,7 +16,7 @@ namespace Project.Runtime.ECS.Systems.Shooting
             _filter = World.Filter
                 .With<AttackTarget>()
                 .With<ShootPoint>()
-                .With<ProjectileParams>()
+                .With<AttackProjectileData>()
                 .With<AttackDamageRuntime>()
                 .With<AttackCooldownRuntime>()
                 .With<AttackRangeRuntime>()
@@ -46,7 +46,7 @@ namespace Project.Runtime.ECS.Systems.Shooting
                     continue;
                 }
                 
-                ref readonly var projectileParams = ref entity.GetComponent<ProjectileParams>();
+                ref readonly var projectileParams = ref entity.GetComponent<AttackProjectileData>();
                 ref readonly var attackCooldownRuntime = ref entity.GetComponent<AttackCooldownRuntime>().Value;
                 ref readonly var attackDamageRuntime = ref entity.GetComponent<AttackDamageRuntime>().Value;
                 var shootPoint = entity.GetComponent<ShootPoint>().Value.position;

@@ -55,19 +55,38 @@ namespace Project.Runtime.ECS.Systems.Pathfinding
                 {
                     viewTransform.position = path.CurrentTargetPosition;
                     path.CurrentPathIndex++;
+                    
+                    // Destination reached
                     if (path.CurrentPathIndex >= path.Path.Count)
                     {
                         direction = path.RealTargetPosition - viewTransform.position;
                         direction.y = 0;
-                        viewTransform.rotation = Quaternion.LookRotation(direction, Vector3.up);
+                        viewTransform.rotation = Quaternion.LookRotation(direction.normalized, Vector3.up);
                         
                         entity.SetComponent(new MoveToTargetCompleted());
                         entity.RemoveComponent<AStarPath>();
                         continue;
                     }
-                    path.CurrentTargetPosition = GridUtils.ConvertGridToWorldPos(path.Path[path.CurrentPathIndex]);
+                    
+                    // Last point
+                    if (path.CurrentPathIndex == path.Path.Count - 1)
+                    {
+                        var closeLastPointPos = CloseLastPointPos(viewPosition, path);
+                        path.CurrentTargetPosition = closeLastPointPos;
+                    }
+                    else
+                    {
+                        path.CurrentTargetPosition = GridUtils.ConvertGridToWorldPos(path.Path[path.CurrentPathIndex]);
+                    }
                 }
             }
+        }
+
+        private static Vector3 CloseLastPointPos(Vector3 viewPosition, AStarPath path)
+        {
+            var lastPointPos = GridUtils.ConvertGridToWorldPos(path.Path[^1]);
+            var closeLastPointPos = lastPointPos + (path.RealTargetPosition - viewPosition).normalized * .4f;
+            return closeLastPointPos;
         }
 
         public void Dispose()

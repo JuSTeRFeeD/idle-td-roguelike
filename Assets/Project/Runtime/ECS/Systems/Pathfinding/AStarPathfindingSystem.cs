@@ -45,7 +45,6 @@ namespace Project.Runtime.ECS.Systems.Pathfinding
                 ref readonly var request = ref entity.GetComponent<AStarCalculatePathRequest>();
                 var gridPos = GridUtils.ConvertWorldToGridPos(entity.ViewPosition());
                 var targetGridPos = GridUtils.ConvertWorldToGridPos(request.TargetPosition);
-
                 var size = 1;
                 if (!request.Entity.IsNullOrDisposed() && request.Entity.Has<BuildingTag>())
                 {
@@ -55,7 +54,6 @@ namespace Project.Runtime.ECS.Systems.Pathfinding
                 var result = FindPath(gridPos, targetGridPos, size);
                 if (result == null) continue;
                 
-                entity.RemoveComponent<AStarCalculatePathRequest>();
                 entity.SetComponent(new AStarPath
                 {
                     CurrentPathIndex = 0,
@@ -63,6 +61,7 @@ namespace Project.Runtime.ECS.Systems.Pathfinding
                     RealTargetPosition = request.TargetPosition,
                     Path = result
                 });
+                entity.RemoveComponent<AStarCalculatePathRequest>();
             }
         }
 
@@ -210,26 +209,32 @@ namespace Project.Runtime.ECS.Systems.Pathfinding
 
         private Vector2Int FindBestAvailableAdjacentPoint(Vector2Int start, Vector2Int occupiedEnd, int targetSize)
         {
-            var neighbors = GetNeighbors(occupiedEnd, _mapManager.MapSize, targetSize);
-            Vector2Int bestPoint = occupiedEnd;
-            int bestDistance = int.MaxValue;
+            // находим root индекс
+            var occupiedRootPosIdx = _mapManager.Buildings[occupiedEnd].RootIdx; 
+            
+            // по индексу берем root позицию
+            var occupiedRootPosition = _mapManager.ConvertToGrid(occupiedRootPosIdx);
+            
+            // берем соседние клетки вокруг строение с размером targetSize
+            var neighbors = GetNeighbors(occupiedRootPosition, _mapManager.MapSize, targetSize);
+            var bestPoint = occupiedEnd;
+            var bestDistance = float.MaxValue;
 
             foreach (var neighbor in neighbors)
             {
-                if (_mapManager.Buildings[neighbor] == null)
-                {
-                    int distance = GetHeuristic(start, neighbor);
-                    if (distance < bestDistance)
-                    {
-                        bestDistance = distance;
-                        bestPoint = neighbor;
-                    }
-                }
+                if (_mapManager.Buildings[neighbor] != null) continue;
+                
+                var distance = GetHeuristic(start, neighbor);
+                if (distance >= bestDistance) continue;
+                
+                bestDistance = distance;
+                bestPoint = neighbor;
             }
 
             return bestPoint;
         }
 
+        /// ClampToMap pos and return outsideBestPos if gridCell occupied  
         private Vector2Int FindNearestAvailableBorderPoint(Vector2Int outsidePoint)
         {
             var bestPoint = ClampToMap(outsidePoint);
@@ -238,15 +243,15 @@ namespace Project.Runtime.ECS.Systems.Pathfinding
                 return bestPoint;
             }
 
-            int bestDistance = int.MaxValue;
+            var bestDistance = int.MaxValue;
 
-            for (int x = 0; x < _mapManager.MapSize; x++)
+            for (var x = 0; x < _mapManager.MapSize; x++)
             {
                 CheckAndUpdateBestPoint(new Vector2Int(x, 0), ref bestPoint, ref bestDistance, outsidePoint);
                 CheckAndUpdateBestPoint(new Vector2Int(x, _mapManager.MapSize - 1), ref bestPoint, ref bestDistance, outsidePoint);
             }
 
-            for (int y = 0; y < _mapManager.MapSize; y++)
+            for (var y = 0; y < _mapManager.MapSize; y++)
             {
                 CheckAndUpdateBestPoint(new Vector2Int(0, y), ref bestPoint, ref bestDistance, outsidePoint);
                 CheckAndUpdateBestPoint(new Vector2Int(_mapManager.MapSize - 1, y), ref bestPoint, ref bestDistance, outsidePoint);
@@ -258,15 +263,13 @@ namespace Project.Runtime.ECS.Systems.Pathfinding
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void CheckAndUpdateBestPoint(Vector2Int point, ref Vector2Int bestPoint, ref int bestDistance, Vector2Int targetPoint)
         {
-            if (_mapManager.Buildings[point] == null)
-            {
-                int distance = GetHeuristic(targetPoint, point);
-                if (distance < bestDistance)
-                {
-                    bestDistance = distance;
-                    bestPoint = point;
-                }
-            }
+            if (_mapManager.Buildings[point] != null) return;
+            
+            var distance = GetHeuristic(targetPoint, point);
+            if (distance >= bestDistance) return;
+            
+            bestDistance = distance;
+            bestPoint = point;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

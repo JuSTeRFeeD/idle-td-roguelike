@@ -38,18 +38,25 @@ namespace Project.Runtime.ECS.Systems.Building
         {
             var gridPos = GridUtils.ConvertWorldToGridPos(position);
 
+            Debug.Log("ADD EXCLUDE POINTS");
+            Debug.Log($"pos: {position} > gridPos: {gridPos} | size: {buildingSize}");
+            
             for (var x = 0; x < buildingSize; x++)
             {
                 for (var z = 0; z < buildingSize; z++)
                 {
                     var pos = new Vector2Int(gridPos.x + x, gridPos.y + z);
                     _excludePoints.Add(pos);
+                    Debug.Log($"pos {pos}");
+                    
+                    foreach (var neighbor in AStarPathfindingSystem.GetNeighbors(pos, _mapManager.MapSize))
+                    {
+                        _excludePoints.Add(neighbor);
+                        Debug.Log($"neighbor {neighbor}");
+                    }
                 }
             }
-            foreach (var pos in AStarPathfindingSystem.GetNeighbors(gridPos, _mapManager.MapSize, buildingSize + 1))
-            {
-                _excludePoints.Add(pos);
-            }
+            Debug.Log("===");
         }
 
         private void SpawnBaseTower()
@@ -80,6 +87,7 @@ namespace Project.Runtime.ECS.Systems.Building
                 .Where(i => 
                     i.Value is null && 
                     !_excludePoints.Contains(i.Key) &&
+                    // AStarPathfindingSystem.GetNeighbors(i.Key, _mapManager.MapSize, propConfig.Size).All(neightbor => neightbor != i.Key) && 
                     BuildingCanBePlacedOnGridPos(i.Key, propConfig.Size)
                 )
                 .ToList();
@@ -88,7 +96,6 @@ namespace Project.Runtime.ECS.Systems.Building
             {
                 var idx = Random.Range(0, possiblePositions.Count);
                 var position = GridUtils.ConvertGridToWorldPos(possiblePositions[idx].Key);
-                Debug.Log(position);
                 possiblePositions.RemoveAt(idx);
                 
                 var spawnRequest = World.CreateEntity();
@@ -104,22 +111,14 @@ namespace Project.Runtime.ECS.Systems.Building
 
         private void SpawnResources()
         {
-            // Исключаем точки вблизи от построек на карте
-            // foreach (var (gridPos, building) in _mapManager.Buildings)
-            // {
-            //     if (building == null) continue;
-            //     
-            //     _excludePoints.Add(gridPos);
-            //     foreach (var posAround in AStarPathfindingSystem.GetNeighbors(gridPos, _mapManager.MapSize))
-            //     {
-            //         _excludePoints.Add(posAround);
-            //     }
-            // }
-            
             // Список возможных точек куда можно разместить ресурс
             var possiblePositions = _mapManager.Buildings
                 .Select(i => i)
-                .Where(i => i.Value is null && !_excludePoints.Contains(i.Key))
+                .Where(i => 
+                    i.Value is null && 
+                    !_excludePoints.Contains(i.Key) // &&
+                    // AStarPathfindingSystem.GetNeighbors(i.Key, _mapManager.MapSize, 1).All(neightbor => neightbor != i.Key)
+                )
                 .ToList();
             
             for (var i = 0; i < ResourcesToSpawn; i++)

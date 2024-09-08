@@ -42,7 +42,8 @@ namespace Project.Runtime.Features.Building
                         id = buildingConfig.uniqueID,
                         gridIdx = ConvertToIndex(pos),
                         rotY = rotation.eulerAngles.y,
-                        IsRootPos = isRootPos
+                        IsRootPos = isRootPos,
+                        RootIdx = ConvertToIndex(gridPos)
                     };
                     if (isRootPos)
                     {
@@ -159,7 +160,7 @@ namespace Project.Runtime.Features.Building
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawSphere(GridUtils.ConvertGridToWorldPos(new Vector2Int(31, 31)) + Vector3.up, 0.5f);
+            Gizmos.DrawSphere(GridUtils.ConvertGridToWorldPos(GridUtils.ConvertWorldToGridPos(new Vector3(30, 0, 30))) + Vector3.up, 0.5f);
             
             if (Application.isPlaying)
             {
