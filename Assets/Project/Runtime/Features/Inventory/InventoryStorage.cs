@@ -10,12 +10,21 @@ namespace Project.Runtime.Features.Inventory
 
         public event Action OnCardsChange; 
         
+        public List<CardConfig> GetBuildingsList() => new(_cards);
+        
         public void AddCard(CardConfig cardConfig)
         {
             _cards.Add(cardConfig);
             OnCardsChange?.Invoke();
         }
 
-        public List<CardConfig> GetBuildingsList() => new(_cards);
+        public void RemoveCard(string cardConfigId)
+        {
+            var idx = _cards.FindIndex(i => i.uniqueID == cardConfigId);
+            if (idx == -1) return;
+            _cards.RemoveAt(idx);
+            OnCardsChange?.Invoke();
+        }
+
     }
 }

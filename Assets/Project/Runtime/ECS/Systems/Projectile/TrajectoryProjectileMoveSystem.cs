@@ -29,15 +29,21 @@ namespace Project.Runtime.ECS.Systems.Projectile
         {
             foreach (var projectileEntity in _filter)
             {
+                ref readonly var attackTargetEntity = ref projectileEntity.GetComponent<AttackTarget>().Value;
+                if (attackTargetEntity.IsNullOrDisposed())
+                {
+                    projectileEntity.Dispose();
+                    continue;
+                }
+                
                 ref readonly var trajectoryProjectile = ref projectileEntity.GetComponent<TrajectoryProjectile>();
-                ref readonly var attackTargetEntity = ref projectileEntity.GetComponent<AttackTarget>();
                 ref readonly var moveSpeedRuntime = ref projectileEntity.GetComponent<MoveSpeedRuntime>();
                 ref var projectileMoveData = ref projectileEntity.GetComponent<ProjectileMoveData>();
                 var transform = projectileEntity.ViewTransform();
                 
                 projectileMoveData.TravelTime += deltaTime;
 
-                var targetPosition = attackTargetEntity.Value.ViewPosition() + Vector3.up;
+                var targetPosition = attackTargetEntity.ViewPosition() + Vector3.up;
                 var startMovePosition = projectileMoveData.StartMovePosition;
 
                 var distance = Vector3.Distance(startMovePosition, targetPosition);
@@ -53,9 +59,12 @@ namespace Project.Runtime.ECS.Systems.Projectile
                 transform.position = currentPosition;
                 
                 // Проверяем, достигли ли цели
-                if (progress < 1f) continue;
+                if (progress < 1f)
+                {
+                    continue;
+                }
                 ref readonly var damage = ref projectileEntity.GetComponent<AttackDamageRuntime>().Value;
-                attackTargetEntity.Value.AddOrGet<DamageAccumulator>().Value += damage;
+                attackTargetEntity.AddOrGet<DamageAccumulator>().Value += damage;
                 projectileEntity.Dispose();
             }
         }

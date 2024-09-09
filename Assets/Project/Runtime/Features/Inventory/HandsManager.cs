@@ -64,6 +64,7 @@ namespace Project.Runtime.Features.Inventory
                 i.OnDragCard -= OnDragCard;
                 Destroy(i.gameObject);
             }
+            _cardWidgets.Clear();
         }
 
         private void OnDragCard(CardWidget cardWidget, PointerEventData eventData)

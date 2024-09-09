@@ -18,6 +18,7 @@ namespace Project.Runtime.ECS.Systems.Enemies
         private Filter _nightFilter;
         private Filter _baseTowerFilter;
 
+        private int _lastSpawnedIndex = -1;
         private float _currentSpawnDelay;
         private NightWavesConfig.WaveData _waveData;
         private readonly Dictionary<EnemyConfig, int> _limits = new();
@@ -48,7 +49,7 @@ namespace Project.Runtime.ECS.Systems.Enemies
 
                 var baseTowerPos = _baseTowerFilter.First();
                 if (baseTowerPos.IsNullOrDisposed()) return;
-                
+
                 foreach (var waveDataEnemy in _waveData.enemies)
                 {
                     if (!_limits.ContainsKey(waveDataEnemy.enemyConfig)) continue;
@@ -68,6 +69,11 @@ namespace Project.Runtime.ECS.Systems.Enemies
                         _limits.Remove(waveDataEnemy.enemyConfig);
                     }
                 }
+
+                if (_limits.Count == 0)
+                {
+                    _waveData = null;
+                }
                 
                 return;
             }
@@ -75,9 +81,15 @@ namespace Project.Runtime.ECS.Systems.Enemies
             foreach (var entity in _nightFilter)
             {
                 ref readonly var dayNight = ref entity.GetComponent<DayNight>();
-                // cuz dayNumber starts with 1
-                _waveData = _worldSetup.NightWavesConfig.GetWave(dayNight.DayNumber - 1); 
+                var index = dayNight.DayNumber - 1; // cuz dayNumber starts with 1, array from 0
+                if (_lastSpawnedIndex == index || index >= _worldSetup.NightWavesConfig.WavesCount)
+                {
+                    continue;
+                }
+                
                 _limits.Clear();
+                _lastSpawnedIndex = index;
+                _waveData = _worldSetup.NightWavesConfig.GetWave(index); 
                 foreach (var waveDataEnemy in _waveData.enemies)
                 {
                     _limits.Add(waveDataEnemy.enemyConfig, waveDataEnemy.countToSpawn);   

@@ -1,5 +1,6 @@
 using Project.Runtime.ECS.Components;
 using Project.Runtime.Features;
+using Project.Runtime.Features.CameraControl;
 using Scellecs.Morpeh;
 using VContainer;
 
@@ -7,6 +8,7 @@ namespace Project.Runtime.ECS.Systems.Player
 {
     public class PlayerDataInitializer : IInitializer
     {
+        [Inject] private CameraController _cameraController;
         [Inject] private WorldSetup _worldSetup;
         [Inject] private HeaderUI _headerUI;
         
@@ -14,6 +16,8 @@ namespace Project.Runtime.ECS.Systems.Player
 
         public void OnAwake()
         {
+            _cameraController.SetPosition(_worldSetup.SpawnBasePoint.position);
+            
             var dataEntity = World.CreateEntity();
             dataEntity.SetComponent(new TotalResourcesData
             {

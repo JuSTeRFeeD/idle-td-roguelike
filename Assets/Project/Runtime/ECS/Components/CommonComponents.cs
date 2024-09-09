@@ -19,6 +19,13 @@ namespace Project.Runtime.ECS.Components
         public float min;
         public float max;
     }
+
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct ToDestroyTag : IComponent
+    {
+    }
     
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]

@@ -6,56 +6,44 @@ using VContainer;
 
 namespace Project.Runtime.ECS.Systems.TakingDamage
 {
-    public class ApplyDamageSystem : ISystem
+    public class BaseTowerApplyDamageSystem : ISystem
     {
         [Inject] private WorldSetup _worldSetup;
         
-        public World World { set; get; }
-    
-        private Filter _filter;
-        private Stash<HealthCurrent> _healthCurrentStash;
-        private Stash<DamageAccumulator> _damageAccumulatorStash;
+        public World World { get; set; }
 
+        private Filter _filter;
+        
         public void OnAwake()
         {
             _filter = World.Filter
+                .With<BaseTowerTag>()
                 .With<HealthCurrent>()
                 .With<DamageAccumulator>()
                 .Build();
-
-            _healthCurrentStash = World.GetStash<HealthCurrent>();
-            _damageAccumulatorStash = World.GetStash<DamageAccumulator>();
         }
 
         public void OnUpdate(float deltaTime)
         {
             foreach (var entity in _filter)
             {
-                ref var healthCurrent = ref _healthCurrentStash.Get(entity).Value;
-                ref var damageAccumulator = ref _damageAccumulatorStash.Get(entity).Value;
-                
-                healthCurrent -= damageAccumulator;
-                
-                // TODO: чисто ради эксперимента посмотреть что будет быстрее:
-                // 1. удалять компонент (структурное изменение)
-                // 2. damageAccumulator = 0 делать (обнуление урона)
-                // *во втором случ все существа будут попадать в эту систему после первого получения урона
-                entity.RemoveComponent<DamageAccumulator>();
-                
-                Debug.Log($"Taked damage {damageAccumulator}. CurHP {healthCurrent}");
+                ref readonly var damageAccum = ref entity.GetComponent<DamageAccumulator>();
+                ref var health = ref entity.GetComponent<HealthCurrent>().Value;
 
-                if (healthCurrent > 0)
+                health -= damageAccum.DamagersAmount;
+                entity.RemoveComponent<DamageAccumulator>();
+
+                if (health > 0)
                 {
                     SpawnHealthbarIfNotSpawned(entity);
                     continue;
                 }
                 
-                entity.SetComponent(new ToDestroyTag()); 
-                
+                entity.SetComponent(new ToDestroyTag());
             }
         }
-
-        // same code in BaseTowerApplyDamageSystem
+        
+        // same code in ApplyDamageSystem
         private void SpawnHealthbarIfNotSpawned(in Entity entity)
         {
             if (entity.Has<HealthbarEntityRef>()) return;

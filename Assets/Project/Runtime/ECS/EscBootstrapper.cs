@@ -102,7 +102,9 @@ namespace Project.Runtime.ECS
             _commonSystemsGroup.AddSystem<ShootToAttackTargetSystem>();
             _commonSystemsGroup.AddSystem<TrajectoryProjectileMoveSystem>();
             
+            _commonSystemsGroup.AddSystem<BaseTowerApplyDamageSystem>(); // will skip next system
             _commonSystemsGroup.AddSystem<ApplyDamageSystem>();
+            _commonSystemsGroup.AddSystem<DeathSystem>();
             
             _world.AddSystemsGroup(0, _commonSystemsGroup);
         }
@@ -118,6 +120,8 @@ namespace Project.Runtime.ECS
             _postTickSystems.AddSystem<TotalResourcesCountSystem>();
             
             _postTickSystems.AddSystem<DayNightSystem>();
+            
+            _postTickSystems.AddSystem<GameOverSystem>();
                 
             _world.AddSystemsGroup(4, _postTickSystems);
         }

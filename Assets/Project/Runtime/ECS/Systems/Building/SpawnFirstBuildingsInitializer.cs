@@ -38,25 +38,19 @@ namespace Project.Runtime.ECS.Systems.Building
         {
             var gridPos = GridUtils.ConvertWorldToGridPos(position);
 
-            Debug.Log("ADD EXCLUDE POINTS");
-            Debug.Log($"pos: {position} > gridPos: {gridPos} | size: {buildingSize}");
-            
             for (var x = 0; x < buildingSize; x++)
             {
                 for (var z = 0; z < buildingSize; z++)
                 {
                     var pos = new Vector2Int(gridPos.x + x, gridPos.y + z);
                     _excludePoints.Add(pos);
-                    Debug.Log($"pos {pos}");
                     
                     foreach (var neighbor in AStarPathfindingSystem.GetNeighbors(pos, _mapManager.MapSize))
                     {
                         _excludePoints.Add(neighbor);
-                        Debug.Log($"neighbor {neighbor}");
                     }
                 }
             }
-            Debug.Log("===");
         }
 
         private void SpawnBaseTower()

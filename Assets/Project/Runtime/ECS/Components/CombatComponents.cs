@@ -9,6 +9,7 @@ namespace Project.Runtime.ECS.Components
     public struct DamageAccumulator : IComponent
     {
         public float Value;
+        public int DamagersAmount;
     }
     
     [Il2CppSetOption(Option.NullChecks, false)]

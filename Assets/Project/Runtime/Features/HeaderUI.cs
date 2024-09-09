@@ -19,13 +19,13 @@ namespace Project.Runtime.Features
 
         public void SetResourcesAmount(TotalResourcesData totalResourcesData)
         {
-            woodAmountText.SetText($"{totalResourcesData.WoodAmount}/{totalResourcesData.WoodCapacity}");
-            stoneAmountText.SetText($"{totalResourcesData.StoneAmount}/{totalResourcesData.StoneCapacity}");
+            woodAmountText.SetText($"{totalResourcesData.WoodAmount} <size=80%>/ {totalResourcesData.WoodCapacity}");
+            stoneAmountText.SetText($"{totalResourcesData.StoneAmount} <size=80%>/ {totalResourcesData.StoneCapacity}");
         }
 
         public void SetUnitsAmount(TotalUnitsData totalUnitsData)
         {
-            unitsAmountText.SetText(totalUnitsData.UsedUnitsAmount, totalUnitsData.TotalUnitsAmount);
+            unitsAmountText.SetText($"{totalUnitsData.UsedUnitsAmount} <size=80%>/ {totalUnitsData.TotalUnitsAmount}");
         }
 
         public void SetDayNight(DayNight dayNight, bool isDay)

@@ -43,9 +43,17 @@ namespace Project.Runtime.ECS.Systems.Enemies
                 });
                 
                 ref readonly var attackDamage = ref entity.GetComponent<AttackDamageRuntime>().Value;
-                attackTarget.AddOrGet<DamageAccumulator>().Value += attackDamage;
+                ref var damageAccum = ref attackTarget.AddOrGet<DamageAccumulator>();
+                damageAccum.Value += attackDamage;
+                damageAccum.DamagersAmount++;
                 
                 Debug.Log($"Enemy melee attack to {attackTarget.ID}");
+
+                if (attackTarget.Has<BaseTowerTag>())
+                {
+                    // TODO: типо база ударила молнией этого энита
+                    entity.SetComponent(new ToDestroyTag());
+                }
             }
         }
 

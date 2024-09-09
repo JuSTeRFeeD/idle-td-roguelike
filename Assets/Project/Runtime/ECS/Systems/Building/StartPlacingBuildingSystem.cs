@@ -1,4 +1,3 @@
-using NTC.Pool;
 using Project.Runtime.ECS.Components;
 using Project.Runtime.ECS.Extensions;
 using Project.Runtime.ECS.Views;
@@ -60,6 +59,8 @@ namespace Project.Runtime.ECS.Systems.Building
             }
         }
 
+        // Drag карточки на поле
+        // Создается реквест на начало строительства
         private void OnCardUseStart(CardWidget cardWidget)
         {
             if (_handsManager.IsCardDrag) return;
@@ -83,7 +84,8 @@ namespace Project.Runtime.ECS.Systems.Building
                     requestEntity.SetComponent(new StartPlaceBuildingCardRequest
                     {
                         BuildingConfig = buildingPerk.BuildingConfig,
-                        StartPlacingPosition = placePosition
+                        StartPlacingPosition = placePosition,
+                        CardConfigId = cardWidget.CardConfig.uniqueID
                     });
                     
                     Debug.Log("[StartPlacingBuildingSystem] Drag карты на поле, создался реквест на начало строительства");
@@ -101,17 +103,19 @@ namespace Project.Runtime.ECS.Systems.Building
                 
                 var building = World.CreateEntity();
                 building.InstantiateView(data.BuildingConfig.Prefab, data.StartPlacingPosition, Quaternion.identity);
-
+                
+                // Placing cell view
                 var cellEntity = World.CreateEntity();
+                cellEntity.SetComponent(new Owner { Entity = building });
                 var view = cellEntity.InstantiateView<PlacingCellView>(_worldSetup.PlacingCellView, data.StartPlacingPosition, Quaternion.Euler(-90, 0, 0));
                 view.SetSize(data.BuildingConfig.Size);
-                cellEntity.SetComponent(new Owner { Entity = building });
                 
                 building.SetComponent(new PlacingBuildingCard
                 {
                     CurrentPosition = data.StartPlacingPosition,
                     BuildingConfig = data.BuildingConfig,
-                    CellEntity = cellEntity
+                    CellEntity = cellEntity,
+                    CardConfigId = data.CardConfigId
                 });
                 
                 // Камера будет следовать за объектом который строим. По ощущениям даже может и можно юзнуть

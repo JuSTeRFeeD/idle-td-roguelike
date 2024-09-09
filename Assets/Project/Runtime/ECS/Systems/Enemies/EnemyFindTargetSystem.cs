@@ -26,7 +26,7 @@ namespace Project.Runtime.ECS.Systems.Enemies
             _buildingsFilter = World.Filter
                 .With<BuildingTag>()
                 .With<ViewEntity>()
-                .Without<BuildingDestroyedTag>()
+                .Without<DestroyedTag>()
                 .Build();
         }
 

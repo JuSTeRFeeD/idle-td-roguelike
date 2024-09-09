@@ -19,7 +19,7 @@ namespace Project.Runtime.ECS.Systems
             _filter = World.Filter
                 .With<AttackRangeRuntime>()
                 .Without<AttackTarget>()
-                .Without<BuildingDestroyedTag>()
+                .Without<DestroyedTag>()
                 .Build();
 
             _enemiesFilter = World.Filter
@@ -29,7 +29,7 @@ namespace Project.Runtime.ECS.Systems
             _allyBuildingsFilter = World.Filter
                 .With<BuildingTag>()
                 .With<ViewEntity>()
-                .Without<BuildingDestroyedTag>()
+                .Without<DestroyedTag>()
                 .Build();
         }
 

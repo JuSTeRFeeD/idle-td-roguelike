@@ -1,3 +1,6 @@
+using System;
+using NTC.Pool;
+using Project.Runtime.ECS.Views;
 using Project.Runtime.Scriptable.Buildings;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
@@ -18,8 +21,20 @@ namespace Project.Runtime.ECS.Components
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)] 
-    public struct BuildingDestroyedTag : IComponent
+    public struct DestroyedTag : IComponent
     {
+    }
+
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct DestroyedView : IComponent, IDisposable
+    {
+        public EntityView Value;
+        public void Dispose()
+        {
+            if (Value) NightPool.Despawn(Value);
+        }
     }
     
     [Il2CppSetOption(Option.NullChecks, false)]
@@ -97,6 +112,7 @@ namespace Project.Runtime.ECS.Components
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct StartPlaceBuildingCardRequest : IComponent
     {
+        public string CardConfigId;
         public BuildingConfig BuildingConfig;
         public Vector3 StartPlacingPosition;
     }
@@ -111,6 +127,9 @@ namespace Project.Runtime.ECS.Components
         public Entity CellEntity; 
         public Vector3 CurrentPosition;
         public bool IsCollisionDetected;
+
+        /// !null when dragging card from inventory  
+        public string CardConfigId;
     }
     
     [Il2CppSetOption(Option.NullChecks, false)]

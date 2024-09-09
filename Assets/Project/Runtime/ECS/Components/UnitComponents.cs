@@ -42,13 +42,6 @@ namespace Project.Runtime.ECS.Components
     public struct UnitTag : IComponent
     {
     }
-
-    [Il2CppSetOption(Option.NullChecks, false)]
-    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
-    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct WorkerUnitTag : IComponent
-    {
-    }
     
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
@@ -157,5 +150,21 @@ namespace Project.Runtime.ECS.Components
         public Vector3 CurrentTargetPosition;
         public Vector3 RealTargetPosition;
         public List<Vector2Int> Path;
+    }
+
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct UnitMoveToRepairTower : IComponent
+    {
+        public Entity Value;
+    }
+    
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct UnitRepairingTower : IComponent
+    {
+        public Entity Value;
     }
 }

@@ -18,6 +18,7 @@ namespace Project.Runtime.ECS.Systems.Building
         [Inject] private MapManager _mapManager;
         [Inject] private CameraController _cameraController;
         [Inject] private HandsManager _handsManager;
+        [Inject] private InventoryStorage _inventoryStorage;
         
         public World World { get; set; }
 
@@ -51,6 +52,12 @@ namespace Project.Runtime.ECS.Systems.Building
                 
                 _cameraController.ResetTarget();
 
+                // Removing card from list
+                if (placingBuilding.CardConfigId != null)
+                {
+                    _inventoryStorage.RemoveCard(placingBuilding.CardConfigId);
+                }
+                
                 placingBuilding.CellEntity?.Dispose();
                 entity.Dispose();
             }

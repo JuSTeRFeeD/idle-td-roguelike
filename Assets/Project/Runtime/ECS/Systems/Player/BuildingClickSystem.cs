@@ -194,8 +194,6 @@ namespace Project.Runtime.ECS.Systems.Player
         {
             if (_selectedEntity.IsNullOrDisposed()) return;
             
-            
-
             // Отображение в UI сколько использует юнитов этот тавер
             
             if (_selectedEntity.Has<LumberjackUnitsOwnedTag>())

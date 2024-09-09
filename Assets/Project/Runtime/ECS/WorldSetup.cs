@@ -16,8 +16,9 @@ namespace Project.Runtime.ECS
         
         [Header("Waves & Enemies")]
         [SerializeField] private NightWavesConfig nightWavesConfig;
-        
-        [Header("Building")]
+
+        [Header("Building")] 
+        [SerializeField] private EntityView destroyedBuildingView;
         [SerializeField] private PlacingCellView placingCellView;
         [SerializeField] private Transform spawnBasePoint;
         [SerializeField] private BuildingConfig baseBuildingConfig;
@@ -43,6 +44,7 @@ namespace Project.Runtime.ECS
         
         
         // Building
+        public EntityView DestroyedBuildingView => destroyedBuildingView;
         public PlacingCellView PlacingCellView => placingCellView;
         public Transform SpawnBasePoint => spawnBasePoint;
         public BuildingConfig BaseBuildingConfig => baseBuildingConfig;

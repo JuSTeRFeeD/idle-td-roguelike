@@ -25,6 +25,8 @@ namespace Project.Runtime.Scriptable.Enemies
 
         [SerializeField] private List<WaveData> waves;
 
+        public int WavesCount => waves.Count;
+        
         public WaveData GetWave(int index)
         {
             return waves[index];
