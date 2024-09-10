@@ -37,7 +37,8 @@ namespace Project.Runtime.ECS.Systems.Enemies
                 });
                 enemy.SetComponent(new HealthCurrent
                 {
-                    Value = request.EnemyConfig.Health
+                    Value = request.EnemyConfig.Health,
+                    GhostValue = request.EnemyConfig.Health
                 });
                 
                 // Move

@@ -67,20 +67,23 @@ namespace Project.Runtime.ECS.Systems.Units
                 ref var backpack = ref _unitBackpackStash.Get(entity);
                 
                 targetHealth -= 1;
-                backpack.Amount += 1;
+                if (gathering.TargetResource.Has<TreeTag>()) backpack.WoodAmount++;
+                if (gathering.TargetResource.Has<StoneTag>()) backpack.StoneAmount++;
+
                 if (targetHealth <= 0)
                 {
                     // TODO: нужно "нормально наносить урон" и уночтижать entity с building(MapManager)
                     _mapManager.DestroyBuilding(gathering.TargetResource.ViewPosition());
                     gathering.TargetResource.Dispose();
 
-                    if (backpack.Amount < backpack.Capacity)
+                    if (!backpack.IsCapacityReached)
                     {
                         FindNewResource(entity);
+                        continue;
                     }
                 }
                 
-                if (backpack.Amount >= backpack.Capacity)
+                if (backpack.IsCapacityReached)
                 {
                     if (!gathering.TargetResource.IsNullOrDisposed())
                     {

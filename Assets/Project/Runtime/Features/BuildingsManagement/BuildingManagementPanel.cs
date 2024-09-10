@@ -26,7 +26,7 @@ namespace Project.Runtime.Features.BuildingsManagement
         [SerializeField] private StorageInfoWidget storageInfoWidgetPrefab;
 
         private StorageInfoWidget _storageInfoWidget;
-        private readonly Dictionary<UnitType, UnitsWidget> _unitsWidgetByType = new();
+        // private readonly Dictionary<UnitType, UnitsWidget> _unitsWidgetByType = new();
 
         public event Action OnCloseClick;
         
@@ -60,7 +60,7 @@ namespace Project.Runtime.Features.BuildingsManagement
             {
                 Destroy(widgetTransform.gameObject);
             }
-            _unitsWidgetByType.Clear();
+            // _unitsWidgetByType.Clear();
             _storageInfoWidget = null;
             base.Hide();
         }
@@ -89,21 +89,21 @@ namespace Project.Runtime.Features.BuildingsManagement
             _storageInfoWidget.AddStorageType(resourceType, entity);
         }
         
-        public void AddUnitManagementWidget(UnitType unitType, Action onRemoveUnitClick, Action onAddUnitClick)
-        {
-            var widget = Instantiate(unitsWidgetPrefab, container);
-            widget.Setup(unitType);
-            widget.OnAddUnitClick += onAddUnitClick;
-            widget.OnRemoveUnitClick += onRemoveUnitClick;
-            _unitsWidgetByType.Add(unitType, widget);
-        }
-
-        public void SetUnitsWidgetValues(UnitType unitType, int usedUnits, int currentCapacity, int maxCapacity)
-        {
-#if UNITY_EDITOR
-            if (!_unitsWidgetByType.ContainsKey(unitType)) Debug.LogError($"UnitType {unitType} doesn't added to panel!");
-#endif
-            _unitsWidgetByType[unitType].SetUnits(usedUnits, currentCapacity, maxCapacity);
-        }
+//         public void AddUnitManagementWidget(UnitType unitType, Action onRemoveUnitClick, Action onAddUnitClick)
+//         {
+//             var widget = Instantiate(unitsWidgetPrefab, container);
+//             widget.Setup(unitType);
+//             widget.OnAddUnitClick += onAddUnitClick;
+//             widget.OnRemoveUnitClick += onRemoveUnitClick;
+//             _unitsWidgetByType.Add(unitType, widget);
+//         }
+//
+//         public void SetUnitsWidgetValues(UnitType unitType, int usedUnits, int currentCapacity, int maxCapacity)
+//         {
+// #if UNITY_EDITOR
+//             if (!_unitsWidgetByType.ContainsKey(unitType)) Debug.LogError($"UnitType {unitType} doesn't added to panel!");
+// #endif
+//             _unitsWidgetByType[unitType].SetUnits(usedUnits, currentCapacity, maxCapacity);
+//         }
     }
 }

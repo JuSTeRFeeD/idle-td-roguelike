@@ -9,8 +9,7 @@ namespace Project.Runtime.Scriptable.Buildings
         [SerializeField] private float health;
         [Space] 
         [SerializeField] private int unitsCountDefault;
-        [SerializeField] private MinMaxInt lumberjacksCapacity;
-        [SerializeField] private MinMaxInt minerCapacity;
+        [SerializeField] private MinMaxInt unitsCapacity;
         [Space]
         [SerializeField] private int woodStorageSize;
         [SerializeField] private int stoneStorageSize;
@@ -18,8 +17,7 @@ namespace Project.Runtime.Scriptable.Buildings
         public float Health => health;
         
         public int UnitsCountDefault => unitsCountDefault;
-        public MinMaxInt LumberjacksCapacity => lumberjacksCapacity;
-        public MinMaxInt MinerCapacity => minerCapacity;
+        public MinMaxInt UnitsCapacity => unitsCapacity;
         
         public int WoodStorageSize => woodStorageSize;
         public int StoneStorageSize => stoneStorageSize;

@@ -81,22 +81,19 @@ namespace Project.Runtime.ECS.Systems.Building
                     });
                     buildingEntity.SetComponent(new HealthCurrent
                     {
-                        Value = baseBuilding.Health
+                        Value = baseBuilding.Health,
+                        GhostValue = baseBuilding.Health,
                     });
-                    buildingEntity.SetComponent(new LumberjackUnitsOwnedTag
+                    
+                    buildingEntity.SetComponent(new UnitsOwnedTag
                     {
-                        CurrentCapacity = baseBuilding.LumberjacksCapacity.min,
-                        Capacity = baseBuilding.LumberjacksCapacity,
+                        CurrentCapacity = baseBuilding.UnitsCapacity.min,
+                        Capacity = baseBuilding.UnitsCapacity,
                     });
                     buildingEntity.SetComponent(new WoodStorage
                     {
                         Current = 0,
                         Max = baseBuilding.WoodStorageSize
-                    });
-                    buildingEntity.SetComponent(new MinerUnitsOwnedTag
-                    {
-                        CurrentCapacity = baseBuilding.MinerCapacity.min,
-                        Capacity = baseBuilding.MinerCapacity
                     });
                     buildingEntity.SetComponent(new StoneStorage
                     {
@@ -110,7 +107,6 @@ namespace Project.Runtime.ECS.Systems.Building
                         {
                             AtPosition = view.transform.position + Vector3.right * 3f,
                             ForTowerOwner = buildingEntity,
-                            UnitType = UnitType.Lumberjack
                         });
                     }
 
@@ -119,13 +115,15 @@ namespace Project.Runtime.ECS.Systems.Building
 
                 case MapResourceConfig resource: 
                 {
+                    buildingEntity.SetComponent(new MapResourceTag());
                     buildingEntity.SetComponent(new HealthDefault
                     {
                         Value = resource.health
                     });
                     buildingEntity.SetComponent(new HealthCurrent
                     {
-                        Value = resource.health
+                        Value = resource.health,
+                        GhostValue = resource.health
                     });
                     switch (resource.resourceType)
                     {
@@ -156,7 +154,8 @@ namespace Project.Runtime.ECS.Systems.Building
                     });
                     buildingEntity.SetComponent(new HealthCurrent
                     {
-                        Value = attackTower.Health
+                        Value = attackTower.Health,
+                        GhostValue = attackTower.Health
                     });
                     buildingEntity.SetComponent(new ShootPoint
                     {

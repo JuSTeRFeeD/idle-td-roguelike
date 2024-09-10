@@ -21,5 +21,5 @@ MonoBehaviour:
     type: 3}
   health: 50
   damage: 10
-  attackCooldown: 1.5
+  attackCooldown: 0.1
   attackRange: 8

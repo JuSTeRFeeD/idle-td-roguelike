@@ -20,6 +20,7 @@ namespace Project.Runtime.ECS.Systems.GameCycle
         {
             _filter = World.Filter
                 .With<DayNight>()
+                .Without<IsNightTimeTag>()
                 .Build();
             
             _dayNightStash = World.GetStash<DayNight>();
@@ -28,6 +29,8 @@ namespace Project.Runtime.ECS.Systems.GameCycle
 
         public void OnUpdate(float deltaTime)
         {
+            // как только убиваем всех врагов -> ставится таймер на 3с и возвращается день
+            
             foreach (var entity in _filter)
             {
                 ref var dayNight = ref _dayNightStash.Get(entity);

@@ -45,7 +45,8 @@ namespace Project.Runtime.ECS.Systems.Player
 
         private void OnCardSelect(CardConfig cardConfig)
         {
-            Time.timeScale = 1f;
+            World.UpdateByUnity = true;
+            
             foreach (var entity in _choosingCardFilter)
             {
                 entity.RemoveComponent<IsChoosingLevelUpCard>();
@@ -95,7 +96,8 @@ namespace Project.Runtime.ECS.Systems.Player
                     entity.RemoveComponent<LevelUp>();
                 }
                 
-                Time.timeScale = 0.1f;
+                
+                World.UpdateByUnity = false;
                 
                 _levelUpPanel.Show();
 

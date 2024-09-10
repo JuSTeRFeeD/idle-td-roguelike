@@ -50,31 +50,30 @@ namespace Project.Runtime.ECS.Components
     public struct AttackTowerTag : IComponent
     {
     }
-
-    [Il2CppSetOption(Option.NullChecks, false)]
-    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
-    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct LumberjackUnitsOwnedTag : IComponent
-    {
-        public int CurrentCapacity;
-        public MinMaxInt Capacity;
-    }
     
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct MinerUnitsOwnedTag : IComponent
+    public struct UnitsOwnedTag : IComponent
     {
         public int CurrentCapacity;
         public MinMaxInt Capacity;
     }
 
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct MapResourceTag : IComponent
+    {
+    }
+    
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct TreeTag : IComponent
     {
     }
+    
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]

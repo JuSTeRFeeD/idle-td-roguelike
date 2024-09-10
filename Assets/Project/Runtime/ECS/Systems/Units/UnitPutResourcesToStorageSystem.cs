@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using Project.Runtime.ECS.Components;
 using Scellecs.Morpeh;
-using UnityEngine;
 
 namespace Project.Runtime.ECS.Systems.Units
 {
@@ -9,22 +7,12 @@ namespace Project.Runtime.ECS.Systems.Units
     {
         public World World { get; set; }
 
-        private Filter _lumberjackFilter;
-        private Filter _minerFilter;
+        private Filter _unitsFilter;
         
         public void OnAwake()
         {
-            _lumberjackFilter = World.Filter
+            _unitsFilter = World.Filter
                 .With<UnitTag>()
-                .With<LumberjackTag>()
-                .With<UnitBackpack>()
-                .With<MoveToStorage>()
-                .With<MoveToTargetCompleted>()
-                .Build();
-            
-            _minerFilter = World.Filter
-                .With<UnitTag>()
-                .With<MinerTag>()
                 .With<UnitBackpack>()
                 .With<MoveToStorage>()
                 .With<MoveToTargetCompleted>()
@@ -33,33 +21,45 @@ namespace Project.Runtime.ECS.Systems.Units
 
         public void OnUpdate(float deltaTime)
         {
-            PutResources<WoodStorage>(_lumberjackFilter);
-            PutResources<StoneStorage>(_minerFilter);
-        }
-
-        private static void PutResources<T>(in Filter unitFilter) where T : struct, IStorage
-        {
-            foreach (var entity in unitFilter)
+            foreach (var entity in _unitsFilter)
             {
-                ref var backpack = ref entity.GetComponent<UnitBackpack>(); 
-                ref var storage = ref entity.GetComponent<MoveToStorage>().Entity.GetComponent<T>();
-
-                var possiblePutIntoStorage = storage.Max - storage.Current;
+                ref readonly var storageEntity = ref entity.GetComponent<MoveToStorage>().Entity;
+                ref var backpack = ref entity.GetComponent<UnitBackpack>();
                 
-                if (possiblePutIntoStorage >= backpack.Amount)
+                if (storageEntity.Has<WoodStorage>())
                 {
-                    storage.Current += backpack.Amount;
-                    backpack.Amount = 0;
-                    entity.RemoveComponent<MoveToStorage>();
-                    entity.SetComponent(new FindResourceRequest());
+                    PutResources(ref storageEntity.GetComponent<WoodStorage>(), ref backpack.WoodAmount);
+                }
+                if (storageEntity.Has<StoneStorage>())
+                {
+                    PutResources(ref storageEntity.GetComponent<StoneStorage>(), ref backpack.StoneAmount);
+                }
+                
+                entity.RemoveComponent<MoveToStorage>();
+                if (backpack.WoodAmount > 0 || backpack.StoneAmount > 0)
+                {
+                    entity.SetComponent(new FindStorageRequest());
                 }
                 else
                 {
-                    storage.Current += possiblePutIntoStorage;
-                    backpack.Amount -= possiblePutIntoStorage;
-                    entity.RemoveComponent<MoveToStorage>();
-                    entity.SetComponent(new FindStorageRequest());
+                    entity.SetComponent(new FindResourceRequest());
                 }
+            }
+        }
+
+        private static void PutResources<T>(ref T storage, ref int backpackAmount) where T : struct, IStorage
+        {
+            var possiblePutIntoStorage = storage.Max - storage.Current;
+            
+            if (possiblePutIntoStorage >= backpackAmount)
+            {
+                storage.Current += backpackAmount;
+                backpackAmount = 0;
+            }
+            else
+            {
+                storage.Current += possiblePutIntoStorage;
+                backpackAmount -= possiblePutIntoStorage;
             }
         }
 

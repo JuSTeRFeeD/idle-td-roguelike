@@ -1,4 +1,3 @@
-using System;
 using Project.Runtime.ECS.Components;
 using Project.Runtime.ECS.Extensions;
 using Scellecs.Morpeh;
@@ -48,32 +47,16 @@ namespace Project.Runtime.ECS.Systems.Units
                 unitEntity.SetComponent(new UnitBackpack
                 {
                     Capacity = 3,
-                    Amount = 0
+                    WoodAmount = 0,
+                    StoneAmount = 0
                 });
                 
-                switch (request.UnitType)
+                unitEntity.SetComponent(new FindResourceRequest());
+                unitEntity.SetComponent(new GatheringTime
                 {
-                    case UnitType.Lumberjack:
-                        unitEntity.SetComponent(new LumberjackTag());
-                        unitEntity.SetComponent(new FindResourceRequest());
-                        unitEntity.SetComponent(new GatheringTime
-                        {
-                            Time = 1f
-                        });
-                        unitEntity.InstantiateView(_worldSetup.UnitLumberjack, request.AtPosition + rndOffset, Quaternion.identity);
-                        break;
-                    case UnitType.Miner:
-                        unitEntity.SetComponent(new MinerTag());
-                        unitEntity.SetComponent(new FindResourceRequest());
-                        unitEntity.SetComponent(new GatheringTime
-                        {
-                            Time = 1f
-                        });
-                        unitEntity.InstantiateView(_worldSetup.UnitMiner, request.AtPosition + rndOffset, Quaternion.identity);
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+                    Time = 1f
+                });
+                unitEntity.InstantiateView(_worldSetup.WorkerUnitView, request.AtPosition + rndOffset, Quaternion.identity);
                 
                 entity.Dispose();
             }

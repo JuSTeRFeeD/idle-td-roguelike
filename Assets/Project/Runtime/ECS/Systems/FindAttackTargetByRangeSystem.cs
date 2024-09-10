@@ -25,7 +25,9 @@ namespace Project.Runtime.ECS.Systems
             _enemiesFilter = World.Filter
                 .With<EnemyTag>()
                 .With<ViewEntity>()
+                .Without<WillDeadAtNextTickTag>()
                 .Build();
+            
             _allyBuildingsFilter = World.Filter
                 .With<BuildingTag>()
                 .With<ViewEntity>()
@@ -40,12 +42,10 @@ namespace Project.Runtime.ECS.Systems
                 if (entity.Has<BuildingTag>())
                 {
                     FindTargetWithFilter(entity, _enemiesFilter);
-                    continue;
                 }
-                if (entity.Has<EnemyTag>())
+                else if (entity.Has<EnemyTag>())
                 {
                     FindTargetWithFilter(entity, _allyBuildingsFilter);
-                    continue;
                 }
             }
         }

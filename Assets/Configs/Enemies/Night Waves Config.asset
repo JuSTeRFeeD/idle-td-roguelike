@@ -15,13 +15,13 @@ MonoBehaviour:
   waves:
   - enemies:
     - enemyConfig: {fileID: 11400000, guid: 2c7e12248c2a8e9478462289cdd79825, type: 2}
-      countToSpawn: 2
+      countToSpawn: 5
     spawnDelayBetween: {x: 0.37527877, y: 0.5}
   - enemies:
     - enemyConfig: {fileID: 11400000, guid: 2c7e12248c2a8e9478462289cdd79825, type: 2}
-      countToSpawn: 4
+      countToSpawn: 15
     spawnDelayBetween: {x: 0.1502071, y: 0.5}
   - enemies:
     - enemyConfig: {fileID: 11400000, guid: 2c7e12248c2a8e9478462289cdd79825, type: 2}
-      countToSpawn: 6
-    spawnDelayBetween: {x: 0.25342467, y: 0.5}
+      countToSpawn: 20
+    spawnDelayBetween: {x: 0.05, y: 0.09073414}

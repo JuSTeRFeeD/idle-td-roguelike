@@ -17,7 +17,8 @@ namespace Project.Runtime.ECS.Systems.Enemies
 
         private Filter _nightFilter;
         private Filter _baseTowerFilter;
-
+        private Filter _enemiesFilter;
+        
         private int _lastSpawnedIndex = -1;
         private float _currentSpawnDelay;
         private NightWavesConfig.WaveData _waveData;
@@ -33,6 +34,10 @@ namespace Project.Runtime.ECS.Systems.Enemies
                 .Build();
             _baseTowerFilter = World.Filter
                 .With<BaseTowerTag>()
+                .Build();
+            _enemiesFilter = World.Filter
+                .With<EnemyTag>()
+                .Without<ToDestroyTag>()
                 .Build();
         }
 
@@ -77,16 +82,28 @@ namespace Project.Runtime.ECS.Systems.Enemies
                 
                 return;
             }
-            
+
             foreach (var entity in _nightFilter)
             {
                 ref readonly var dayNight = ref entity.GetComponent<DayNight>();
                 var index = dayNight.DayNumber - 1; // cuz dayNumber starts with 1, array from 0
-                if (_lastSpawnedIndex == index || index >= _worldSetup.NightWavesConfig.WavesCount)
+                
+                // ВОЗВРАЩАЕМ ДЕНЬ если сейчас ночь, нет врагов и индекс времени суток совпадает с закешированным
+                if (_enemiesFilter.IsEmpty() && _lastSpawnedIndex == index)
                 {
-                    continue;
+                    // Return to day time
+                    entity.RemoveComponent<IsNightTimeTag>();
+                    entity.GetComponent<DayNight>().EstimateTime = 3f;
+                    return;
                 }
                 
+                // Этой ночью уже не нужно спавнить врагов
+                if (_lastSpawnedIndex == index || index >= _worldSetup.NightWavesConfig.WavesCount)
+                {
+                    return;
+                }
+                
+                // Сохраняем данные чтобы спавнить врагов
                 _limits.Clear();
                 _lastSpawnedIndex = index;
                 _waveData = _worldSetup.NightWavesConfig.GetWave(index); 

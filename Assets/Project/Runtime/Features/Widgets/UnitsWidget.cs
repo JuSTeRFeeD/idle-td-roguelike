@@ -37,25 +37,25 @@ namespace Project.Runtime.Features.Widgets
         private void AddUnitClick() => OnAddUnitClick?.Invoke();
         private void RemoveUnitClick() => OnRemoveUnitClick?.Invoke();
         
-        public void Setup(UnitType unitType)
-        {
-            titleText.SetText(unitType.ToString());
-            
-            switch (unitType)
-            {
-                case UnitType.Lumberjack:
-                    iconImage.sprite = lumberjackIcon;
-                    break;
-                case UnitType.Miner:
-                    iconImage.sprite = minerIcon;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(unitType), unitType, null);
-            }
-
-            // just clear views
-            SetUnits(0, 5, 5);
-        }
+        // public void Setup(UnitType unitType)
+        // {
+        //     titleText.SetText(unitType.ToString());
+        //     
+        //     switch (unitType)
+        //     {
+        //         case UnitType.Lumberjack:
+        //             iconImage.sprite = lumberjackIcon;
+        //             break;
+        //         case UnitType.Miner:
+        //             iconImage.sprite = minerIcon;
+        //             break;
+        //         default:
+        //             throw new ArgumentOutOfRangeException(nameof(unitType), unitType, null);
+        //     }
+        //
+        //     // just clear views
+        //     SetUnits(0, 5, 5);
+        // }
 
         public void SetUnits(int usedUnits, int currentCapacity, int maxCapacity)
         {

@@ -25,6 +25,7 @@ namespace Project.Runtime.Core
         [SerializeField] private BuildingManagementPanel buildingManagementPanel;
         [SerializeField] private HeaderUI headerUI;
         [SerializeField] private LevelUpPanel levelUpPanel;
+        [SerializeField] private GameFinishedPanel gameFinishedPanel;
         
         [Header("Inventory")]
         [SerializeField] private HandsManager handsManager;
@@ -40,6 +41,7 @@ namespace Project.Runtime.Core
             builder.RegisterInstance<BuildingManagementPanel>(buildingManagementPanel);
             builder.RegisterInstance<HeaderUI>(headerUI);
             builder.RegisterInstance<LevelUpPanel>(levelUpPanel);
+            builder.RegisterInstance<GameFinishedPanel>(gameFinishedPanel);
             
             builder.Register<InventoryStorage>(Lifetime.Singleton);
             builder.RegisterInstance<HandsManager>(handsManager);

@@ -62,6 +62,16 @@ namespace Project.Runtime.ECS.Components
     public struct HealthCurrent : IComponent
     {
         public float Value;
+        /// Используется вместе с WillDeadAtNextTickTag компонентом
+        public float GhostValue;
+    }
+
+    /// Это существо умрет в след тике, можно не учитывать в фильтрах некоторых 
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct WillDeadAtNextTickTag : IComponent
+    {
     }
 
     [Il2CppSetOption(Option.NullChecks, false)]

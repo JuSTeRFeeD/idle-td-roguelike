@@ -29,8 +29,7 @@ namespace Project.Runtime.ECS
         [Header("Views")]
         [SerializeField] private WorldHealthBarView worldHealthBarView;
         [SerializeField] private WorldProgressBarView worldProgressBarView;
-        [SerializeField] private WorkerUnitView unitLumberjack;
-        [SerializeField] private WorkerUnitView unitMiner;
+        [SerializeField] private WorkerUnitView workerUnitView;
         [SerializeField] private BuildingConfig treeConfig;
         [SerializeField] private BuildingConfig stoneConfig;
 
@@ -55,8 +54,7 @@ namespace Project.Runtime.ECS
         // Views
         public WorldHealthBarView WorldHealthBarView => worldHealthBarView;
         public WorldProgressBarView WorldProgressBarView => worldProgressBarView;
-        public WorkerUnitView UnitLumberjack => unitLumberjack;
-        public WorkerUnitView UnitMiner => unitMiner;
+        public WorkerUnitView WorkerUnitView => workerUnitView;
         public BuildingConfig TreeConfig => treeConfig;
         public BuildingConfig StoneConfig => stoneConfig;
     }

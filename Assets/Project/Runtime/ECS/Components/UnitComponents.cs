@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Project.Runtime.Scriptable.Buildings;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
@@ -27,13 +28,6 @@ namespace Project.Runtime.ECS.Components
     {
         public Entity ForTowerOwner;
         public Vector3 AtPosition;
-        public UnitType UnitType;
-    }
-
-    public enum UnitType
-    {
-        Lumberjack,
-        Miner
     }
 
     [Il2CppSetOption(Option.NullChecks, false)]
@@ -46,24 +40,12 @@ namespace Project.Runtime.ECS.Components
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct LumberjackTag : IComponent
-    {
-    }
-    
-    [Il2CppSetOption(Option.NullChecks, false)]
-    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
-    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct MinerTag : IComponent
-    {
-    }
-
-    [Il2CppSetOption(Option.NullChecks, false)]
-    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
-    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct UnitBackpack : IComponent
     {
         public int Capacity;
-        public int Amount;
+        public int WoodAmount;
+        public int StoneAmount;
+        public bool IsCapacityReached => WoodAmount + StoneAmount >= Capacity;
     }
     
     [Il2CppSetOption(Option.NullChecks, false)]
@@ -114,7 +96,7 @@ namespace Project.Runtime.ECS.Components
     [Il2CppSetOption(Option.DivideByZeroChecks, false)] 
     public struct FindStorageRequest : IComponent
     {
-        public UnitType UnitType;
+        public ResourceType ResourceType;
     }
     
     [Il2CppSetOption(Option.NullChecks, false)]

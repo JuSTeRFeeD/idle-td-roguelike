@@ -27,8 +27,7 @@ namespace Project.Runtime.ECS.Systems.Player
 
             _chillingUnitsFilter = World.Filter
                 .With<UnitTag>()
-                .Without<LumberjackTag>()
-                .Without<MinerTag>()
+                .Without<DestroyedTag>()
                 .Build();
         }
 
@@ -48,7 +47,6 @@ namespace Project.Runtime.ECS.Systems.Player
                 
                 _headerUI.SetUnitsAmount(data);
             }
-            
         }
 
         public void Dispose()

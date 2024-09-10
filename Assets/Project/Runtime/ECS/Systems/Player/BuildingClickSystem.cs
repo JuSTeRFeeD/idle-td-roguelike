@@ -32,24 +32,24 @@ namespace Project.Runtime.ECS.Systems.Player
             _buildingManagementPanel.OnCloseClick += CloseManagement;
             Debug.Log("Building click system inited");
 
-            _lumberjackUnitsFilter = World.Filter
-                .With<UnitTag>()
-                .With<LumberjackTag>()
-                .With<Owner>()
-                .Build();
-            
-            _minerUnitsFilter = World.Filter
-                .With<UnitTag>()
-                .With<MinerTag>()
-                .With<Owner>()
-                .Build();
-
-            _chillingUnitsFilter = World.Filter
-                .With<UnitTag>()
-                .Without<MinerTag>()
-                .Without<LumberjackTag>()
-                .Without<Owner>()
-                .Build();
+            // _lumberjackUnitsFilter = World.Filter
+            //     .With<UnitTag>()
+            //     .With<LumberjackTag>()
+            //     .With<Owner>()
+            //     .Build();
+            //
+            // _minerUnitsFilter = World.Filter
+            //     .With<UnitTag>()
+            //     .With<MinerTag>()
+            //     .With<Owner>()
+            //     .Build();
+            //
+            // _chillingUnitsFilter = World.Filter
+            //     .With<UnitTag>()
+            //     .Without<MinerTag>()
+            //     .Without<LumberjackTag>()
+            //     .Without<Owner>()
+            //     .Build();
         }
 
         private void CloseManagement()
@@ -88,135 +88,116 @@ namespace Project.Runtime.ECS.Systems.Player
             }
             
             // Units management
-            if (entity.Has<LumberjackUnitsOwnedTag>())
-            {
-                _buildingManagementPanel.AddUnitManagementWidget(
-                    UnitType.Lumberjack, 
-                    () => RemoveUnitClick(UnitType.Lumberjack),
-                    () => AddUnitClick(UnitType.Lumberjack));
-            }
-            if (entity.Has<MinerUnitsOwnedTag>())
-            {
-                _buildingManagementPanel.AddUnitManagementWidget(
-                    UnitType.Miner, 
-                    () => RemoveUnitClick(UnitType.Miner),
-                    () => AddUnitClick(UnitType.Miner));
-            }
+            // if (entity.Has<LumberjackUnitsOwnedTag>())
+            // {
+            //     _buildingManagementPanel.AddUnitManagementWidget(
+            //         UnitType.Lumberjack, 
+            //         () => RemoveUnitClick(UnitType.Lumberjack),
+            //         () => AddUnitClick(UnitType.Lumberjack));
+            // }
+            // if (entity.Has<MinerUnitsOwnedTag>())
+            // {
+            //     _buildingManagementPanel.AddUnitManagementWidget(
+            //         UnitType.Miner, 
+            //         () => RemoveUnitClick(UnitType.Miner),
+            //         () => AddUnitClick(UnitType.Miner));
+            // }
         }
 
-        private void AddUnitClick(UnitType unitType)
-        {
-            // TODO: handle building unit limits 
-            
-            foreach (var entity in _chillingUnitsFilter)
-            {
-                entity.AddComponent<FindResourceRequest>();
-                entity.SetComponent(new Owner
-                {
-                    Entity = _selectedEntity
-                });
-                
-                switch (unitType)
-                {
-                    case UnitType.Lumberjack:
-                        entity.AddComponent<LumberjackTag>();
-                        break;
-                    case UnitType.Miner:
-                        entity.AddComponent<MinerTag>();
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(unitType), unitType, null);
-                }
-
-                break;
-            }
-        }
-
-        private void RemoveUnitClick(UnitType unitType)
-        {
-            switch (unitType)
-            {
-                case UnitType.Lumberjack:
-                    RemoveUnit(unitType, _lumberjackUnitsFilter);
-                    break;
-                case UnitType.Miner:
-                    RemoveUnit(unitType, _minerUnitsFilter);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(unitType), unitType, null);
-            }
-        }
-
-        private void RemoveUnit(UnitType unitType, Filter unitFilter)
-        {
-            foreach (var entity in unitFilter)
-            {
-                if (entity.Owner() != _selectedEntity) continue;
-                
-                // clearing unit entity
-                entity.RemoveComponent<Owner>();
-                entity.GetComponent<UnitBackpack>().Amount = 0;
-                entity.SafeRemove<MoveToResource>();
-                entity.SafeRemove<MoveToStorage>();
-                entity.SafeRemove<FindResourceRequest>();
-                entity.SafeRemove<FindStorageRequest>();
-                if (entity.Has<Gathering>())
-                {
-                    ref var gathering = ref entity.GetComponent<Gathering>();
-                    if (!gathering.TargetResource.IsNullOrDisposed())
-                    {
-                        gathering.TargetResource.Dispose();
-                    }
-                    if (!gathering.ProgressEntity.IsNullOrDisposed())
-                    {
-                        gathering.ProgressEntity.Dispose();
-                    }
-                    entity.RemoveComponent<Gathering>();
-                }
-                
-                switch (unitType)
-                {
-                    case UnitType.Lumberjack:
-                        entity.RemoveComponent<LumberjackTag>();
-                        break;
-                    case UnitType.Miner:
-                        entity.RemoveComponent<MinerTag>();
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(unitType), unitType, null);
-                }
-
-                break;
-            }
-        }
+        // private void AddUnitClick(UnitType unitType)
+        // {
+        //     // TODO: handle building unit limits 
+        //     
+        //     foreach (var entity in _chillingUnitsFilter)
+        //     {
+        //         entity.AddComponent<FindResourceRequest>();
+        //         entity.SetComponent(new Owner
+        //         {
+        //             Entity = _selectedEntity
+        //         });
+        //         
+        //         switch (unitType)
+        //         {
+        //             case UnitType.Lumberjack:
+        //                 entity.AddComponent<LumberjackTag>();
+        //                 break;
+        //             case UnitType.Miner:
+        //                 entity.AddComponent<MinerTag>();
+        //                 break;
+        //             default:
+        //                 throw new ArgumentOutOfRangeException(nameof(unitType), unitType, null);
+        //         }
+        //
+        //         break;
+        //     }
+        // }
+        //
+        // private void RemoveUnitClick(UnitType unitType)
+        // {
+        //     switch (unitType)
+        //     {
+        //         case UnitType.Lumberjack:
+        //             RemoveUnit(unitType, _lumberjackUnitsFilter);
+        //             break;
+        //         case UnitType.Miner:
+        //             RemoveUnit(unitType, _minerUnitsFilter);
+        //             break;
+        //         default:
+        //             throw new ArgumentOutOfRangeException(nameof(unitType), unitType, null);
+        //     }
+        // }
+        //
+        // private void RemoveUnit(UnitType unitType, Filter unitFilter)
+        // {
+        //     foreach (var entity in unitFilter)
+        //     {
+        //         if (entity.Owner() != _selectedEntity) continue;
+        //         
+        //         // clearing unit entity
+        //         entity.RemoveComponent<Owner>();
+        //         entity.GetComponent<UnitBackpack>().Amount = 0;
+        //         entity.SafeRemove<MoveToResource>();
+        //         entity.SafeRemove<MoveToStorage>();
+        //         entity.SafeRemove<FindResourceRequest>();
+        //         entity.SafeRemove<FindStorageRequest>();
+        //         if (entity.Has<Gathering>())
+        //         {
+        //             ref var gathering = ref entity.GetComponent<Gathering>();
+        //             if (!gathering.TargetResource.IsNullOrDisposed())
+        //             {
+        //                 gathering.TargetResource.Dispose();
+        //             }
+        //             if (!gathering.ProgressEntity.IsNullOrDisposed())
+        //             {
+        //                 gathering.ProgressEntity.Dispose();
+        //             }
+        //             entity.RemoveComponent<Gathering>();
+        //         }
+        //         
+        //         switch (unitType)
+        //         {
+        //             case UnitType.Lumberjack:
+        //                 entity.RemoveComponent<LumberjackTag>();
+        //                 break;
+        //             case UnitType.Miner:
+        //                 entity.RemoveComponent<MinerTag>();
+        //                 break;
+        //             default:
+        //                 throw new ArgumentOutOfRangeException(nameof(unitType), unitType, null);
+        //         }
+        //
+        //         break;
+        //     }
+        // }
 
         public void OnUpdate(float deltaTime)
         {
             if (_selectedEntity.IsNullOrDisposed()) return;
             
             // Отображение в UI сколько использует юнитов этот тавер
-            
-            if (_selectedEntity.Has<LumberjackUnitsOwnedTag>())
+            if (_selectedEntity.Has<UnitsOwnedTag>())
             {
-                ref var lumberjacksUnitsOwned = ref _selectedEntity.GetComponent<LumberjackUnitsOwnedTag>();
-                var used = 0;
-                foreach (var entity in _lumberjackUnitsFilter)
-                {
-                    if (entity.Owner() == _selectedEntity)
-                    {
-                        used++;
-                    }
-                }
-                _buildingManagementPanel.SetUnitsWidgetValues(
-                    UnitType.Lumberjack,
-                    used, 
-                    lumberjacksUnitsOwned.CurrentCapacity, 
-                    lumberjacksUnitsOwned.Capacity.max);
-            }
-            
-            if (_selectedEntity.Has<MinerUnitsOwnedTag>())
-            {
-                ref var minerUnitsOwned = ref _selectedEntity.GetComponent<MinerUnitsOwnedTag>();
+                ref var minerUnitsOwned = ref _selectedEntity.GetComponent<UnitsOwnedTag>();
                 var used = 0;
                 foreach (var entity in _minerUnitsFilter)
                 {
@@ -225,11 +206,11 @@ namespace Project.Runtime.ECS.Systems.Player
                         used++;
                     }
                 }
-                _buildingManagementPanel.SetUnitsWidgetValues(
-                    UnitType.Miner,
-                    used, 
-                    minerUnitsOwned.CurrentCapacity, 
-                    minerUnitsOwned.Capacity.max);
+                // _buildingManagementPanel.SetUnitsWidgetValues(
+                //     UnitType.Miner,
+                //     used, 
+                //     minerUnitsOwned.CurrentCapacity, 
+                //     minerUnitsOwned.Capacity.max);
             }
         }
 

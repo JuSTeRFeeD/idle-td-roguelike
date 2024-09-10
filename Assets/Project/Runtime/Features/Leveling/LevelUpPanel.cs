@@ -79,8 +79,8 @@ namespace Project.Runtime.Features.Leveling
             (cardTransform = cardWidget.transform).DOKill();
             cardTransform.localScale = new Vector3(0, 1, 1);
             cardTransform
-                .DOScaleX(1f, 0.0235f)
-                .SetDelay(idx * 0.02f)
+                .DOScaleX(1f, 0.235f)
+                .SetDelay(idx * 0.2f)
                 .SetLink(cardTransform.gameObject);
             return idx;
         }

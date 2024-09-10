@@ -10,36 +10,21 @@ namespace Project.Runtime.ECS.Systems.Units
     {
         public World World { get; set; }
 
-        private Filter _unitLumberjackFilter;
-        private Filter _treeFilter;
-        
-        private Filter _unitMinerFilter;
-        private Filter _stoneFilter;
+        private Filter _unitsFilter;
+        private Filter _mapResourcesFilter;
         
         public void OnAwake()
         {
-            _unitLumberjackFilter = World.Filter
+            _unitsFilter = World.Filter
                 .With<UnitTag>()
-                .With<LumberjackTag>()
                 .With<FindResourceRequest>()
                 .With<ViewEntity>()
+                .With<UnitBackpack>()
                 .Without<MoveToResource>()
-                .Build();
-            _treeFilter = World.Filter
-                .With<TreeTag>()
-                .With<ViewEntity>()
-                .Without<SomeoneGatheringThis>()
                 .Build();
             
-            _unitMinerFilter = World.Filter
-                .With<UnitTag>()
-                .With<MinerTag>()
-                .With<FindResourceRequest>()
-                .With<ViewEntity>()
-                .Without<MoveToResource>()
-                .Build();
-            _stoneFilter = World.Filter
-                .With<StoneTag>()
+            _mapResourcesFilter = World.Filter
+                .With<MapResourceTag>()
                 .With<ViewEntity>()
                 .Without<SomeoneGatheringThis>()
                 .Build();
@@ -48,20 +33,15 @@ namespace Project.Runtime.ECS.Systems.Units
         public void OnUpdate(float deltaTime)
         {
             var used = new HashSet<Entity>();
-            FindResource(used, _unitLumberjackFilter, _treeFilter);
-            FindResource(used, _unitMinerFilter, _stoneFilter);
-        }
-
-        private void FindResource(in ISet<Entity> used, Filter unitFilter, Filter resourceFilter)
-        {
-            foreach (var unitEntity in unitFilter)
+            
+            foreach (var entity in _unitsFilter)
             {
-                var unitPos = unitEntity.GetComponent<ViewEntity>().Value.transform.position;
+                var unitPos = entity.GetComponent<ViewEntity>().Value.transform.position;
                 var minSqrDis = float.MaxValue;
                 var nearestPosition = Vector3.zero;
                 Entity nearestEntity = null; 
-                
-                foreach (var resourceEntity in resourceFilter)
+            
+                foreach (var resourceEntity in _mapResourcesFilter)
                 {
                     var pos = resourceEntity.ViewPosition();
 
@@ -75,22 +55,23 @@ namespace Project.Runtime.ECS.Systems.Units
                     nearestEntity = resourceEntity;
                     nearestPosition = pos;
                 }
-                
-                if (nearestEntity == null) continue;
-                
-                unitEntity.SetComponent(new AStarCalculatePathRequest
+            
+                if (nearestEntity == null) return;
+            
+                entity.SetComponent(new AStarCalculatePathRequest
                 {
                     Entity = nearestEntity,
                     TargetPosition = nearestPosition
                 });
-                unitEntity.SetComponent(new MoveToResource
+                entity.SetComponent(new MoveToResource
                 {
                     Entity = nearestEntity
                 });
-                unitEntity.RemoveComponent<FindResourceRequest>();
+                entity.RemoveComponent<FindResourceRequest>();
                 nearestEntity.SetComponent(new SomeoneGatheringThis());
                 used.Add(nearestEntity);
             }
+            
         }
 
         public void Dispose()

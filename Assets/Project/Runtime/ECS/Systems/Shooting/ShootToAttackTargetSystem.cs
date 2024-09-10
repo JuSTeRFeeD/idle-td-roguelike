@@ -81,6 +81,17 @@ namespace Project.Runtime.ECS.Systems.Shooting
                 {
                     Value = attackTarget
                 });
+
+                // Change target to prevent shooting to the same target
+                ref var ghostTargetHealth = ref attackTarget.GetComponent<HealthCurrent>().GhostValue;
+                ghostTargetHealth -= attackDamageRuntime;
+                if (ghostTargetHealth <= 0)
+                {
+                    // еще можно вынести в перк в отдельную систему прокачки в лобби
+                    // TODO: если тавера будут слишком ибовыми - убрать механнику ghostHealth и WillDeadAtNextTick
+                    attackTarget.SetComponent(new WillDeadAtNextTickTag());
+                    entity.RemoveComponent<AttackTarget>();
+                }
             }
         }
 

@@ -30,7 +30,7 @@ namespace Project.Runtime.ECS.Systems.Enemies
             foreach (var entity in _filter)
             {
                 ref readonly var attackTarget = ref entity.GetComponent<AttackTarget>().Value;
-                if (attackTarget.IsNullOrDisposed())
+                if (attackTarget.IsNullOrDisposed() || attackTarget.Has<DestroyedTag>())
                 {
                     entity.RemoveComponent<AttackTarget>();
                     continue;
