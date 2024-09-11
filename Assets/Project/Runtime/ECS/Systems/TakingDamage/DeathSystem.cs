@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using NTC.Pool;
 using Project.Runtime.ECS.Components;
+using Project.Runtime.ECS.Components.Enemies;
 using Scellecs.Morpeh;
 using VContainer;
 
@@ -34,6 +35,16 @@ namespace Project.Runtime.ECS.Systems.TakingDamage
                     entity.SetComponent(new DestroyedTag());
                     SpawnDestroyedBuildingView(entity);
                     continue;
+                }
+
+                if (entity.Has<EnemyTag>())
+                {
+                    // TODO: убрать, если это будет ломать баланс 
+                    var addExp = World.CreateEntity();
+                    addExp.SetComponent(new PlayerAddExp
+                    {
+                        Value = 0.5f
+                    });
                 }
                 
                 // destroy healthbar

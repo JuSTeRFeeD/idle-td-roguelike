@@ -17,6 +17,7 @@ namespace Project.Runtime.Core
     {
         [Header("World setup")]
         [SerializeField] private WorldSetup worldSetup;
+        [SerializeField] private VfxSetup vfxSetup;
         [SerializeField] private CameraController cameraController;
         [SerializeField] private MapManager mapManager;
         
@@ -46,6 +47,7 @@ namespace Project.Runtime.Core
             builder.Register<InventoryStorage>(Lifetime.Singleton);
             builder.RegisterInstance<HandsManager>(handsManager);
             
+            builder.RegisterInstance<VfxSetup>(vfxSetup);
             builder.RegisterInstance<WorldSetup>(worldSetup);
             builder.RegisterInstance<CameraController>(cameraController);
             builder.RegisterInstance<MapManager>(mapManager);

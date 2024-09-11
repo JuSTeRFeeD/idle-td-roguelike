@@ -5,6 +5,7 @@ using NTC.Pool;
 using Project.Runtime.ECS.Views;
 using Project.Runtime.Features.Building.Data;
 using Project.Runtime.Scriptable.Buildings;
+using Scellecs.Morpeh;
 using UnityEngine;
 
 namespace Project.Runtime.Features.Building
@@ -28,7 +29,8 @@ namespace Project.Runtime.Features.Building
             }
         }
 
-        public EntityView PutBuilding(BuildingConfig buildingConfig, Vector2Int gridPos, Quaternion rotation)
+        public EntityView PutBuilding(in BuildingConfig buildingConfig, Vector2Int gridPos, Quaternion rotation,
+            in Entity buildingEntity)
         {
             EntityView viewResult = null;
             for (var x = 0; x < buildingConfig.Size; x++)
@@ -43,7 +45,9 @@ namespace Project.Runtime.Features.Building
                         gridIdx = ConvertToIndex(pos),
                         rotY = rotation.eulerAngles.y,
                         IsRootPos = isRootPos,
-                        RootIdx = ConvertToIndex(gridPos)
+                        RootIdx = ConvertToIndex(gridPos),
+                        lvl = 0,
+                        Entity = buildingEntity
                     };
                     if (isRootPos)
                     {
@@ -51,11 +55,6 @@ namespace Project.Runtime.Features.Building
                             buildingConfig.Prefab,
                             GridUtils.ConvertGridToWorldPos(pos) + GridUtils.BuildingSizeOffset(buildingConfig.Size),
                             rotation);
-
-                        // TODO: animate with scale placed object
-                        // viewResult.transform
-                        // .DOPunchScale(Vector3.up * .25f, 0.25f, 10, 2f)
-                        // .SetLink(viewResult.gameObject);
                     }
                 }
             }
@@ -68,6 +67,32 @@ namespace Project.Runtime.Features.Building
             // Save();
 
             return viewResult;
+        }
+
+        public BuildingData UpgradeBuilding(BuildingConfig buildingConfig, Vector2Int gridPos)
+        {
+            if (buildingConfig is not UpgradableTowerConfig towerConfig)
+            {
+                Debug.LogError("[MapManager] Lol its not upgradable tower");
+                return null;
+            }
+            
+            var building = Buildings[gridPos];
+            if (!building.IsRootPos) building = Buildings[ConvertToGrid(building.RootIdx)];
+            if (building.id != towerConfig.uniqueID)
+            {
+                Debug.LogError($"[MapManager] Id missmatch {building.id} != {towerConfig.uniqueID} | gridPos {gridPos}");
+                return null;
+            }
+            if (building.lvl >= towerConfig.UpgradeLevels)
+            {
+                Debug.LogWarning($"[MapManager] MaxLevel {building.lvl} >= {towerConfig.UpgradeLevels} | gridPos {gridPos}");
+                return null;
+            }
+            
+            building.lvl++;
+            Debug.Log($"[MapManager] Merged, new lvl {building.lvl}");
+            return building;
         }
 
         public void DestroyBuilding(Vector3 viewPosition)
@@ -91,13 +116,13 @@ namespace Project.Runtime.Features.Building
                 throw new Exception($"Index {index} is out of bounds");
             }
 
-            int x = index % mapSize;
-            int y = index / mapSize;
+            var x = index % mapSize;
+            var y = index / mapSize;
 
             return new Vector2Int(x, y);
         }
 
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private int ConvertToIndex(Vector2Int coordinates)
         {

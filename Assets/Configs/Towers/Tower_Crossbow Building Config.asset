@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f012b761064a4b95b2cce77fb901a3f2, type: 3}
+  m_Name: Tower_Crossbow Building Config
+  m_EditorClassIdentifier: 
+  <ShowUniqueId>k__BackingField: 0
+  uniqueID: 853b0b0b-a8c6-4a9c-9409-54e87dd56182
+  title: Crossbow Tower
+  prefab: {fileID: 8227337582012608927, guid: 5cdfcf7912249b54ebfeb8400304df04, type: 3}
+  size: 2
+  upgradeLevels: 5
+  health: 40
+  projectileView: {fileID: -1677189479211087335, guid: 182c90b664191fb4d8d15aa3e27d4deb,
+    type: 3}
+  damage: 10
+  attackCooldown: 0.1
+  attackRange: 8

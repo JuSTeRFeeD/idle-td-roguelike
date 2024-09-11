@@ -11,6 +11,7 @@ namespace Project.Runtime.ECS.Views
     {
         [SerializeField] private Image cellImage;
         [SerializeField] private Color collidedColor;
+        [SerializeField] private Color mergeColor;
         [SerializeField] private Color baseColor;
 
         public void SetSize(int size)
@@ -20,10 +21,17 @@ namespace Project.Runtime.ECS.Views
                 GridUtils.CellSize * 0.01f * size, 
                 1f);
         }
-        
-        public void SetCollided(bool value)
+
+        private void SetCollided(bool collision, bool mergeCollision)
         {
-            cellImage.color = value ? collidedColor : baseColor;
+            if (collision)
+            {
+                cellImage.color = mergeCollision ? mergeColor : collidedColor;
+            }
+            else
+            {
+                cellImage.color = baseColor;
+            }
         }
 
         private void Update()
@@ -32,7 +40,8 @@ namespace Project.Runtime.ECS.Views
             var targetPos = owner.ViewTransform().position;
             targetPos.y = 0.1f;
             transform.position = targetPos;
-            SetCollided(owner.GetComponent<PlacingBuildingCard>().IsCollisionDetected);
+            ref readonly var placing = ref owner.GetComponent<PlacingBuildingCard>();
+            SetCollided(placing.IsCollisionDetected, placing.IsMergeCollisionDetected);
         }
     }
 }

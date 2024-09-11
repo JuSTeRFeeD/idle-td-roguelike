@@ -1,11 +1,16 @@
+using Scellecs.Morpeh;
+
 namespace Project.Runtime.Features.Building.Data
 {
     [System.Serializable]
     public class BuildingData
     {
         public string id;
+        public int lvl;
         public int gridIdx;
         public float rotY;
+        
+        #region RuntimeData
         
         /// <summary>
         /// Используется чтобы не сохранять 2х2.
@@ -20,5 +25,10 @@ namespace Project.Runtime.Features.Building.Data
         /// </summary>
         [System.NonSerialized]
         public int RootIdx;
+        
+        [System.NonSerialized]
+        public Entity Entity;
+        
+        #endregion
     }
 }

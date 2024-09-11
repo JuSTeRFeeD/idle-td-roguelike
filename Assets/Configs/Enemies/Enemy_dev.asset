@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1192c25d6bb944df8e5380c210c54a6a, type: 3}
+  m_Name: Enemy_dev
+  m_EditorClassIdentifier: 
+  <ShowUniqueId>k__BackingField: 0
+  uniqueID: 3f89bcfc-2a4b-4b82-9eb3-39af094beed3
+  enemyView: {fileID: 1345247304330114684, guid: d9bcf2e4c5957fd429bbcd7386433d2f,
+    type: 3}
+  health: 20
+  moveSpeed: 5
+  attackDamage: 5
+  attackRange: 4
+  attackCooldown: 1

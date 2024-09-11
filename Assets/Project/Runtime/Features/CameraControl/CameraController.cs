@@ -12,7 +12,7 @@ namespace Project.Runtime.Features.CameraControl
         [SerializeField] private Camera mainCamera;
         [SerializeField] private Transform target;
 
-        public event Action<EntityView> OnEntityViewClick; // todo handle in system this event
+        public event Action<EntityView> OnEntityViewClick;
 
         public Camera MainCamera => mainCamera;
         public Vector3 OriginTargetPosition => target.position;

@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using Project.Runtime.ECS.Components;
 using Project.Runtime.ECS.Extensions;
 using Project.Runtime.ECS.Views;
@@ -15,6 +16,7 @@ namespace Project.Runtime.ECS.Systems.Building
     public class PlaceBuildingSystem : ISystem
     {
         [Inject] private WorldSetup _worldSetup;
+        [Inject] private VfxSetup _vfxSetup;
         [Inject] private MapManager _mapManager;
         [Inject] private CameraController _cameraController;
         [Inject] private HandsManager _handsManager;
@@ -38,18 +40,59 @@ namespace Project.Runtime.ECS.Systems.Building
             {
                 _handsManager.SetPlacingEnabledEnabled(false);
                 _handsManager.SetIsCardDrag(false);
-                
-                var placingBuilding = entity.GetComponent<PlacingBuildingCard>();
-                
-                var view = _mapManager.PutBuilding(
-                    placingBuilding.BuildingConfig, 
-                    GridUtils.ConvertWorldToGridPos(placingBuilding.CurrentPosition),
-                    Quaternion.identity);
-                var buildingEntity = World.CreateEntity();
-                buildingEntity.LinkView(view);
 
-                SetupEntity(buildingEntity, placingBuilding.BuildingConfig, view);
+                var isSystemAction = entity.Has<SystemActionTag>();
+                var placingBuilding = entity.GetComponent<PlacingBuildingCard>();
+                var gridPos = GridUtils.ConvertWorldToGridPos(placingBuilding.CurrentPosition);
+                EntityView view;
                 
+                // Merge
+                if (placingBuilding.IsMergeCollisionDetected) 
+                {
+                    var building = _mapManager.UpgradeBuilding(placingBuilding.BuildingConfig, gridPos);
+                    if (building == null)
+                    {
+                        Debug.LogError("Нужно обработать если building null");
+                    }
+                    
+                    // change view lvl
+                    view = building.Entity.GetComponent<ViewEntity>().Value;
+                    var towerView = (AttackTowerView)view;
+                    towerView.TowerViewUpgrades.SetLevel(building.lvl);
+
+                    VfxPool.Spawn(_vfxSetup.TowerLevelUpVfx, towerView.transform.position);
+                }
+                // Put new
+                else 
+                {
+                    var buildingEntity = World.CreateEntity();
+                    view = _mapManager.PutBuilding(
+                        placingBuilding.BuildingConfig, 
+                        gridPos,
+                        Quaternion.identity, 
+                        buildingEntity);
+                    buildingEntity.LinkView(view);
+
+                    if (view is AttackTowerView towerView)
+                    {
+                        towerView.TowerViewUpgrades.SetLevel(0);
+                    }
+                        
+                    SetupEntity(buildingEntity, placingBuilding.BuildingConfig, view);
+
+                    if (!isSystemAction)
+                    {
+                        VfxPool.Spawn(_vfxSetup.PutTowerVfx, view.transform.position);
+                    }
+                }
+
+                if (!isSystemAction)
+                {
+                    view.transform
+                        .DOPunchScale(Vector3.up * .25f, 0.25f, 10, 2f)
+                        .SetLink(view.gameObject);
+                }
+
                 _cameraController.ResetTarget();
 
                 // Removing card from list

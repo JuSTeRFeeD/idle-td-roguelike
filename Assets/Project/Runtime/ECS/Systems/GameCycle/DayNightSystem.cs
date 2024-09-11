@@ -1,5 +1,6 @@
 using Project.Runtime.ECS.Components;
 using Project.Runtime.Features;
+using Project.Runtime.Features.GameplayMenus;
 using Scellecs.Morpeh;
 using VContainer;
 
@@ -9,6 +10,9 @@ namespace Project.Runtime.ECS.Systems.GameCycle
     {
         [Inject] private HeaderUI _headerUI;
         [Inject] private DayNightCycleEffects _dayNightCycleEffects;
+        
+        [Inject] private WorldSetup _worldSetup;
+        [Inject] private GameFinishedPanel _gameFinishedPanel;
         
         public World World { get; set; }
 
@@ -62,6 +66,13 @@ namespace Project.Runtime.ECS.Systems.GameCycle
                     dayNight.EstimateTime = dayNight.DayTime;
                     entity.RemoveComponent<IsNightTimeTag>();
                     entity.AddComponent<IsDayTimeTag>();
+
+                    // WIN
+                    // dayNight.DayNumber - 1 cuz day number starts from 1
+                    if (_worldSetup.NightWavesConfig.WavesCount == dayNight.DayNumber - 1) 
+                    {
+                        _gameFinishedPanel.Show();
+                    }
                 }
                 
                 _headerUI.SetDayNight(dayNight, !isPreviousDay);

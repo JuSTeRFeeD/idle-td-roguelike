@@ -75,6 +75,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cellImage: {fileID: 5004923425272118398}
   collidedColor: {r: 1, g: 0, b: 0, a: 1}
+  mergeColor: {r: 0, g: 0.68485904, b: 1, a: 1}
   baseColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &8259333335730986067
 GameObject:

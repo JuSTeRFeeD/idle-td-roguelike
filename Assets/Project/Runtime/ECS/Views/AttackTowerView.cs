@@ -9,8 +9,11 @@ namespace Project.Runtime.ECS.Views
     {
         [SerializeField] private Transform shootPoint;
         [SerializeField] private Transform rotatingTower;
+        [SerializeField] private TowerViewUpgrades towerViewUpgrades;
 
         public Transform ShootPoint => shootPoint;
+
+        public TowerViewUpgrades TowerViewUpgrades => towerViewUpgrades;
 
         private void Update()
         {

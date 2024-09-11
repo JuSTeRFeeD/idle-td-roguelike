@@ -2,6 +2,7 @@ using Project.Runtime.ECS.Components;
 using Project.Runtime.ECS.Extensions;
 using Project.Runtime.Features.Building;
 using Project.Runtime.Features.CameraControl;
+using Project.Runtime.Scriptable.Buildings;
 using Scellecs.Morpeh;
 using UnityEngine;
 using VContainer;
@@ -36,6 +37,8 @@ namespace Project.Runtime.ECS.Systems.Building
             foreach (var entity in _filter)
             {
                 var isAnyCollisionDetected = false;
+                var isMergeCollisionDetected = false;
+                
                 ref var placingBuilding = ref entity.GetComponent<PlacingBuildingCard>();
                     
                 var ray = _cameraController.MainCamera.ScreenPointToRay(mousePos);
@@ -51,17 +54,34 @@ namespace Project.Runtime.ECS.Systems.Building
                 var gridPos = GridUtils.ConvertWorldToGridPos(_placePosition);
                 _placePosition = GridUtils.ConvertGridToWorldPos(gridPos) + GridUtils.BuildingSizeOffset(buildingSize);
 
+                // Merge 
+                if (gridPos.x >= 0 && gridPos.x < _mapManager.MapSize &&
+                    gridPos.y >= 0 && gridPos.y < _mapManager.MapSize &&
+                    placingBuilding.BuildingConfig is UpgradableTowerConfig upgradableTowerConfig)
+                {
+                    var buildingData = _mapManager.Buildings[gridPos];
+                    if (buildingData != null)
+                    {
+                        if (buildingData.id == upgradableTowerConfig.uniqueID &&
+                            buildingData.lvl < upgradableTowerConfig.UpgradeLevels)
+                        {
+                            isMergeCollisionDetected = true;
+                        }
+                    }
+                }
+                // Collision
                 isAnyCollisionDetected = _mapManager.CheckCollision(
                     gridPos.x, gridPos.y, buildingSize, buildingSize);
                 
                 placingBuilding.CurrentPosition = GridUtils.ConvertGridToWorldPos(gridPos);
                 placingBuilding.IsCollisionDetected = isAnyCollisionDetected;
+                placingBuilding.IsMergeCollisionDetected = isMergeCollisionDetected;
                 entity.ViewTransform().position = _placePosition;
                 
                 // Put building
                 if (Input.GetMouseButtonUp(0))
                 {
-                    if (isAnyCollisionDetected)
+                    if (isAnyCollisionDetected && !isMergeCollisionDetected)
                     {
                         continue;
                     }

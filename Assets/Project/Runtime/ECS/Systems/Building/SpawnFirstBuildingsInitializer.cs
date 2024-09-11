@@ -57,6 +57,7 @@ namespace Project.Runtime.ECS.Systems.Building
         {
             var request = World.CreateEntity();
             var position = _worldSetup.SpawnBasePoint.position;
+            request.SetComponent(new SystemActionTag());
             request.SetComponent(new PlacingBuildingCard
             {
                 CurrentPosition = position,
@@ -92,13 +93,14 @@ namespace Project.Runtime.ECS.Systems.Building
                 var position = GridUtils.ConvertGridToWorldPos(possiblePositions[idx].Key);
                 possiblePositions.RemoveAt(idx);
                 
-                var spawnRequest = World.CreateEntity();
-                spawnRequest.SetComponent(new PlacingBuildingCard
+                var request = World.CreateEntity();
+                request.SetComponent(new SystemActionTag());
+                request.SetComponent(new PlacingBuildingCard
                 {
                     BuildingConfig = propConfig,
                     CurrentPosition = position,
                 });
-                spawnRequest.SetComponent(new PlaceBuildingCardRequest());
+                request.SetComponent(new PlaceBuildingCardRequest());
                 AddExcludePoints(_worldSetup.Rock01.Size, position);
             }
         }
@@ -121,13 +123,14 @@ namespace Project.Runtime.ECS.Systems.Building
                 var cellPos = possiblePositions[idx].Key;
                 possiblePositions.RemoveAt(idx);
 
-                var spawnRequest = World.CreateEntity();
-                spawnRequest.SetComponent(new PlacingBuildingCard
+                var request = World.CreateEntity();
+                request.SetComponent(new SystemActionTag());
+                request.SetComponent(new PlacingBuildingCard
                 {
                     BuildingConfig = _worldSetup.TreeConfig,
                     CurrentPosition = GridUtils.ConvertGridToWorldPos(cellPos)
                 });
-                spawnRequest.SetComponent(new PlaceBuildingCardRequest());
+                request.SetComponent(new PlaceBuildingCardRequest());
             }
             
             for (var i = 0; i < ResourcesToSpawn; i++)
@@ -136,13 +139,14 @@ namespace Project.Runtime.ECS.Systems.Building
                 var cellPos = possiblePositions[idx].Key;
                 possiblePositions.RemoveAt(idx);
 
-                var spawnRequest = World.CreateEntity();
-                spawnRequest.SetComponent(new PlacingBuildingCard
+                var request = World.CreateEntity();
+                request.SetComponent(new SystemActionTag());
+                request.SetComponent(new PlacingBuildingCard
                 {
                     BuildingConfig = _worldSetup.StoneConfig,
                     CurrentPosition = GridUtils.ConvertGridToWorldPos(cellPos)
                 });
-                spawnRequest.SetComponent(new PlaceBuildingCardRequest());
+                request.SetComponent(new PlaceBuildingCardRequest());
             }
         }
 

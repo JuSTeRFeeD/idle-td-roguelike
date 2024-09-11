@@ -125,11 +125,19 @@ namespace Project.Runtime.ECS.Components
         /// отображение клетки где размещаем объект
         public Entity CellEntity; 
         public Vector3 CurrentPosition;
+        
         public bool IsCollisionDetected;
+        public bool IsMergeCollisionDetected;
 
         /// !null when dragging card from inventory  
         public string CardConfigId;
     }
+    
+    /// Это действие происходит при инициализации или загрузке 
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct SystemActionTag : IComponent {}
     
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
