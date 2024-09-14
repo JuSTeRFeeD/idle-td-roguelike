@@ -1,4 +1,4 @@
-using Project.Runtime.Features.Databases;
+using Project.Runtime.Player.Databases;
 using UnityEngine;
 using VContainer;
 
@@ -10,6 +10,7 @@ namespace Project.Runtime.Core
         
         // This injects only to initialize them
         [Inject] private BuildingsDatabase _buildingsDatabase;
+        [Inject] private CardsDatabase _cardsDatabase;
         
         private void Start()
         {

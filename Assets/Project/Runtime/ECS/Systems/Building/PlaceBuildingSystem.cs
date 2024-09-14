@@ -102,7 +102,11 @@ namespace Project.Runtime.ECS.Systems.Building
                         .SetLink(view.gameObject);
                 }
 
-                _cameraController.ResetTarget();
+                // Reset when dragged from inventory (но если мы грейдили тавер то не нужно, собственно и не будет)
+                if (placingBuilding.CardConfigId != null)
+                {
+                    _cameraController.ResetTarget();
+                }
 
                 // Removing card from list
                 if (placingBuilding.CardConfigId != null)

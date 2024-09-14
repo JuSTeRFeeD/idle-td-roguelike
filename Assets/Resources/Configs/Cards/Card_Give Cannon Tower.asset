@@ -15,7 +15,8 @@ MonoBehaviour:
   <ShowUniqueId>k__BackingField: 0
   uniqueID: ef4d5bd8-82ed-427c-ad35-b533b536b36e
   icon: {fileID: 21300000, guid: e75376d8281ca2a42adb7a05a8d8eb37, type: 3}
-  title: Attack Tower
+  title: Cannon Tower
   isBuildingOrSpell: 1
+  maxPerGame: 5
   perks:
   - {fileID: 11400000, guid: 0204730ae981cdf40a163e7501c5effc, type: 2}

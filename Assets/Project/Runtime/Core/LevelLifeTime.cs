@@ -44,6 +44,7 @@ namespace Project.Runtime.Core
             builder.RegisterInstance<LevelUpPanel>(levelUpPanel);
             builder.RegisterInstance<GameFinishedPanel>(gameFinishedPanel);
             
+            builder.Register<LevelUpCardsManager>(Lifetime.Singleton);
             builder.Register<InventoryStorage>(Lifetime.Singleton);
             builder.RegisterInstance<HandsManager>(handsManager);
             

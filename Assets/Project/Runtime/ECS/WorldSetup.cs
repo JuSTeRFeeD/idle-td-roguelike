@@ -1,7 +1,6 @@
 using Project.Runtime.ECS.Views;
 using Project.Runtime.Scriptable;
 using Project.Runtime.Scriptable.Buildings;
-using Project.Runtime.Scriptable.Card;
 using Project.Runtime.Scriptable.Enemies;
 using UnityEngine;
 
@@ -12,7 +11,6 @@ namespace Project.Runtime.ECS
         [Header("Player and World")]
         [SerializeField] private DayNightConfig dayNightConfig;
         [SerializeField] private PlayerLevelsConfig playerLevelsConfig;
-        [SerializeField] private ActiveCardsListConfig activeCardsListConfig;
         
         [Header("Waves & Enemies")]
         [SerializeField] private NightWavesConfig nightWavesConfig;
@@ -38,7 +36,6 @@ namespace Project.Runtime.ECS
         // Player And World
         public DayNightConfig DayNightConfig => dayNightConfig;
         public PlayerLevelsConfig PlayerLevelsConfig => playerLevelsConfig;
-        public ActiveCardsListConfig ActiveCardsListConfig => activeCardsListConfig;
 
         // Waves & Enemies
         public NightWavesConfig NightWavesConfig => nightWavesConfig;

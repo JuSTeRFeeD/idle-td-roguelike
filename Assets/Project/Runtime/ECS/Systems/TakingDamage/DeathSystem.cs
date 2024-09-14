@@ -2,6 +2,7 @@ using System.Runtime.CompilerServices;
 using NTC.Pool;
 using Project.Runtime.ECS.Components;
 using Project.Runtime.ECS.Components.Enemies;
+using Project.Runtime.ECS.Extensions;
 using Scellecs.Morpeh;
 using VContainer;
 
@@ -31,6 +32,7 @@ namespace Project.Runtime.ECS.Systems.TakingDamage
                 // No need dispose towers
                 if (entity.Has<BuildingTag>())
                 {
+                    entity.SafeRemove<AttackTarget>();
                     entity.RemoveComponent<ToDestroyTag>();
                     entity.SetComponent(new DestroyedTag());
                     SpawnDestroyedBuildingView(entity);

@@ -9,7 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a689ab85432d4c05a2084d601693e7c1, type: 3}
-  m_Name: Player Levels Config
+  m_Script: {fileID: 11500000, guid: f10cef2dfbaf4b3aa84c83bd6e295d32, type: 3}
+  m_Name: Perk_Units Move Speed
   m_EditorClassIdentifier: 
-  expByLevel: 060000000d00000012000000180000001a0000001e000000220000002400000026000000280000002a00000030000000380000003c0000003e0000004000000042000000440000004600000048000000
+  addMoveSpeedValue:
+  - 0.6
+  - 1
+  - 1.5

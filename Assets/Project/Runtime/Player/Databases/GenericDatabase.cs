@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Project.Runtime.Scriptable;
 
-namespace Project.Runtime.Features.Databases
+namespace Project.Runtime.Player.Databases
 {
     public abstract class GenericDatabase<T> where T : UniqueConfig
     {

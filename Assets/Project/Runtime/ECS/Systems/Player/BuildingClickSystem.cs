@@ -4,8 +4,8 @@ using Project.Runtime.ECS.Views;
 using Project.Runtime.Features.Building;
 using Project.Runtime.Features.BuildingsManagement;
 using Project.Runtime.Features.CameraControl;
-using Project.Runtime.Features.Databases;
 using Project.Runtime.Features.GameplayMenus;
+using Project.Runtime.Player.Databases;
 using Project.Runtime.Scriptable.Buildings;
 using Scellecs.Morpeh;
 using UnityEngine;
@@ -73,6 +73,8 @@ namespace Project.Runtime.ECS.Systems.Player
             _selectedEntity = entity;
             _panelsManager.SetPanel(PanelType.TowerManagement);
 
+            _cameraController.SetPosition(_selectedEntity.ViewPosition() - new Vector3(2, 0, 2));
+            
             if (entity.Has<BuildingTag>() && _buildingsDatabase.TryGetById(
                     entity.GetComponent<BuildingTag>().BuildingConfigId, out var config))
             {

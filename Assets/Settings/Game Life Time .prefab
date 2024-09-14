@@ -445,3 +445,6 @@ MonoBehaviour:
   autoRun: 1
   autoInjectGameObjects: []
   loadingCanvasGroup: {fileID: 6451477376378453218}
+  commonCardsList: {fileID: 11400000, guid: 4e786577e366b2f4fa33ffe0eb0b5cfc, type: 2}
+  devPlayerSelectedCards: {fileID: 11400000, guid: 581b741a19a77a8438e5607dbc79caf8,
+    type: 2}

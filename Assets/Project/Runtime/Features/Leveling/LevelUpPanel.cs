@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using DG.Tweening;
-using Project.Runtime.ECS;
 using Project.Runtime.Features.GameplayMenus;
 using Project.Runtime.Features.Widgets;
 using Project.Runtime.Scriptable.Card;
@@ -13,7 +12,7 @@ namespace Project.Runtime.Features.Leveling
 {
     public class LevelUpPanel : PanelBase
     {
-        [Inject] private WorldSetup _worldSetup;
+        [Inject] private LevelUpCardsManager _levelUpCardsManager;
         
         [SerializeField] private List<CardWidget> cards = new();
 
@@ -51,20 +50,19 @@ namespace Project.Runtime.Features.Leveling
 
         private void CardSelected()
         {
-            OnCardSelect?.Invoke(cards[_selectedCardId].CardConfig);
+            var cardConfig = cards[_selectedCardId].CardConfig;
+            OnCardSelect?.Invoke(cardConfig);
+            _levelUpCardsManager.DecreaseDropCount(cardConfig);
             Hide();
         }
 
         public override void Show()
         {
             _selectedCardId = -1;
-            var activeCardsList = _worldSetup.ActiveCardsListConfig.Cards;
             var idx = 0;
             foreach (var card in cards)
             {
-                var randomCardConfig = Random.Range(0, activeCardsList.Count);
-
-                card.SetConfig(activeCardsList[randomCardConfig]);
+                card.SetConfig(_levelUpCardsManager.GetRandomCard());
                 card.SetIsSelected(false);
                 
                 AnimateCardShow(card, idx++);

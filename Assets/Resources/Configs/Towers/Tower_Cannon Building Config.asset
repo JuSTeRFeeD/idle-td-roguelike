@@ -19,16 +19,16 @@ MonoBehaviour:
   size: 2
   upgradeLevels: 5
   upgradePrices:
-  - woodPrice: 0
-    stonePrice: 0
-  - woodPrice: 0
-    stonePrice: 0
-  - woodPrice: 0
-    stonePrice: 0
-  - woodPrice: 0
-    stonePrice: 0
-  - woodPrice: 0
-    stonePrice: 0
+  - woodPrice: 5
+    stonePrice: 2
+  - woodPrice: 10
+    stonePrice: 5
+  - woodPrice: 5
+    stonePrice: 15
+  - woodPrice: 12
+    stonePrice: 20
+  - woodPrice: 20
+    stonePrice: 25
   health:
     min: 30
     max: 100
