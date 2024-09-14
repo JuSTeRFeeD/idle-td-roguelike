@@ -57,6 +57,8 @@ namespace Project.Runtime.ECS.Systems.Building
                 _handsManager.SetPlacingEnabledEnabled(false);
                 _handsManager.SetIsCardDrag(false);
             }
+            
+            Time.timeScale = 1f;
         }
 
         // Drag карточки на поле
@@ -93,6 +95,8 @@ namespace Project.Runtime.ECS.Systems.Building
                     break;
                 }
             }
+
+            Time.timeScale = 0.1f;
         }
 
         public void OnUpdate(float deltaTime)

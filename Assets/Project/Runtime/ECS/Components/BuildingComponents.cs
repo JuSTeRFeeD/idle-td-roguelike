@@ -14,10 +14,18 @@ namespace Project.Runtime.ECS.Components
     [Il2CppSetOption(Option.DivideByZeroChecks, false)] 
     public struct BuildingTag : IComponent
     {
+        public string BuildingConfigId;
         public int Size;
     }
 
-    /// Tower destroyed, днем нуждается в починке юнитами
+    /// Tower health < maxHealth, днем нуждается в починке юнитами
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)] 
+    public struct BuildingDamagedTag : IComponent
+    {
+    }
+    
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)] 
@@ -95,6 +103,11 @@ namespace Project.Runtime.ECS.Components
         public int Current { get; set; }
         public int Max { get; set; }
     }
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct StoneStorageFullTag : IComponent {}
+    
 
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
@@ -104,6 +117,10 @@ namespace Project.Runtime.ECS.Components
         public int Current { get; set; }
         public int Max { get; set; }
     }
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct WoodStorageFullTag : IComponent {}
 
     /// Building placing
     [Il2CppSetOption(Option.NullChecks, false)]

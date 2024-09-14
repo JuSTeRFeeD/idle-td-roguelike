@@ -51,7 +51,6 @@ namespace Project.Runtime.ECS.Systems.Units
                     StoneAmount = 0
                 });
                 
-                unitEntity.SetComponent(new FindResourceRequest());
                 unitEntity.SetComponent(new GatheringTime
                 {
                     Time = 1f

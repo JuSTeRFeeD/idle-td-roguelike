@@ -28,7 +28,13 @@ namespace Project.Runtime.Features.Building.Data
         
         [System.NonSerialized]
         public Entity Entity;
-        
+
+        /// <summary>
+        /// Это строение союзное, юниты могут бегать сквозь него
+        /// </summary>
+        [System.NonSerialized] 
+        public bool IsAllyBuilding;
+
         #endregion
     }
 }

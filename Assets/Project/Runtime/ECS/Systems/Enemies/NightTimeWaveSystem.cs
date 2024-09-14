@@ -24,7 +24,7 @@ namespace Project.Runtime.ECS.Systems.Enemies
         private NightWavesConfig.WaveData _waveData;
         private readonly Dictionary<EnemyConfig, int> _limits = new();
 
-        private const float SpawnRadius = 35f;
+        private const float SpawnRadius = 40f;
         
         public void OnAwake()
         {
@@ -59,14 +59,14 @@ namespace Project.Runtime.ECS.Systems.Enemies
                 {
                     if (!_limits.ContainsKey(waveDataEnemy.enemyConfig)) continue;
 
-                    var spawnDir = Random.insideUnitSphere;
-                    spawnDir.y = 0;
+                    var point = _worldSetup.EnemySpawnPoints[Random.Range(0, _worldSetup.EnemySpawnPoints.Length)];
                     
                     var spawnRequest = World.CreateEntity();
                     spawnRequest.SetComponent(new SpawnEnemyRequest
                     {
                         EnemyConfig = waveDataEnemy.enemyConfig,
-                        Position = baseTowerPos.ViewPosition() + spawnDir.normalized * SpawnRadius
+                        Position = point.position,
+                        WaveIndex = _lastSpawnedIndex
                     });
                         
                     if (--_limits[waveDataEnemy.enemyConfig] <= 0)

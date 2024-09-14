@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using Project.Runtime.ECS.Components;
 using Project.Runtime.Features.GameplayMenus;
 using Project.Runtime.Features.Widgets;
 using Project.Runtime.Scriptable.Buildings;
@@ -24,9 +22,11 @@ namespace Project.Runtime.Features.BuildingsManagement
         [SerializeField] private Transform container;
         [SerializeField] private UnitsWidget unitsWidgetPrefab;
         [SerializeField] private StorageInfoWidget storageInfoWidgetPrefab;
+        [SerializeField] private TowerWidget towerWidgetPrefab;
 
         private StorageInfoWidget _storageInfoWidget;
-        // private readonly Dictionary<UnitType, UnitsWidget> _unitsWidgetByType = new();
+        private UnitsWidget _unitsWidget;
+        private TowerWidget _towerWidget;
 
         public event Action OnCloseClick;
         
@@ -60,14 +60,23 @@ namespace Project.Runtime.Features.BuildingsManagement
             {
                 Destroy(widgetTransform.gameObject);
             }
-            // _unitsWidgetByType.Clear();
+            _unitsWidget = null;
             _storageInfoWidget = null;
+            
             base.Hide();
         }
 
         public void SetTitleAndLevel(string title, int level, float upgradeProgress)
         {
-            panelTitleText.SetText($"{title} <size=80%><color=yellow>lv.{level}");
+            if (upgradeProgress >= 1f)
+            {
+                panelTitleText.SetText($"{title} <size=80%><color=yellow>lv.{level} <color=orange>MAX");    
+            }
+            else
+            {
+                panelTitleText.SetText($"{title} <size=80%><color=yellow>lv.{level}");
+            }
+            
             upgadeProgress.fillAmount = upgradeProgress;
             upgadeProgress.enabled = true;
             upgadeProgressBg.enabled = true;
@@ -89,21 +98,40 @@ namespace Project.Runtime.Features.BuildingsManagement
             _storageInfoWidget.AddStorageType(resourceType, entity);
         }
         
-//         public void AddUnitManagementWidget(UnitType unitType, Action onRemoveUnitClick, Action onAddUnitClick)
-//         {
-//             var widget = Instantiate(unitsWidgetPrefab, container);
-//             widget.Setup(unitType);
-//             widget.OnAddUnitClick += onAddUnitClick;
-//             widget.OnRemoveUnitClick += onRemoveUnitClick;
-//             _unitsWidgetByType.Add(unitType, widget);
-//         }
-//
-//         public void SetUnitsWidgetValues(UnitType unitType, int usedUnits, int currentCapacity, int maxCapacity)
-//         {
-// #if UNITY_EDITOR
-//             if (!_unitsWidgetByType.ContainsKey(unitType)) Debug.LogError($"UnitType {unitType} doesn't added to panel!");
-// #endif
-//             _unitsWidgetByType[unitType].SetUnits(usedUnits, currentCapacity, maxCapacity);
-//         }
+        #region Upgrade Tower Widget
+        
+        public void AddTowerWidget(Action onClickUpgrade)
+        {
+            _towerWidget = Instantiate(towerWidgetPrefab, container);
+            _towerWidget.OnClickUpgrade += onClickUpgrade;
+        }
+        public void SetUpgradeTowerWidgetPrices(int woodUpgradePrice, int stoneUpgradePrice)
+        {
+            _towerWidget.SetPrices(woodUpgradePrice, stoneUpgradePrice);
+        }
+        public void SetUpgradeTowerWidgetTotalResourcesAmount(int woodAmount, int stoneAmount)
+        {
+            if (!_towerWidget) return;
+            _towerWidget.SetResourcesInStorages(woodAmount, stoneAmount);
+        }
+        public void DestroyUpgradeTowerWidget()
+        {
+            Destroy(_towerWidget.gameObject);
+            _towerWidget = null;
+        }
+        
+        #endregion
+
+        public void AddUnitManagementWidget()
+        {
+            _unitsWidget = Instantiate(unitsWidgetPrefab, container);
+        }
+        public void SetUnitsWidgetValues(int usedUnits, int currentCapacity, int maxCapacity)
+        {
+#if UNITY_EDITOR
+            if (!_unitsWidget) Debug.LogError($"_unitsWidget doesn't added to panel!");
+#endif
+            _unitsWidget.SetUnits(usedUnits, currentCapacity, maxCapacity);
+        }
     }
 }

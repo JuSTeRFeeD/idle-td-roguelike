@@ -47,8 +47,6 @@ namespace Project.Runtime.ECS.Systems.Enemies
                 damageAccum.Value += attackDamage;
                 damageAccum.DamagersAmount++;
                 
-                Debug.Log($"Enemy melee attack to {attackTarget.ID}");
-
                 if (attackTarget.Has<BaseTowerTag>())
                 {
                     // TODO: типо база ударила молнией этого энита

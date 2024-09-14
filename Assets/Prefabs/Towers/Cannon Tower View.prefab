@@ -41,6 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9010952339584161478}
   - component: {fileID: 1583291249685556938}
+  - component: {fileID: 4700187230860834809}
   m_Layer: 0
   m_Name: Cannon Tower View
   m_TagString: Untagged
@@ -81,6 +82,27 @@ MonoBehaviour:
   shootPoint: {fileID: 4211304647376635623}
   rotatingTower: {fileID: 7403922296152768611}
   towerViewUpgrades: {fileID: 3373684067798618341}
+--- !u!135 &4700187230860834809
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4407779688712635685}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1.3037075
+  m_Center: {x: 0, y: 0.8037075, z: 0}
 --- !u!1 &7905223502722735823
 GameObject:
   m_ObjectHideFlags: 0

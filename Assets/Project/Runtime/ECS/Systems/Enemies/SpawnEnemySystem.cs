@@ -11,6 +11,10 @@ namespace Project.Runtime.ECS.Systems.Enemies
         public World World { get; set; }
 
         private Filter _filter;
+
+        private const float HealthMultiplierByWave = .2f; // +20% per wave index
+        private const float DamageMultiplierByWave = .1f; // + 10% per wave index
+        private const float MoveSpeedMultiplierByWave = .1f; // + 10% per wave index
         
         public void OnAwake()
         {
@@ -31,34 +35,40 @@ namespace Project.Runtime.ECS.Systems.Enemies
                 enemy.SetComponent(new EnemyTag());
                 
                 // Health
+                var health = request.EnemyConfig.Health + 
+                             request.EnemyConfig.Health * HealthMultiplierByWave * request.WaveIndex; 
                 enemy.SetComponent(new HealthDefault
                 {
-                    Value = request.EnemyConfig.Health
+                    Value = health
                 });
                 enemy.SetComponent(new HealthCurrent
                 {
-                    Value = request.EnemyConfig.Health,
-                    GhostValue = request.EnemyConfig.Health
+                    Value = health, 
+                    GhostValue = health
                 });
                 
                 // Move
+                var moveSpeed = request.EnemyConfig.MoveSpeed + 
+                                request.EnemyConfig.MoveSpeed * MoveSpeedMultiplierByWave * request.WaveIndex;
                 enemy.SetComponent(new MoveSpeed
                 {
-                    Value = request.EnemyConfig.MoveSpeed
+                    Value = moveSpeed
                 });
                 enemy.SetComponent(new MoveSpeedRuntime
                 {
-                    Value = request.EnemyConfig.MoveSpeed
+                    Value = moveSpeed
                 });
                 
                 // Damage
+                var damage = request.EnemyConfig.AttackDamage + 
+                             request.EnemyConfig.AttackDamage * DamageMultiplierByWave * request.WaveIndex; 
                 enemy.SetComponent(new AttackDamage
                 {
-                    Value = request.EnemyConfig.AttackDamage
+                    Value = damage  
                 });
                 enemy.SetComponent(new AttackDamageRuntime
                 {
-                    Value = request.EnemyConfig.AttackDamage
+                    Value = damage
                 });
                 
                 // Range

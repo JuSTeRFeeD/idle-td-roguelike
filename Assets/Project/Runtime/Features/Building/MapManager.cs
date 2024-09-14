@@ -47,7 +47,8 @@ namespace Project.Runtime.Features.Building
                         IsRootPos = isRootPos,
                         RootIdx = ConvertToIndex(gridPos),
                         lvl = 0,
-                        Entity = buildingEntity
+                        Entity = buildingEntity,
+                        IsAllyBuilding = buildingConfig is not MapResourceConfig
                     };
                     if (isRootPos)
                     {
@@ -69,24 +70,18 @@ namespace Project.Runtime.Features.Building
             return viewResult;
         }
 
-        public BuildingData UpgradeBuilding(BuildingConfig buildingConfig, Vector2Int gridPos)
+        public BuildingData UpgradeBuilding(UpgradableTowerConfig buildingConfig, Vector2Int gridPos)
         {
-            if (buildingConfig is not UpgradableTowerConfig towerConfig)
-            {
-                Debug.LogError("[MapManager] Lol its not upgradable tower");
-                return null;
-            }
-            
             var building = Buildings[gridPos];
             if (!building.IsRootPos) building = Buildings[ConvertToGrid(building.RootIdx)];
-            if (building.id != towerConfig.uniqueID)
+            if (building.id != buildingConfig.uniqueID)
             {
-                Debug.LogError($"[MapManager] Id missmatch {building.id} != {towerConfig.uniqueID} | gridPos {gridPos}");
+                Debug.LogError($"[MapManager] Id missmatch {building.id} != {buildingConfig.uniqueID} | gridPos {gridPos}");
                 return null;
             }
-            if (building.lvl >= towerConfig.UpgradeLevels)
+            if (building.lvl >= buildingConfig.UpgradeLevels)
             {
-                Debug.LogWarning($"[MapManager] MaxLevel {building.lvl} >= {towerConfig.UpgradeLevels} | gridPos {gridPos}");
+                Debug.LogWarning($"[MapManager] MaxLevel {building.lvl} >= {buildingConfig.UpgradeLevels} | gridPos {gridPos}");
                 return null;
             }
             

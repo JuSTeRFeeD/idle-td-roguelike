@@ -87,7 +87,7 @@ namespace Project.Runtime.ECS.Systems.Units
                 {
                     if (!gathering.TargetResource.IsNullOrDisposed())
                     {
-                        gathering.TargetResource.RemoveComponent<SomeoneGatheringThis>();
+                        gathering.TargetResource.RemoveComponent<SomeUnitInteractsWithThisTag>();
                     }
                     
                     gathering.ProgressEntity.Dispose();

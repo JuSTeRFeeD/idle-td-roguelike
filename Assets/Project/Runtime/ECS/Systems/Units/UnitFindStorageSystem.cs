@@ -35,13 +35,23 @@ namespace Project.Runtime.ECS.Systems.Units
         {
             foreach (var entity in _unitsFilter)
             {
-                ref readonly var backpack = ref entity.GetComponent<UnitBackpack>();
-                if (backpack.WoodAmount > 0) FindStorage<WoodStorage>(entity, _woodStorageFilter);
-                else if (backpack.StoneAmount > 0) FindStorage<StoneStorage>(entity, _stoneStorageFilter);
+                ref var backpack = ref entity.GetComponent<UnitBackpack>();
+                if (backpack.WoodAmount > 0)
+                {
+                    FindStorage<WoodStorage>(entity, _woodStorageFilter, ref backpack.WoodAmount);
+                }
+                else if (backpack.StoneAmount > 0)
+                {
+                    FindStorage<StoneStorage>(entity, _stoneStorageFilter, ref backpack.StoneAmount);
+                }
+                else
+                {
+                    entity.RemoveComponent<FindStorageRequest>();
+                }
             }
         }
 
-        private static void FindStorage<T>(in Entity unitEntity, in Filter storageFilter) where T : struct, IStorage
+        private static void FindStorage<T>(in Entity unitEntity, in Filter storageFilter, ref int amountInBackpack) where T : struct, IStorage
         {
             foreach (var storageEntity in storageFilter)
             {
@@ -58,7 +68,12 @@ namespace Project.Runtime.ECS.Systems.Units
                     Entity = storageEntity
                 });
                 unitEntity.RemoveComponent<FindStorageRequest>();
+
+                return;
             }
+
+            // There is no empty storages, clearing backpack
+            amountInBackpack = 0;
         }
 
         public void Dispose()

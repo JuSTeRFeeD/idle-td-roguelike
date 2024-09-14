@@ -51,7 +51,7 @@ namespace Project.Runtime.ECS.Systems.Pathfinding
                     size = request.Entity.GetComponent<BuildingTag>().Size;
                 }
                 
-                var result = FindPath(gridPos, targetGridPos, size);
+                var result = FindPath(gridPos, targetGridPos, size, entity.Has<UnitTag>());
                 if (result == null) continue;
                 
                 entity.SetComponent(new AStarPath
@@ -149,13 +149,13 @@ namespace Project.Runtime.ECS.Systems.Pathfinding
             return _reusableNeighborsList;
         }
 
-        private List<Vector2Int> FindPath(Vector2Int start, Vector2Int end, int targetSize)
+        private List<Vector2Int> FindPath(Vector2Int start, Vector2Int end, int targetSize, bool forUnitEntity)
         {
-            start = FindNearestAvailableBorderPoint(start);
+            start = FindNearestAvailableBorderPoint(start, forUnitEntity);
 
             if (_mapManager.Buildings[end] != null)
             {
-                end = FindBestAvailableAdjacentPoint(start, end, targetSize);
+                end = FindBestAvailableAdjacentPoint(start, end, targetSize, forUnitEntity);
             }
 
             // Если путь уже был использован - реюз
@@ -187,7 +187,10 @@ namespace Project.Runtime.ECS.Systems.Pathfinding
 
                 foreach (var neighbor in GetNeighbors(currentNode.Position, _mapManager.MapSize))
                 {
-                    if (closedSet.Contains(neighbor) || _mapManager.Buildings[neighbor] != null)
+                    var neighborBuilding = _mapManager.Buildings[neighbor];
+                    // Скип в closedSet.Contains и когда не союзное строение и не для юнита маршрут строим, ну и клетка занята
+                    if (closedSet.Contains(neighbor) || 
+                        (neighborBuilding != null && !(neighborBuilding.IsAllyBuilding && forUnitEntity)))
                     {
                         continue;
                     }
@@ -207,7 +210,7 @@ namespace Project.Runtime.ECS.Systems.Pathfinding
         }
 
 
-        private Vector2Int FindBestAvailableAdjacentPoint(Vector2Int start, Vector2Int occupiedEnd, int targetSize)
+        private Vector2Int FindBestAvailableAdjacentPoint(Vector2Int start, Vector2Int occupiedEnd, int targetSize, bool forUnitEntity)
         {
             // находим root индекс
             var occupiedRootPosIdx = _mapManager.Buildings[occupiedEnd].RootIdx; 
@@ -222,7 +225,12 @@ namespace Project.Runtime.ECS.Systems.Pathfinding
 
             foreach (var neighbor in neighbors)
             {
-                if (_mapManager.Buildings[neighbor] != null) continue;
+                var neighborBuilding = _mapManager.Buildings[neighbor];
+                if (neighborBuilding != null && // занята
+                    !(neighborBuilding.IsAllyBuilding && forUnitEntity)) // не скипать если строение союзное и идет юнит 
+                {
+                    continue;
+                }
                 
                 var distance = GetHeuristic(start, neighbor);
                 if (distance >= bestDistance) continue;
@@ -235,10 +243,16 @@ namespace Project.Runtime.ECS.Systems.Pathfinding
         }
 
         /// ClampToMap pos and return outsideBestPos if gridCell occupied  
-        private Vector2Int FindNearestAvailableBorderPoint(Vector2Int outsidePoint)
+        private Vector2Int FindNearestAvailableBorderPoint(Vector2Int outsidePoint, bool forUnitEntity)
         {
             var bestPoint = ClampToMap(outsidePoint);
             if (_mapManager.Buildings[bestPoint] == null)
+            {
+                return bestPoint;
+            }
+
+            // Ally units can walk throw ally buildings
+            if (forUnitEntity && _mapManager.Buildings[bestPoint].IsAllyBuilding)
             {
                 return bestPoint;
             }

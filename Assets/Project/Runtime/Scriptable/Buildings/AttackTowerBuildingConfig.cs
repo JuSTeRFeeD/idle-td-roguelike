@@ -1,3 +1,4 @@
+using Project.Runtime.ECS.Components;
 using Project.Runtime.ECS.Views;
 using UnityEngine;
 
@@ -8,13 +9,13 @@ namespace Project.Runtime.Scriptable.Buildings
     {
         [Header("AttackTowerBuildingConfig")] 
         [SerializeField] private EntityView projectileView;
-        [SerializeField] private float damage;
-        [SerializeField] private float attackCooldown;
-        [SerializeField] private float attackRange;
+        [SerializeField] private MinMaxFloat damage;
+        [SerializeField] private MinMaxFloat attackCooldown;
+        [SerializeField] private MinMaxFloat attackRange;
 
         public EntityView ProjectileView => projectileView;
-        public float Damage => damage;
-        public float AttackCooldown => attackCooldown;
-        public float AttackRange => attackRange;
+        public MinMaxFloat Damage => damage;
+        public MinMaxFloat AttackCooldown => attackCooldown;
+        public MinMaxFloat AttackRange => attackRange;
     }
 }

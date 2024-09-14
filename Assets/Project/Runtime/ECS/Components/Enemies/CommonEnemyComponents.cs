@@ -19,5 +19,6 @@ namespace Project.Runtime.ECS.Components.Enemies
     {
         public Vector3 Position;
         public EnemyConfig EnemyConfig;
+        public int WaveIndex;
     }
 }

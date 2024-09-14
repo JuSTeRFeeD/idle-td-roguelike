@@ -1,9 +1,10 @@
-using System;
 using Project.Runtime.ECS.Components;
 using Project.Runtime.ECS.Extensions;
 using Project.Runtime.ECS.Views;
+using Project.Runtime.Features.Building;
 using Project.Runtime.Features.BuildingsManagement;
 using Project.Runtime.Features.CameraControl;
+using Project.Runtime.Features.Databases;
 using Project.Runtime.Features.GameplayMenus;
 using Project.Runtime.Scriptable.Buildings;
 using Scellecs.Morpeh;
@@ -17,39 +18,39 @@ namespace Project.Runtime.ECS.Systems.Player
         [Inject] private CameraController _cameraController;
         [Inject] private PanelsManager _panelsManager;
         [Inject] private BuildingManagementPanel _buildingManagementPanel;
-        
+        [Inject] private BuildingsDatabase _buildingsDatabase;
+        [Inject] private MapManager _mapManager;
+
         public World World { get; set; }
 
         private Entity _selectedEntity;
 
-        private Filter _lumberjackUnitsFilter;
-        private Filter _minerUnitsFilter;
-        private Filter _chillingUnitsFilter;
+        private Filter _unitsFilter;
         
+        private Filter _stoneStorageFilter;
+        private Filter _woodStorageFilter;
+        private Stash<WoodStorage> _woodStorageStash;
+        private Stash<StoneStorage> _stoneStorageStash;
+
         public void OnAwake()
         {
             _cameraController.OnEntityViewClick += OnClickEntityView;
             _buildingManagementPanel.OnCloseClick += CloseManagement;
             Debug.Log("Building click system inited");
 
-            // _lumberjackUnitsFilter = World.Filter
-            //     .With<UnitTag>()
-            //     .With<LumberjackTag>()
-            //     .With<Owner>()
-            //     .Build();
-            //
-            // _minerUnitsFilter = World.Filter
-            //     .With<UnitTag>()
-            //     .With<MinerTag>()
-            //     .With<Owner>()
-            //     .Build();
-            //
-            // _chillingUnitsFilter = World.Filter
-            //     .With<UnitTag>()
-            //     .Without<MinerTag>()
-            //     .Without<LumberjackTag>()
-            //     .Without<Owner>()
-            //     .Build();
+            _unitsFilter = World.Filter
+                .With<UnitTag>()
+                .With<Owner>()
+                .Build();
+
+            _woodStorageFilter = World.Filter
+                .With<WoodStorage>()
+                .Build();
+            _stoneStorageFilter = World.Filter
+                .With<StoneStorage>()
+                .Build();
+            _woodStorageStash = World.GetStash<WoodStorage>();
+            _stoneStorageStash = World.GetStash<StoneStorage>();
         }
 
         private void CloseManagement()
@@ -66,15 +67,35 @@ namespace Project.Runtime.ECS.Systems.Player
                 _selectedEntity = null;
                 return;
             }
+
             if (entity == _selectedEntity) return;
 
             _selectedEntity = entity;
             _panelsManager.SetPanel(PanelType.TowerManagement);
-            
-            // Title
-            if (entity.Has<BaseTowerTag>())
+
+            if (entity.Has<BuildingTag>() && _buildingsDatabase.TryGetById(
+                    entity.GetComponent<BuildingTag>().BuildingConfigId, out var config))
             {
-                _buildingManagementPanel.SetTitleAndLevel("Chabumba", 1, 0.1f);
+                // Upgradable
+                if (config is UpgradableTowerConfig upgradableTowerConfig)
+                {
+                    var gridPos = GridUtils.ConvertWorldToGridPos(entity.ViewPosition());
+                    var building = _mapManager.Buildings[gridPos];
+                    _buildingManagementPanel.SetTitleAndLevel(config.Title, building.lvl, (float)building.lvl / upgradableTowerConfig.UpgradeLevels);
+                    
+                    // Upgrade
+                    if (building.lvl < upgradableTowerConfig.UpgradeLevels)
+                    {
+                        var prices = upgradableTowerConfig.UpgradePrices[building.lvl]; 
+                        _buildingManagementPanel.AddTowerWidget(OnClickTowerUpgrade);
+                        _buildingManagementPanel.SetUpgradeTowerWidgetPrices(prices.woodPrice, prices.stonePrice);
+                    }
+                }
+                else
+                {
+                    _buildingManagementPanel.SetTitle(config.Title);
+                }
+                
             }
 
             // Storage Info's
@@ -82,135 +103,140 @@ namespace Project.Runtime.ECS.Systems.Player
             {
                 _buildingManagementPanel.AddStorageInfoWidget(ResourceType.Stone, entity);
             }
+
             if (entity.Has<StoneStorage>())
             {
                 _buildingManagementPanel.AddStorageInfoWidget(ResourceType.Wood, entity);
             }
-            
+
             // Units management
-            // if (entity.Has<LumberjackUnitsOwnedTag>())
-            // {
-            //     _buildingManagementPanel.AddUnitManagementWidget(
-            //         UnitType.Lumberjack, 
-            //         () => RemoveUnitClick(UnitType.Lumberjack),
-            //         () => AddUnitClick(UnitType.Lumberjack));
-            // }
-            // if (entity.Has<MinerUnitsOwnedTag>())
-            // {
-            //     _buildingManagementPanel.AddUnitManagementWidget(
-            //         UnitType.Miner, 
-            //         () => RemoveUnitClick(UnitType.Miner),
-            //         () => AddUnitClick(UnitType.Miner));
-            // }
+            if (entity.Has<UnitsOwnedTag>())
+            {
+                _buildingManagementPanel.AddUnitManagementWidget();
+            }
         }
 
-        // private void AddUnitClick(UnitType unitType)
-        // {
-        //     // TODO: handle building unit limits 
-        //     
-        //     foreach (var entity in _chillingUnitsFilter)
-        //     {
-        //         entity.AddComponent<FindResourceRequest>();
-        //         entity.SetComponent(new Owner
-        //         {
-        //             Entity = _selectedEntity
-        //         });
-        //         
-        //         switch (unitType)
-        //         {
-        //             case UnitType.Lumberjack:
-        //                 entity.AddComponent<LumberjackTag>();
-        //                 break;
-        //             case UnitType.Miner:
-        //                 entity.AddComponent<MinerTag>();
-        //                 break;
-        //             default:
-        //                 throw new ArgumentOutOfRangeException(nameof(unitType), unitType, null);
-        //         }
-        //
-        //         break;
-        //     }
-        // }
-        //
-        // private void RemoveUnitClick(UnitType unitType)
-        // {
-        //     switch (unitType)
-        //     {
-        //         case UnitType.Lumberjack:
-        //             RemoveUnit(unitType, _lumberjackUnitsFilter);
-        //             break;
-        //         case UnitType.Miner:
-        //             RemoveUnit(unitType, _minerUnitsFilter);
-        //             break;
-        //         default:
-        //             throw new ArgumentOutOfRangeException(nameof(unitType), unitType, null);
-        //     }
-        // }
-        //
-        // private void RemoveUnit(UnitType unitType, Filter unitFilter)
-        // {
-        //     foreach (var entity in unitFilter)
-        //     {
-        //         if (entity.Owner() != _selectedEntity) continue;
-        //         
-        //         // clearing unit entity
-        //         entity.RemoveComponent<Owner>();
-        //         entity.GetComponent<UnitBackpack>().Amount = 0;
-        //         entity.SafeRemove<MoveToResource>();
-        //         entity.SafeRemove<MoveToStorage>();
-        //         entity.SafeRemove<FindResourceRequest>();
-        //         entity.SafeRemove<FindStorageRequest>();
-        //         if (entity.Has<Gathering>())
-        //         {
-        //             ref var gathering = ref entity.GetComponent<Gathering>();
-        //             if (!gathering.TargetResource.IsNullOrDisposed())
-        //             {
-        //                 gathering.TargetResource.Dispose();
-        //             }
-        //             if (!gathering.ProgressEntity.IsNullOrDisposed())
-        //             {
-        //                 gathering.ProgressEntity.Dispose();
-        //             }
-        //             entity.RemoveComponent<Gathering>();
-        //         }
-        //         
-        //         switch (unitType)
-        //         {
-        //             case UnitType.Lumberjack:
-        //                 entity.RemoveComponent<LumberjackTag>();
-        //                 break;
-        //             case UnitType.Miner:
-        //                 entity.RemoveComponent<MinerTag>();
-        //                 break;
-        //             default:
-        //                 throw new ArgumentOutOfRangeException(nameof(unitType), unitType, null);
-        //         }
-        //
-        //         break;
-        //     }
-        // }
+        private void OnClickTowerUpgrade()
+        {
+            if (_selectedEntity.IsNullOrDisposed()) return;
+            if (!_selectedEntity.Has<BuildingTag>()) return;
+
+            var buildingId = _selectedEntity.GetComponent<BuildingTag>().BuildingConfigId;
+            if (!_buildingsDatabase.TryGetById(buildingId, out var config)) return;
+
+            // Get prices
+            if (config is not UpgradableTowerConfig upgradableTowerConfig) return;
+            var gridPos = GridUtils.ConvertWorldToGridPos(_selectedEntity.ViewPosition());
+            var building = _mapManager.Buildings[gridPos];
+            var prices = upgradableTowerConfig.UpgradePrices[building.lvl];
+            
+            // Decreasing resources
+            TakeResourcesFromStorages(prices);
+
+            // Spawn building over other building to auto merge in building systems
+            var request = World.CreateEntity();
+            request.SetComponent(new PlacingBuildingCard
+            {
+                BuildingConfig = config,
+                CurrentPosition = _selectedEntity.ViewPosition(),
+                IsCollisionDetected = true,
+                IsMergeCollisionDetected = true
+            });
+            request.SetComponent(new PlaceBuildingCardRequest());
+
+            // Redraw ui
+            _buildingManagementPanel.SetTitleAndLevel(
+                config.Title, 
+                building.lvl + 1, 
+                (float)(building.lvl + 1) / upgradableTowerConfig.UpgradeLevels);
+            if (building.lvl + 1 >= upgradableTowerConfig.UpgradeLevels)
+            {
+                _buildingManagementPanel.DestroyUpgradeTowerWidget();
+            }
+            else
+            {
+                var nextPrices = upgradableTowerConfig.UpgradePrices[building.lvl + 1];
+                _buildingManagementPanel.SetUpgradeTowerWidgetPrices(nextPrices.woodPrice, nextPrices.stonePrice);
+            }
+        }
+
+        private void TakeResourcesFromStorages(UpgradableTowerConfig.UpgradePrice prices)
+        {
+            while (prices.woodPrice > 0)
+            {
+                foreach (var entity in _woodStorageFilter)
+                {
+                    ref var storage = ref _woodStorageStash.Get(entity);
+                    if (storage.Current >= prices.woodPrice)
+                    {
+                        storage.Current -= prices.woodPrice;
+                        prices.woodPrice = 0;
+                        entity.SafeRemove<WoodStorageFullTag>();
+                    }
+                    else if (storage.Current > 0)
+                    {
+                        var possible = prices.woodPrice - storage.Current;
+                        storage.Current -= possible;
+                        prices.woodPrice -= possible;
+                        entity.SafeRemove<WoodStorageFullTag>();
+                    }
+
+                }
+            }
+
+            while (prices.stonePrice > 0)
+            {
+                foreach (var entity in _stoneStorageFilter)
+                {
+                    ref var storage = ref _stoneStorageStash.Get(entity);
+                    if (storage.Current >= prices.stonePrice)
+                    {
+                        storage.Current -= prices.stonePrice;
+                        prices.stonePrice = 0;
+                        entity.SafeRemove<StoneStorageFullTag>();
+                    }
+                    else if (storage.Current > 0)
+                    {
+                        var possible = prices.stonePrice - storage.Current;
+                        storage.Current -= possible;
+                        prices.stonePrice -= possible;
+                        entity.SafeRemove<StoneStorageFullTag>();
+                    }
+                }
+            }
+        }
 
         public void OnUpdate(float deltaTime)
         {
             if (_selectedEntity.IsNullOrDisposed()) return;
-            
+
             // Отображение в UI сколько использует юнитов этот тавер
             if (_selectedEntity.Has<UnitsOwnedTag>())
             {
                 ref var minerUnitsOwned = ref _selectedEntity.GetComponent<UnitsOwnedTag>();
-                var used = 0;
-                foreach (var entity in _minerUnitsFilter)
+                var used = _unitsFilter.GetLengthSlow();
+                
+                _buildingManagementPanel.SetUnitsWidgetValues(
+                    used,
+                    minerUnitsOwned.CurrentCapacity,
+                    minerUnitsOwned.Capacity.max
+                );
+            }
+            
+            // Отображение для грейда сколько имеем ресов
+            if (_selectedEntity.Has<BuildingTag>())
+            {
+                var stoneAmount = 0;
+                var woodAmount = 0;
+                foreach (var entity in _woodStorageFilter)
                 {
-                    if (entity.Owner() == _selectedEntity)
-                    {
-                        used++;
-                    }
+                    woodAmount += _woodStorageStash.Get(entity).Current;
                 }
-                // _buildingManagementPanel.SetUnitsWidgetValues(
-                //     UnitType.Miner,
-                //     used, 
-                //     minerUnitsOwned.CurrentCapacity, 
-                //     minerUnitsOwned.Capacity.max);
+                foreach (var entity in _stoneStorageFilter)
+                {
+                    stoneAmount += _stoneStorageStash.Get(entity).Current;
+                }
+                _buildingManagementPanel.SetUpgradeTowerWidgetTotalResourcesAmount(woodAmount, stoneAmount);
             }
         }
 

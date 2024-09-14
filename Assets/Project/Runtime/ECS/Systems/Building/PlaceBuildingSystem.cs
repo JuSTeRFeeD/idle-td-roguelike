@@ -40,6 +40,7 @@ namespace Project.Runtime.ECS.Systems.Building
             {
                 _handsManager.SetPlacingEnabledEnabled(false);
                 _handsManager.SetIsCardDrag(false);
+                Time.timeScale = 1f;
 
                 var isSystemAction = entity.Has<SystemActionTag>();
                 var placingBuilding = entity.GetComponent<PlacingBuildingCard>();
@@ -49,7 +50,13 @@ namespace Project.Runtime.ECS.Systems.Building
                 // Merge
                 if (placingBuilding.IsMergeCollisionDetected) 
                 {
-                    var building = _mapManager.UpgradeBuilding(placingBuilding.BuildingConfig, gridPos);
+                    if (placingBuilding.BuildingConfig is not UpgradableTowerConfig towerConfig)
+                    {
+                        Debug.LogError("[MapManager] Lol its not upgradable tower");
+                        return;
+                    }
+
+                    var building = _mapManager.UpgradeBuilding(towerConfig, gridPos);
                     if (building == null)
                     {
                         Debug.LogError("Нужно обработать если building null");
@@ -59,6 +66,7 @@ namespace Project.Runtime.ECS.Systems.Building
                     view = building.Entity.GetComponent<ViewEntity>().Value;
                     var towerView = (AttackTowerView)view;
                     towerView.TowerViewUpgrades.SetLevel(building.lvl);
+                    UpgradeBuildingEntity(building.Entity, towerConfig, building.lvl);
 
                     VfxPool.Spawn(_vfxSetup.TowerLevelUpVfx, towerView.transform.position);
                 }
@@ -88,6 +96,7 @@ namespace Project.Runtime.ECS.Systems.Building
 
                 if (!isSystemAction)
                 {
+                    view.transform.DOKill(true);
                     view.transform
                         .DOPunchScale(Vector3.up * .25f, 0.25f, 10, 2f)
                         .SetLink(view.gameObject);
@@ -106,6 +115,26 @@ namespace Project.Runtime.ECS.Systems.Building
             }
         }
 
+        private void UpgradeBuildingEntity(Entity buildingEntity, UpgradableTowerConfig buildingConfig, int level)
+        {
+            var maxLevel = buildingConfig.UpgradeLevels;
+            switch (buildingConfig)
+            {
+                case AttackTowerBuildingConfig attackTower:
+                    // HP
+                    ref var currentHealth = ref buildingEntity.GetComponent<HealthCurrent>().Value;
+                    ref var defaultHealth = ref buildingEntity.GetComponent<HealthDefault>().Value;
+                    var prevHealthPercent = currentHealth / defaultHealth;
+                    defaultHealth = attackTower.Health.Evaluate(level, maxLevel);
+                    currentHealth = defaultHealth * prevHealthPercent;
+                    // Other stats
+                    buildingEntity.GetComponent<AttackDamage>().Value = attackTower.Damage.Evaluate(level, maxLevel);
+                    buildingEntity.GetComponent<AttackCooldown>().Value = attackTower.AttackCooldown.Evaluate(level, maxLevel);
+                    buildingEntity.GetComponent<AttackRange>().Value = attackTower.AttackRange.Evaluate(level, maxLevel);
+                    break;
+            }
+        }
+
         private void SetupEntity(in Entity buildingEntity, in BuildingConfig buildingConfig, in EntityView view)
         {
             switch (buildingConfig)
@@ -114,6 +143,7 @@ namespace Project.Runtime.ECS.Systems.Building
                 {
                     buildingEntity.SetComponent(new BuildingTag
                     {
+                        BuildingConfigId = buildingConfig.uniqueID,
                         Size = buildingConfig.Size
                     });
                     buildingEntity.SetComponent(new BaseTowerTag());
@@ -187,18 +217,19 @@ namespace Project.Runtime.ECS.Systems.Building
                 {
                     buildingEntity.SetComponent(new BuildingTag
                     {
+                        BuildingConfigId = buildingConfig.uniqueID,
                         Size = buildingConfig.Size
                     });
                     buildingEntity.SetComponent(new AttackTowerTag());
 
                     buildingEntity.SetComponent(new HealthDefault
                     {
-                        Value = attackTower.Health
+                        Value = attackTower.Health.min
                     });
                     buildingEntity.SetComponent(new HealthCurrent
                     {
-                        Value = attackTower.Health,
-                        GhostValue = attackTower.Health
+                        Value = attackTower.Health.min,
+                        GhostValue = attackTower.Health.min
                     });
                     buildingEntity.SetComponent(new ShootPoint
                     {
@@ -207,17 +238,17 @@ namespace Project.Runtime.ECS.Systems.Building
                     buildingEntity.AddComponent<AttackDamageRuntime>();
                     buildingEntity.SetComponent(new AttackDamage
                     {
-                        Value = attackTower.Damage
+                        Value = attackTower.Damage.min
                     });
                     buildingEntity.AddComponent<AttackRangeRuntime>();
                     buildingEntity.SetComponent(new AttackRange
                     {
-                        Value = attackTower.AttackRange
+                        Value = attackTower.AttackRange.min
                     });
                     buildingEntity.AddComponent<AttackCooldownRuntime>();
                     buildingEntity.SetComponent(new AttackCooldown
                     {
-                        Value = attackTower.AttackCooldown
+                        Value = attackTower.AttackCooldown.min
                     });
                     buildingEntity.SetComponent(new AttackProjectileData
                     {

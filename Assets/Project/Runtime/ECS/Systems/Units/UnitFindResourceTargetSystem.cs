@@ -13,6 +13,9 @@ namespace Project.Runtime.ECS.Systems.Units
         private Filter _unitsFilter;
         private Filter _mapResourcesFilter;
         
+        private Filter _woodStorageFilter;
+        private Filter _stoneStorageFilter;
+        
         public void OnAwake()
         {
             _unitsFilter = World.Filter
@@ -26,13 +29,28 @@ namespace Project.Runtime.ECS.Systems.Units
             _mapResourcesFilter = World.Filter
                 .With<MapResourceTag>()
                 .With<ViewEntity>()
-                .Without<SomeoneGatheringThis>()
+                .Without<SomeUnitInteractsWithThisTag>()
                 .Build();
+
+            _woodStorageFilter = World.Filter.With<WoodStorage>().Without<WoodStorageFullTag>().Build();
+            _stoneStorageFilter = World.Filter.With<StoneStorage>().Without<StoneStorageFullTag>().Build();
         }
 
         public void OnUpdate(float deltaTime)
         {
             var used = new HashSet<Entity>();
+
+            var needWood = _woodStorageFilter.IsNotEmpty();
+            var needStone = _stoneStorageFilter.IsNotEmpty();
+            
+            if (!needWood && !needStone)
+            {
+                foreach (var entity in _unitsFilter)
+                {
+                    entity.RemoveComponent<FindResourceRequest>();
+                }
+                return;
+            }
             
             foreach (var entity in _unitsFilter)
             {
@@ -43,6 +61,9 @@ namespace Project.Runtime.ECS.Systems.Units
             
                 foreach (var resourceEntity in _mapResourcesFilter)
                 {
+                    if (!needWood && resourceEntity.Has<TreeTag>()) continue;
+                    if (!needStone && resourceEntity.Has<StoneTag>()) continue;
+                    
                     var pos = resourceEntity.ViewPosition();
 
                     var sqrDist = Vector3.SqrMagnitude(pos - unitPos);
@@ -55,8 +76,12 @@ namespace Project.Runtime.ECS.Systems.Units
                     nearestEntity = resourceEntity;
                     nearestPosition = pos;
                 }
-            
-                if (nearestEntity == null) return;
+
+                entity.RemoveComponent<FindResourceRequest>();
+                if (nearestEntity == null)
+                {
+                    continue;
+                }
             
                 entity.SetComponent(new AStarCalculatePathRequest
                 {
@@ -67,8 +92,7 @@ namespace Project.Runtime.ECS.Systems.Units
                 {
                     Entity = nearestEntity
                 });
-                entity.RemoveComponent<FindResourceRequest>();
-                nearestEntity.SetComponent(new SomeoneGatheringThis());
+                nearestEntity.SetComponent(new SomeUnitInteractsWithThisTag());
                 used.Add(nearestEntity);
             }
             

@@ -14,13 +14,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ShowUniqueId>k__BackingField: 0
   uniqueID: de5ad661-607b-4ba3-b0b8-71416a8f5491
-  title: Attack Tower
+  title: Cannon Tower
   prefab: {fileID: 1583291249685556938, guid: 04d763664103e0442baddaa8aba7ce75, type: 3}
   size: 2
   upgradeLevels: 5
-  health: 50
+  upgradePrices:
+  - woodPrice: 0
+    stonePrice: 0
+  - woodPrice: 0
+    stonePrice: 0
+  - woodPrice: 0
+    stonePrice: 0
+  - woodPrice: 0
+    stonePrice: 0
+  - woodPrice: 0
+    stonePrice: 0
+  health:
+    min: 30
+    max: 100
   projectileView: {fileID: -1677189479211087335, guid: 182c90b664191fb4d8d15aa3e27d4deb,
     type: 3}
-  damage: 20
-  attackCooldown: 0.5
-  attackRange: 10
+  damage:
+    min: 40
+    max: 120
+  attackCooldown:
+    min: 1.5
+    max: 0.4
+  attackRange:
+    min: 7
+    max: 11

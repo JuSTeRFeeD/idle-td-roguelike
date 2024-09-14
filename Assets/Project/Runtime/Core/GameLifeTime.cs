@@ -1,3 +1,4 @@
+using Project.Runtime.Features.Databases;
 using UnityEngine;
 using VContainer;
 
@@ -10,7 +11,8 @@ namespace Project.Runtime.Core
         protected override void Configure(IContainerBuilder builder)
         {
             DontDestroyOnLoad(gameObject);
-            
+
+            builder.Register<BuildingsDatabase>(Lifetime.Singleton);
             builder.RegisterInstance(new SceneLoader(this, loadingCanvasGroup));
         }
     }

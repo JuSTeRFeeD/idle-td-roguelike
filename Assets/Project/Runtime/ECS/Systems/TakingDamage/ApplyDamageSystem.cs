@@ -42,8 +42,6 @@ namespace Project.Runtime.ECS.Systems.TakingDamage
                 // *во втором случ все существа будут попадать в эту систему после первого получения урона
                 entity.RemoveComponent<DamageAccumulator>();
                 
-                Debug.Log($"Taked damage {damageAccumulator}. CurHP {healthCurrent}");
-
                 if (healthCurrent > 0)
                 {
                     SpawnHealthbarIfNotSpawned(entity);

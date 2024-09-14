@@ -70,7 +70,7 @@ namespace Project.Runtime.ECS.Components
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)] 
-    public struct SomeoneGatheringThis : IComponent
+    public struct SomeUnitInteractsWithThisTag : IComponent
     {
     }
 
@@ -139,7 +139,7 @@ namespace Project.Runtime.ECS.Components
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct UnitMoveToRepairTower : IComponent
     {
-        public Entity Value;
+        public Entity Tower;
     }
     
     [Il2CppSetOption(Option.NullChecks, false)]
@@ -147,6 +147,10 @@ namespace Project.Runtime.ECS.Components
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct UnitRepairingTower : IComponent
     {
-        public Entity Value;
+        public Entity Tower;
+        
+        public Entity ProgressEntity;
+        public float TowerHealthOnStart;
+        public float Progress;
     }
 }

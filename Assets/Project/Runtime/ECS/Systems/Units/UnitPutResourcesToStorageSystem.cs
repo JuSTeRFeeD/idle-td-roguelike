@@ -1,4 +1,6 @@
+using System;
 using Project.Runtime.ECS.Components;
+using Project.Runtime.Scriptable.Buildings;
 using Scellecs.Morpeh;
 
 namespace Project.Runtime.ECS.Systems.Units
@@ -28,11 +30,11 @@ namespace Project.Runtime.ECS.Systems.Units
                 
                 if (storageEntity.Has<WoodStorage>())
                 {
-                    PutResources(ref storageEntity.GetComponent<WoodStorage>(), ref backpack.WoodAmount);
+                    PutResources(storageEntity, ref storageEntity.GetComponent<WoodStorage>(), ref backpack.WoodAmount, ResourceType.Wood);
                 }
                 if (storageEntity.Has<StoneStorage>())
                 {
-                    PutResources(ref storageEntity.GetComponent<StoneStorage>(), ref backpack.StoneAmount);
+                    PutResources(storageEntity, ref storageEntity.GetComponent<StoneStorage>(), ref backpack.StoneAmount, ResourceType.Stone);
                 }
                 
                 entity.RemoveComponent<MoveToStorage>();
@@ -47,7 +49,7 @@ namespace Project.Runtime.ECS.Systems.Units
             }
         }
 
-        private static void PutResources<T>(ref T storage, ref int backpackAmount) where T : struct, IStorage
+        private static void PutResources<T>(in Entity storageEntity, ref T storage, ref int backpackAmount, ResourceType resourceType) where T : struct, IStorage
         {
             var possiblePutIntoStorage = storage.Max - storage.Current;
             
@@ -60,6 +62,21 @@ namespace Project.Runtime.ECS.Systems.Units
             {
                 storage.Current += possiblePutIntoStorage;
                 backpackAmount -= possiblePutIntoStorage;
+            }
+
+            if (storage.Current >= storage.Max)
+            {
+                switch (resourceType)
+                {
+                    case ResourceType.Wood:
+                        storageEntity.SetComponent(new WoodStorageFullTag());
+                        break;
+                    case ResourceType.Stone:
+                        storageEntity.SetComponent(new StoneStorageFullTag());
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(resourceType), resourceType, null);
+                }
             }
         }
 

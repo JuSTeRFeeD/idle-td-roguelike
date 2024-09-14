@@ -18,9 +18,28 @@ MonoBehaviour:
   prefab: {fileID: 8227337582012608927, guid: 5cdfcf7912249b54ebfeb8400304df04, type: 3}
   size: 2
   upgradeLevels: 5
-  health: 40
+  upgradePrices:
+  - woodPrice: 5
+    stonePrice: 0
+  - woodPrice: 10
+    stonePrice: 5
+  - woodPrice: 10
+    stonePrice: 10
+  - woodPrice: 15
+    stonePrice: 10
+  - woodPrice: 15
+    stonePrice: 15
+  health:
+    min: 30
+    max: 100
   projectileView: {fileID: -1677189479211087335, guid: 182c90b664191fb4d8d15aa3e27d4deb,
     type: 3}
-  damage: 10
-  attackCooldown: 0.1
-  attackRange: 8
+  damage:
+    min: 25
+    max: 60
+  attackCooldown:
+    min: 1.5
+    max: 0.2
+  attackRange:
+    min: 9
+    max: 14

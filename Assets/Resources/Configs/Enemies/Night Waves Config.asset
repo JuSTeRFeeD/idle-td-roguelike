@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf7d231015d24c48b1f38bc1716206df, type: 3}
+  m_Name: Night Waves Config
+  m_EditorClassIdentifier: 
+  waves:
+  - enemies:
+    - enemyConfig: {fileID: 11400000, guid: 2c7e12248c2a8e9478462289cdd79825, type: 2}
+      countToSpawn: 5
+    spawnDelayBetween: {x: 0.05, y: 0.29645807}
+  - enemies:
+    - enemyConfig: {fileID: 11400000, guid: 2c7e12248c2a8e9478462289cdd79825, type: 2}
+      countToSpawn: 10
+    spawnDelayBetween: {x: 0.05, y: 0.33415103}
+  - enemies:
+    - enemyConfig: {fileID: 11400000, guid: 2c7e12248c2a8e9478462289cdd79825, type: 2}
+      countToSpawn: 15
+    - enemyConfig: {fileID: 11400000, guid: e7ce1f78a8a5d7d44a7004d42f1696b6, type: 2}
+      countToSpawn: 1
+    spawnDelayBetween: {x: 0.25338042, y: 0.5}
+  - enemies:
+    - enemyConfig: {fileID: 11400000, guid: 2c7e12248c2a8e9478462289cdd79825, type: 2}
+      countToSpawn: 20
+    spawnDelayBetween: {x: 0.1, y: 0.5}
+  - enemies:
+    - enemyConfig: {fileID: 11400000, guid: 2c7e12248c2a8e9478462289cdd79825, type: 2}
+      countToSpawn: 25
+    spawnDelayBetween: {x: 0.1, y: 0.5}
+  - enemies: []
+    spawnDelayBetween: {x: 0.1, y: 0.5}
+  - enemies:
+    - enemyConfig: {fileID: 11400000, guid: 2c7e12248c2a8e9478462289cdd79825, type: 2}
+      countToSpawn: 30
+    - enemyConfig: {fileID: 11400000, guid: e7ce1f78a8a5d7d44a7004d42f1696b6, type: 2}
+      countToSpawn: 1
+    spawnDelayBetween: {x: 0.1, y: 0.5}

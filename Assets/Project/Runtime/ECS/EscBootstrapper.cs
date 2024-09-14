@@ -11,6 +11,7 @@ using Project.Runtime.ECS.Systems.Projectile;
 using Project.Runtime.ECS.Systems.Shooting;
 using Project.Runtime.ECS.Systems.TakingDamage;
 using Project.Runtime.ECS.Systems.Units;
+using Project.Runtime.ECS.Systems.Units.RepairBuildings;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Helpers.OneFrame;
 using UnityEngine;
@@ -74,7 +75,13 @@ namespace Project.Runtime.ECS
             
             // --- Units---
             _commonSystemsGroup.AddSystem<SpawnUnitSystem>();
+            
+            // Repair towers
+            _commonSystemsGroup.AddSystem<FindUnitsToRepairTowersSystem>();
+            _commonSystemsGroup.AddSystem<UnitRepairTowerSystem>();
+            
             // Gathering
+            _commonSystemsGroup.AddSystem<UnitSetFindResWhenNeedSystem>();
             _commonSystemsGroup.AddSystem<UnitFindResourceTargetSystem>();
             // _commonSystemsGroup.AddSystem<UnitMoveToTargetResourceSystem>(); // todo remove cuz rewrited with AStarMoveSystem
             _commonSystemsGroup.AddSystem<UnitGatheringResourceStartSystem>();
@@ -102,9 +109,15 @@ namespace Project.Runtime.ECS
             _commonSystemsGroup.AddSystem<ShootToAttackTargetSystem>();
             _commonSystemsGroup.AddSystem<TrajectoryProjectileMoveSystem>();
             
+            // Taking damage
+            _commonSystemsGroup.AddSystem<MarkBuildingAsDamagedSystem>();
             _commonSystemsGroup.AddSystem<BaseTowerApplyDamageSystem>(); // will skip next system
+            _commonSystemsGroup.AddSystem<DamagePopupSystem>();
             _commonSystemsGroup.AddSystem<ApplyDamageSystem>();
             _commonSystemsGroup.AddSystem<DeathSystem>();
+            
+            
+            _commonSystemsGroup.AddSystem<DestroyOverTimeSystem>();
             
             _world.AddSystemsGroup(0, _commonSystemsGroup);
         }

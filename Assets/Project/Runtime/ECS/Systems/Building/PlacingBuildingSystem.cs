@@ -2,6 +2,7 @@ using Project.Runtime.ECS.Components;
 using Project.Runtime.ECS.Extensions;
 using Project.Runtime.Features.Building;
 using Project.Runtime.Features.CameraControl;
+using Project.Runtime.Features.Inventory;
 using Project.Runtime.Scriptable.Buildings;
 using Scellecs.Morpeh;
 using UnityEngine;
@@ -13,6 +14,7 @@ namespace Project.Runtime.ECS.Systems.Building
     {
         [Inject] private CameraController _cameraController;
         [Inject] private MapManager _mapManager;
+        [Inject] private HandsManager _handsManager;
         
         public World World { get; set; }
 
@@ -27,6 +29,7 @@ namespace Project.Runtime.ECS.Systems.Building
             _filter = World.Filter
                 .With<PlacingBuildingCard>()
                 .With<ViewEntity>()
+                .Without<PlaceBuildingCardRequest>()
                 .Build();
         }
 
@@ -79,14 +82,19 @@ namespace Project.Runtime.ECS.Systems.Building
                 entity.ViewTransform().position = _placePosition;
                 
                 // Put building
-                if (Input.GetMouseButtonUp(0))
+                if (!Input.GetMouseButtonUp(0)) continue;
+                if (isAnyCollisionDetected && !isMergeCollisionDetected)
                 {
-                    if (isAnyCollisionDetected && !isMergeCollisionDetected)
-                    {
-                        continue;
-                    }
-                    entity.SetComponent(new PlaceBuildingCardRequest());
+                    // Cancel placing (same code in SpawnPlacingBuildingSystem.OnCardUseCancel)
+                    placingBuilding.CellEntity.Dispose();
+                    entity.Dispose();
+                    _handsManager.SetPlacingEnabledEnabled(false);
+                    _handsManager.SetIsCardDrag(false);
+                    Time.timeScale = 1f;
+                    continue;
                 }
+                    
+                entity.SetComponent(new PlaceBuildingCardRequest());
             }
         }
 

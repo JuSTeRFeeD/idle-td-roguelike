@@ -11,4 +11,20 @@ namespace Project.Runtime.ECS.Components.Perks
     {
         public float Multiplier;
     }
+
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct CannonTowersAttackSpeedMultiplierPerk : IComponent
+    {
+        public float Value;
+    }
+    
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct AllTowersAttackSpeedMultiplierPerk : IComponent
+    {
+        public float Value;
+    }
 }

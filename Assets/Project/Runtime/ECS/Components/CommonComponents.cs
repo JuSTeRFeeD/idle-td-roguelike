@@ -18,6 +18,11 @@ namespace Project.Runtime.ECS.Components
     {
         public float min;
         public float max;
+
+        public float Evaluate(int curLvl, int maxLvl)
+        {
+            return min + (max - min) * (curLvl / (float)maxLvl);
+        }
     }
 
     [Il2CppSetOption(Option.NullChecks, false)]
@@ -25,6 +30,14 @@ namespace Project.Runtime.ECS.Components
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct ToDestroyTag : IComponent
     {
+    }
+
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct DestroyOverTime : IComponent
+    {
+        public float EstimateTime;
     }
     
     [Il2CppSetOption(Option.NullChecks, false)]
