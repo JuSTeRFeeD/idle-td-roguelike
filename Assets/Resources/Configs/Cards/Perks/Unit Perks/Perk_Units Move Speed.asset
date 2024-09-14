@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a334260ad9de4f9ba5da617691c90be3, type: 3}
-  m_Name: _DEV player selected cards
+  m_Script: {fileID: 11500000, guid: f10cef2dfbaf4b3aa84c83bd6e295d32, type: 3}
+  m_Name: Perk_Units Move Speed
   m_EditorClassIdentifier: 
-  cards:
-  - {fileID: 11400000, guid: 1e211934d331b4645ac070d8b9d33890, type: 2}
-  - {fileID: 11400000, guid: e8062642e716e4847a3abf32771bdd07, type: 2}
+  addMoveSpeedValue:
+  - 0.8
+  - 1.5
+  - 2.2

@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a334260ad9de4f9ba5da617691c90be3, type: 3}
-  m_Name: _DEV player selected cards
+  m_Script: {fileID: 11500000, guid: 73c687178aba49f3bf3fd6e4d7f7f685, type: 3}
+  m_Name: Perk_Cannon Damage Multiplier
   m_EditorClassIdentifier: 
-  cards:
-  - {fileID: 11400000, guid: 1e211934d331b4645ac070d8b9d33890, type: 2}
-  - {fileID: 11400000, guid: e8062642e716e4847a3abf32771bdd07, type: 2}
+  attackDamageMultipliers:
+  - 1.25
+  - 1.5
+  - 1.75

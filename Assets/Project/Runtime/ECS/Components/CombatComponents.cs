@@ -27,6 +27,15 @@ namespace Project.Runtime.ECS.Components
     {
         public float Value;
     }
+
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct SplashDamage : IComponent
+    {
+        public float Radius;
+        public float PercentFromDamage;
+    }
     
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]

@@ -9,6 +9,7 @@ using Project.Runtime.ECS.Systems.Pathfinding;
 using Project.Runtime.ECS.Systems.Player;
 using Project.Runtime.ECS.Systems.Projectile;
 using Project.Runtime.ECS.Systems.Shooting;
+using Project.Runtime.ECS.Systems.Stats;
 using Project.Runtime.ECS.Systems.TakingDamage;
 using Project.Runtime.ECS.Systems.Units;
 using Project.Runtime.ECS.Systems.Units.RepairBuildings;
@@ -58,7 +59,9 @@ namespace Project.Runtime.ECS
             _commonSystemsGroup.AddInitializer<PlayerDataInitializer>();
             _commonSystemsGroup.AddInitializer<ViewEntityDisposableInitializer>();
             
+            // --- STATS ---
             _commonSystemsGroup.AddSystem<RuntimeStatsResetSystem>();
+            _commonSystemsGroup.AddSystem<ApplyTowerPerkUpgradesSystem>();
             
             // --- Building ---
             _commonSystemsGroup.AddInitializer<SpawnFirstBuildingsInitializer>();

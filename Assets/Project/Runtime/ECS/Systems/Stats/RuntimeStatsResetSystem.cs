@@ -1,7 +1,7 @@
 using Project.Runtime.ECS.Components;
 using Scellecs.Morpeh;
 
-namespace Project.Runtime.ECS.Systems
+namespace Project.Runtime.ECS.Systems.Stats
 {
     public class RuntimeStatsResetSystem : ISystem
     {

@@ -60,9 +60,10 @@ namespace Project.Runtime.Features.Leveling
         {
             _selectedCardId = -1;
             var idx = 0;
+            var randomCards = _levelUpCardsManager.GetRandomCard();
             foreach (var card in cards)
             {
-                card.SetConfig(_levelUpCardsManager.GetRandomCard());
+                card.SetConfig(randomCards[idx]);
                 card.SetIsSelected(false);
                 
                 AnimateCardShow(card, idx++);

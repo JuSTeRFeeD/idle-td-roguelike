@@ -15,16 +15,19 @@ namespace Project.Runtime.ECS.Components.Perks
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct CannonTowersAttackSpeedMultiplierPerk : IComponent
+    public struct CannonTowerPerkUpgrades : IComponent
     {
-        public float Value;
+        public float AttackDamageMultiplier;
+        public float AttackSpeedMultiplier;
+        public float SplashDamageMultiplier;
     }
     
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct AllTowersAttackSpeedMultiplierPerk : IComponent
+    public struct CrossbowTowerPerkUpgrades : IComponent
     {
-        public float Value;
+        public float AttackDamageMultiplier;
+        public float AttackSpeedMultiplier;
     }
 }

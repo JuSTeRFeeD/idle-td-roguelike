@@ -224,7 +224,22 @@ namespace Project.Runtime.ECS.Systems.Building
                         BuildingConfigId = buildingConfig.uniqueID,
                         Size = buildingConfig.Size
                     });
-                    buildingEntity.SetComponent(new AttackTowerTag());
+                    switch (attackTower.AttackTowerType)
+                    {
+                        case AttackTowerType.Cannon:
+                            buildingEntity.SetComponent(new CannonTowerTag());
+                            buildingEntity.SetComponent(new SplashDamage
+                            {
+                                Radius = 2f,
+                                PercentFromDamage = 0.5f
+                            });
+                            break;
+                        case AttackTowerType.Crossbow:
+                            buildingEntity.SetComponent(new CrossbowTowerTag());
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
 
                     buildingEntity.SetComponent(new HealthDefault
                     {

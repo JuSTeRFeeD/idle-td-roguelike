@@ -17,12 +17,29 @@ namespace Project.Runtime.Features.Leveling
             foreach (var card in playerDeck.GetCardsForGame())
             {
                 _cards.Add(card, card.MaxPerGame);
+                if (card.SubCardConfigs != null)
+                {
+                    foreach (var subCard in card.SubCardConfigs)
+                    {
+                        _cards.Add(subCard, subCard.MaxPerGame);
+                    }
+                }
             }
         }
 
-        public CardConfig GetRandomCard()
+        public List<CardConfig> GetRandomCard()
         {
-            return _cards.ElementAt(Random.Range(0, _cards.Count)).Key;
+            List<CardConfig> result = new();
+            while (result.Count < 3)
+            {
+                var rndCard = _cards.ElementAt(Random.Range(0, _cards.Count)).Key;
+                while (result.Contains(rndCard))
+                {
+                    rndCard = _cards.ElementAt(Random.Range(0, _cards.Count)).Key;
+                }
+                result.Add(rndCard);
+            }
+            return result;
         }
 
         public void DecreaseDropCount(CardConfig cardConfig)

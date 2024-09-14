@@ -1,4 +1,5 @@
 using Project.Runtime.ECS.Components;
+using Project.Runtime.ECS.Components.Perks;
 using Project.Runtime.Features;
 using Project.Runtime.Features.CameraControl;
 using Scellecs.Morpeh;
@@ -42,6 +43,19 @@ namespace Project.Runtime.ECS.Systems.Player
             // Just reset ui data on start
             _headerUI.SetLevel(0);
             _headerUI.SetLevelExp(0, 1);
+            
+            // --- Perks ---
+            dataEntity.SetComponent(new CannonTowerPerkUpgrades
+            {
+                AttackSpeedMultiplier = 1,
+                SplashDamageMultiplier = 1,
+                AttackDamageMultiplier = 1,
+            });
+            dataEntity.SetComponent(new CrossbowTowerPerkUpgrades
+            {
+                AttackSpeedMultiplier = 1,
+                AttackDamageMultiplier = 1
+            });
         }
 
         public void Dispose()

@@ -1,5 +1,27 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-1739060085149909410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a61cc5d96e7e46e9a9c735f24bdf02a4, type: 3}
+  m_Name: Attack Speed Perk
+  m_EditorClassIdentifier: 
+  <ShowUniqueId>k__BackingField: 0
+  uniqueID: e2fc0d8b-f9e6-4555-a694-f276b060044c
+  icon: {fileID: 0}
+  title: Increase Cannon Attack Speed
+  isBuildingOrSpell: 0
+  maxPerGame: 3
+  perks:
+  - {fileID: 11400000, guid: b7f0225d835735e4490c4bf4b108dd2d, type: 2}
+  subCardConfigs: []
+  __SetNameToSubActive: 
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17,6 +39,32 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: e75376d8281ca2a42adb7a05a8d8eb37, type: 3}
   title: Cannon Tower
   isBuildingOrSpell: 1
-  maxPerGame: 5
+  maxPerGame: 4
   perks:
   - {fileID: 11400000, guid: 0204730ae981cdf40a163e7501c5effc, type: 2}
+  subCardConfigs:
+  - {fileID: -1739060085149909410}
+  - {fileID: 7300557975151134530}
+  __SetNameToSubActive: Attack Damage Perk
+--- !u!114 &7300557975151134530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a61cc5d96e7e46e9a9c735f24bdf02a4, type: 3}
+  m_Name: Attack Damage Perk
+  m_EditorClassIdentifier: 
+  <ShowUniqueId>k__BackingField: 0
+  uniqueID: a5a9de41-46d4-4471-8c13-050ef70b588c
+  icon: {fileID: 0}
+  title: Increase Cannon Damage
+  isBuildingOrSpell: 0
+  maxPerGame: 3
+  perks:
+  - {fileID: 11400000, guid: b19d01202a821a847b780ab96be77b5b, type: 2}
+  subCardConfigs: []
+  __SetNameToSubActive: 
