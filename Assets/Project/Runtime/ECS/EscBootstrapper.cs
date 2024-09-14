@@ -83,12 +83,10 @@ namespace Project.Runtime.ECS
             // Gathering
             _commonSystemsGroup.AddSystem<UnitSetFindResWhenNeedSystem>();
             _commonSystemsGroup.AddSystem<UnitFindResourceTargetSystem>();
-            // _commonSystemsGroup.AddSystem<UnitMoveToTargetResourceSystem>(); // todo remove cuz rewrited with AStarMoveSystem
             _commonSystemsGroup.AddSystem<UnitGatheringResourceStartSystem>();
             _commonSystemsGroup.AddSystem<UnitGatheringResourceSystem>();
             // Move and put to storage
             _commonSystemsGroup.AddSystem<UnitFindStorageSystem>();
-            // _commonSystemsGroup.AddSystem<UnitMoveToStorageSystem>(); // todo remove cuz rewrited with AStarMoveSystem
             _commonSystemsGroup.AddSystem<UnitPutResourcesToStorageSystem>();
             
             _commonSystemsGroup.AddSystem<FollowOwnerSystem>();
