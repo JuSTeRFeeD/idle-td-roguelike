@@ -29,6 +29,12 @@ namespace Project.Runtime.ECS.Systems.Projectile
                 ref readonly var hitEntity = ref entity.GetComponent<ProjectileHit>().HitEntity;
                 ref readonly var damage = ref entity.GetComponent<AttackDamageRuntime>().Value;
                 hitEntity.AddOrGet<DamageAccumulator>().Value += damage;
+
+                entity.RemoveComponent<ProjectileTag>();
+                entity.SetComponent(new DestroyOverTime
+                {
+                    EstimateTime = 0.2f // to complete animations on this view (ex: trails)
+                });
             }
         }
 

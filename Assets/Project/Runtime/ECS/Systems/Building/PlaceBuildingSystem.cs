@@ -246,6 +246,10 @@ namespace Project.Runtime.ECS.Systems.Building
                             break;
                         case AttackTowerType.Crystal:
                             buildingEntity.SetComponent(new CrystalTowerTag());
+                            buildingEntity.SetComponent(new TowerWithBouncingProjectile
+                            {
+                                Bounces = 3
+                            });
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();

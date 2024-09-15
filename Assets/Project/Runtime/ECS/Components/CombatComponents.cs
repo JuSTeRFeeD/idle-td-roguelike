@@ -40,6 +40,14 @@ namespace Project.Runtime.ECS.Components
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct TowerWithBouncingProjectile : IComponent
+    {
+        public int Bounces;
+    }
+    
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct AttackRange : IComponent
     {
         public float Value;

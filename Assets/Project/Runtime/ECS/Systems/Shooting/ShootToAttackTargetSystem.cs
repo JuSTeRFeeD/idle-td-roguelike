@@ -90,6 +90,14 @@ namespace Project.Runtime.ECS.Systems.Shooting
                     projectileEntity.SetComponent(entity.GetComponent<SplashDamage>());
                 }
 
+                if (entity.Has<TowerWithBouncingProjectile>())
+                {
+                    projectileEntity.SetComponent(new BouncingProjectile
+                    {
+                        BouncesLeft = entity.GetComponent<TowerWithBouncingProjectile>().Bounces
+                    });
+                }
+
                 // Change target to prevent shooting to the same target
                 ref var ghostTargetHealth = ref attackTarget.GetComponent<HealthCurrent>().GhostValue;
                 ghostTargetHealth -= attackDamageRuntime;

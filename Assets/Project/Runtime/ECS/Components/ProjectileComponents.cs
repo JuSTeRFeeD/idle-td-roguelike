@@ -8,6 +8,14 @@ namespace Project.Runtime.ECS.Components
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct SpawnProjectileRequest : IComponent
+    {
+        public Entity AttackTarget;
+    }
+    
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct ProjectileTag : IComponent
     {
     }
@@ -52,5 +60,14 @@ namespace Project.Runtime.ECS.Components
     public struct ProjectileHit : IComponent
     {
         public Entity HitEntity;
+    }
+    
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct BouncingProjectile : IComponent
+    {
+        public int BouncesLeft;
+        public Entity[] BouncedEntities;
     }
 }

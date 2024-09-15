@@ -108,6 +108,7 @@ namespace Project.Runtime.ECS
             
             _commonSystemsGroup.AddSystem<ShootToAttackTargetSystem>();
             _commonSystemsGroup.AddSystem<TrajectoryProjectileMoveSystem>();
+            _commonSystemsGroup.AddSystem<BounceProjectileSystem>();
             _commonSystemsGroup.AddSystem<SplashDamageSystem>();
             _commonSystemsGroup.AddSystem<ProjectileHitSystem>();
             

@@ -65,8 +65,7 @@ namespace Project.Runtime.ECS.Systems.Projectile
                 {
                     continue;
                 }
-
-                projectileEntity.SetComponent(new ToDestroyTag());
+                
                 projectileEntity.SetComponent(new ProjectileHit
                 {
                     HitEntity = attackTargetEntity
