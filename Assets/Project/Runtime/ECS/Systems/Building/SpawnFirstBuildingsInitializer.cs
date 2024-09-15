@@ -5,15 +5,14 @@ using Project.Runtime.ECS.Systems.Pathfinding;
 using Project.Runtime.Features.Building;
 using Project.Runtime.Scriptable.Buildings;
 using Scellecs.Morpeh;
-using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
 using VContainer;
 
 namespace Project.Runtime.ECS.Systems.Building
 {
-    [Il2CppSetOption(Option.NullChecks, false)]
-    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
-    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.NullChecks, false)]
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.ArrayBoundsChecks, false)]
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.DivideByZeroChecks, false)]
     public class SpawnFirstBuildingsInitializer : IInitializer
     {
         [Inject] private WorldSetup _worldSetup;
@@ -23,7 +22,8 @@ namespace Project.Runtime.ECS.Systems.Building
 
         private readonly HashSet<Vector2Int> _excludePoints = new();
 
-        private const int ResourcesToSpawn = 100;
+        private const int StoneResourcesToSpawn = 100;
+        private const int WoodResourcesToSpawn = 120;
         
         public void OnAwake()
         {
@@ -117,7 +117,7 @@ namespace Project.Runtime.ECS.Systems.Building
                 )
                 .ToList();
             
-            for (var i = 0; i < ResourcesToSpawn; i++)
+            for (var i = 0; i < WoodResourcesToSpawn; i++)
             {
                 var idx = Random.Range(0, possiblePositions.Count);
                 var cellPos = possiblePositions[idx].Key;
@@ -133,7 +133,7 @@ namespace Project.Runtime.ECS.Systems.Building
                 request.SetComponent(new PlaceBuildingCardRequest());
             }
             
-            for (var i = 0; i < ResourcesToSpawn; i++)
+            for (var i = 0; i < StoneResourcesToSpawn; i++)
             {
                 var idx = Random.Range(0, possiblePositions.Count);
                 var cellPos = possiblePositions[idx].Key;

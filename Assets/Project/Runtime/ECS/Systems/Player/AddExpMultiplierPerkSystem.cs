@@ -1,10 +1,12 @@
 using Project.Runtime.ECS.Components;
 using Project.Runtime.ECS.Components.Perks;
 using Scellecs.Morpeh;
-using UnityEngine;
 
 namespace Project.Runtime.ECS.Systems.Player
 {
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.NullChecks, false)]
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.ArrayBoundsChecks, false)]
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.DivideByZeroChecks, false)]
     public class AddExpMultiplierPerkSystem : ISystem
     {
         public World World { get; set; }

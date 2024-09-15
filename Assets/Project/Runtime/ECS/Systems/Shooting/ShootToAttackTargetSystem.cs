@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace Project.Runtime.ECS.Systems.Shooting
 {
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.NullChecks, false)]
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.ArrayBoundsChecks, false)]
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.DivideByZeroChecks, false)]
     public class ShootToAttackTargetSystem : ISystem
     {
         public World World { get; set; }
@@ -81,6 +84,11 @@ namespace Project.Runtime.ECS.Systems.Shooting
                 {
                     Value = attackTarget
                 });
+
+                if (entity.Has<SplashDamage>())
+                {
+                    projectileEntity.SetComponent(entity.GetComponent<SplashDamage>());
+                }
 
                 // Change target to prevent shooting to the same target
                 ref var ghostTargetHealth = ref attackTarget.GetComponent<HealthCurrent>().GhostValue;

@@ -4,11 +4,13 @@ using Project.Runtime.Features.Inventory;
 using Project.Runtime.Features.Leveling;
 using Project.Runtime.Scriptable.Card;
 using Scellecs.Morpeh;
-using UnityEngine;
 using VContainer;
 
 namespace Project.Runtime.ECS.Systems.Player
 {
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.NullChecks, false)]
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.ArrayBoundsChecks, false)]
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.DivideByZeroChecks, false)]
     public class LevelUpSystem : ISystem
     {
         [Inject] private InventoryStorage _inventoryStorage;

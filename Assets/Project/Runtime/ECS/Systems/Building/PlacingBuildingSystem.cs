@@ -10,6 +10,9 @@ using VContainer;
 
 namespace Project.Runtime.ECS.Systems.Building
 {
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.NullChecks, false)]
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.ArrayBoundsChecks, false)]
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.DivideByZeroChecks, false)]
     public class PlacingBuildingSystem : ISystem
     {
         [Inject] private CameraController _cameraController;

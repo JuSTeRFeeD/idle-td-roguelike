@@ -1,17 +1,19 @@
 using Project.Runtime.ECS.Components;
 using Project.Runtime.ECS.Extensions;
 using Scellecs.Morpeh;
-using Scellecs.Morpeh.Helpers;
 using UnityEngine;
 
 namespace Project.Runtime.ECS.Systems.Projectile
 {
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.NullChecks, false)]
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.ArrayBoundsChecks, false)]
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.DivideByZeroChecks, false)]
     public class TrajectoryProjectileMoveSystem : ISystem
     {
         public World World { get; set; }
 
         private Filter _filter;
-        
+
         public void OnAwake()
         {
             _filter = World.Filter
@@ -35,12 +37,12 @@ namespace Project.Runtime.ECS.Systems.Projectile
                     projectileEntity.Dispose();
                     continue;
                 }
-                
+
                 ref readonly var trajectoryProjectile = ref projectileEntity.GetComponent<TrajectoryProjectile>();
                 ref readonly var moveSpeedRuntime = ref projectileEntity.GetComponent<MoveSpeedRuntime>();
                 ref var projectileMoveData = ref projectileEntity.GetComponent<ProjectileMoveData>();
                 var transform = projectileEntity.ViewTransform();
-                
+
                 projectileMoveData.TravelTime += deltaTime;
 
                 var targetPosition = attackTargetEntity.ViewPosition() + Vector3.up;
@@ -50,22 +52,25 @@ namespace Project.Runtime.ECS.Systems.Projectile
                 var totalTime = distance / moveSpeedRuntime.Value;
 
                 var progress = Mathf.Clamp01(projectileMoveData.TravelTime / totalTime);
-    
+
                 var currentPosition = Vector3.Lerp(startMovePosition, targetPosition, progress);
 
                 var height = trajectoryProjectile.MaxAdditionalHeight * 4 * progress * (1 - progress);
                 currentPosition.y += height;
 
                 transform.position = currentPosition;
-                
+
                 // Проверяем, достигли ли цели
                 if (progress < 1f)
                 {
                     continue;
                 }
-                ref readonly var damage = ref projectileEntity.GetComponent<AttackDamageRuntime>().Value;
-                attackTargetEntity.AddOrGet<DamageAccumulator>().Value += damage;
-                projectileEntity.Dispose();
+
+                projectileEntity.SetComponent(new ToDestroyTag());
+                projectileEntity.SetComponent(new ProjectileHit
+                {
+                    HitEntity = attackTargetEntity
+                });
             }
         }
 

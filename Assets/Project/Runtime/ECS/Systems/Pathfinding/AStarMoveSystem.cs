@@ -1,11 +1,13 @@
 using Project.Runtime.ECS.Components;
-using Project.Runtime.ECS.Extensions;
 using Project.Runtime.Features.Building;
 using Scellecs.Morpeh;
 using UnityEngine;
 
 namespace Project.Runtime.ECS.Systems.Pathfinding
 {
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.NullChecks, false)]
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.ArrayBoundsChecks, false)]
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.DivideByZeroChecks, false)]
     public class AStarMoveSystem : ISystem
     {
         public World World { get; set; }

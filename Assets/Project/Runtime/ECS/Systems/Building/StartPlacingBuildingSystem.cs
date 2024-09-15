@@ -7,15 +7,14 @@ using Project.Runtime.Features.Inventory;
 using Project.Runtime.Features.Widgets;
 using Project.Runtime.Scriptable.Card.Perks;
 using Scellecs.Morpeh;
-using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
 using VContainer;
 
 namespace Project.Runtime.ECS.Systems.Building
 {
-    [Il2CppSetOption(Option.NullChecks, false)]
-    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
-    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.NullChecks, false)]
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.ArrayBoundsChecks, false)]
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.DivideByZeroChecks, false)]
     public class StartPlacingBuildingSystem : ISystem
     {
         [Inject] private WorldSetup _worldSetup;

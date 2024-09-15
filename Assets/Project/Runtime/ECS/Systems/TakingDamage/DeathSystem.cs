@@ -8,6 +8,9 @@ using VContainer;
 
 namespace Project.Runtime.ECS.Systems.TakingDamage
 {
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.NullChecks, false)]
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.ArrayBoundsChecks, false)]
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.DivideByZeroChecks, false)]
     public class DeathSystem : ISystem
     {
         [Inject] private WorldSetup _worldSetup;

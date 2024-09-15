@@ -1,6 +1,3 @@
-using Project.Runtime.ECS.Components;
-using Project.Runtime.ECS.Extensions;
-using Scellecs.Morpeh;
 using UnityEngine;
 
 namespace Project.Runtime.ECS.Views
@@ -15,15 +12,9 @@ namespace Project.Runtime.ECS.Views
 
         public TowerViewUpgrades TowerViewUpgrades => towerViewUpgrades;
 
-        private void Update()
+        public void SetTowerRotation(Quaternion quaternion)
         {
-            if (!Entity.Has<AttackTarget>()) return;
-            ref readonly var e = ref Entity.GetComponent<AttackTarget>().Value;
-            if (e.IsNullOrDisposed()) return;
-            var targetPos = e.ViewPosition();
-            var dir = targetPos - transform.position;
-            dir.y = 0;
-            rotatingTower.rotation = Quaternion.LookRotation(dir, Vector3.up);
+            rotatingTower.rotation = quaternion;
         }
     }
 }

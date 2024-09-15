@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Project.Runtime.ECS.Components;
 using Project.Runtime.ECS.Components.Enemies;
-using Project.Runtime.ECS.Extensions;
 using Project.Runtime.Scriptable.Enemies;
 using Scellecs.Morpeh;
 using UnityEngine;
@@ -9,6 +8,9 @@ using VContainer;
 
 namespace Project.Runtime.ECS.Systems.Enemies
 {
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.NullChecks, false)]
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.ArrayBoundsChecks, false)]
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.DivideByZeroChecks, false)]
     public class NightTimeWaveSystem : ISystem
     {
         [Inject] private WorldSetup _worldSetup;

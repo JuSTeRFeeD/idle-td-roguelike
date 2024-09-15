@@ -45,4 +45,12 @@ namespace Project.Runtime.ECS.Components
         public EntityView EntityView;
         public float ProjectileSpeed;
     }
+
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct ProjectileHit : IComponent
+    {
+        public Entity HitEntity;
+    }
 }

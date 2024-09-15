@@ -7,6 +7,9 @@ using VContainer;
 
 namespace Project.Runtime.ECS.Systems.Units.RepairBuildings
 {
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.NullChecks, false)]
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.ArrayBoundsChecks, false)]
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.DivideByZeroChecks, false)]
     public class UnitRepairTowerSystem : ISystem
     {
         [Inject] private WorldSetup _worldSetup;
@@ -65,6 +68,7 @@ namespace Project.Runtime.ECS.Systems.Units.RepairBuildings
                     Debug.Log($"Tower Repaired {currentHealth}/{defaultHealth}");
                     
                     repairingTowerData.ProgressEntity.Dispose();
+                    tower.RemoveComponent<SomeUnitInteractsWithThisTag>();
                     tower.RemoveComponent<BuildingDamagedTag>();
                     if (tower.Has<DestroyedTag>())
                     {

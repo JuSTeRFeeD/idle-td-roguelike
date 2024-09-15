@@ -1,10 +1,12 @@
-using System.Collections.Generic;
 using Project.Runtime.ECS.Components;
 using Project.Runtime.ECS.Extensions;
 using Scellecs.Morpeh;
 
 namespace Project.Runtime.ECS.Systems.Units.RepairBuildings
 {
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.NullChecks, false)]
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.ArrayBoundsChecks, false)]
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.DivideByZeroChecks, false)]
     public class FindUnitsToRepairTowersSystem : ISystem
     {
         public World World { get; set; }
@@ -48,11 +50,12 @@ namespace Project.Runtime.ECS.Systems.Units.RepairBuildings
                         gathering.ProgressEntity.Dispose();
                         unitEntity.RemoveComponent<Gathering>();
                     }
+                    unitEntity.SafeRemove<FindResourceRequest>();
+                    unitEntity.SafeRemove<FindStorageRequest>();
                     unitEntity.SafeRemove<AStarPath>();
                     unitEntity.SafeRemove<AStarCalculatePathRequest>();
                     unitEntity.SafeRemove<MoveToResource>();
                     unitEntity.SafeRemove<MoveToStorage>();
-                    
                     
                     buildingEntity.SetComponent(new SomeUnitInteractsWithThisTag());
                     unitEntity.SetComponent(new AStarCalculatePathRequest
@@ -66,7 +69,7 @@ namespace Project.Runtime.ECS.Systems.Units.RepairBuildings
                     });
 
                     // Растягиваем логику на несколько тиков..
-                    // Костыль шоб юниты правильно выбирали куда бежать им
+                    // Костыль шоб юниты правильно выбирали куда бежать им (иначе пара юнитов идет к одному таверу)
                     return;
                 }
             }

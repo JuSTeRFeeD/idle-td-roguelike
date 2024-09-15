@@ -97,6 +97,7 @@ namespace Project.Runtime.ECS
             _commonSystemsGroup.AddSystem<BuildingClickSystem>();
 
             _commonSystemsGroup.AddSystem<FindAttackTargetByRangeSystem>();
+            _commonSystemsGroup.AddSystem<RotateTowerToAttackTargetSystem>();
                 
             // --- Enemies ---
             _commonSystemsGroup.AddSystem<NightTimeWaveSystem>();
@@ -109,6 +110,8 @@ namespace Project.Runtime.ECS
             
             _commonSystemsGroup.AddSystem<ShootToAttackTargetSystem>();
             _commonSystemsGroup.AddSystem<TrajectoryProjectileMoveSystem>();
+            _commonSystemsGroup.AddSystem<SplashDamageSystem>();
+            _commonSystemsGroup.AddSystem<ProjectileHitSystem>();
             
             // Taking damage
             _commonSystemsGroup.AddSystem<MarkBuildingAsDamagedSystem>();

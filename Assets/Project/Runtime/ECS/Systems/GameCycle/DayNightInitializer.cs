@@ -1,10 +1,12 @@
 using Project.Runtime.ECS.Components;
 using Scellecs.Morpeh;
-using UnityEngine;
 using VContainer;
 
 namespace Project.Runtime.ECS.Systems.GameCycle
 {
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.NullChecks, false)]
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.ArrayBoundsChecks, false)]
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.DivideByZeroChecks, false)]
     public class DayNightInitializer : IInitializer
     {
         [Inject] private WorldSetup _worldSetup;
