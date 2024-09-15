@@ -11,6 +11,8 @@ namespace Project.Runtime.Features.Leveling
     {
         private readonly Dictionary<CardConfig, int> _cards = new();
 
+        private bool _isFirstCardsRolled = false;
+        
         [Inject]
         public LevelUpCardsManager(PlayerDeck playerDeck)
         {
@@ -30,7 +32,20 @@ namespace Project.Runtime.Features.Leveling
         public List<CardConfig> GetRandomCard()
         {
             List<CardConfig> result = new();
-            while (result.Count < 3)
+            
+            if (!_isFirstCardsRolled)
+            {
+                _isFirstCardsRolled = true;
+                var buildings = _cards.Where(i => i.Key.IsBuilding).ToList();
+                for (var i = 0; i < 3; i++)
+                {
+                    result.Add(buildings.ElementAt(Random.Range(0, buildings.Count)).Key);
+                }
+                return result;
+            }
+            
+            var count = _cards.Count > 2 ? 3 : _cards.Count;
+            while (result.Count < count)
             {
                 var rndCard = _cards.ElementAt(Random.Range(0, _cards.Count)).Key;
                 while (result.Contains(rndCard))

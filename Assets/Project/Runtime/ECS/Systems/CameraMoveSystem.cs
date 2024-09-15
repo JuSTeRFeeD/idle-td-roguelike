@@ -15,13 +15,14 @@ namespace Project.Runtime.ECS.Systems
         [Inject] private CameraController _cameraController;
 
         private Filter _isBuildingFilter;
+        private Filter _lvlUpFilter;
 
         private Vector3 _dragOrigin;
         private Vector3 _currentVelocity;
         private Vector3 _targetVelocity;
         private bool _isDrag;
-        private const float DragSpeed = 6f;
-        private const float InertiaDamping = 5f; // Коэффициент демпфирования инерции
+        private const float DragSpeed = 5f;
+        private const float InertiaDamping = 4f; // Коэффициент демпфирования инерции
         private const float SmoothTime = 0.1f; // Время для сглаживания движения при зажатой мыши
 
         public World World { get; set; }
@@ -31,12 +32,21 @@ namespace Project.Runtime.ECS.Systems
             _isBuildingFilter = World.Filter
                 .With<PlacingBuildingCard>()
                 .Build();
+            _lvlUpFilter = World.Filter
+                .With<LevelUp>()
+                .Build();
         }
 
         public void OnUpdate(float deltaTime)
         {
-            // Нет необходимости двигать камеру во время постройки
-            if (_isBuildingFilter.IsNotEmpty()) return;
+            if (_isBuildingFilter.IsNotEmpty() || // Нет необходимости двигать камеру во время постройки
+                _lvlUpFilter.IsNotEmpty()) // Сброс движения во время лвл апа
+            {
+                _isDrag = false;
+                _currentVelocity = Vector3.zero;
+                _targetVelocity = Vector3.zero;
+                return;
+            }
 
             if (Input.GetMouseButtonUp(0))
             {

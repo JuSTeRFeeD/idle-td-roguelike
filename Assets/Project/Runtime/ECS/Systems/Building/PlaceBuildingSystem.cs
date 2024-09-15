@@ -117,6 +117,10 @@ namespace Project.Runtime.ECS.Systems.Building
                     _inventoryStorage.RemoveCard(placingBuilding.CardConfigId);
                 }
                 
+                if (entity.Has<RadiusViewEntity>())
+                {
+                    entity.GetComponent<RadiusViewEntity>().Entity.Dispose();
+                }
                 placingBuilding.CellEntity?.Dispose();
                 entity.Dispose();
             }
@@ -240,6 +244,9 @@ namespace Project.Runtime.ECS.Systems.Building
                         case AttackTowerType.Crossbow:
                             buildingEntity.SetComponent(new CrossbowTowerTag());
                             break;
+                        case AttackTowerType.Crystal:
+                            buildingEntity.SetComponent(new CrystalTowerTag());
+                            break;
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
@@ -275,7 +282,7 @@ namespace Project.Runtime.ECS.Systems.Building
                     buildingEntity.SetComponent(new AttackProjectileData
                     {
                         EntityView = attackTower.ProjectileView,
-                        ProjectileSpeed = 8f,
+                        ProjectileSpeed = attackTower.ProjectileSpeed,
                     });
                     break;
                 }

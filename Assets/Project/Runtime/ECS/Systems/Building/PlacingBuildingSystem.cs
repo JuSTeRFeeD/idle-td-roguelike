@@ -89,6 +89,10 @@ namespace Project.Runtime.ECS.Systems.Building
                 if (isAnyCollisionDetected && !isMergeCollisionDetected)
                 {
                     // Cancel placing (same code in SpawnPlacingBuildingSystem.OnCardUseCancel)
+                    if (entity.Has<RadiusViewEntity>())
+                    {
+                        entity.GetComponent<RadiusViewEntity>().Entity.Dispose();
+                    }
                     placingBuilding.CellEntity.Dispose();
                     entity.Dispose();
                     _handsManager.SetPlacingEnabledEnabled(false);

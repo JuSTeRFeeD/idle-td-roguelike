@@ -63,10 +63,18 @@ namespace Project.Runtime.Features.Leveling
             var randomCards = _levelUpCardsManager.GetRandomCard();
             foreach (var card in cards)
             {
-                card.SetConfig(randomCards[idx]);
-                card.SetIsSelected(false);
-                
-                AnimateCardShow(card, idx++);
+                if (idx < randomCards.Count && randomCards[idx])
+                {
+                    card.gameObject.SetActive(true);
+                    card.SetConfig(randomCards[idx]);
+                    card.SetIsSelected(false);
+                    
+                    AnimateCardShow(card, idx++);
+                }
+                else
+                {
+                    card.gameObject.SetActive(false);
+                }
             }
 
             base.Show();

@@ -32,13 +32,15 @@ MonoBehaviour:
   health:
     min: 30
     max: 100
+  attackTowerType: 1
   projectileView: {fileID: -1677189479211087335, guid: 182c90b664191fb4d8d15aa3e27d4deb,
     type: 3}
+  projectileSpeed: 10
   damage:
-    min: 25
+    min: 30
     max: 60
   attackCooldown:
-    min: 1.5
+    min: 1.4
     max: 0.2
   attackRange:
     min: 9

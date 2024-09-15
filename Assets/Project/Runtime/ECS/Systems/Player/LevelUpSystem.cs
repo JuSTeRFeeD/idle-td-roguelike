@@ -55,7 +55,7 @@ namespace Project.Runtime.ECS.Systems.Player
             }
             
             // Card need put to storage
-            if (cardConfig.IsBuildingOrSpell)
+            if (cardConfig.IsBuilding)
             {
                 _inventoryStorage.AddCard(cardConfig);
                 return;
@@ -80,10 +80,14 @@ namespace Project.Runtime.ECS.Systems.Player
         {
             foreach (var entity in _levelUpFilter)
             {
-                // Cancelling placing card
+                // Cancelling placing card on level up
                 foreach (var placingCardEntity in _placingCardFilter)
                 {
                     ref readonly var placingCard = ref placingCardEntity.GetComponent<PlacingBuildingCard>();
+                    if (placingCardEntity.Has<RadiusViewEntity>())
+                    {
+                        placingCardEntity.GetComponent<RadiusViewEntity>().Entity.Dispose();
+                    }
                     placingCard.CellEntity.Dispose();
                     placingCardEntity.Dispose();
                     _handsManager.SetIsCardDrag(false);

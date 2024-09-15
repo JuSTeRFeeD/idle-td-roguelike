@@ -5,6 +5,7 @@ using Project.Runtime.Features.Building;
 using Project.Runtime.Features.CameraControl;
 using Project.Runtime.Features.Inventory;
 using Project.Runtime.Features.Widgets;
+using Project.Runtime.Scriptable.Buildings;
 using Project.Runtime.Scriptable.Card.Perks;
 using Scellecs.Morpeh;
 using UnityEngine;
@@ -50,6 +51,10 @@ namespace Project.Runtime.ECS.Systems.Building
             Debug.Log("Cancel use card building");
             foreach (var entity in _placingBuildingFilter)
             {
+                if (entity.Has<RadiusViewEntity>())
+                {
+                    entity.GetComponent<RadiusViewEntity>().Entity.Dispose();
+                }
                 ref var data = ref entity.GetComponent<PlacingBuildingCard>();
                 data.CellEntity.Dispose();
                 entity.Dispose();
@@ -112,6 +117,25 @@ namespace Project.Runtime.ECS.Systems.Building
                 cellEntity.SetComponent(new Owner { Entity = building });
                 var view = cellEntity.InstantiateView<PlacingCellView>(_worldSetup.PlacingCellView, data.StartPlacingPosition, Quaternion.Euler(-90, 0, 0));
                 view.SetSize(data.BuildingConfig.Size);
+                
+                // Radius view
+                if (data.BuildingConfig is AttackTowerBuildingConfig attackTowerBuildingConfig)
+                {
+                    var radiusEntity = World.CreateEntity();
+                    var radiusView = radiusEntity.InstantiateView<RadiusView>(
+                        _worldSetup.RadiusView,
+                        data.StartPlacingPosition,
+                        Quaternion.identity);
+                    radiusView.SetRadius(attackTowerBuildingConfig.AttackRange.min);
+                    radiusEntity.SetComponent(new Owner
+                    {
+                        Entity = building
+                    });
+                    building.SetComponent(new RadiusViewEntity
+                    {
+                        Entity = radiusEntity
+                    });
+                }
                 
                 building.SetComponent(new PlacingBuildingCard
                 {

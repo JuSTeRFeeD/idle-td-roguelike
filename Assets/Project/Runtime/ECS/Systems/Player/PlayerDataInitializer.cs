@@ -43,6 +43,12 @@ namespace Project.Runtime.ECS.Systems.Player
                 ExpByLevel = expByLevel
             });
             
+            // Level up to choose first cards
+            dataEntity.SetComponent(new LevelUp
+            {
+                LevelUpsCount = 1
+            });
+            
             // Just reset ui data on start
             _headerUI.SetLevel(0);
             _headerUI.SetLevelExp(0, 1);

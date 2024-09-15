@@ -32,6 +32,7 @@ MonoBehaviour:
   health:
     min: 30
     max: 100
+  attackTowerType: 0
   projectileView: {fileID: -1677189479211087335, guid: 182c90b664191fb4d8d15aa3e27d4deb,
     type: 3}
   damage:
@@ -39,7 +40,7 @@ MonoBehaviour:
     max: 120
   attackCooldown:
     min: 1.5
-    max: 0.4
+    max: 0.5
   attackRange:
-    min: 7
-    max: 11
+    min: 8
+    max: 14

@@ -72,7 +72,7 @@ namespace Project.Runtime.Features.Inventory
             SetPlacingEnabledEnabled(true);
             
             // No building or spell
-            if (!cardWidget.CardConfig.IsBuildingOrSpell)
+            if (!cardWidget.CardConfig.IsBuilding)
             {
                 return;
             }

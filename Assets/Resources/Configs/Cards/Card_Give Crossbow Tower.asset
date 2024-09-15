@@ -16,8 +16,8 @@ MonoBehaviour:
   uniqueID: da32a0fd-8587-4a1b-bd9d-a8486e9592ee
   icon: {fileID: 21300000, guid: 88333200c9cb2b742aba3f42a34603d4, type: 3}
   title: Crossbow Tower
-  isBuildingOrSpell: 1
-  maxPerGame: 4
+  isBuilding: 1
+  maxPerGame: 12
   perks:
   - {fileID: 11400000, guid: 5d4922dc497551d4e831e30e0b776f11, type: 2}
   subCardConfigs:
@@ -40,7 +40,7 @@ MonoBehaviour:
   uniqueID: 317cac2d-9acb-4116-bdd2-529d900ad78b
   icon: {fileID: 0}
   title: Increase Crossbow Attack Damage
-  isBuildingOrSpell: 0
+  isBuilding: 0
   maxPerGame: 3
   perks:
   - {fileID: 11400000, guid: c2b5497de04075f4697fb751615651ff, type: 2}
@@ -62,7 +62,7 @@ MonoBehaviour:
   uniqueID: 667df76a-9b67-4443-b97c-51586f4afd5e
   icon: {fileID: 0}
   title: Increase Crossbow Attack Speed
-  isBuildingOrSpell: 0
+  isBuilding: 0
   maxPerGame: 3
   perks:
   - {fileID: 11400000, guid: fbffa456edbb069438392e2f418c856b, type: 2}

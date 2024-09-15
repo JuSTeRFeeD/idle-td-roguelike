@@ -24,8 +24,9 @@ namespace Project.Runtime.ECS
         
         [Header("Environment Props")]
         [SerializeField] private BuildingConfig rock01;
-        
+
         [Header("Views")]
+        [SerializeField] private RadiusView radiusView;
         [SerializeField] private PopupTextView popupTextView;
         [SerializeField] private WorldHealthBarView worldHealthBarView;
         [SerializeField] private WorldProgressBarView worldProgressBarView;
@@ -51,6 +52,7 @@ namespace Project.Runtime.ECS
         public BuildingConfig Rock01 => rock01;
         
         // Views
+        public RadiusView RadiusView => radiusView;
         public PopupTextView PopupTextView => popupTextView;
         public WorldHealthBarView WorldHealthBarView => worldHealthBarView;
         public WorldProgressBarView WorldProgressBarView => worldProgressBarView;

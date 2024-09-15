@@ -63,6 +63,11 @@ namespace Project.Runtime.ECS.Components
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct CrystalTowerTag : IComponent { }
+    
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct UnitsOwnedTag : IComponent
     {
         public int CurrentCapacity;
@@ -151,11 +156,19 @@ namespace Project.Runtime.ECS.Components
         public string CardConfigId;
     }
     
-    /// Это действие происходит при инициализации или загрузке 
+    /// действие этой entity происходит при инициализации или загрузке 
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct SystemActionTag : IComponent {}
+
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct RadiusViewEntity : IComponent
+    {
+        public Entity Entity;
+    }
     
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]

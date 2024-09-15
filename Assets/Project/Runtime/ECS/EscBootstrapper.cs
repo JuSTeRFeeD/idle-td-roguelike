@@ -70,8 +70,6 @@ namespace Project.Runtime.ECS
             _commonSystemsGroup.AddSystem<PlacingBuildingSystem>();
             _commonSystemsGroup.AddSystem<PlaceBuildingSystem>();
             
-            _commonSystemsGroup.AddSystem<CameraMoveSystem>();
-            
             // --- Pathfinding ---
             _commonSystemsGroup.AddSystem<AStarPathfindingSystem>();
             _commonSystemsGroup.AddSystem<AStarMoveSystem>();
@@ -130,7 +128,9 @@ namespace Project.Runtime.ECS
         {
             _postTickSystems.AddSystem<AddExpMultiplierPerkSystem>();
             _postTickSystems.AddSystem<AddExpSystem>();
-
+            
+            _postTickSystems.AddSystem<CameraMoveSystem>();
+            
             _postTickSystems.AddSystem<LevelUpSystem>();
             
             _postTickSystems.AddSystem<TotalUnitsCountSystem>();

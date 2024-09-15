@@ -12,7 +12,7 @@ namespace Project.Runtime.Scriptable.Card
         [PreviewField]
         [SerializeField] private Sprite icon;
         [SerializeField] private string title;
-        [SerializeField] private bool isBuildingOrSpell;
+        [SerializeField] private bool isBuilding;
         [Space]
         [Tooltip("How much cards of this type can be dropped during game phase")]
         [SerializeField] private int maxPerGame = 3;
@@ -26,7 +26,7 @@ namespace Project.Runtime.Scriptable.Card
 
         public Sprite Icon => icon;
         public string Title => title;
-        public bool IsBuildingOrSpell => isBuildingOrSpell;
+        public bool IsBuilding => isBuilding;
         public int MaxPerGame => maxPerGame;
         public List<IPerk> Perks => perks.ConvertAll<IPerk>(perk => perk);
         public List<CardConfig> SubCardConfigs => subCardConfigs;

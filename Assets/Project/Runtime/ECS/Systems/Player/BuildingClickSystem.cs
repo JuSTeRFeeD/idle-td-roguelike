@@ -23,6 +23,7 @@ namespace Project.Runtime.ECS.Systems.Player
         [Inject] private BuildingManagementPanel _buildingManagementPanel;
         [Inject] private BuildingsDatabase _buildingsDatabase;
         [Inject] private MapManager _mapManager;
+        [Inject] private WorldSetup _worldSetup;
 
         public World World { get; set; }
 
@@ -59,6 +60,10 @@ namespace Project.Runtime.ECS.Systems.Player
         private void CloseManagement()
         {
             _panelsManager.SetPanel(PanelType.None);
+            if (!_selectedEntity.IsNullOrDisposed() && _selectedEntity.Has<RadiusViewEntity>())
+            {
+                _selectedEntity.GetComponent<RadiusViewEntity>().Entity.Dispose();
+            }
             _selectedEntity = null;
         }
 
@@ -72,8 +77,27 @@ namespace Project.Runtime.ECS.Systems.Player
             }
 
             if (entity == _selectedEntity) return;
-
             _selectedEntity = entity;
+
+            // Radius view
+            if (_selectedEntity.Has<AttackRangeRuntime>())
+            {
+                var radiusEntity = World.CreateEntity();
+                radiusEntity.InstantiateView(
+                    _worldSetup.RadiusView, 
+                    _selectedEntity.ViewPosition(),
+                    Quaternion.identity);
+                radiusEntity.SetComponent(new Owner
+                {
+                    Entity = _selectedEntity
+                });
+                _selectedEntity.SetComponent(new RadiusViewEntity
+                {
+                    Entity = radiusEntity
+                });
+            }
+            
+            // Setup panel widgets
             _panelsManager.SetPanel(PanelType.TowerManagement);
 
             _cameraController.SetPosition(_selectedEntity.ViewPosition() - new Vector3(2, 0, 2));

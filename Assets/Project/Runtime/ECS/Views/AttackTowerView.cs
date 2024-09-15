@@ -14,6 +14,7 @@ namespace Project.Runtime.ECS.Views
 
         public void SetTowerRotation(Quaternion quaternion)
         {
+            if (!rotatingTower) return;
             rotatingTower.rotation = quaternion;
         }
     }
