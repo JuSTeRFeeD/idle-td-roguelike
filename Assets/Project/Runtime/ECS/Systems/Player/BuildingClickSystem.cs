@@ -309,7 +309,7 @@ namespace Project.Runtime.ECS.Systems.Player
                 };
                 if (_selectedEntity.Has<TowerWithBouncingProjectileRuntime>())
                 {
-                    stats.Add($"Hit Bounces: {_selectedEntity.GetComponent<CriticalChanceRuntime>().Value:##.#}%");
+                    stats.Add($"Hit Bounces: {_selectedEntity.GetComponent<TowerWithBouncingProjectileRuntime>().Bounces}");
                 }
                 if (_selectedEntity.Has<SplashDamage>())
                 {
