@@ -13,16 +13,18 @@ namespace Project.Runtime.Scriptable.Card.Perks.TowersPerks
         
         public override void Apply(World world, int applyIndex)
         {
-            foreach (var entity in world.Filter.With<CannonTowerPerkUpgrades>().Build())
+            foreach (var entity in world.Filter
+                         .With<CannonTowerUpgradesTag>()
+                         .With<TowerAttackUpgrades>()
+                         .Build())
             {
-                entity.GetComponent<CannonTowerPerkUpgrades>().AttackSpeedMultiplier =
-                    attackSpeedMultipliers[applyIndex];
+                entity.GetComponent<TowerAttackUpgrades>().AttackSpeedMultiplier = attackSpeedMultipliers[applyIndex];
             }
         }
 
         public override string GetPerkDescription(int applyIndex)
         {
-            return "Increase attack speed of cannon towers";
+            return $"Increase {DescColors.SpeedColor}attack speed</color> of cannon towers to {DescColors.ValueColor}{Mathf.RoundToInt(100 - attackSpeedMultipliers[applyIndex] * 100):##.#}%</color>";
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Project.Runtime.ECS.Systems.Projectile
         private Filter _filter;
         private Filter _enemiesFilter;
 
-        private const float BounceDistance = 2f;
+        private const float BounceDistance = 2.25f;
         
         public void OnAwake()
         {
@@ -75,12 +75,27 @@ namespace Project.Runtime.ECS.Systems.Projectile
                     bouncingProjectile.BouncesLeft--;
                     
                     // Spawn bounced projectile
-                    var newProjectile = World.CreateEntity();
                     
+                    // TODO: THERE IS TRYING COPY TO
+                    // копирование нихуя не работает. либо правь либо забивай к хуям пока что
+                    // var newProjectile = World.CreateEntity();
+                    // entity.CopyTo(newProjectile);
+                    // newProjectile.InstantiateView(
+                    //     NightPool.GetPoolByClone(entity.GetComponent<ViewEntity>().Value).AttachedPrefab.GetComponent<EntityView>(), 
+                    //     projectilePos,
+                    //     Quaternion.identity);
+                    // newProjectile.GetComponent<AttackTarget>().Value = enemyEntity;
+                    // ref var projectileMoveData = ref newProjectile.GetComponent<ProjectileMoveData>();
+                    // projectileMoveData.StartMovePosition = projectilePos;
+                    // projectileMoveData.TravelTime = 0f;
+                    // Debug.Log($"new bounced projectile ${newProjectile.ID.ToString()}");
+                    
+                    // WORKED CODE:
+                    var newProjectile = World.CreateEntity();
                     newProjectile.InstantiateView(
-                        NightPool.GetPoolByClone(entity.GetComponent<ViewEntity>().Value).AttachedPrefab.GetComponent<EntityView>(), 
-                        projectilePos,
-                        Quaternion.identity);
+                    NightPool.GetPoolByClone(entity.GetComponent<ViewEntity>().Value).AttachedPrefab.GetComponent<EntityView>(), 
+                    projectilePos,
+                    Quaternion.identity);
                     newProjectile.AddComponent<ProjectileTag>();
                     newProjectile.SetComponent(entity.GetComponent<BouncingProjectile>());
                     newProjectile.SetComponent(entity.GetComponent<TrajectoryProjectile>());
@@ -88,7 +103,7 @@ namespace Project.Runtime.ECS.Systems.Projectile
                     newProjectile.SetComponent(entity.GetComponent<AttackDamageRuntime>());
                     newProjectile.SetComponent(new AttackTarget
                     {
-                        Value = enemyEntity
+                    Value = enemyEntity
                     });
                     var projectileMoveData = entity.GetComponent<ProjectileMoveData>();
                     projectileMoveData.StartMovePosition = projectilePos;

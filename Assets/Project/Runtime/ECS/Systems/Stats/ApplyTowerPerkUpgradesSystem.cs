@@ -11,43 +11,73 @@ namespace Project.Runtime.ECS.Systems.Stats
     {
         public World World { get; set; }
 
-        private Filter _cannonPerkUpgradesFilter;
-        private Filter _cannonFilter;
+        private Filter _cannonTowerPerkUpgradesFilter;
+        private Filter _cannonTowerFilter;
         
-        private Filter _crossbowPerkUpgradesFilter;
-        private Filter _crossbowFilter;
+        private Filter _crossbowTowerPerkUpgradesFilter;
+        private Filter _crossbowTowerFilter;
+        
+        private Filter _crystalTowerPerkUpgradesFilter;
+        private Filter _crystalTowerFilter;
+        
+        private Stash<AttackDamageRuntime> _attackDamageRuntimeStash;
+        private Stash<AttackCooldownRuntime> _attackCooldownRuntimeStash;
+        private Stash<TowerAttackUpgrades> _towerAttackUpgradesStash;
         
         public void OnAwake()
         {
-            _cannonPerkUpgradesFilter = World.Filter.With<CannonTowerPerkUpgrades>().Build();
-            _cannonFilter = World.Filter.With<CannonTowerTag>().Build();
+            _cannonTowerFilter = World.Filter.With<CannonTowerTag>().Build();
+            _cannonTowerPerkUpgradesFilter = World.Filter
+                .With<CannonTowerUpgradesTag>()
+                .With<TowerAttackUpgrades>()
+                .Build();
             
-            _crossbowPerkUpgradesFilter = World.Filter.With<CrossbowTowerPerkUpgrades>().Build();
-            _crossbowFilter = World.Filter.With<CrossbowTowerTag>().Build();
+            _crossbowTowerFilter = World.Filter.With<CrossbowTowerTag>().Build();
+            _crossbowTowerPerkUpgradesFilter = World.Filter
+                .With<CrossbowTowerUpgradesTag>()
+                .With<TowerAttackUpgrades>()
+                .Build();
+            
+            _crystalTowerFilter = World.Filter.With<CrystalTowerTag>().Build();
+            _crystalTowerPerkUpgradesFilter = World.Filter
+                .With<CrystalTowerUpgradesTag>()
+                .With<TowerAttackUpgrades>()
+                .With<TowerWithBouncesUpgrade>()
+                .Build();
+
+            _attackDamageRuntimeStash = World.GetStash<AttackDamageRuntime>();
+            _attackCooldownRuntimeStash = World.GetStash<AttackCooldownRuntime>();
+            _towerAttackUpgradesStash = World.GetStash<TowerAttackUpgrades>();
         }
 
         public void OnUpdate(float deltaTime)
         {
-            // Cannon
-            foreach (var perkEntity in _cannonPerkUpgradesFilter)
-            {
-                ref readonly var perk = ref perkEntity.GetComponent<CannonTowerPerkUpgrades>();
-                foreach (var towerEntity in _cannonFilter)
-                {
-                    towerEntity.GetComponent<AttackDamageRuntime>().Value *= perk.AttackDamageMultiplier;
-                    towerEntity.GetComponent<AttackCooldownRuntime>().Value *= perk.AttackSpeedMultiplier;
-                }   
-            }
+            // TowerAttackUpgrades
+            ApplyAttackUpgrades(_cannonTowerFilter, _cannonTowerPerkUpgradesFilter);
+            ApplyAttackUpgrades(_crossbowTowerFilter, _crossbowTowerPerkUpgradesFilter);
+            ApplyAttackUpgrades(_crystalTowerFilter, _crystalTowerPerkUpgradesFilter);
             
-            // Crossbow
-            foreach (var perkEntity in _crossbowPerkUpgradesFilter)
+            // Custom upgrades for towers 
+            foreach (var entity in _crystalTowerPerkUpgradesFilter)
             {
-                ref readonly var perk = ref perkEntity.GetComponent<CrossbowTowerPerkUpgrades>();
-                foreach (var towerEntity in _crossbowFilter)
+                ref readonly var additionalBounces = ref entity.GetComponent<TowerWithBouncesUpgrade>().AdditionalBounces;
+                foreach (var towerEntity in _crystalTowerFilter)
                 {
-                    towerEntity.GetComponent<AttackDamageRuntime>().Value *= perk.AttackDamageMultiplier;
-                    towerEntity.GetComponent<AttackCooldownRuntime>().Value *= perk.AttackSpeedMultiplier;
-                }   
+                    towerEntity.GetComponent<TowerWithBouncingProjectileRuntime>().Bounces += additionalBounces;
+                }
+            }
+        }
+
+        private void ApplyAttackUpgrades(in Filter towerFilter, in Filter upgradesFilter)
+        {
+            foreach (var entity in upgradesFilter)
+            {
+                ref readonly var upgrades = ref _towerAttackUpgradesStash.Get(entity);
+                foreach (var towerEntity in towerFilter)
+                {
+                    _attackDamageRuntimeStash.Get(towerEntity).Value *= upgrades.AttackDamageMultiplier;
+                    _attackCooldownRuntimeStash.Get(towerEntity).Value *= upgrades.AttackSpeedMultiplier;
+                }
             }
         }
 

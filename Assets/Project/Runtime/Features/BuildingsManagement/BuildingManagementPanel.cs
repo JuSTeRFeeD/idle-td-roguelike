@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Project.Runtime.Features.GameplayMenus;
 using Project.Runtime.Features.Widgets;
 using Project.Runtime.Scriptable.Buildings;
@@ -23,10 +24,12 @@ namespace Project.Runtime.Features.BuildingsManagement
         [SerializeField] private UnitsWidget unitsWidgetPrefab;
         [SerializeField] private StorageInfoWidget storageInfoWidgetPrefab;
         [SerializeField] private TowerWidget towerWidgetPrefab;
+        [SerializeField] private StatsWidget statsWidgetPrefab;
 
         private StorageInfoWidget _storageInfoWidget;
         private UnitsWidget _unitsWidget;
         private TowerWidget _towerWidget;
+        private StatsWidget[] _statsWidgets = new StatsWidget[2];
 
         public event Action OnCloseClick;
         
@@ -62,6 +65,8 @@ namespace Project.Runtime.Features.BuildingsManagement
             }
             _unitsWidget = null;
             _storageInfoWidget = null;
+            _statsWidgets[0] = null;
+            _statsWidgets[1] = null;
             
             base.Hide();
         }
@@ -70,11 +75,11 @@ namespace Project.Runtime.Features.BuildingsManagement
         {
             if (upgradeProgress >= 1f)
             {
-                panelTitleText.SetText($"{title} <size=80%><color=yellow>lv.{level} <color=orange>MAX");    
+                panelTitleText.SetText($"{title} <size=80%><color=yellow>lv.{level + 1} <color=orange>MAX");    
             }
             else
             {
-                panelTitleText.SetText($"{title} <size=80%><color=yellow>lv.{level}");
+                panelTitleText.SetText($"{title} <size=80%><color=yellow>lv.{level + 1}");
             }
             
             upgadeProgress.fillAmount = upgradeProgress;
@@ -122,6 +127,26 @@ namespace Project.Runtime.Features.BuildingsManagement
         
         #endregion
 
+        #region Stats Widget
+
+        public void AddStatsWidget(int statsWidgetNumber = 0)
+        {
+#if UNITY_EDITOR
+            if (_statsWidgets[statsWidgetNumber]) Debug.LogError($"_statsWidget {statsWidgetNumber} ALREADY added to panel!");
+#endif
+            _statsWidgets[statsWidgetNumber] = Instantiate(statsWidgetPrefab, container);
+        }
+
+        public void SetStatsWidgetText(List<string> stats, int statsWidgetNumber = 0)
+        {
+#if UNITY_EDITOR
+            if (!_statsWidgets[statsWidgetNumber]) Debug.LogError("_statsWidget doesn't added to panel!");
+#endif
+            _statsWidgets[statsWidgetNumber].SetStats(stats);
+        }
+
+        #endregion
+        
         public void AddUnitManagementWidget()
         {
             _unitsWidget = Instantiate(unitsWidgetPrefab, container);

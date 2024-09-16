@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ShowUniqueId>k__BackingField: 0
   uniqueID: e2fc0d8b-f9e6-4555-a694-f276b060044c
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 78676bf97c848be4384cf76ffff94d84, type: 3}
   title: Increase Cannon Attack Speed
   isBuilding: 0
   maxPerGame: 3
@@ -60,7 +60,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ShowUniqueId>k__BackingField: 0
   uniqueID: a5a9de41-46d4-4471-8c13-050ef70b588c
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 7083ab1f5d60b97449d1d56dd51275d3, type: 3}
   title: Increase Cannon Damage
   isBuilding: 0
   maxPerGame: 3

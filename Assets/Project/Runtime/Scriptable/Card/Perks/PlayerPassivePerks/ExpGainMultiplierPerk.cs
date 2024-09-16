@@ -9,7 +9,6 @@ namespace Project.Runtime.Scriptable.Card.Perks.PlayerPassivePerks
     public class ExpGainMultiplierPerk : PerkConfig
     {
         public float[] multipliers;
-        public string[] descriptions;
         
         public override void Apply(World world, int applyIndex)
         {
@@ -24,7 +23,7 @@ namespace Project.Runtime.Scriptable.Card.Perks.PlayerPassivePerks
 
         public override string GetPerkDescription(int applyIndex)
         {
-            return descriptions[applyIndex];
+            return $"Increase {DescColors.SpecialColor}gaining exp</color> for {DescColors.ValueColor}{Mathf.RoundToInt(multipliers[applyIndex] * 100 - 100):##.#}%</color>";
         }
     }
 }

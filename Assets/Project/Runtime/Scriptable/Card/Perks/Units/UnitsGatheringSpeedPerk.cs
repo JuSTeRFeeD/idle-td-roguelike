@@ -19,7 +19,7 @@ namespace Project.Runtime.Scriptable.Card.Perks.Units
 
         public override string GetPerkDescription(int applyIndex)
         {
-            return "Increase gathering speed of all units";
+            return $"Increase {DescColors.SpecialColor}gathering speed</color> of all units";
         }
     }
 }

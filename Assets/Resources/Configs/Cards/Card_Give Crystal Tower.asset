@@ -1,5 +1,49 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6567890113892066213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a61cc5d96e7e46e9a9c735f24bdf02a4, type: 3}
+  m_Name: Bounces Count Perk
+  m_EditorClassIdentifier: 
+  <ShowUniqueId>k__BackingField: 0
+  uniqueID: 2566296e-fd8b-4b5a-a396-b043edac60c2
+  icon: {fileID: 21300000, guid: 78676bf97c848be4384cf76ffff94d84, type: 3}
+  title: Add projectile bounces on hit
+  isBuilding: 0
+  maxPerGame: 3
+  perks:
+  - {fileID: 11400000, guid: d8ce4362059e0004a834639ca6bf34cd, type: 2}
+  subCardConfigs: []
+  __SetNameToSubActive: 
+--- !u!114 &-250064523000405875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a61cc5d96e7e46e9a9c735f24bdf02a4, type: 3}
+  m_Name: Attack Damage Perk
+  m_EditorClassIdentifier: 
+  <ShowUniqueId>k__BackingField: 0
+  uniqueID: bc616f7c-3cdd-43c7-8cbf-212738a850d0
+  icon: {fileID: 21300000, guid: 7083ab1f5d60b97449d1d56dd51275d3, type: 3}
+  title: Increase Crystal Attack Damage
+  isBuilding: 0
+  maxPerGame: 3
+  perks:
+  - {fileID: 11400000, guid: 5f18c90bd4445e84fb7a9a09061e010d, type: 2}
+  subCardConfigs: []
+  __SetNameToSubActive: 
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20,5 +64,30 @@ MonoBehaviour:
   maxPerGame: 12
   perks:
   - {fileID: 11400000, guid: b01a8bff0ca1d304b8ab18254295ae83, type: 2}
+  subCardConfigs:
+  - {fileID: -250064523000405875}
+  - {fileID: 4967581947022521820}
+  - {fileID: -6567890113892066213}
+  __SetNameToSubActive: Bounces Count Perk
+--- !u!114 &4967581947022521820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a61cc5d96e7e46e9a9c735f24bdf02a4, type: 3}
+  m_Name: Attack Speed Perk
+  m_EditorClassIdentifier: 
+  <ShowUniqueId>k__BackingField: 0
+  uniqueID: 2954979a-1cad-4aa0-80da-c250e2ed910b
+  icon: {fileID: 21300000, guid: 78676bf97c848be4384cf76ffff94d84, type: 3}
+  title: Increase Crystal Attack Speed
+  isBuilding: 0
+  maxPerGame: 3
+  perks:
+  - {fileID: 11400000, guid: db0196d599765cd4ca80a7223c092516, type: 2}
   subCardConfigs: []
   __SetNameToSubActive: 

@@ -37,14 +37,14 @@ namespace Project.Runtime.Features.Widgets
 
         private void Start()
         {
-            _initScale = bgImage.transform.localScale;
+            _initScale = bgImage.transform.localScale * .95f;
         }
 
         public void SetIsSelected(bool value)
         {
             bgImage.transform.DOKill();
             bgImage.transform
-                .DOScale(value ? _initScale * 1.1f : _initScale, AnimDuration * Time.timeScale)
+                .DOScale(value ? _initScale * 1.2f : _initScale, AnimDuration * Time.timeScale)
                 .SetLink(gameObject);
             
         }

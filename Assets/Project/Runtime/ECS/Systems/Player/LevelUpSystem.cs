@@ -15,6 +15,7 @@ namespace Project.Runtime.ECS.Systems.Player
     {
         [Inject] private InventoryStorage _inventoryStorage;
         [Inject] private LevelUpPanel _levelUpPanel;
+        [Inject] private LevelUpCardsManager _levelUpCardsManager;
         [Inject] private HandsManager _handsManager;
         
         public World World { get; set; }
@@ -22,8 +23,6 @@ namespace Project.Runtime.ECS.Systems.Player
         private Filter _levelUpFilter;
         private Filter _choosingCardFilter;
         private Filter _placingCardFilter;
-
-        private readonly Dictionary<string, int> _appliesCountByPerkUniqueId = new();
         
         public void OnAwake()
         {
@@ -64,14 +63,14 @@ namespace Project.Runtime.ECS.Systems.Player
             // Applying card perks to world
             foreach (var cardConfigPerk in cardConfig.Perks)
             {
-                if (_appliesCountByPerkUniqueId.TryGetValue(cardConfig.uniqueID, out var appliesCount))
+                if (_levelUpCardsManager.AppliesCountByPerkUniqueId.TryGetValue(cardConfig.uniqueID, out var appliesCount))
                 {
                     cardConfigPerk.Apply(World, appliesCount);
                 }
                 else
                 {
                     cardConfigPerk.Apply(World, 0);
-                    _appliesCountByPerkUniqueId.Add(cardConfig.uniqueID, 1);
+                    _levelUpCardsManager.AppliesCountByPerkUniqueId.Add(cardConfig.uniqueID, 1);
                 }
             }
         }

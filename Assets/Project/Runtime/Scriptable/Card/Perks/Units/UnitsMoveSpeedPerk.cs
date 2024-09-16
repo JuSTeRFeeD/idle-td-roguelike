@@ -19,7 +19,7 @@ namespace Project.Runtime.Scriptable.Card.Perks.Units
 
         public override string GetPerkDescription(int applyIndex)
         {
-            return "Increase move speed of all units";
+            return $"Increase {DescColors.SpeedColor}move speed</color> of all units to {DescColors.ValueColor}{Mathf.RoundToInt(addMoveSpeedValue[applyIndex] * 10):##.#}</color>";
         }
     }
 }

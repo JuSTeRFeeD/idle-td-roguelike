@@ -13,16 +13,18 @@ namespace Project.Runtime.Scriptable.Card.Perks.TowersPerks
         
         public override void Apply(World world, int applyIndex)
         {
-            foreach (var entity in world.Filter.With<CrossbowTowerPerkUpgrades>().Build())
+            foreach (var entity in world.Filter
+                         .With<CrossbowTowerUpgradesTag>()
+                         .With<TowerAttackUpgrades>()
+                         .Build())
             {
-                entity.GetComponent<CrossbowTowerPerkUpgrades>().AttackDamageMultiplier =
-                    attackDamageMultipliers[applyIndex];
+                entity.GetComponent<TowerAttackUpgrades>().AttackDamageMultiplier = attackDamageMultipliers[applyIndex];
             }
         }
 
         public override string GetPerkDescription(int applyIndex)
         {
-            return "Increase attack damage of cannon towers";
+            return $"Increase {DescColors.DamageColor}attack damage</color> of cannon towers to {DescColors.ValueColor}{Mathf.RoundToInt(attackDamageMultipliers[applyIndex] * 100 - 100):##.#}%</color>";
         }
     }
 }

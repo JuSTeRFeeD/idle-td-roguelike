@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Project.Runtime.ECS.Components;
 using Project.Runtime.ECS.Extensions;
 using Project.Runtime.ECS.Views;
@@ -143,6 +144,22 @@ namespace Project.Runtime.ECS.Systems.Player
             {
                 _buildingManagementPanel.AddUnitManagementWidget();
             }
+
+            // Attack towers stats
+            if (entity.Has<AttackDamageRuntime>() && 
+                entity.Has<AttackCooldownRuntime>() && 
+                entity.Has<AttackRangeRuntime>() &&
+                entity.Has<HealthDefault>())
+            {
+                _buildingManagementPanel.AddStatsWidget();
+            }
+            if ((entity.Has<CriticalChanceRuntime>() && entity.Has<CriticalDamageRuntime>()) || 
+                entity.Has<TowerWithBouncingProjectileRuntime>() || 
+                entity.Has<SplashDamage>())
+            {
+                _buildingManagementPanel.AddStatsWidget(1);
+            }
+            
         }
 
         private void OnClickTowerUpgrade()
@@ -266,6 +283,44 @@ namespace Project.Runtime.ECS.Systems.Player
                     stoneAmount += _stoneStorageStash.Get(entity).Current;
                 }
                 _buildingManagementPanel.SetUpgradeTowerWidgetTotalResourcesAmount(woodAmount, stoneAmount);
+            }
+            
+            // Attack towers stats
+            if (_selectedEntity.Has<AttackDamageRuntime>() && 
+                _selectedEntity.Has<AttackCooldownRuntime>() && 
+                _selectedEntity.Has<AttackRangeRuntime>() &&
+                _selectedEntity.Has<HealthDefault>())
+            {
+                _buildingManagementPanel.SetStatsWidgetText(new List<string>
+                {
+                    $"Damage {_selectedEntity.GetComponent<AttackDamageRuntime>().Value:##.#}", 
+                    $"Range {_selectedEntity.GetComponent<AttackRangeRuntime>().Value:##.#}", 
+                    $"Health: {_selectedEntity.GetComponent<HealthDefault>().Value:##.#}", 
+                    $"Attack Speed: {(1f / _selectedEntity.GetComponent<AttackCooldownRuntime>().Value):F1}", 
+                });
+            }
+            if (_selectedEntity.Has<CriticalChanceRuntime>() && 
+                _selectedEntity.Has<CriticalDamageRuntime>())
+            {
+                var stats = new List<string>(4)
+                {
+                    $"Crit. Chance: {_selectedEntity.GetComponent<CriticalChanceRuntime>().Value * 100:##.#}%",
+                    $"Crit. Damage: {_selectedEntity.GetComponent<CriticalDamageRuntime>().Value * 100:##.#}%",
+                };
+                if (_selectedEntity.Has<TowerWithBouncingProjectileRuntime>())
+                {
+                    stats.Add($"Hit Bounces: {_selectedEntity.GetComponent<CriticalChanceRuntime>().Value:##.#}%");
+                }
+                if (_selectedEntity.Has<SplashDamage>())
+                {
+                    ref readonly var splashDamage = ref _selectedEntity.GetComponent<SplashDamage>();
+                    stats.Add($"Splash Damage: {splashDamage.PercentFromDamage:##.#}%");
+                    if (stats.Count < 4)
+                    {
+                        stats.Add($"Splash Radius: {splashDamage.Radius:##.#}");
+                    }
+                }
+                _buildingManagementPanel.SetStatsWidgetText(stats, 1);
             }
         }
 

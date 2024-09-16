@@ -90,11 +90,11 @@ namespace Project.Runtime.ECS.Systems.Shooting
                     projectileEntity.SetComponent(entity.GetComponent<SplashDamage>());
                 }
 
-                if (entity.Has<TowerWithBouncingProjectile>())
+                if (entity.Has<TowerWithBouncingProjectileRuntime>())
                 {
                     projectileEntity.SetComponent(new BouncingProjectile
                     {
-                        BouncesLeft = entity.GetComponent<TowerWithBouncingProjectile>().Bounces
+                        BouncesLeft = entity.GetComponent<TowerWithBouncingProjectileRuntime>().Bounces
                     });
                 }
 
@@ -104,7 +104,7 @@ namespace Project.Runtime.ECS.Systems.Shooting
                 if (ghostTargetHealth <= 0)
                 {
                     // еще можно вынести в перк в отдельную систему прокачки в лобби
-                    // TODO: если тавера будут слишком ибовыми - убрать механнику ghostHealth и WillDeadAtNextTick
+                    // TODO: если тавера будут слишком имбовыми - убрать механнику ghostHealth и WillDeadAtNextTick
                     attackTarget.SetComponent(new WillDeadAtNextTickTag());
                     entity.RemoveComponent<AttackTarget>();
                 }

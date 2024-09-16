@@ -101,7 +101,7 @@ namespace Project.Runtime.ECS.Systems.Building
                 {
                     view.transform.DOKill(true);
                     view.transform
-                        .DOPunchScale(Vector3.up * .25f, 0.25f, 10, 2f)
+                        .DOPunchScale(Vector3.up * .3f, 0.25f, 10, 2f)
                         .SetLink(view.gameObject);
                 }
 
@@ -157,7 +157,7 @@ namespace Project.Runtime.ECS.Systems.Building
                         BuildingConfigId = buildingConfig.uniqueID,
                         Size = buildingConfig.Size
                     });
-                    buildingEntity.SetComponent(new BaseTowerTag());
+                    buildingEntity.AddComponent<BaseTowerTag>();
 
                     buildingEntity.SetComponent(new HealthDefault
                     {
@@ -199,7 +199,7 @@ namespace Project.Runtime.ECS.Systems.Building
 
                 case MapResourceConfig resource: 
                 {
-                    buildingEntity.SetComponent(new MapResourceTag());
+                    buildingEntity.AddComponent<MapResourceTag>();
                     buildingEntity.SetComponent(new HealthDefault
                     {
                         Value = resource.health
@@ -212,10 +212,10 @@ namespace Project.Runtime.ECS.Systems.Building
                     switch (resource.resourceType)
                     {
                         case ResourceType.Wood:
-                            buildingEntity.SetComponent(new TreeTag());
+                            buildingEntity.AddComponent<TreeTag>();
                             break;
                         case ResourceType.Stone:
-                            buildingEntity.SetComponent(new StoneTag());
+                            buildingEntity.AddComponent<StoneTag>();
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -234,27 +234,29 @@ namespace Project.Runtime.ECS.Systems.Building
                     switch (attackTower.AttackTowerType)
                     {
                         case AttackTowerType.Cannon:
-                            buildingEntity.SetComponent(new CannonTowerTag());
+                            buildingEntity.AddComponent<CannonTowerTag>();
                             buildingEntity.SetComponent(new SplashDamage
                             {
                                 Radius = 2f,
-                                PercentFromDamage = 0.2f
+                                PercentFromDamage = 0.1f
                             });
                             break;
                         case AttackTowerType.Crossbow:
-                            buildingEntity.SetComponent(new CrossbowTowerTag());
+                            buildingEntity.AddComponent<CrossbowTowerTag>();
                             break;
                         case AttackTowerType.Crystal:
-                            buildingEntity.SetComponent(new CrystalTowerTag());
+                            buildingEntity.AddComponent<CrystalTowerTag>();
+                            buildingEntity.AddComponent<TowerWithBouncingProjectileRuntime>();
                             buildingEntity.SetComponent(new TowerWithBouncingProjectile
                             {
-                                Bounces = 3
+                                Bounces = 0
                             });
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
 
+                    // Health
                     buildingEntity.SetComponent(new HealthDefault
                     {
                         Value = attackTower.Health.min
@@ -264,30 +266,51 @@ namespace Project.Runtime.ECS.Systems.Building
                         Value = attackTower.Health.min,
                         GhostValue = attackTower.Health.min
                     });
-                    buildingEntity.SetComponent(new ShootPoint
+                    
+                    // Critical chance & damage
+                    buildingEntity.AddComponent<CriticalChanceRuntime>();
+                    buildingEntity.SetComponent(new CriticalChance
                     {
-                        Value = ((AttackTowerView)view).ShootPoint
+                        Value = 0.1f
                     });
+                    buildingEntity.AddComponent<CriticalDamageRuntime>();
+                    buildingEntity.SetComponent(new CriticalDamage
+                    {
+                        Value = 0.2f
+                    });
+                    
+                    // Attack
                     buildingEntity.AddComponent<AttackDamageRuntime>();
                     buildingEntity.SetComponent(new AttackDamage
                     {
                         Value = attackTower.Damage.min
                     });
+                    
+                    // Range
                     buildingEntity.AddComponent<AttackRangeRuntime>();
                     buildingEntity.SetComponent(new AttackRange
                     {
                         Value = attackTower.AttackRange.min
                     });
+                    
+                    // Cooldown
                     buildingEntity.AddComponent<AttackCooldownRuntime>();
                     buildingEntity.SetComponent(new AttackCooldown
                     {
                         Value = attackTower.AttackCooldown.min
                     });
+                    
+                    // Projectile & shooting
                     buildingEntity.SetComponent(new AttackProjectileData
                     {
                         EntityView = attackTower.ProjectileView,
                         ProjectileSpeed = attackTower.ProjectileSpeed,
                     });
+                    buildingEntity.SetComponent(new ShootPoint
+                    {
+                        Value = ((AttackTowerView)view).ShootPoint
+                    });
+                    
                     break;
                 }
             }

@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using DG.Tweening;
 using Project.Runtime.Features.GameplayMenus;
 using Project.Runtime.Features.Widgets;
 using Project.Runtime.Scriptable.Card;
+using TMPro;
 using UnityEngine;
 using VContainer;
-using Random = UnityEngine.Random;
 
 namespace Project.Runtime.Features.Leveling
 {
@@ -15,7 +16,8 @@ namespace Project.Runtime.Features.Leveling
         [Inject] private LevelUpCardsManager _levelUpCardsManager;
         
         [SerializeField] private List<CardWidget> cards = new();
-
+        [SerializeField] private TextMeshProUGUI selectedCardDescriptionText;
+        
         public event Action<CardConfig> OnCardSelect; 
         private int _selectedCardId = -1;
         
@@ -46,6 +48,22 @@ namespace Project.Runtime.Features.Leveling
             }
             _selectedCardId = id;
             cards[_selectedCardId].SetIsSelected(true);
+
+            ShowSelectedCardDescription();
+        }
+
+        private void ShowSelectedCardDescription()
+        {
+            var descriptionStringBuilder = new StringBuilder();
+            var perksCount = cards[_selectedCardId].CardConfig.Perks.Count;
+            _levelUpCardsManager.AppliesCountByPerkUniqueId.TryGetValue(cards[_selectedCardId].CardConfig.uniqueID, out var applyIndex);
+            for (var index = 0; index < perksCount; index++)
+            {
+                var cardConfigPerk = cards[_selectedCardId].CardConfig.Perks[index];
+                descriptionStringBuilder.Append(cardConfigPerk.GetPerkDescription(applyIndex));
+                if (index + 1 < perksCount) descriptionStringBuilder.Append("\n");
+            }
+            selectedCardDescriptionText.SetText(descriptionStringBuilder.ToString());
         }
 
         private void CardSelected()
@@ -77,6 +95,7 @@ namespace Project.Runtime.Features.Leveling
                 }
             }
 
+            OnCardClickCard(1);
             base.Show();
         }
 

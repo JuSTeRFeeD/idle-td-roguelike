@@ -53,17 +53,51 @@ namespace Project.Runtime.ECS.Systems.Player
             _headerUI.SetLevel(0);
             _headerUI.SetLevelExp(0, 1);
             
-            // --- Perks ---
-            dataEntity.SetComponent(new CannonTowerPerkUpgrades
+            // --- Perks & Upgrades ---
+
+            // TODO: GET FROM PLAYER PROGRESS
+            const float criticalChance = 0.1f;
+            const float criticalDamage = 0.2f; 
+            
+            // Cannon
+            var cannonUpgradesEntity = World.CreateEntity();
+            cannonUpgradesEntity.AddComponent<CannonTowerUpgradesTag>();
+            cannonUpgradesEntity.SetComponent(new CannonTowerSplashUpgrade
             {
-                AttackSpeedMultiplier = 1,
-                SplashDamageMultiplier = 1,
-                AttackDamageMultiplier = 1,
+                SplashDamageMultiplier = 1f,
             });
-            dataEntity.SetComponent(new CrossbowTowerPerkUpgrades
+            cannonUpgradesEntity.SetComponent(new TowerAttackUpgrades
             {
+                AttackDamageMultiplier = 1,
                 AttackSpeedMultiplier = 1,
-                AttackDamageMultiplier = 1
+                CriticalChance = criticalChance,
+                CriticalDamage = criticalDamage
+            });
+            
+            // Crossbow
+            var crossbowUpgradesEntity = World.CreateEntity();
+            crossbowUpgradesEntity.AddComponent<CrossbowTowerUpgradesTag>();
+            crossbowUpgradesEntity.SetComponent(new TowerAttackUpgrades
+            {
+                AttackDamageMultiplier = 1,
+                AttackSpeedMultiplier = 1,
+                CriticalChance = criticalChance,
+                CriticalDamage = criticalDamage
+            });
+            
+            // Crystal
+            var crystalUpgradesEntity = World.CreateEntity();
+            crystalUpgradesEntity.AddComponent<CrystalTowerUpgradesTag>();
+            crystalUpgradesEntity.SetComponent(new TowerAttackUpgrades
+            {
+                AttackDamageMultiplier = 1,
+                AttackSpeedMultiplier = 1,
+                CriticalChance = criticalChance,
+                CriticalDamage = criticalDamage
+            });
+            crystalUpgradesEntity.SetComponent(new TowerWithBouncesUpgrade
+            {
+                AdditionalBounces = 0
             });
         }
 

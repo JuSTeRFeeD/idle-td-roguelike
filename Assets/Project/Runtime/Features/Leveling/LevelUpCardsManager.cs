@@ -13,6 +13,9 @@ namespace Project.Runtime.Features.Leveling
 
         private bool _isFirstCardsRolled = false;
         
+        // не оч хорошо что он открытый для записи наверн, но пока пусть так
+        public readonly Dictionary<string, int> AppliesCountByPerkUniqueId = new();
+        
         [Inject]
         public LevelUpCardsManager(PlayerDeck playerDeck)
         {

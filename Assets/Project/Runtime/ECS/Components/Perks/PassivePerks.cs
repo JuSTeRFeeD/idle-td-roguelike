@@ -15,19 +15,48 @@ namespace Project.Runtime.ECS.Components.Perks
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct CannonTowerPerkUpgrades : IComponent
+    public struct TowerAttackUpgrades : IComponent
     {
         public float AttackDamageMultiplier;
         public float AttackSpeedMultiplier;
+        public float CriticalChance;
+        public float CriticalDamage;
+    }
+    
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct CannonTowerUpgradesTag : IComponent
+    {
+    }
+    
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct CannonTowerSplashUpgrade : IComponent
+    {
         public float SplashDamageMultiplier;
     }
     
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct CrossbowTowerPerkUpgrades : IComponent
+    public struct CrossbowTowerUpgradesTag : IComponent
     {
-        public float AttackDamageMultiplier;
-        public float AttackSpeedMultiplier;
+    }
+    
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct CrystalTowerUpgradesTag : IComponent
+    {
+    }
+    
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct TowerWithBouncesUpgrade : IComponent
+    {
+        public int AdditionalBounces;
     }
 }

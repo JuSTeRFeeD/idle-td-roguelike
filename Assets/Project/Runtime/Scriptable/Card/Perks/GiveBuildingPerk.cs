@@ -1,4 +1,3 @@
-using Project.Runtime.ECS.Components;
 using Project.Runtime.Scriptable.Buildings;
 using Scellecs.Morpeh;
 using UnityEngine;
@@ -18,7 +17,7 @@ namespace Project.Runtime.Scriptable.Card.Perks
 
         public override string GetPerkDescription(int applyIndex)
         {
-            return string.Empty;
+            return $"Gives {DescColors.GiveTowerColor}{buildingConfig.Title}</color> card";
         }
     }
 }
