@@ -235,6 +235,7 @@ namespace Project.Runtime.ECS.Systems.Building
                     {
                         case AttackTowerType.Cannon:
                             buildingEntity.AddComponent<CannonTowerTag>();
+                            buildingEntity.AddComponent<SplashDamageRuntime>();
                             buildingEntity.SetComponent(new SplashDamage
                             {
                                 Radius = 2f,

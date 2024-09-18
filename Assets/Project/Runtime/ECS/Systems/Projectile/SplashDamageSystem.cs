@@ -22,7 +22,7 @@ namespace Project.Runtime.ECS.Systems.Projectile
             _filter = World.Filter
                 .With<ProjectileTag>()
                 .With<ProjectileHit>()
-                .With<SplashDamage>()
+                .With<SplashDamageRuntime>()
                 .Build();
             
             _enemiesFilter = World.Filter
@@ -38,7 +38,7 @@ namespace Project.Runtime.ECS.Systems.Projectile
             {
                 ref readonly var hitEntity = ref entity.GetComponent<ProjectileHit>().HitEntity;
                 ref readonly var damage = ref entity.GetComponent<AttackDamageRuntime>().Value;
-                ref readonly var splashDamage = ref entity.GetComponent<SplashDamage>();
+                ref readonly var splashDamage = ref entity.GetComponent<SplashDamageRuntime>();
 
                 var hitPoint = hitEntity.ViewPosition();
                 foreach (var enemyEntity in _enemiesFilter)

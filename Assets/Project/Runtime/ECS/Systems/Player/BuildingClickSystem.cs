@@ -155,7 +155,7 @@ namespace Project.Runtime.ECS.Systems.Player
             }
             if ((entity.Has<CriticalChanceRuntime>() && entity.Has<CriticalDamageRuntime>()) || 
                 entity.Has<TowerWithBouncingProjectileRuntime>() || 
-                entity.Has<SplashDamage>())
+                entity.Has<SplashDamageRuntime>())
             {
                 _buildingManagementPanel.AddStatsWidget(1);
             }
@@ -304,17 +304,17 @@ namespace Project.Runtime.ECS.Systems.Player
             {
                 var stats = new List<string>(4)
                 {
-                    $"Crit. Chance: {_selectedEntity.GetComponent<CriticalChanceRuntime>().Value * 100:##.#}%",
-                    $"Crit. Damage: {_selectedEntity.GetComponent<CriticalDamageRuntime>().Value * 100:##.#}%",
+                    $"Crit. Chance: {_selectedEntity.GetComponent<CriticalChanceRuntime>().Value * 100:#0.#}%",
+                    $"Crit. Damage: {_selectedEntity.GetComponent<CriticalDamageRuntime>().Value * 100:#0.#}%",
                 };
                 if (_selectedEntity.Has<TowerWithBouncingProjectileRuntime>())
                 {
                     stats.Add($"Hit Bounces: {_selectedEntity.GetComponent<TowerWithBouncingProjectileRuntime>().Bounces}");
                 }
-                if (_selectedEntity.Has<SplashDamage>())
+                if (_selectedEntity.Has<SplashDamageRuntime>())
                 {
-                    ref readonly var splashDamage = ref _selectedEntity.GetComponent<SplashDamage>();
-                    stats.Add($"Splash Damage: {splashDamage.PercentFromDamage:##.#}%");
+                    ref readonly var splashDamage = ref _selectedEntity.GetComponent<SplashDamageRuntime>();
+                    stats.Add($"Splash Damage: {splashDamage.PercentFromDamage * 100:#0.#}%");
                     if (stats.Count < 4)
                     {
                         stats.Add($"Splash Radius: {splashDamage.Radius:##.#}");

@@ -1,5 +1,27 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8541450874795549290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a61cc5d96e7e46e9a9c735f24bdf02a4, type: 3}
+  m_Name: Splash Upgrade Perk
+  m_EditorClassIdentifier: 
+  <ShowUniqueId>k__BackingField: 0
+  uniqueID: 0cc9b01c-87be-48de-b201-b6d5bc05fee6
+  icon: {fileID: 21300000, guid: 997a9389d1a63e54eabf903973b23628, type: 3}
+  title: Cannon splash damage
+  isBuilding: 0
+  maxPerGame: 3
+  perks:
+  - {fileID: 11400000, guid: dea94691bcd44c644aecaf2c343f035e, type: 2}
+  subCardConfigs: []
+  __SetNameToSubActive: 
 --- !u!114 &-1739060085149909410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45,7 +67,8 @@ MonoBehaviour:
   subCardConfigs:
   - {fileID: -1739060085149909410}
   - {fileID: 7300557975151134530}
-  __SetNameToSubActive: Attack Damage Perk
+  - {fileID: -8541450874795549290}
+  __SetNameToSubActive: Splash Upgrade Perk
 --- !u!114 &7300557975151134530
 MonoBehaviour:
   m_ObjectHideFlags: 0

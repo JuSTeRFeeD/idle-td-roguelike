@@ -62,9 +62,10 @@ namespace Project.Runtime.ECS.Systems.Player
             // Cannon
             var cannonUpgradesEntity = World.CreateEntity();
             cannonUpgradesEntity.AddComponent<CannonTowerUpgradesTag>();
-            cannonUpgradesEntity.SetComponent(new CannonTowerSplashUpgrade
+            cannonUpgradesEntity.SetComponent(new TowerWithSplashDamageUpgrades
             {
-                SplashDamageMultiplier = 1f,
+                AdditionalSplashDamagePercent = 0f,
+                AdditionalSplashRadius = 0f
             });
             cannonUpgradesEntity.SetComponent(new TowerAttackUpgrades
             {

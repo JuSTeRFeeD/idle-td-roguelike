@@ -26,10 +26,14 @@ namespace Project.Runtime.ECS.Systems.Stats
         
         public void OnAwake()
         {
-            _cannonTowerFilter = World.Filter.With<CannonTowerTag>().Build();
+            _cannonTowerFilter = World.Filter
+                .With<CannonTowerTag>()
+                .With<SplashDamageRuntime>()
+                .Build();
             _cannonTowerPerkUpgradesFilter = World.Filter
                 .With<CannonTowerUpgradesTag>()
                 .With<TowerAttackUpgrades>()
+                .With<TowerWithSplashDamageUpgrades>()
                 .Build();
             
             _crossbowTowerFilter = World.Filter.With<CrossbowTowerTag>().Build();
@@ -57,13 +61,25 @@ namespace Project.Runtime.ECS.Systems.Stats
             ApplyAttackUpgrades(_crossbowTowerFilter, _crossbowTowerPerkUpgradesFilter);
             ApplyAttackUpgrades(_crystalTowerFilter, _crystalTowerPerkUpgradesFilter);
             
-            // Custom upgrades for towers 
+            // -- Custom upgrades for towers --
+            // Crystal bounces
             foreach (var entity in _crystalTowerPerkUpgradesFilter)
             {
                 ref readonly var additionalBounces = ref entity.GetComponent<TowerWithBouncesUpgrade>().AdditionalBounces;
                 foreach (var towerEntity in _crystalTowerFilter)
                 {
                     towerEntity.GetComponent<TowerWithBouncingProjectileRuntime>().Bounces += additionalBounces;
+                }
+            }
+            // Cannon splash 
+            foreach (var entity in _cannonTowerPerkUpgradesFilter)
+            {
+                ref readonly var splashUpgrades = ref entity.GetComponent<TowerWithSplashDamageUpgrades>();
+                foreach (var towerEntity in _cannonTowerFilter)
+                {
+                    ref var splash = ref towerEntity.GetComponent<SplashDamageRuntime>();
+                    splash.Radius += splashUpgrades.AdditionalSplashRadius;
+                    splash.PercentFromDamage += splashUpgrades.AdditionalSplashDamagePercent;
                 }
             }
         }

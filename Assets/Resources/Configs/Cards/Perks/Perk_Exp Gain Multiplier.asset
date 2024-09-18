@@ -13,10 +13,6 @@ MonoBehaviour:
   m_Name: Perk_Exp Gain Multiplier
   m_EditorClassIdentifier: 
   multipliers:
-  - 1.1
-  - 1.2
-  - 1.3
-  descriptions:
-  - Increase exp gain for 10%
-  - Increase exp gain for 20%
-  - Increase exp gain for 30%
+  - 1.15
+  - 1.25
+  - 1.4

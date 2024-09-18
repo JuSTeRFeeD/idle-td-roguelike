@@ -24,7 +24,7 @@ namespace Project.Runtime.Scriptable.Card.Perks.TowersPerks
 
         public override string GetPerkDescription(int applyIndex)
         {
-            return $"Increase {DescColors.DamageColor}attack damage</color> of cannon towers to {DescColors.ValueColor}{Mathf.RoundToInt(attackDamageMultipliers[applyIndex] * 100 - 100):##.#}%</color>";
+            return $"Increase {DescColors.DamageColor}attack damage</color> of crossbow towers to {DescColors.ValueColor}{Mathf.RoundToInt(attackDamageMultipliers[applyIndex] * 100 - 100):##.#}%</color>";
         }
     }
 }

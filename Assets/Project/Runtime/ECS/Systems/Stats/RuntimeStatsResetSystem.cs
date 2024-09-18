@@ -36,6 +36,10 @@ namespace Project.Runtime.ECS.Systems.Stats
         private Stash<TowerWithBouncingProjectile> _towerWithBouncingProjectileStash;
         private Stash<TowerWithBouncingProjectileRuntime> _towerWithBouncingProjectileRuntimeStash;
 
+        private Filter _splashDamageFilter;
+        private Stash<SplashDamage> _splashDamageStash;
+        private Stash<SplashDamageRuntime> _splashDamageRuntime;
+
         public void OnAwake()
         {
             _moveSpeedFilter = World.Filter.With<MoveSpeed>().With<MoveSpeedRuntime>().Build();
@@ -69,6 +73,10 @@ namespace Project.Runtime.ECS.Systems.Stats
                 .Build();
             _towerWithBouncingProjectileStash = World.GetStash<TowerWithBouncingProjectile>();
             _towerWithBouncingProjectileRuntimeStash = World.GetStash<TowerWithBouncingProjectileRuntime>();
+            
+            _splashDamageFilter = World.Filter.With<SplashDamage>().With<SplashDamageRuntime>().Build();
+            _splashDamageStash = World.GetStash<SplashDamage>();
+            _splashDamageRuntime = World.GetStash<SplashDamageRuntime>();
         }
 
         public void OnUpdate(float deltaTime)
@@ -109,6 +117,15 @@ namespace Project.Runtime.ECS.Systems.Stats
             {
                 _criticalChanceRuntimeStash.Get(entity).Value = _criticalChanceStash.Get(entity).Value;
                 _criticalDamageRuntimeStash.Get(entity).Value = _criticalDamageStash.Get(entity).Value;
+            }
+            
+            // Reset SplashDamage
+            foreach (var entity in _splashDamageFilter)
+            {
+                ref readonly var splashDamage = ref _splashDamageStash.Get(entity);
+                ref var splashDamageRuntime = ref _splashDamageRuntime.Get(entity);
+                splashDamageRuntime.PercentFromDamage = splashDamage.PercentFromDamage;
+                splashDamageRuntime.Radius = splashDamage.Radius;
             }
         }
 

@@ -15,9 +15,9 @@ namespace Project.Runtime.ECS.Systems.Enemies
 
         private Filter _filter;
 
-        private const float HealthMultiplierByWave = 1.5f; // +N% per wave index
-        private const float DamageMultiplierByWave = .1f; // +N% per wave index
-        private const float MoveSpeedMultiplierByWave = .05f; // +N% per wave index
+        private const float HealthMultiplierByWave = 0.5f; // base+N% per wave index
+        private const float DamageMultiplierByWave = .1f; // base+N% per wave index
+        private const float MoveSpeedMultiplierByWave = .05f; // base+N% per wave index
         
         public void OnAwake()
         {

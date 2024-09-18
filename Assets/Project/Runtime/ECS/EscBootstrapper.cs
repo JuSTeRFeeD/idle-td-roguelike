@@ -146,12 +146,12 @@ namespace Project.Runtime.ECS
         
         public void Dispose()
         {
-            // _commonSystemsGroup?.Dispose();
-            // _postTickSystems?.Dispose();
+            _commonSystemsGroup?.Dispose();
+            _postTickSystems?.Dispose();
 
-            // _world.RemoveSystemsGroup(_commonSystemsGroup);
-            // _world.RemoveSystemsGroup(_postTickSystems);
-            // world?.Dispose();
+            _world?.RemoveSystemsGroup(_commonSystemsGroup);
+            _world?.RemoveSystemsGroup(_postTickSystems);
+            _world?.Dispose();
         }
     }
 }

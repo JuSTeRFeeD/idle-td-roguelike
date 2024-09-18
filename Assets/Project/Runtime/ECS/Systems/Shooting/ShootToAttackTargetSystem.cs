@@ -85,9 +85,9 @@ namespace Project.Runtime.ECS.Systems.Shooting
                     Value = attackTarget
                 });
 
-                if (entity.Has<SplashDamage>())
+                if (entity.Has<SplashDamageRuntime>())
                 {
-                    projectileEntity.SetComponent(entity.GetComponent<SplashDamage>());
+                    projectileEntity.SetComponent(entity.GetComponent<SplashDamageRuntime>());
                 }
 
                 if (entity.Has<TowerWithBouncingProjectileRuntime>())

@@ -33,9 +33,10 @@ namespace Project.Runtime.ECS.Components.Perks
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct CannonTowerSplashUpgrade : IComponent
+    public struct TowerWithSplashDamageUpgrades : IComponent
     {
-        public float SplashDamageMultiplier;
+        public float AdditionalSplashDamagePercent;
+        public float AdditionalSplashRadius;
     }
     
     [Il2CppSetOption(Option.NullChecks, false)]

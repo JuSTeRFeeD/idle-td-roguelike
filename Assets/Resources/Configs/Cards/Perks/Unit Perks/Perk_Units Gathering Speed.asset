@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: Perk_Units Gathering Speed
   m_EditorClassIdentifier: 
   setGatheringTime:
-  - 0.9
-  - 0.775
+  - 0.8
   - 0.6
