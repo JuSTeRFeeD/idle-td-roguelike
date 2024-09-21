@@ -21,4 +21,18 @@ namespace Project.Runtime.ECS.Components.Enemies
         public EnemyConfig EnemyConfig;
         public int WaveIndex;
     }
+
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct GroundEnemyTag : IComponent
+    {
+    }
+    
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct FlyingEnemyTag : IComponent
+    {
+    }
 }

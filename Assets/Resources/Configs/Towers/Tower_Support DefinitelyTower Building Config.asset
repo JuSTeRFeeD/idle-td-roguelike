@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da9602e1a60143eebdc5f9bfe479b05a, type: 3}
+  m_Name: Tower_Support DefinitelyTower Building Config
+  m_EditorClassIdentifier: 
+  <ShowUniqueId>k__BackingField: 0
+  uniqueID: c55b243e-b5b6-4bda-98cb-24f695d637d3
+  title: Definitely a tower
+  prefab: {fileID: 7768194209125102205, guid: 8c647265a83b505448311ace2b988479, type: 3}
+  size: 1
+  upgradeLevels: 2
+  upgradePrices:
+  - woodPrice: 0
+    stonePrice: 4
+  - woodPrice: 4
+    stonePrice: 8
+  health:
+    min: 200
+    max: 500

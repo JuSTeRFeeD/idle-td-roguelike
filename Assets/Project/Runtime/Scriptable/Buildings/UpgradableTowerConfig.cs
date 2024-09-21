@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Project.Runtime.Scriptable.Buildings
 {
-    public class UpgradableTowerConfig : BuildingConfig
+    public abstract class UpgradableTowerConfig : BuildingConfig
     {
         [Title("UpgradableTowerConfig")]
         [Tooltip("0...5 == 6 levels")]

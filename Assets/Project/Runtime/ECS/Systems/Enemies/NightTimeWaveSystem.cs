@@ -24,7 +24,7 @@ namespace Project.Runtime.ECS.Systems.Enemies
         private int _lastSpawnedIndex = -1;
         private float _currentSpawnDelay;
         private NightWavesConfig.WaveData _waveData;
-        private readonly Dictionary<EnemyConfig, int> _limits = new();
+        private readonly Dictionary<int, int> _limits = new();
 
         private const float SpawnRadius = 40f;
         
@@ -57,12 +57,13 @@ namespace Project.Runtime.ECS.Systems.Enemies
                 var baseTowerPos = _baseTowerFilter.First();
                 if (baseTowerPos.IsNullOrDisposed()) return;
 
-                foreach (var waveDataEnemy in _waveData.enemies)
+                for (var index = 0; index < _waveData.enemies.Count; index++)
                 {
-                    if (!_limits.ContainsKey(waveDataEnemy.enemyConfig)) continue;
+                    var waveDataEnemy = _waveData.enemies[index];
+                    if (!_limits.ContainsKey(index)) continue;
 
                     var point = _worldSetup.EnemySpawnPoints[Random.Range(0, _worldSetup.EnemySpawnPoints.Length)];
-                    
+
                     var spawnRequest = World.CreateEntity();
                     spawnRequest.SetComponent(new SpawnEnemyRequest
                     {
@@ -70,10 +71,10 @@ namespace Project.Runtime.ECS.Systems.Enemies
                         Position = point.position,
                         WaveIndex = _lastSpawnedIndex
                     });
-                        
-                    if (--_limits[waveDataEnemy.enemyConfig] <= 0)
+
+                    if (--_limits[index] <= 0)
                     {
-                        _limits.Remove(waveDataEnemy.enemyConfig);
+                        _limits.Remove(index);
                     }
                 }
 
@@ -108,10 +109,11 @@ namespace Project.Runtime.ECS.Systems.Enemies
                 // Сохраняем данные чтобы спавнить врагов
                 _limits.Clear();
                 _lastSpawnedIndex = index;
-                _waveData = _worldSetup.NightWavesConfig.GetWave(index); 
-                foreach (var waveDataEnemy in _waveData.enemies)
+                _waveData = _worldSetup.NightWavesConfig.GetWave(index);
+                for (var waveIndexKey = 0; waveIndexKey < _waveData.enemies.Count; waveIndexKey++)
                 {
-                    _limits.Add(waveDataEnemy.enemyConfig, waveDataEnemy.countToSpawn);   
+                    var waveDataEnemy = _waveData.enemies[waveIndexKey];
+                    _limits.Add(waveIndexKey, waveDataEnemy.countToSpawn);
                 }
             }
         }

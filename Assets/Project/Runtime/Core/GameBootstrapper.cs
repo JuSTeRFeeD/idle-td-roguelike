@@ -16,6 +16,8 @@ namespace Project.Runtime.Core
         {
             Application.targetFrameRate = 60;
 
+            Time.timeScale = 1f;
+            
             StartCoroutine(_sceneLoader.LoadSceneAsync("Lobby"));
         }
     }

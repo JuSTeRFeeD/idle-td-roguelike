@@ -75,22 +75,6 @@ namespace Project.Runtime.ECS.Systems.Projectile
                     bouncingProjectile.BouncesLeft--;
                     
                     // Spawn bounced projectile
-                    
-                    // TODO: THERE IS TRYING COPY TO
-                    // копирование нихуя не работает. либо правь либо забивай к хуям пока что
-                    // var newProjectile = World.CreateEntity();
-                    // entity.CopyTo(newProjectile);
-                    // newProjectile.InstantiateView(
-                    //     NightPool.GetPoolByClone(entity.GetComponent<ViewEntity>().Value).AttachedPrefab.GetComponent<EntityView>(), 
-                    //     projectilePos,
-                    //     Quaternion.identity);
-                    // newProjectile.GetComponent<AttackTarget>().Value = enemyEntity;
-                    // ref var projectileMoveData = ref newProjectile.GetComponent<ProjectileMoveData>();
-                    // projectileMoveData.StartMovePosition = projectilePos;
-                    // projectileMoveData.TravelTime = 0f;
-                    // Debug.Log($"new bounced projectile ${newProjectile.ID.ToString()}");
-                    
-                    // WORKED CODE:
                     var newProjectile = World.CreateEntity();
                     newProjectile.InstantiateView(
                     NightPool.GetPoolByClone(entity.GetComponent<ViewEntity>().Value).AttachedPrefab.GetComponent<EntityView>(), 

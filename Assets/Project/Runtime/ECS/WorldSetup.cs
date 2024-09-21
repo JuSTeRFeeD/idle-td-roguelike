@@ -26,6 +26,7 @@ namespace Project.Runtime.ECS
         [SerializeField] private BuildingConfig rock01;
 
         [Header("Views")]
+        [SerializeField] private EntityView nullView;
         [SerializeField] private RadiusView radiusView;
         [SerializeField] private PopupTextView popupTextView;
         [SerializeField] private WorldHealthBarView worldHealthBarView;
@@ -52,6 +53,7 @@ namespace Project.Runtime.ECS
         public BuildingConfig Rock01 => rock01;
         
         // Views
+        public EntityView NullView => nullView;
         public RadiusView RadiusView => radiusView;
         public PopupTextView PopupTextView => popupTextView;
         public WorldHealthBarView WorldHealthBarView => worldHealthBarView;

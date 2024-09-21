@@ -21,3 +21,4 @@ MonoBehaviour:
   attackDamage: 40
   attackRange: 4
   attackCooldown: 2
+  enemyType: 0

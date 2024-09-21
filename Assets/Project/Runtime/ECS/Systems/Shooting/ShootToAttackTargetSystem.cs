@@ -2,6 +2,7 @@ using Project.Runtime.ECS.Components;
 using Project.Runtime.ECS.Extensions;
 using Scellecs.Morpeh;
 using UnityEngine;
+using VContainer;
 
 namespace Project.Runtime.ECS.Systems.Shooting
 {
@@ -10,6 +11,8 @@ namespace Project.Runtime.ECS.Systems.Shooting
     [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.DivideByZeroChecks, false)]
     public class ShootToAttackTargetSystem : ISystem
     {
+        [Inject] private VfxSetup vfxSetup;
+        
         public World World { get; set; }
 
         private Filter _filter;
@@ -108,6 +111,16 @@ namespace Project.Runtime.ECS.Systems.Shooting
                     attackTarget.SetComponent(new WillDeadAtNextTickTag());
                     entity.RemoveComponent<AttackTarget>();
                 }
+
+                SpawnVfx(entity, shootPoint);
+            }
+        }
+
+        private void SpawnVfx(in Entity entity, in Vector3 shootPoint)
+        {
+            if (entity.Has<CannonTowerTag>())
+            {
+                VfxPool.Spawn(vfxSetup.CannonShootImpactVfx, shootPoint);
             }
         }
 

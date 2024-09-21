@@ -59,7 +59,7 @@ namespace Project.Runtime.ECS.Systems.Units.RepairBuildings
                 ref readonly var defaultHealth = ref tower.GetComponent<HealthDefault>().Value;
                 ref var currentHealth = ref tower.GetComponent<HealthCurrent>().Value;
 
-                currentHealth += deltaTime * 4; // TODO: можно вынести параметр для ускорения починки таверов
+                currentHealth += deltaTime * defaultHealth * 0.5f; // TODO: можно вынести параметр для ускорения починки таверов
                 repairingTowerData.Progress = (currentHealth - repairingTowerData.TowerHealthOnStart) / (defaultHealth - repairingTowerData.TowerHealthOnStart);
                 
                 if (currentHealth >= defaultHealth)

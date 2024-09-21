@@ -7,6 +7,7 @@ using Project.Runtime.Features.Building;
 using Project.Runtime.Features.CameraControl;
 using Project.Runtime.Features.Inventory;
 using Project.Runtime.Scriptable.Buildings;
+using Project.Runtime.Scriptable.Enemies;
 using Scellecs.Morpeh;
 using UnityEngine;
 using VContainer;
@@ -68,7 +69,7 @@ namespace Project.Runtime.ECS.Systems.Building
                     // change view lvl
                     view = building.Entity.GetComponent<ViewEntity>().Value;
                     var towerView = (AttackTowerView)view;
-                    towerView.TowerViewUpgrades.SetLevel(building.lvl);
+                    if (towerView.TowerViewUpgrades) towerView.TowerViewUpgrades.SetLevel(building.lvl);
                     UpgradeBuildingEntity(building.Entity, towerConfig, building.lvl);
 
                     VfxPool.Spawn(_vfxSetup.TowerLevelUpVfx, towerView.transform.position);
@@ -77,6 +78,10 @@ namespace Project.Runtime.ECS.Systems.Building
                 else 
                 {
                     var buildingEntity = World.CreateEntity();
+                    
+                    // for systems know about map changes
+                    World.CreateEntity().AddComponent<MapGridChangedOneFrame>();
+                    
                     view = _mapManager.PutBuilding(
                         placingBuilding.BuildingConfig, 
                         gridPos,
@@ -84,7 +89,7 @@ namespace Project.Runtime.ECS.Systems.Building
                         buildingEntity);
                     buildingEntity.LinkView(view);
 
-                    if (view is AttackTowerView towerView)
+                    if (view is AttackTowerView towerView && towerView.TowerViewUpgrades)
                     {
                         towerView.TowerViewUpgrades.SetLevel(0);
                     }
@@ -129,20 +134,24 @@ namespace Project.Runtime.ECS.Systems.Building
         private void UpgradeBuildingEntity(Entity buildingEntity, UpgradableTowerConfig buildingConfig, int level)
         {
             var maxLevel = buildingConfig.UpgradeLevels;
+            
+            // HP
+            ref var currentHealth = ref buildingEntity.GetComponent<HealthCurrent>().Value;
+            ref var defaultHealth = ref buildingEntity.GetComponent<HealthDefault>().Value;
+            var prevHealthPercent = currentHealth / defaultHealth;
+            defaultHealth = buildingConfig.Health.Evaluate(level, maxLevel);
+            currentHealth = defaultHealth * prevHealthPercent;
+            
             switch (buildingConfig)
             {
                 case AttackTowerBuildingConfig attackTower:
-                    // HP
-                    ref var currentHealth = ref buildingEntity.GetComponent<HealthCurrent>().Value;
-                    ref var defaultHealth = ref buildingEntity.GetComponent<HealthDefault>().Value;
-                    var prevHealthPercent = currentHealth / defaultHealth;
-                    defaultHealth = attackTower.Health.Evaluate(level, maxLevel);
-                    currentHealth = defaultHealth * prevHealthPercent;
-                    // Other stats
+                {
+                    // Attack stats
                     buildingEntity.GetComponent<AttackDamage>().Value = attackTower.Damage.Evaluate(level, maxLevel);
                     buildingEntity.GetComponent<AttackCooldown>().Value = attackTower.AttackCooldown.Evaluate(level, maxLevel);
                     buildingEntity.GetComponent<AttackRange>().Value = attackTower.AttackRange.Evaluate(level, maxLevel);
                     break;
+                }
             }
         }
 
@@ -242,9 +251,11 @@ namespace Project.Runtime.ECS.Systems.Building
                                 PercentFromDamage = 0.1f
                             });
                             break;
+                        
                         case AttackTowerType.Crossbow:
                             buildingEntity.AddComponent<CrossbowTowerTag>();
                             break;
+                        
                         case AttackTowerType.Crystal:
                             buildingEntity.AddComponent<CrystalTowerTag>();
                             buildingEntity.AddComponent<TowerWithBouncingProjectileRuntime>();
@@ -253,10 +264,34 @@ namespace Project.Runtime.ECS.Systems.Building
                                 Bounces = 0
                             });
                             break;
+                        
+                        case AttackTowerType.Bomb:
+                            buildingEntity.AddComponent<BombTowerTag>();
+                            // [TODO]: добавить перк который позволяет таким таверам не умирать
+                            // TODO если перк надет, то будет работать система которая убирает этот компонент
+                            // TODO с бомбы после её спавна
+                            buildingEntity.AddComponent<OneLifeTag>(); 
+                            break;
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
 
+                    foreach (var attackTowerFocusEnemyType in attackTower.FocusEnemyTypes)
+                    {
+                        Debug.Log("TOWER FOCUSING " + attackTowerFocusEnemyType);
+                        switch (attackTowerFocusEnemyType)
+                        {
+                            case EnemyType.Ground:
+                                buildingEntity.AddComponent<TowerFocusGroundEnemiesTag>();
+                                break;
+                            case EnemyType.Flying:
+                                buildingEntity.AddComponent<TowerFocusFlyingEnemiesTag>();
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException();
+                        }   
+                    }
+                    
                     // Health
                     buildingEntity.SetComponent(new HealthDefault
                     {
@@ -302,15 +337,57 @@ namespace Project.Runtime.ECS.Systems.Building
                     });
                     
                     // Projectile & shooting
-                    buildingEntity.SetComponent(new AttackProjectileData
+                    if (attackTower.ProjectileView)
                     {
-                        EntityView = attackTower.ProjectileView,
-                        ProjectileSpeed = attackTower.ProjectileSpeed,
-                    });
-                    buildingEntity.SetComponent(new ShootPoint
+                        buildingEntity.SetComponent(new AttackProjectileData
+                        {
+                            EntityView = attackTower.ProjectileView,
+                            ProjectileSpeed = attackTower.ProjectileSpeed,
+                        });
+                        buildingEntity.SetComponent(new ShootPoint
+                        {
+                            Value = ((AttackTowerView)view).ShootPoint
+                        });
+                    }
+                    
+                    break;
+                }
+
+                case SupportBuildingConfig supportBuildingConfig:
+                {
+                    buildingEntity.SetComponent(new BuildingTag
                     {
-                        Value = ((AttackTowerView)view).ShootPoint
+                        BuildingConfigId = buildingConfig.uniqueID,
+                        Size = buildingConfig.Size
                     });
+                    
+                    // Health
+                    buildingEntity.SetComponent(new HealthDefault
+                    {
+                        Value = supportBuildingConfig.Health.min
+                    });
+                    buildingEntity.SetComponent(new HealthCurrent
+                    {
+                        Value = supportBuildingConfig.Health.min,
+                        GhostValue = supportBuildingConfig.Health.min
+                    });
+                    
+                    if (supportBuildingConfig.IsOneLifeBuilding)
+                    {
+                        buildingEntity.AddComponent<OneLifeTag>();
+                    }
+
+                    switch (supportBuildingConfig.SupportType)
+                    {
+                        case SupportBuildingConfig.SupportTowerType.Dummy:
+                            buildingEntity.AddComponent<DummyTowerTag>();
+                            break;
+                        case SupportBuildingConfig.SupportTowerType.Candy:
+                            buildingEntity.AddComponent<CandyTowerTag>();
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
                     
                     break;
                 }

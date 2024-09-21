@@ -20,8 +20,9 @@ namespace Project.Runtime.ECS.Systems.Pathfinding
         public World World { get; set; }
 
         private Filter _filter;
+        private Filter _mapChangedFilter;
 
-        // private Dictionary<(Vector2Int, Vector2Int), List<Vector2Int>> _pathCache = new();
+        private readonly Dictionary<(Vector2Int, Vector2Int), List<Vector2Int>> _pathCache = new();
         private float _delay = 0;
         private const float DelayTime = 0.3f;
         
@@ -31,10 +32,20 @@ namespace Project.Runtime.ECS.Systems.Pathfinding
                 .With<AStarCalculatePathRequest>()
                 .With<ViewEntity>()
                 .Build();
+
+            _mapChangedFilter = World.Filter
+                .With<MapGridChangedOneFrame>()
+                .Build();
         }
 
         public void OnUpdate(float deltaTime)
         {
+            // When map changed we need to recalculate cached path
+            if (_mapChangedFilter.IsNotEmpty())
+            {
+                _pathCache.Clear();
+            }
+            
             _delay -= deltaTime;
             if (_delay > 0) return;
             _delay = DelayTime;
@@ -159,10 +170,10 @@ namespace Project.Runtime.ECS.Systems.Pathfinding
 
             // Если путь уже был использован - реюз
             // Кеш не будет работать на часто изменяемой карте..
-            // if (_pathCache.TryGetValue((start, end), out var cachedPath))
-            // {
-                // return cachedPath;
-            // }
+            if (_pathCache.TryGetValue((start, end), out var cachedPath))
+            {
+                return cachedPath;
+            }
             
             var openSet = new PriorityQueue<PathNode>();
             var closedSet = new HashSet<Vector2Int>();
@@ -178,7 +189,7 @@ namespace Project.Runtime.ECS.Systems.Pathfinding
                 if (currentNode.Position == end)
                 {
                     var path = ReconstructPath(cameFrom, currentNode.Position);
-                    // _pathCache[(start, end)] = path;
+                    _pathCache[(start, end)] = path;
                     return path;
                 }
 

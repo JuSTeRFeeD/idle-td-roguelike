@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f012b761064a4b95b2cce77fb901a3f2, type: 3}
+  m_Name: Tower_Attack Crystal Building Config
+  m_EditorClassIdentifier: 
+  <ShowUniqueId>k__BackingField: 0
+  uniqueID: c4b91ba1-3e40-427f-b588-56c74e2c86d5
+  title: Crystall Tower
+  prefab: {fileID: 357257411305374896, guid: 3710971f9a167e14795d994ca88f9d5f, type: 3}
+  size: 2
+  upgradeLevels: 5
+  upgradePrices:
+  - woodPrice: 3
+    stonePrice: 3
+  - woodPrice: 5
+    stonePrice: 5
+  - woodPrice: 7
+    stonePrice: 7
+  - woodPrice: 11
+    stonePrice: 11
+  - woodPrice: 15
+    stonePrice: 15
+  health:
+    min: 30
+    max: 100
+  focusEnemyTypes: 00000000
+  attackTowerType: 2
+  projectileView: {fileID: -1677189479211087335, guid: 182c90b664191fb4d8d15aa3e27d4deb,
+    type: 3}
+  projectileSpeed: 8
+  damage:
+    min: 26
+    max: 140
+  attackCooldown:
+    min: 1.6
+    max: 0.4
+  attackRange:
+    min: 6
+    max: 13

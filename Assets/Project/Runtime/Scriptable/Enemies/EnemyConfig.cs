@@ -12,6 +12,7 @@ namespace Project.Runtime.Scriptable.Enemies
         [SerializeField] private float attackDamage;
         [SerializeField] private float attackRange;
         [SerializeField] private float attackCooldown;
+        [SerializeField] private EnemyType enemyType;
 
         public EnemyView EnemyView => enemyView;
         public float Health => health;
@@ -19,5 +20,6 @@ namespace Project.Runtime.Scriptable.Enemies
         public float AttackDamage => attackDamage;
         public float AttackRange => attackRange;
         public float AttackCooldown => attackCooldown;
+        public EnemyType EnemyType => enemyType;
     }
 }

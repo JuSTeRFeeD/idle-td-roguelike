@@ -3,6 +3,7 @@ using NTC.Pool;
 using Project.Runtime.ECS.Components;
 using Project.Runtime.ECS.Components.Enemies;
 using Project.Runtime.ECS.Extensions;
+using Project.Runtime.Features.Building;
 using Scellecs.Morpeh;
 using VContainer;
 
@@ -14,50 +15,82 @@ namespace Project.Runtime.ECS.Systems.TakingDamage
     public class DeathSystem : ISystem
     {
         [Inject] private WorldSetup _worldSetup;
+        [Inject] private VfxSetup _vfxSetup;
+        [Inject] private MapManager _mapManager;
         
         public World World { get; set; }
 
-        private Filter _filter;
+        private Filter _buildingFilter;
+        private Filter _enemyFilter;
+
+        private Stash<OneLifeTag> _oneLifeTagStash;
+        private Stash<HealthbarEntityRef> _healthbarEntityRefStash;
         
         public void OnAwake()
         {
-            _filter = World.Filter
+            _buildingFilter = World.Filter
+                .With<BuildingTag>()
                 .With<HealthCurrent>()
                 .With<ToDestroyTag>()
                 .Without<DestroyedTag>()
                 .Build();
+            
+            _enemyFilter = World.Filter
+                .With<EnemyTag>()
+                .With<HealthCurrent>()
+                .With<ToDestroyTag>()
+                .Without<DestroyedTag>()
+                .Build();
+            
+            _healthbarEntityRefStash = World.GetStash<HealthbarEntityRef>();
+            _oneLifeTagStash = World.GetStash<OneLifeTag>();
         }
 
         public void OnUpdate(float deltaTime)
         {
-            foreach (var entity in _filter)
+            // Buildings
+            foreach (var entity in _buildingFilter)
             {
-                // No need dispose towers
-                if (entity.Has<BuildingTag>())
+                VfxPool.Spawn(_vfxSetup.DestroyTowerVfx, entity.ViewPosition());
+                
+                if (_oneLifeTagStash.Has(entity))
                 {
-                    entity.SafeRemove<AttackTarget>();
-                    entity.RemoveComponent<ToDestroyTag>();
-                    entity.SetComponent(new DestroyedTag());
-                    SpawnDestroyedBuildingView(entity);
+                    if (!string.IsNullOrEmpty(entity.GetComponent<BuildingTag>().BuildingConfigId))
+                    {
+                        _mapManager.DestroyBuilding(entity.ViewPosition());    
+                    }
+                    
+                    DisposeHealthbar(entity);
+                    entity.Dispose();
                     continue;
                 }
-
-                if (entity.Has<EnemyTag>())
-                {
-                    // TODO: убрать, если это будет ломать баланс 
-                    var addExp = World.CreateEntity();
-                    addExp.SetComponent(new PlayerAddExp
-                    {
-                        Value = 2f
-                    });
-                }
                 
-                // destroy healthbar
-                if (entity.Has<HealthbarEntityRef>()) 
+                // Spawning "destroyed view" for this towers
+                entity.SafeRemove<AttackTarget>();
+                entity.RemoveComponent<ToDestroyTag>();
+                entity.AddComponent<DestroyedTag>();
+                SpawnDestroyedBuildingView(entity);    
+            }
+            
+            // Enemies
+            foreach (var entity in _enemyFilter)
+            {
+                var addExp = World.CreateEntity();
+                addExp.SetComponent(new PlayerAddExp
                 {
-                    entity.GetComponent<HealthbarEntityRef>().Value.Dispose();
-                }
+                    Value = 2f
+                });
+                
+                DisposeHealthbar(entity);
                 entity.Dispose();
+            }
+        }
+
+        private void DisposeHealthbar(in Entity entity)
+        {
+            if (_healthbarEntityRefStash.Has(entity)) 
+            {
+                _healthbarEntityRefStash.Get(entity).Value.Dispose();
             }
         }
 

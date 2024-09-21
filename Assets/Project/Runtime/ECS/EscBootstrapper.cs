@@ -4,6 +4,7 @@ using Project.Runtime.ECS.Extensions;
 using Project.Runtime.ECS.Systems;
 using Project.Runtime.ECS.Systems.Building;
 using Project.Runtime.ECS.Systems.Enemies;
+using Project.Runtime.ECS.Systems.FindTarget;
 using Project.Runtime.ECS.Systems.GameCycle;
 using Project.Runtime.ECS.Systems.Pathfinding;
 using Project.Runtime.ECS.Systems.Player;
@@ -51,6 +52,7 @@ namespace Project.Runtime.ECS
         {
             _world.RegisterOneFrame<EntityClickEvent>();
             _world.RegisterOneFrame<MoveToTargetCompleted>();
+            _world.RegisterOneFrame<MapGridChangedOneFrame>();
         }
 
         private void AddCommonSystems()
@@ -94,7 +96,8 @@ namespace Project.Runtime.ECS
             
             _commonSystemsGroup.AddSystem<BuildingClickSystem>();
 
-            _commonSystemsGroup.AddSystem<FindAttackTargetByRangeSystem>();
+            _commonSystemsGroup.AddSystem<EnemyFindAttackTargetByRangeSystem>();
+            _commonSystemsGroup.AddSystem<TowerFindAttackTargetByRangeSystem>();
             _commonSystemsGroup.AddSystem<RotateTowerToAttackTargetSystem>();
                 
             // --- Enemies ---
@@ -114,6 +117,7 @@ namespace Project.Runtime.ECS
             
             // Taking damage
             _commonSystemsGroup.AddSystem<MarkBuildingAsDamagedSystem>();
+            _commonSystemsGroup.AddSystem<BombTakesDamageSystem>();
             _commonSystemsGroup.AddSystem<BaseTowerApplyDamageSystem>(); // will skip next system
             _commonSystemsGroup.AddSystem<DamagePopupSystem>();
             _commonSystemsGroup.AddSystem<ApplyDamageSystem>();

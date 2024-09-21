@@ -13,6 +13,7 @@ namespace Project.Runtime.Scriptable.Enemies
         {
             public EnemyConfig enemyConfig;
             public int countToSpawn;
+            public float delay;
         }
         
         [Serializable]

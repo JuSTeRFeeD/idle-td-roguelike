@@ -16,32 +16,65 @@ MonoBehaviour:
   - enemies:
     - enemyConfig: {fileID: 11400000, guid: 2c7e12248c2a8e9478462289cdd79825, type: 2}
       countToSpawn: 15
+      delay: 0
     spawnDelayBetween: {x: 0.19033435, y: 0.27021277}
   - enemies:
     - enemyConfig: {fileID: 11400000, guid: 2c7e12248c2a8e9478462289cdd79825, type: 2}
       countToSpawn: 20
+      delay: 0
     spawnDelayBetween: {x: 0.17308213, y: 0.3097045}
   - enemies:
     - enemyConfig: {fileID: 11400000, guid: 2c7e12248c2a8e9478462289cdd79825, type: 2}
-      countToSpawn: 40
+      countToSpawn: 35
+      delay: 0
+    - enemyConfig: {fileID: 11400000, guid: 245528de577271948bb8cab45da97307, type: 2}
+      countToSpawn: 10
+      delay: 0
     - enemyConfig: {fileID: 11400000, guid: e7ce1f78a8a5d7d44a7004d42f1696b6, type: 2}
-      countToSpawn: 2
+      countToSpawn: 1
+      delay: 1
     spawnDelayBetween: {x: 0.1865004, y: 0.2931915}
   - enemies:
     - enemyConfig: {fileID: 11400000, guid: 2c7e12248c2a8e9478462289cdd79825, type: 2}
       countToSpawn: 80
+      delay: 0
+    - enemyConfig: {fileID: 11400000, guid: 245528de577271948bb8cab45da97307, type: 2}
+      countToSpawn: 20
+      delay: 0
     spawnDelayBetween: {x: 0.1750152, y: 0.21768996}
   - enemies:
     - enemyConfig: {fileID: 11400000, guid: 2c7e12248c2a8e9478462289cdd79825, type: 2}
       countToSpawn: 120
+      delay: 0
+    - enemyConfig: {fileID: 11400000, guid: 245528de577271948bb8cab45da97307, type: 2}
+      countToSpawn: 30
+      delay: 0
     spawnDelayBetween: {x: 0.18595745, y: 0.31288755}
   - enemies:
     - enemyConfig: {fileID: 11400000, guid: 2c7e12248c2a8e9478462289cdd79825, type: 2}
-      countToSpawn: 150
+      countToSpawn: 140
+      delay: 0
+    - enemyConfig: {fileID: 11400000, guid: 245528de577271948bb8cab45da97307, type: 2}
+      countToSpawn: 40
+      delay: 0
+    - enemyConfig: {fileID: 11400000, guid: e7ce1f78a8a5d7d44a7004d42f1696b6, type: 2}
+      countToSpawn: 2
+      delay: 10
     spawnDelayBetween: {x: 0.29537994, y: 0.5}
   - enemies:
     - enemyConfig: {fileID: 11400000, guid: 2c7e12248c2a8e9478462289cdd79825, type: 2}
-      countToSpawn: 200
+      countToSpawn: 150
+      delay: 0
+    - enemyConfig: {fileID: 11400000, guid: 245528de577271948bb8cab45da97307, type: 2}
+      countToSpawn: 60
+      delay: 0
     - enemyConfig: {fileID: 11400000, guid: e7ce1f78a8a5d7d44a7004d42f1696b6, type: 2}
-      countToSpawn: 5
+      countToSpawn: 2
+      delay: 0
+    - enemyConfig: {fileID: 11400000, guid: e7ce1f78a8a5d7d44a7004d42f1696b6, type: 2}
+      countToSpawn: 4
+      delay: 12
+    - enemyConfig: {fileID: 11400000, guid: e7ce1f78a8a5d7d44a7004d42f1696b6, type: 2}
+      countToSpawn: 4
+      delay: 20
     spawnDelayBetween: {x: 0.05, y: 0.34507996}

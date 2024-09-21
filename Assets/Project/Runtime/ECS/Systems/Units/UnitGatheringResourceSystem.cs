@@ -75,8 +75,10 @@ namespace Project.Runtime.ECS.Systems.Units
 
                 if (targetHealth <= 0)
                 {
-                    // TODO: нужно "нормально наносить урон" и уночтижать entity с building(MapManager)
                     _mapManager.DestroyBuilding(gathering.TargetResource.ViewPosition());
+                    
+                    // !!for systems know about map changes
+                    World.CreateEntity().AddComponent<MapGridChangedOneFrame>();
                     gathering.TargetResource.Dispose();
 
                     if (!backpack.IsCapacityReached)

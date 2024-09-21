@@ -1,6 +1,8 @@
+using System;
 using Project.Runtime.ECS.Components;
 using Project.Runtime.ECS.Components.Enemies;
 using Project.Runtime.ECS.Extensions;
+using Project.Runtime.Scriptable.Enemies;
 using Scellecs.Morpeh;
 using UnityEngine;
 
@@ -93,6 +95,19 @@ namespace Project.Runtime.ECS.Systems.Enemies
                 {
                     Value = request.EnemyConfig.AttackCooldown
                 });
+                
+                // Enemy type
+                switch (request.EnemyConfig.EnemyType)
+                {
+                    case EnemyType.Ground:
+                        enemy.AddComponent<GroundEnemyTag>();
+                        break;
+                    case EnemyType.Flying:
+                        enemy.AddComponent<FlyingEnemyTag>();
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
                 
                 entity.Dispose();
             }

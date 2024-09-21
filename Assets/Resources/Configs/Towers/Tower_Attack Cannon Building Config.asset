@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f012b761064a4b95b2cce77fb901a3f2, type: 3}
+  m_Name: Tower_Attack Cannon Building Config
+  m_EditorClassIdentifier: 
+  <ShowUniqueId>k__BackingField: 0
+  uniqueID: de5ad661-607b-4ba3-b0b8-71416a8f5491
+  title: Cannon Tower
+  prefab: {fileID: 1583291249685556938, guid: 04d763664103e0442baddaa8aba7ce75, type: 3}
+  size: 2
+  upgradeLevels: 5
+  upgradePrices:
+  - woodPrice: 5
+    stonePrice: 2
+  - woodPrice: 10
+    stonePrice: 5
+  - woodPrice: 5
+    stonePrice: 15
+  - woodPrice: 12
+    stonePrice: 20
+  - woodPrice: 20
+    stonePrice: 25
+  health:
+    min: 30
+    max: 100
+  focusEnemyTypes: 00000000
+  attackTowerType: 0
+  projectileView: {fileID: -1677189479211087335, guid: 182c90b664191fb4d8d15aa3e27d4deb,
+    type: 3}
+  projectileSpeed: 8
+  damage:
+    min: 40
+    max: 180
+  attackCooldown:
+    min: 2
+    max: 1.4
+  attackRange:
+    min: 8
+    max: 12
