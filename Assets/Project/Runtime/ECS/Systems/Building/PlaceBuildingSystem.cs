@@ -6,6 +6,7 @@ using Project.Runtime.ECS.Views;
 using Project.Runtime.Features.Building;
 using Project.Runtime.Features.CameraControl;
 using Project.Runtime.Features.Inventory;
+using Project.Runtime.Features.TimeManagement;
 using Project.Runtime.Scriptable.Buildings;
 using Project.Runtime.Scriptable.Enemies;
 using Scellecs.Morpeh;
@@ -44,7 +45,8 @@ namespace Project.Runtime.ECS.Systems.Building
             {
                 _handsManager.SetPlacingEnabledEnabled(false);
                 _handsManager.SetIsCardDrag(false);
-                Time.timeScale = 1f;
+                
+                TimeScale.SetNormalTimeScale();
 
                 var isSystemAction = entity.Has<SystemActionTag>();
                 var placingBuilding = entity.GetComponent<PlacingBuildingCard>();

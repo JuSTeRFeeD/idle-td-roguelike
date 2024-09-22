@@ -4,6 +4,7 @@ using Project.Runtime.ECS.Views;
 using Project.Runtime.Features.Building;
 using Project.Runtime.Features.CameraControl;
 using Project.Runtime.Features.Inventory;
+using Project.Runtime.Features.TimeManagement;
 using Project.Runtime.Features.Widgets;
 using Project.Runtime.Scriptable.Buildings;
 using Project.Runtime.Scriptable.Card.Perks;
@@ -62,7 +63,7 @@ namespace Project.Runtime.ECS.Systems.Building
                 _handsManager.SetIsCardDrag(false);
             }
             
-            Time.timeScale = 1f;
+            TimeScale.SetNormalTimeScale();
         }
 
         // Drag карточки на поле
@@ -100,7 +101,7 @@ namespace Project.Runtime.ECS.Systems.Building
                 }
             }
 
-            Time.timeScale = 0.1f;
+            TimeScale.SetTimeScale(0.075f);
         }
 
         public void OnUpdate(float deltaTime)

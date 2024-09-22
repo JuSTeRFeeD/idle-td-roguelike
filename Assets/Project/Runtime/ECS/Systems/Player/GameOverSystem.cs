@@ -1,8 +1,10 @@
 using Project.Runtime.ECS.Components;
 using Project.Runtime.Features.GameplayMenus;
+using Project.Runtime.Features.TimeManagement;
 using Scellecs.Morpeh;
 using UnityEngine;
 using VContainer;
+using Time = Codice.Client.Common.Time;
 
 namespace Project.Runtime.ECS.Systems.Player
 {
@@ -33,6 +35,7 @@ namespace Project.Runtime.ECS.Systems.Player
             _gameFinishedPanel.Show();
 
             World.UpdateByUnity = false;
+            TimeScale.SetTimeScale(1f);
         }
 
         public void Dispose()

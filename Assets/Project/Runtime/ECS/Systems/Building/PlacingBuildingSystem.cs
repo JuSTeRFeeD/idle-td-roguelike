@@ -3,6 +3,7 @@ using Project.Runtime.ECS.Extensions;
 using Project.Runtime.Features.Building;
 using Project.Runtime.Features.CameraControl;
 using Project.Runtime.Features.Inventory;
+using Project.Runtime.Features.TimeManagement;
 using Project.Runtime.Scriptable.Buildings;
 using Scellecs.Morpeh;
 using UnityEngine;
@@ -97,7 +98,9 @@ namespace Project.Runtime.ECS.Systems.Building
                     entity.Dispose();
                     _handsManager.SetPlacingEnabledEnabled(false);
                     _handsManager.SetIsCardDrag(false);
-                    Time.timeScale = 1f;
+                    
+                    TimeScale.SetNormalTimeScale();
+                        
                     continue;
                 }
                     
