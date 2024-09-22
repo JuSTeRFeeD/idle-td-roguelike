@@ -129,6 +129,11 @@ namespace Project.Runtime.ECS.Components
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct AttackCooldownEndOneFrame : IComponent { }
+    
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct AttackCooldown : IComponent
     {
         public float Value;

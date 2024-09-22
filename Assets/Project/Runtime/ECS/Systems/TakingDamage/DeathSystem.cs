@@ -51,7 +51,10 @@ namespace Project.Runtime.ECS.Systems.TakingDamage
             // Buildings
             foreach (var entity in _buildingFilter)
             {
-                VfxPool.Spawn(_vfxSetup.DestroyTowerVfx, entity.ViewPosition());
+                if (!entity.Has<BombTowerTag>()) // bomb has custom explosion vfx
+                {
+                    VfxPool.Spawn(_vfxSetup.DestroyTowerVfx, entity.ViewPosition());
+                }
                 
                 if (_oneLifeTagStash.Has(entity))
                 {

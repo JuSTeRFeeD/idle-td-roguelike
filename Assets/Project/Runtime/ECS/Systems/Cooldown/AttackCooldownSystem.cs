@@ -1,7 +1,7 @@
 using Project.Runtime.ECS.Components;
 using Scellecs.Morpeh;
 
-namespace Project.Runtime.ECS.Systems
+namespace Project.Runtime.ECS.Systems.Cooldown
 {
     [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.NullChecks, false)]
     [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.ArrayBoundsChecks, false)]
@@ -31,6 +31,7 @@ namespace Project.Runtime.ECS.Systems
                 if (cd.EstimateTime > 0) continue;
 
                 entity.RemoveComponent<IsAttackOnCooldown>();
+                entity.AddComponent<AttackCooldownEndOneFrame>();
             }
         }
 

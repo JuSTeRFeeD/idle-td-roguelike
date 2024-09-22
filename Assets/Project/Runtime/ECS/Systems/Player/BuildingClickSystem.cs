@@ -291,13 +291,21 @@ namespace Project.Runtime.ECS.Systems.Player
                 _selectedEntity.Has<AttackRangeRuntime>() &&
                 _selectedEntity.Has<HealthDefault>())
             {
-                _buildingManagementPanel.SetStatsWidgetText(new List<string>
+                var list = new List<string>
                 {
-                    $"Damage {_selectedEntity.GetComponent<AttackDamageRuntime>().Value:##.#}", 
-                    $"Range {_selectedEntity.GetComponent<AttackRangeRuntime>().Value:##.#}", 
-                    $"Health: {_selectedEntity.GetComponent<HealthDefault>().Value:##.#}", 
-                    $"Attack Speed: {(1f / _selectedEntity.GetComponent<AttackCooldownRuntime>().Value):F1}", 
-                });
+                    $"Damage {_selectedEntity.GetComponent<AttackDamageRuntime>().Value:##.#}",
+                    $"Range {_selectedEntity.GetComponent<AttackRangeRuntime>().Value:##.#}",
+                    $"Health: {_selectedEntity.GetComponent<HealthDefault>().Value:##.#}",
+                };
+                if (_selectedEntity.Has<BombTowerTag>())
+                {
+                    list.Add($"Cooldown: {_selectedEntity.GetComponent<AttackCooldownRuntime>().Value:F1}");
+                }
+                else
+                {
+                    list.Add($"Attack Speed: {(1f / _selectedEntity.GetComponent<AttackCooldownRuntime>().Value):F1}");
+                }
+                _buildingManagementPanel.SetStatsWidgetText(list);
             }
             if (_selectedEntity.Has<CriticalChanceRuntime>() && 
                 _selectedEntity.Has<CriticalDamageRuntime>())

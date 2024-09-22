@@ -3,6 +3,7 @@ using Project.Runtime.ECS.Components;
 using Project.Runtime.ECS.Extensions;
 using Project.Runtime.ECS.Systems;
 using Project.Runtime.ECS.Systems.Building;
+using Project.Runtime.ECS.Systems.Cooldown;
 using Project.Runtime.ECS.Systems.Enemies;
 using Project.Runtime.ECS.Systems.FindTarget;
 using Project.Runtime.ECS.Systems.GameCycle;
@@ -53,6 +54,7 @@ namespace Project.Runtime.ECS
             _world.RegisterOneFrame<EntityClickEvent>();
             _world.RegisterOneFrame<MoveToTargetCompleted>();
             _world.RegisterOneFrame<MapGridChangedOneFrame>();
+            _world.RegisterOneFrame<AttackCooldownEndOneFrame>();
         }
 
         private void AddCommonSystems()
@@ -108,6 +110,7 @@ namespace Project.Runtime.ECS
             
             // --- Combat ---
             _postTickSystems.AddSystem<AttackCooldownSystem>();
+            _postTickSystems.AddSystem<RemoveBombDestroyedOnCooldownEndSystem>();
             
             _commonSystemsGroup.AddSystem<ShootToAttackTargetSystem>();
             _commonSystemsGroup.AddSystem<TrajectoryProjectileMoveSystem>();
@@ -117,7 +120,7 @@ namespace Project.Runtime.ECS
             
             // Taking damage
             _commonSystemsGroup.AddSystem<MarkBuildingAsDamagedSystem>();
-            _commonSystemsGroup.AddSystem<BombTakesDamageSystem>();
+            _commonSystemsGroup.AddSystem<BombExplosionOnTakeDamageSystem>();
             _commonSystemsGroup.AddSystem<BaseTowerApplyDamageSystem>(); // will skip next system
             _commonSystemsGroup.AddSystem<DamagePopupSystem>();
             _commonSystemsGroup.AddSystem<ApplyDamageSystem>();

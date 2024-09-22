@@ -60,8 +60,8 @@ namespace Project.Runtime.ECS.Systems.Pathfinding
                 {
                     size = request.Entity.GetComponent<BuildingTag>().Size;
                 }
-                
-                var result = FindPath(gridPos, targetGridPos, size, entity.Has<UnitTag>());
+
+                var result = FindPath(gridPos, targetGridPos, size, true); // entity.Has<UnitTag>());
                 if (result == null) continue;
                 
                 entity.SetComponent(new AStarPath

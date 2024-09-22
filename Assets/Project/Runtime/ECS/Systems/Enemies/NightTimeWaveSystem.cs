@@ -21,12 +21,11 @@ namespace Project.Runtime.ECS.Systems.Enemies
         private Filter _baseTowerFilter;
         private Filter _enemiesFilter;
         
-        private int _lastSpawnedIndex = -1;
-        private float _currentSpawnDelay;
         private NightWavesConfig.WaveData _waveData;
         private readonly Dictionary<int, int> _limits = new();
-
-        private const float SpawnRadius = 40f;
+        private int _lastSpawnedIndex = -1;
+        private float _currentSpawnDelay;
+        private float _elapsedTime;
         
         public void OnAwake()
         {
@@ -47,6 +46,7 @@ namespace Project.Runtime.ECS.Systems.Enemies
         {
             if (_waveData != null)
             {
+                _elapsedTime += deltaTime;
                 _currentSpawnDelay -= deltaTime;
                 if (_currentSpawnDelay > 0)
                 {
@@ -61,6 +61,7 @@ namespace Project.Runtime.ECS.Systems.Enemies
                 {
                     var waveDataEnemy = _waveData.enemies[index];
                     if (!_limits.ContainsKey(index)) continue;
+                    if (waveDataEnemy.delay > _elapsedTime) continue;
 
                     var point = _worldSetup.EnemySpawnPoints[Random.Range(0, _worldSetup.EnemySpawnPoints.Length)];
 
@@ -109,6 +110,7 @@ namespace Project.Runtime.ECS.Systems.Enemies
                 // Сохраняем данные чтобы спавнить врагов
                 _limits.Clear();
                 _lastSpawnedIndex = index;
+                _elapsedTime = 0;
                 _waveData = _worldSetup.NightWavesConfig.GetWave(index);
                 for (var waveIndexKey = 0; waveIndexKey < _waveData.enemies.Count; waveIndexKey++)
                 {

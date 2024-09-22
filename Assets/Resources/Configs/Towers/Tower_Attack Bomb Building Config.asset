@@ -15,20 +15,20 @@ MonoBehaviour:
   <ShowUniqueId>k__BackingField: 0
   uniqueID: 4fcf7367-f665-4b91-a472-3d656fba825f
   title: Bomby
-  prefab: {fileID: 3689889775845982592, guid: ee4a84a9e0c1bd94e9d817790ee12e59, type: 3}
+  prefab: {fileID: 1532579494122307671, guid: ee4a84a9e0c1bd94e9d817790ee12e59, type: 3}
   size: 1
   upgradeLevels: 5
   upgradePrices:
   - woodPrice: 1
     stonePrice: 1
-  - woodPrice: 1
-    stonePrice: 1
-  - woodPrice: 2
-    stonePrice: 2
   - woodPrice: 2
     stonePrice: 2
   - woodPrice: 3
     stonePrice: 3
+  - woodPrice: 4
+    stonePrice: 4
+  - woodPrice: 5
+    stonePrice: 5
   health:
     min: 1
     max: 1
@@ -38,10 +38,10 @@ MonoBehaviour:
   projectileSpeed: 2
   damage:
     min: 200
-    max: 2000
+    max: 1800
   attackCooldown:
-    min: 100
-    max: 40
+    min: 5
+    max: 30
   attackRange:
     min: 3
-    max: 10
+    max: 5

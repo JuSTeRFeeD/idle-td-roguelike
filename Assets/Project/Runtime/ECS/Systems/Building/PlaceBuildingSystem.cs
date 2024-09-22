@@ -267,9 +267,6 @@ namespace Project.Runtime.ECS.Systems.Building
                         
                         case AttackTowerType.Bomb:
                             buildingEntity.AddComponent<BombTowerTag>();
-                            // [TODO]: добавить перк который позволяет таким таверам не умирать
-                            // TODO если перк надет, то будет работать система которая убирает этот компонент
-                            // TODO с бомбы после её спавна
                             buildingEntity.AddComponent<OneLifeTag>(); 
                             break;
                         default:
