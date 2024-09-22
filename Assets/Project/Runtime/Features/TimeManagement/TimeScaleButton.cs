@@ -37,7 +37,7 @@ namespace Project.Runtime.Features.TimeManagement
                 case Variants.TheChildCant:
                     _variant = Variants.Faster;
                     TimeScale.OverrideNormalTimeScale(1.5f);
-                    curTimeScaleText.SetText("x0.5");
+                    curTimeScaleText.SetText("x1.5");
                     break;
                 case Variants.Faster:
                     _variant = Variants.FlashBoy;
