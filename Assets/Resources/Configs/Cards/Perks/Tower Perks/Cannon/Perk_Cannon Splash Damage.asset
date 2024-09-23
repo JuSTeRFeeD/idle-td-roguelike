@@ -15,8 +15,8 @@ MonoBehaviour:
   additionalSplashDamagePercent:
   - 0.3
   - 0.6
-  - 1.1
+  - 1.5
   additionalSplashDamageRadius:
   - 0.25
-  - 0.25
-  - 0.5
+  - 0.3
+  - 0.6

@@ -78,14 +78,25 @@ namespace Project.Runtime.Features.Leveling
         {
             _selectedCardId = -1;
             var idx = 0;
-            var randomCards = _levelUpCardsManager.GetRandomCard();
+            var cardsToShow = _levelUpCardsManager.GetRandomCard();
             foreach (var card in cards)
             {
-                if (idx < randomCards.Count && randomCards[idx])
+                if (idx < cardsToShow.Count && cardsToShow[idx])
                 {
+                    var config = cardsToShow[idx];
                     card.gameObject.SetActive(true);
-                    card.SetConfig(randomCards[idx]);
+                    card.SetConfig(config);
                     card.SetIsSelected(false);
+
+                    if (config.IsBuilding)
+                    {
+                        card.HidePoints();
+                    }
+                    else
+                    {
+                        _levelUpCardsManager.AppliesCountByPerkUniqueId.TryGetValue(config.uniqueID, out var applyIndex);
+                        card.SetPoints(applyIndex);
+                    }
                     
                     AnimateCardShow(card, idx++);
                 }

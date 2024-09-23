@@ -2,8 +2,10 @@ using System.Collections.Generic;
 using Project.Runtime.ECS.Components;
 using Project.Runtime.Features.Inventory;
 using Project.Runtime.Features.Leveling;
+using Project.Runtime.Features.TimeManagement;
 using Project.Runtime.Scriptable.Card;
 using Scellecs.Morpeh;
+using UnityEngine;
 using VContainer;
 
 namespace Project.Runtime.ECS.Systems.Player
@@ -46,6 +48,7 @@ namespace Project.Runtime.ECS.Systems.Player
 
         private void OnCardSelect(CardConfig cardConfig)
         {
+            TimeScale.SetNormalTimeScale();
             World.UpdateByUnity = true;
             
             foreach (var entity in _choosingCardFilter)
@@ -103,6 +106,7 @@ namespace Project.Runtime.ECS.Systems.Player
                 
                 
                 World.UpdateByUnity = false;
+                Time.timeScale = 1f;
                 
                 _levelUpPanel.Show();
 

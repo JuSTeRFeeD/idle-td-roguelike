@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Perk_Crossbow Damage Multiplier
   m_EditorClassIdentifier: 
   attackDamageMultipliers:
-  - 1.2
   - 1.5
-  - 1.8
+  - 2.2
+  - 3.2

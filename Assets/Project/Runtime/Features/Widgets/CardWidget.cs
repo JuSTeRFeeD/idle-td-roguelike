@@ -13,7 +13,11 @@ namespace Project.Runtime.Features.Widgets
         [SerializeField] private Image bgImage;
         [SerializeField] private Image iconImage;
         [SerializeField] private TextMeshProUGUI cardTitleText;
-        
+        [Space]
+        [SerializeField] private Image[] pointsImages;
+        [SerializeField] private Sprite emptyPointSprite;
+        [SerializeField] private Sprite filledPointSprite;
+
         private Vector3 _initScale;
         private const float AnimDuration = 0.1f;
 
@@ -33,6 +37,23 @@ namespace Project.Runtime.Features.Widgets
             CardConfig = cardConfig;
             iconImage.sprite = cardConfig.Icon;
             cardTitleText.SetText(cardConfig.Title);
+        }
+
+        public void HidePoints()
+        {
+            foreach (var pointsImage in pointsImages)
+            {
+                pointsImage.enabled = false;
+            }
+        }
+        public void SetPoints(int points)
+        {
+            var i = 0;
+            for (; i < pointsImages.Length; i++)
+            {
+                pointsImages[i].enabled = true;
+                pointsImages[i].sprite = points > i ? filledPointSprite : emptyPointSprite;
+            }
         }
 
         private void Start()

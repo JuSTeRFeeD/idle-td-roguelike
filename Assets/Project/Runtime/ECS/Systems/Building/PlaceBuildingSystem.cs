@@ -263,7 +263,7 @@ namespace Project.Runtime.ECS.Systems.Building
                             buildingEntity.AddComponent<TowerWithBouncingProjectileRuntime>();
                             buildingEntity.SetComponent(new TowerWithBouncingProjectile
                             {
-                                Bounces = 0
+                                Bounces = 1
                             });
                             break;
                         

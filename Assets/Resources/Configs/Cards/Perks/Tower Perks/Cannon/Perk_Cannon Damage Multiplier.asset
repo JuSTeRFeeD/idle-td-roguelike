@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Perk_Cannon Damage Multiplier
   m_EditorClassIdentifier: 
   attackDamageMultipliers:
-  - 1.25
-  - 1.5
-  - 1.75
+  - 1.4
+  - 1.9
+  - 2.4

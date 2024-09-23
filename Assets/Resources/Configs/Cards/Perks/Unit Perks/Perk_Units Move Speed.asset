@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   addMoveSpeedValue:
   - 0.8
-  - 1.5
-  - 2.5
+  - 1.6
+  - 3

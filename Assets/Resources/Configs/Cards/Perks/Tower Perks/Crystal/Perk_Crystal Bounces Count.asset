@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e542929205ef4e01ac1c6fc0c70c1068, type: 3}
   m_Name: Perk_Crystal Bounces Count
   m_EditorClassIdentifier: 
-  setBouncesCount: 010000000200000004000000
+  setBouncesCount: 020000000300000005000000

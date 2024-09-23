@@ -51,6 +51,7 @@ namespace Project.Runtime.Features.Inventory
                 var item = Instantiate(inventoryCardWidgetPrefab, handsCardsContainer);
                 
                 item.SetConfig(buildingConfig);
+                item.HidePoints();
                 item.OnDragCard += OnDragCard;
                 
                 _cardWidgets.Add(item);
