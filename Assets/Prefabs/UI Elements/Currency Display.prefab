@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4507590469790172086}
   - component: {fileID: 9073730654336649718}
   - component: {fileID: 6405215589944334141}
+  - component: {fileID: 5083745079811268813}
   m_Layer: 0
   m_Name: Currency Display
   m_TagString: Untagged
@@ -77,6 +78,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 0.5
+--- !u!114 &5083745079811268813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122334976774011565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07e0841422504df49dda91e3b09bcfce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  valueText: {fileID: 678371250250047279}
+  subscribeToWalletType: 0
 --- !u!1 &1401174434632323992
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,7 +179,7 @@ GameObject:
   - component: {fileID: 8606533007466448821}
   - component: {fileID: 678371250250047279}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: Balance Amount (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -8,16 +8,25 @@ namespace Project.Runtime.Lobby.Map
     public class MapPoint
     {
         public Vector2Int Position { get; private set; }
-        public List<MapPoint> Neighbors { get; private set; }
+        public List<MapPoint> Neighbors { get; private set; } = new();
+        public List<Vector2Int> NeighborPositions { get; private set; } = new();
         public RectTransform PointRectTransform { get; private set; }
+        public MapPointView MapPointView { get; private set; }
 
-        public bool IsCompleted { get; private set; }
-
-        public MapPoint(Vector2Int position, RectTransform pointRectTransform)
+        public bool isCompleted;
+        public MapPointType PointType { get; private set; }
+        public enum MapPointType
+        {
+            Main,
+            Bonus
+        }
+        
+        public MapPoint(Vector2Int position, MapPointType pointType, RectTransform pointRectTransform, MapPointView mapPointView)
         {
             Position = position;
+            PointType = pointType;
             PointRectTransform = pointRectTransform;
-            Neighbors = new List<MapPoint>();
+            MapPointView = mapPointView;
         }
 
         public void AddNeighbor(MapPoint neighbor)
@@ -25,6 +34,14 @@ namespace Project.Runtime.Lobby.Map
             if (!Neighbors.Contains(neighbor))
             {
                 Neighbors.Add(neighbor);
+                AddNeighbor(neighbor.Position);
+            }
+        }
+        public void AddNeighbor(Vector2Int neighborPosition)
+        {
+            if (!NeighborPositions.Contains(neighborPosition))
+            {
+                NeighborPositions.Add(neighborPosition);
             }
         }
     }

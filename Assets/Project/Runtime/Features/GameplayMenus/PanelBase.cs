@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Project.Runtime.Features.GameplayMenus
@@ -7,7 +8,12 @@ namespace Project.Runtime.Features.GameplayMenus
         [SerializeField] private Canvas canvas;
         
         public bool IsPanelActive { get; private set; }
-        
+
+        private void OnValidate()
+        {
+            canvas = GetComponent<Canvas>();
+        }
+
         public virtual void Show()
         {
             IsPanelActive = true;
