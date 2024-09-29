@@ -59,6 +59,10 @@ namespace Project.Runtime.ECS
 
         private void AddCommonSystems()
         {
+#if UNITY_EDITOR
+            _commonSystemsGroup.AddSystem<SystemsDev.FastFinishGameSystem>();
+#endif
+            
             _commonSystemsGroup.AddInitializer<DayNightInitializer>();
             _commonSystemsGroup.AddInitializer<PlayerDataInitializer>();
             _commonSystemsGroup.AddInitializer<ViewEntityDisposableInitializer>();
@@ -146,7 +150,8 @@ namespace Project.Runtime.ECS
             
             _postTickSystems.AddSystem<DayNightSystem>();
             
-            _postTickSystems.AddSystem<GameOverSystem>();
+            _postTickSystems.AddSystem<GameOverWhenBaseDestroyedSystem>();
+            _postTickSystems.AddSystem<GameFinishedSystem>();
                 
             _world.AddSystemsGroup(4, _postTickSystems);
         }

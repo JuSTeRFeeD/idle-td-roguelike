@@ -72,9 +72,10 @@ namespace Project.Runtime.ECS.Systems.GameCycle
 
                     // WIN
                     // dayNight.DayNumber - 1 cuz day number starts from 1
-                    if (_worldSetup.NightWavesConfig.WavesCount == dayNight.DayNumber - 1) 
+                    if (_worldSetup.NightWavesConfig.WavesCount == dayNight.DayNumber - 1)
                     {
-                        _gameFinishedPanel.Show();
+                        entity.AddComponent<GameFinishedTag>();
+                        entity.AddComponent<GameWinTag>();
                     }
                 }
                 

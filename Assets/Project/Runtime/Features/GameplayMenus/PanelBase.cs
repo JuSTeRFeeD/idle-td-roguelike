@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Project.Runtime.Features.GameplayMenus

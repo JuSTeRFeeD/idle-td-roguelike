@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using Project.Runtime.Scriptable.Buildings;
 using Project.Runtime.Scriptable.Card.Perks;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -30,9 +32,14 @@ namespace Project.Runtime.Scriptable.Card
         public int MaxPerGame => maxPerGame;
         public List<IPerk> Perks => perks.ConvertAll<IPerk>(perk => perk);
         public List<CardConfig> SubCardConfigs => subCardConfigs;
+
+        public BuildingConfig GetBuildingConfigFromPerks()
+        {
+            var buildingPerk = perks.First(i => i is GiveBuildingPerk);
+            return ((GiveBuildingPerk)buildingPerk).BuildingConfig;
+        }
         
 #if UNITY_EDITOR
-        
         
         private bool __isRootActive => UnityEditor.AssetDatabase.IsMainAsset(this);
         private bool __isSubActive => !__isRootActive;

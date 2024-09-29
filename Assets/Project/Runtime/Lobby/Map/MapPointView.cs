@@ -12,8 +12,15 @@ namespace Project.Runtime.Lobby.Map
         [SerializeField] private Sprite completedPointSprite;
         [SerializeField] private Sprite defaultPointSprite;
 
-        public event Action<MapPointView> OnClick; 
+        public event Action<MapPointView> OnClick;
 
+        public MapPoint MapPoint { get; private set; }
+        
+        public void Link(MapPoint mapPoint)
+        {
+            MapPoint = mapPoint;
+        }
+        
         public void SetCompleted(bool isCompleted)
         {
             pointImage.sprite = isCompleted ? completedPointSprite : defaultPointSprite;
@@ -26,6 +33,7 @@ namespace Project.Runtime.Lobby.Map
 
         public void OnPointerClick(PointerEventData eventData)
         {
+            if (!MapPoint.isCanBeSelected) return;
             OnClick?.Invoke(this);
         }
     }

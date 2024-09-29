@@ -58,7 +58,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ShowUniqueId>k__BackingField: 0
   uniqueID: ef4d5bd8-82ed-427c-ad35-b533b536b36e
-  icon: {fileID: 21300000, guid: e75376d8281ca2a42adb7a05a8d8eb37, type: 3}
+  icon: {fileID: 21300000, guid: 135bb5d1aaddaf5459cff9b0d02785e5, type: 3}
   title: Cannon Tower
   isBuilding: 1
   maxPerGame: 12

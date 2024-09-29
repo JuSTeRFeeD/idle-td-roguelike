@@ -1,6 +1,6 @@
 using System;
 using Project.Runtime.Player;
-using Project.SaveLoad;
+using Project.Runtime.Services.PlayerProgress;
 using TMPro;
 using UnityEngine;
 using VContainer;

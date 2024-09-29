@@ -36,7 +36,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ShowUniqueId>k__BackingField: 0
   uniqueID: 945d886f-5dae-4672-be90-1925bd6ec556
-  icon: {fileID: 21300062, guid: 7ab74e659e1f0a34d9cfec21c478fc12, type: 3}
+  icon: {fileID: 21300000, guid: 6ec6fbcf3c9c797439c48c742c790693, type: 3}
   title: Bomby
   isBuilding: 1
   maxPerGame: 12

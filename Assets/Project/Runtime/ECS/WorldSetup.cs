@@ -3,11 +3,14 @@ using Project.Runtime.Scriptable;
 using Project.Runtime.Scriptable.Buildings;
 using Project.Runtime.Scriptable.Enemies;
 using UnityEngine;
+using VContainer;
 
 namespace Project.Runtime.ECS
 {
     public class WorldSetup : MonoBehaviour
     {
+        [Inject] private SceneSharedData _sceneSharedData;
+        
         [Header("Player and World")]
         [SerializeField] private DayNightConfig dayNightConfig;
         [SerializeField] private PlayerLevelsConfig playerLevelsConfig;
@@ -40,7 +43,7 @@ namespace Project.Runtime.ECS
         public PlayerLevelsConfig PlayerLevelsConfig => playerLevelsConfig;
 
         // Waves & Enemies
-        public NightWavesConfig NightWavesConfig => nightWavesConfig;
+        public NightWavesConfig NightWavesConfig => _sceneSharedData.NightWavesConfig;
         public Transform[] EnemySpawnPoints => enemySpawnPoints;
         
         // Building

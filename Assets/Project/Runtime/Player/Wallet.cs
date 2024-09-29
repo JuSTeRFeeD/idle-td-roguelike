@@ -10,7 +10,7 @@ namespace Project.Runtime.Player
         {
         }
         
-        public Wallet(int balance)
+        public void Init(int balance)
         {
             Balance = balance;
         }

@@ -58,7 +58,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ShowUniqueId>k__BackingField: 0
   uniqueID: 130b1aea-2e2a-4b8e-99da-3a0335e10c1d
-  icon: {fileID: 21300000, guid: f59401c5c79564fd1ae3bfb0876455a7, type: 3}
+  icon: {fileID: 21300000, guid: c4a75b6616dfbf740ba9897e17e886a6, type: 3}
   title: Crystal Tower
   isBuilding: 1
   maxPerGame: 12

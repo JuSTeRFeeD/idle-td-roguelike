@@ -213,8 +213,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Upgrade tower
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: c572ec010d9abbd40b287ee028cfda65, type: 2}
-  m_sharedMaterial: {fileID: 4562692195965755700, guid: c572ec010d9abbd40b287ee028cfda65,
+  m_fontAsset: {fileID: 11400000, guid: 3390806118df7cd4298031b750ae4b21, type: 2}
+  m_sharedMaterial: {fileID: -8274804629624535027, guid: 3390806118df7cd4298031b750ae4b21,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -318,7 +318,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 594.59845, y: -106.518295}
-  m_SizeDelta: {x: 160, y: 70}
+  m_SizeDelta: {x: 181.0215, y: 79.197}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5972049315279160778
 CanvasRenderer:
@@ -348,7 +348,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 011dfba4c5b3f0a41b3938b7597d93fa, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b5afaad50285ec94294d22863a6a2ded, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -357,7 +357,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 2
 --- !u!114 &7944679241006406074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -469,8 +469,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: upgrade
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: c572ec010d9abbd40b287ee028cfda65, type: 2}
-  m_sharedMaterial: {fileID: 4562692195965755700, guid: c572ec010d9abbd40b287ee028cfda65,
+  m_fontAsset: {fileID: 11400000, guid: 3390806118df7cd4298031b750ae4b21, type: 2}
+  m_sharedMaterial: {fileID: -8274804629624535027, guid: 3390806118df7cd4298031b750ae4b21,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -667,7 +667,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 88333200c9cb2b742aba3f42a34603d4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 32fb7e0aee1614fe8ac38467a139e9a6, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -831,8 +831,18 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 2871a1ba97025ed49b8efc3e0a30e570,
+      objectReference: {fileID: 21300000, guid: e0eac6b76fdd842e88a7f8c75ecffaf4,
         type: 3}
+    - target: {fileID: 2519875733396318291, guid: b584f268e17e04445b9da531b5852035,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 54.7089
+      objectReference: {fileID: 0}
+    - target: {fileID: 2519875733396318291, guid: b584f268e17e04445b9da531b5852035,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 54.709
+      objectReference: {fileID: 0}
     - target: {fileID: 5642172214667295270, guid: b584f268e17e04445b9da531b5852035,
         type: 3}
       propertyPath: m_Pivot.x

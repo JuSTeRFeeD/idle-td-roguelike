@@ -49,6 +49,8 @@ namespace Project.Runtime.Lobby
         None,
         Map,
         Cards,
-        Shop
+        Shop,
+        Challenge,
+        MetaProgress,
     }
 }

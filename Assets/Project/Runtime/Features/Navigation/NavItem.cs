@@ -9,6 +9,7 @@ namespace Project.Runtime.Features.Navigation
     [RequireComponent(typeof(Button))]
     public class NavItem : MonoBehaviour
     {
+        [SerializeField] private Image backgroundImage;
         [SerializeField] private Image iconImage;
         [SerializeField] private TextMeshProUGUI labelText;
 
@@ -34,6 +35,10 @@ namespace Project.Runtime.Features.Navigation
         
         public void SetSelected(bool value)
         {
+            backgroundImage.color = value
+                ? new Color(0, 0, 0, 0.5f)
+                : new Color(0, 0, 0, 0);
+            
             if (_baseIconPos == Vector3.zero) _baseIconPos = iconImage.transform.localPosition;
             _sequence?.Kill(true);
             
@@ -48,7 +53,7 @@ namespace Project.Runtime.Features.Navigation
             else
             {
                 _sequence = DOTween.Sequence()
-                    .Append(iconImage.transform.DOScale(1f, AnimTime * .25f))
+                    .Append(iconImage.transform.DOScale(.8f, AnimTime * .25f))
                     .Append(iconImage.transform.DOLocalMove(_baseIconPos + Vector3.down * 20, AnimTime))
                     .Join(labelText.DOFade(0f, AnimTime))
                     .SetLink(gameObject);

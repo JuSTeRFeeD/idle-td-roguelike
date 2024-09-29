@@ -42,9 +42,9 @@ Shader "Custom/VertexColor"
             fixed4 frag(v2f i) : SV_Target
             {
                 // Применение гамма-коррекции
-                // return i.color;
-                fixed4 gammaCorrectedColor = pow(i.color, 1.8f); // Преобразование в линейное пространство
-                return gammaCorrectedColor * 1.3;
+                return i.color * 1.2;
+                // fixed4 gammaCorrectedColor = pow(i.color, 1.8f); // Преобразование в линейное пространство
+                // return gammaCorrectedColor * 1.3;
             }
             ENDCG
         }

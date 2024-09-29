@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ShowUniqueId>k__BackingField: 0
   uniqueID: 1709d3d1-49ca-4bf8-88fe-ce61606c64c5
-  icon: {fileID: 21300000, guid: 44364971f3e94b84f9aa06b0afd606b9, type: 3}
+  icon: {fileID: 21300000, guid: 0359c941687ebc8468973c23ffe7124b, type: 3}
   title: Definitely a tower
   isBuilding: 1
   maxPerGame: 4

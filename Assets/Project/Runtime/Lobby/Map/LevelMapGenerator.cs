@@ -1,13 +1,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Project.Runtime.ECS;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using VContainer;
 
 namespace Project.Runtime.Lobby.Map
 {
     public class LevelMapGenerator : MonoBehaviour
     {
+        [Inject] private SceneSharedData _sceneSharedData;
+        
         [SerializeField] private GameObject pointPrefab;
         [SerializeField] private GameObject linePrefab;
         [SerializeField] private Transform gridParent;
@@ -22,31 +26,66 @@ namespace Project.Runtime.Lobby.Map
         private float chanceToGenerateBranch = 0.6f;
 
         private MapPoint[,] _grid;
-        public List<MapPoint> Path { get; private set; } = new();
-        private readonly List<GameObject> _cellObjects = new();
+        
+        public readonly Dictionary<Vector2Int, MapPointView> _viewsByPosition = new();
 
         private Vector2Int StartPos => new(width / 2, 0);
         private Vector2Int EndPos => new(width / 2, height - 1);
+
+        public int Height => height - 1;
         
         public void GenerateMap()
         {
+            _sceneSharedData.MapPoints.Clear();
             _grid = new MapPoint[width, height];
             GenerateMainPath();
             GenerateBranches();
             ConnectPointsWithLines();
         }
 
+        public void LoadMap(List<MapPoint> mapPoints)
+        {
+            mapPoints[0].isCanBeSelected = true;
+            foreach (var mapPoint in mapPoints)
+            {
+                CreatePointView(mapPoint);
+                _viewsByPosition[mapPoint.Position].SetCompleted(mapPoint.isCompleted);
+                if (mapPoint.isCompleted)
+                {
+                    mapPoint.isCanBeSelected = true;
+                    foreach (var mapPointNeighbor in mapPoint.Neighbors)
+                    {
+                        mapPointNeighbor.isCanBeSelected = true;
+                    }
+                }
+            }
+            _grid = new MapPoint[width, height];
+            ConnectPointsWithLines();
+        }
+        
         public void LoadMap(string data)
         {
+            _sceneSharedData.MapPoints.Clear();   
             _grid = new MapPoint[width, height];
             Deserialize(data);
+            _sceneSharedData.MapPoints[0].isCanBeSelected = true;
+            foreach (var mapPoint in _sceneSharedData.MapPoints)
+            {
+                _viewsByPosition[mapPoint.Position].SetCompleted(mapPoint.isCompleted);
+                if (!mapPoint.isCompleted) continue;
+                mapPoint.isCanBeSelected = true;
+                foreach (var mapPointNeighbor in mapPoint.Neighbors)
+                {
+                    mapPointNeighbor.isCanBeSelected = true;
+                }
+            }
             ConnectPointsWithLines();
         }
 
         private void GenerateMainPath()
         {
             var startPoint = CreateMapPoint(StartPos, false);
-            Path.Add(startPoint);
+            _sceneSharedData.MapPoints.Add(startPoint);
 
             var currentPosition = StartPos;
             var previousPoint = startPoint;
@@ -85,7 +124,7 @@ namespace Project.Runtime.Lobby.Map
 
                 var newPoint = CreateMapPoint(currentPosition, false);
                 previousPoint.AddNeighbor(newPoint);
-                Path.Add(newPoint);
+                _sceneSharedData.MapPoints.Add(newPoint);
                 previousPoint = newPoint;
             }
         }
@@ -96,9 +135,9 @@ namespace Project.Runtime.Lobby.Map
             var newBranches = new List<MapPoint>();
 
             // ReSharper disable once ForCanBeConvertedToForeach
-            for (var i = 0; i < Path.Count; i++)
+            for (var i = 0; i < _sceneSharedData.MapPoints.Count; i++)
             {
-                var cell = Path[i];
+                var cell = _sceneSharedData.MapPoints[i];
 
                 // Не нужно генерировать ответвления на старте и конце
                 if (cell.Position == StartPos || cell.Position == EndPos) continue;
@@ -127,34 +166,35 @@ namespace Project.Runtime.Lobby.Map
                 }
             }
 
-            Path.AddRange(newBranches);
+            _sceneSharedData.MapPoints.AddRange(newBranches);
         }
 
         // Создание объекта MapPoint и его отображения в UI
         private MapPoint CreateMapPoint(Vector2Int position, bool isBranch)
         {
-            var pointObject = Instantiate(pointPrefab, gridParent);
-            pointObject.GetComponent<RectTransform>().anchoredPosition =
-                new Vector2(position.x * cellSpace, position.y * cellSpace);
-            var pointView = pointObject.GetComponent<MapPointView>(); 
-            var point = new MapPoint(
-                position,
-                isBranch ? MapPoint.MapPointType.Bonus : MapPoint.MapPointType.Main,
-                pointObject.GetComponent<RectTransform>(),
-                pointView
-                
-            );
+            var point = new MapPoint(position, isBranch ? MapPoint.MapPointType.Bonus : MapPoint.MapPointType.Main);
+            CreatePointView(point);
+
             _grid[position.x, position.y] = point;
 
-            _cellObjects.Add(pointObject);
-
             return point;
+        }
+
+        private void CreatePointView(MapPoint mapPoint)
+        {
+            var pointObject = Instantiate(pointPrefab, gridParent);
+            pointObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(
+                mapPoint.Position.x * cellSpace, 
+                mapPoint.Position.y * cellSpace);
+            var pointView = pointObject.GetComponent<MapPointView>();
+            _viewsByPosition.Add(mapPoint.Position, pointView);
+            pointView.Link(mapPoint);
         }
 
         // Соединение точек линиями
         private void ConnectPointsWithLines()
         {
-            foreach (var point in Path)
+            foreach (var point in _sceneSharedData.MapPoints)
             {
                 foreach (var neighbor in point.Neighbors)
                 {
@@ -166,8 +206,8 @@ namespace Project.Runtime.Lobby.Map
         // Создание линии между двумя точками
         private void CreateLineBetweenPoints(MapPoint pointA, MapPoint pointB)
         {
-            var startPosition = pointA.PointRectTransform.anchoredPosition;
-            var endPosition = pointB.PointRectTransform.anchoredPosition;
+            var startPosition = ((RectTransform)_viewsByPosition[pointA.Position].transform).anchoredPosition;
+            var endPosition = ((RectTransform)_viewsByPosition[pointB.Position].transform).anchoredPosition;
 
             var line = Instantiate(linePrefab, lineParent);
             var lineRect = line.GetComponent<RectTransform>();
@@ -181,10 +221,10 @@ namespace Project.Runtime.Lobby.Map
             lineRect.rotation = Quaternion.Euler(0, 0, angle);
         }
 
-        public string Serialize()
+        public static string Serialize(List<MapPoint> mapPoints)
         {
             var sb = new StringBuilder();
-            foreach (var point in Path)
+            foreach (var point in mapPoints)
             {
                 sb.Append($"{point.Position.x},{point.Position.y}|"); // Сериализация позиции
         
@@ -241,8 +281,8 @@ namespace Project.Runtime.Lobby.Map
                 // Создаем MapPoint
                 var mapPoint = CreateMapPoint(position, type == MapPoint.MapPointType.Bonus);
                 mapPoint.isCompleted = isCompleted;
-                mapPoint.MapPointView.SetCompleted(isCompleted);
                 mapPoint.NeighborPositions.AddRange(neighborPositions);
+                _viewsByPosition[mapPoint.Position].SetCompleted(isCompleted);
 
                 mapPoints.Add(mapPoint);
             }
@@ -257,7 +297,8 @@ namespace Project.Runtime.Lobby.Map
                 }
             }
 
-            Path = mapPoints;
+            _sceneSharedData.MapPoints.Clear();
+            _sceneSharedData.MapPoints.AddRange(mapPoints);
         }
 
     }
