@@ -5,15 +5,6 @@ namespace Project.Runtime.Player
     public class Wallet
     {
         public int Balance { get; private set; }
-
-        public Wallet()
-        {
-        }
-        
-        public void Init(int balance)
-        {
-            Balance = balance;
-        }
         
         /// prev, new 
         public event Action<int, int> OnChange; 

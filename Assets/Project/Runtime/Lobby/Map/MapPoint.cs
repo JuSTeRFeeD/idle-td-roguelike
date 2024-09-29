@@ -1,18 +1,16 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Project.Runtime.Lobby.Map
 {
-    [Serializable]
     public class MapPoint
     {
         public Vector2Int Position { get; private set; }
         public List<MapPoint> Neighbors { get; private set; } = new();
         public List<Vector2Int> NeighborPositions { get; private set; } = new();
 
-        public bool isCompleted;
-        public bool isCanBeSelected;
+        public bool IsCompleted;
+        public bool IsCanBeSelected;
         public MapPointType PointType { get; private set; }
         public enum MapPointType
         {

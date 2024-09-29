@@ -14,6 +14,9 @@ namespace Project.Runtime.Lobby
             public PanelBase panel;
         }
 
+        [SerializeField] private PanelBase navigationPanel;
+        [SerializeField] private PanelBase headerPanel;
+        [Space]
         [SerializeField] private List<LobbyPanelSetup> panels;
         private readonly Dictionary<LobbyPanelType, LobbyPanelSetup> _panelsByType = new();
 
@@ -28,6 +31,9 @@ namespace Project.Runtime.Lobby
                 lobbyPanelSetup.panel.Hide();
             }
 
+            navigationPanel.gameObject.SetActive(true);
+            headerPanel.gameObject.SetActive(true);
+            
             SetPanel(LobbyPanelType.Map);
         }
 
@@ -39,8 +45,22 @@ namespace Project.Runtime.Lobby
             }
             
             _currentPanel = panelType;
+
+            if (_panelsByType.TryGetValue(_currentPanel, out var newPanel))
+            {
+                newPanel.panel.Show();
+            }
             
-            _panelsByType[_currentPanel].panel.Show();
+            if (panelType is LobbyPanelType.None)
+            {
+                navigationPanel.Hide();
+                headerPanel.Hide();
+            }
+            else
+            {
+                navigationPanel.Show();
+                headerPanel.Show();
+            }
         }
     }
 

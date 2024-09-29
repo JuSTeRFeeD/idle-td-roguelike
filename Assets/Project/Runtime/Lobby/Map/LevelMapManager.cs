@@ -81,9 +81,9 @@ namespace Project.Runtime.Lobby.Map
         private void SelectPoint()
         {
             var point = _sceneSharedData.MapPoints[_persistentPlayerData.CurMapPointIndex];
-            if (point.isCompleted)
+            if (point.IsCompleted)
             {
-                var notCompletedIndex = _sceneSharedData.MapPoints.FindIndex(i => !i.isCompleted);
+                var notCompletedIndex = _sceneSharedData.MapPoints.FindIndex(i => !i.IsCompleted);
                 if (notCompletedIndex == -1)
                 {
                     // TODO: Regenerate map with animation

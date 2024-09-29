@@ -45,17 +45,17 @@ namespace Project.Runtime.Lobby.Map
 
         public void LoadMap(List<MapPoint> mapPoints)
         {
-            mapPoints[0].isCanBeSelected = true;
+            mapPoints[0].IsCanBeSelected = true;
             foreach (var mapPoint in mapPoints)
             {
                 CreatePointView(mapPoint);
-                _viewsByPosition[mapPoint.Position].SetCompleted(mapPoint.isCompleted);
-                if (mapPoint.isCompleted)
+                _viewsByPosition[mapPoint.Position].SetCompleted(mapPoint.IsCompleted);
+                if (mapPoint.IsCompleted)
                 {
-                    mapPoint.isCanBeSelected = true;
+                    mapPoint.IsCanBeSelected = true;
                     foreach (var mapPointNeighbor in mapPoint.Neighbors)
                     {
-                        mapPointNeighbor.isCanBeSelected = true;
+                        mapPointNeighbor.IsCanBeSelected = true;
                     }
                 }
             }
@@ -68,15 +68,15 @@ namespace Project.Runtime.Lobby.Map
             _sceneSharedData.MapPoints.Clear();   
             _grid = new MapPoint[width, height];
             Deserialize(data);
-            _sceneSharedData.MapPoints[0].isCanBeSelected = true;
+            _sceneSharedData.MapPoints[0].IsCanBeSelected = true;
             foreach (var mapPoint in _sceneSharedData.MapPoints)
             {
-                _viewsByPosition[mapPoint.Position].SetCompleted(mapPoint.isCompleted);
-                if (!mapPoint.isCompleted) continue;
-                mapPoint.isCanBeSelected = true;
+                _viewsByPosition[mapPoint.Position].SetCompleted(mapPoint.IsCompleted);
+                if (!mapPoint.IsCompleted) continue;
+                mapPoint.IsCanBeSelected = true;
                 foreach (var mapPointNeighbor in mapPoint.Neighbors)
                 {
-                    mapPointNeighbor.isCanBeSelected = true;
+                    mapPointNeighbor.IsCanBeSelected = true;
                 }
             }
             ConnectPointsWithLines();
@@ -239,7 +239,7 @@ namespace Project.Runtime.Lobby.Map
                 }
 
                 sb.Append("|");
-                sb.Append(point.isCompleted ? "1" : "0"); // Статус завершенности
+                sb.Append(point.IsCompleted ? "1" : "0"); // Статус завершенности
                 sb.Append("|");
                 sb.Append(point.PointType == MapPoint.MapPointType.Main ? "0" : "1"); // Main (0) / Bonus (1)
                 sb.Append("|");
@@ -280,7 +280,7 @@ namespace Project.Runtime.Lobby.Map
 
                 // Создаем MapPoint
                 var mapPoint = CreateMapPoint(position, type == MapPoint.MapPointType.Bonus);
-                mapPoint.isCompleted = isCompleted;
+                mapPoint.IsCompleted = isCompleted;
                 mapPoint.NeighborPositions.AddRange(neighborPositions);
                 _viewsByPosition[mapPoint.Position].SetCompleted(isCompleted);
 

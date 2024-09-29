@@ -52,11 +52,11 @@ namespace Project.Runtime.Lobby.Equipment
         {
             var cardConfig = deckCard.CardConfig;
             var buildingConfig = cardConfig.GetBuildingConfigFromPerks();
-            var rarityColor = RarityColors.GetColorByRarity(Rarity.Common);
+            var rarityColor = RarityColors.GetColorByRarity(cardConfig.Rarity);
             
             rarityImage.color = rarityColor;
             rarityText.color = rarityColor;
-            rarityText.text = "Common";
+            rarityText.text = cardConfig.Rarity.ToString();
             titleText.SetText(buildingConfig.Title);
             iconImage.sprite = cardConfig.Icon;
             iconImage.color = deckCard.CardSaveData.isOpen ? Color.white : new Color(0, 0, 0, 1f);
@@ -79,11 +79,13 @@ namespace Project.Runtime.Lobby.Equipment
             descriptionText.SetText("<todo put text in ItemInfoPopup.cs>");
         
             upgrade0Level.SetText("0");
-            upgrade0Description.SetText("<todo put text in ItemInfoPopup.cs>");;
-            upgrade1Level.SetText("0");;
-            upgrade1Description.SetText("<todo put text in ItemInfoPopup.cs>");;
-            upgrade2Level.SetText("0");;
-            upgrade2Description.SetText("<todo put text in ItemInfoPopup.cs>");;
+            upgrade0Description.SetText("<todo put text in ItemInfoPopup.cs>");
+            upgrade1Level.SetText("0");
+            upgrade1Description.SetText("<todo put text in ItemInfoPopup.cs>");
+            upgrade2Level.SetText("0");
+            upgrade2Description.SetText("<todo put text in ItemInfoPopup.cs>");
+            
+            equipButton.gameObject.SetActive(deckCard.CardSaveData.isOpen && deckCard.CardSaveData.equippedAtSlot < 0);
         }
 
         private void OnClickEquip()

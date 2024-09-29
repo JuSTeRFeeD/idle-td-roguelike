@@ -14,5 +14,8 @@ namespace Project.Runtime.Services.Saves
         public int softBalance;
         
         public List<CardSaveData> inventoryCards = new();
+
+        public int commonChestCount;
+        public int epicChestCount;
     }
 }

@@ -42,7 +42,7 @@ namespace Project.Runtime.ECS.Systems.GameCycle
                 if (isWin)
                 {
                     // Save point as completed
-                    _sceneSharedData.MapPoints[_persistentPlayerData.CurMapPointIndex].isCompleted = true;
+                    _sceneSharedData.MapPoints[_persistentPlayerData.CurMapPointIndex].IsCompleted = true;
                     _persistentPlayerData.MapData = LevelMapGenerator.Serialize(_sceneSharedData.MapPoints);
                 }
                 

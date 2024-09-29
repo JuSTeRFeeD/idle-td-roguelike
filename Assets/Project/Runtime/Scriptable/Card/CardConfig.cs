@@ -12,6 +12,7 @@ namespace Project.Runtime.Scriptable.Card
     {
         [Title("Card info")]
         [PreviewField]
+        [SerializeField] private Rarity rarity;
         [SerializeField] private Sprite icon;
         [SerializeField] private string title;
         [SerializeField] private bool isBuilding;
@@ -26,6 +27,7 @@ namespace Project.Runtime.Scriptable.Card
         [PropertySpace(10)]
         [SerializeField] private List<CardConfig> subCardConfigs = new();
 
+        public Rarity Rarity => rarity;
         public Sprite Icon => icon;
         public string Title => title;
         public bool IsBuilding => isBuilding;

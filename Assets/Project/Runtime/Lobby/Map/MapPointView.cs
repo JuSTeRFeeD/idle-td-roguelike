@@ -33,7 +33,7 @@ namespace Project.Runtime.Lobby.Map
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (!MapPoint.isCanBeSelected) return;
+            if (!MapPoint.IsCanBeSelected) return;
             OnClick?.Invoke(this);
         }
     }
