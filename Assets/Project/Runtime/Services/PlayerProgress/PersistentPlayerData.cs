@@ -47,11 +47,11 @@ namespace Project.Runtime.Services.PlayerProgress
             {
                 case ChestType.Common:
                     if (CommonChestCount < amount) return false;
-                    CommonChestCount -= 1;
+                    CommonChestCount -= amount;
                     break;
                 case ChestType.Epic:
                     if (EpicChestCount < amount) return false;
-                    EpicChestCount -= 1;
+                    EpicChestCount -= amount;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(chestType), chestType, null);

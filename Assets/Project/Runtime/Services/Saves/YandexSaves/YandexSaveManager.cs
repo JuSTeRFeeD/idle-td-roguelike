@@ -22,6 +22,8 @@ namespace Project.Runtime.Services.Saves.YandexSaves
             WebSaveSystem.PlayerProgressData.commonChestCount = _persistentPlayerData.Chests.CommonChestCount;
             WebSaveSystem.PlayerProgressData.epicChestCount = _persistentPlayerData.Chests.EpicChestCount;
             
+            WebSaveSystem.PlayerProgressData.inventoryCards = _persistentPlayerData.inventoryCards;
+            
             WebSaveSystem.SaveProfile();
             
             // TODO: save on server using ICoroutineRunner
@@ -42,6 +44,8 @@ namespace Project.Runtime.Services.Saves.YandexSaves
 
             _persistentPlayerData.Chests.AddChest(ChestType.Common, data.commonChestCount);
             _persistentPlayerData.Chests.AddChest(ChestType.Epic, data.epicChestCount);
+
+            _persistentPlayerData.inventoryCards = data.inventoryCards;
         }
     }
 }

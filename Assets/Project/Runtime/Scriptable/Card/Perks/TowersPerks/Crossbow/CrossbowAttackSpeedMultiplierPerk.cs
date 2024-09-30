@@ -3,10 +3,10 @@ using Scellecs.Morpeh;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace Project.Runtime.Scriptable.Card.Perks.TowersPerks
+namespace Project.Runtime.Scriptable.Card.Perks.TowersPerks.Crossbow
 {
-    [CreateAssetMenu(menuName = "Game/Perks/Towers/Crystal/CrystalAttackSpeedMultiplierPerk")]
-    public class CrystalAttackSpeedMultiplierPerk : PerkConfig
+    [CreateAssetMenu(menuName = "Game/Perks/Towers/Crossbow/CrossbowAttackSpeedMultiplierPerk")]
+    public class CrossbowAttackSpeedMultiplierPerk : PerkConfig
     {
         [InfoBox("ЭТО МНОЖИТЕЛЬ. Скорость атаки нужно увеличивать умножая на 0.9f, 0.5f")]
         [SerializeField] private float[] attackSpeedMultipliers;
@@ -14,7 +14,7 @@ namespace Project.Runtime.Scriptable.Card.Perks.TowersPerks
         public override void Apply(World world, int applyIndex)
         {
             foreach (var entity in world.Filter
-                         .With<CrystalTowerUpgradesTag>()
+                         .With<CrossbowTowerUpgradesTag>()
                          .With<TowerAttackUpgrades>()
                          .Build())
             {
@@ -24,7 +24,7 @@ namespace Project.Runtime.Scriptable.Card.Perks.TowersPerks
 
         public override string GetPerkDescription(int applyIndex)
         {
-            return $"Increase {DescColors.SpeedColor}attack speed</color> of crystal towers to {DescColors.ValueColor}{Mathf.RoundToInt(100 - attackSpeedMultipliers[applyIndex] * 100):##.#}%</color>";
+            return $"Increase {DescColors.SpeedColor}attack speed</color> of crossbow towers to {DescColors.ValueColor}{Mathf.RoundToInt(100 - attackSpeedMultipliers[applyIndex] * 100):##.#}%</color>";
         }   
     }
 }

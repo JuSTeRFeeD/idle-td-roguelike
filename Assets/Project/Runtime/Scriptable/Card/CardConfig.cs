@@ -11,9 +11,8 @@ namespace Project.Runtime.Scriptable.Card
     public class CardConfig : UniqueConfig
     {
         [Title("Card info")]
-        [PreviewField]
         [SerializeField] private Rarity rarity;
-        [SerializeField] private Sprite icon;
+        [SerializeField, PreviewField] private Sprite icon;
         [SerializeField] private string title;
         [SerializeField] private bool isBuilding;
         [Space]

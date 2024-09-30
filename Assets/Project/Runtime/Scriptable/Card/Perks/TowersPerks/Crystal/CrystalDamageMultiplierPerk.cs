@@ -3,7 +3,7 @@ using Scellecs.Morpeh;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace Project.Runtime.Scriptable.Card.Perks.TowersPerks
+namespace Project.Runtime.Scriptable.Card.Perks.TowersPerks.Crystal
 {
     [CreateAssetMenu(menuName = "Game/Perks/Towers/Crystal/CrystalDamageMultiplierPerk")]
     public class CrystalDamageMultiplierPerk : PerkConfig

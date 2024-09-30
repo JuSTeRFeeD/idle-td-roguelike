@@ -31,7 +31,7 @@ namespace Project.Runtime.Features
             var clr = deckCard.CardSaveData.isOpen ? Color.white : Color.black;
             iconImage.color = towerIconImage.color = clr; 
             
-            rarityImage.color = RarityColors.GetColorByRarity(Rarity.Common);
+            rarityImage.color = RarityColors.GetColorByRarity(deckCard.CardConfig.Rarity);
             if (deckCard.CardSaveData.isOpen)
             {
                 amountText.SetText($"{deckCard.CardSaveData.level + 1}");

@@ -1,33 +1,44 @@
+using DG.Tweening;
 using Project.Runtime.Features.GameplayMenus;
 using Project.Runtime.Player;
 using Project.Runtime.Scriptable;
 using Project.Runtime.Scriptable.Buildings;
+using Project.Runtime.Services.PlayerProgress;
+using Project.Runtime.Services.Saves;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using VContainer;
 
 namespace Project.Runtime.Lobby.Equipment
 {
     public class ItemInfoPopup : PanelBase
     {
+        [Inject] private PersistentPlayerData _persistentPlayerData;
+        [Inject] private ISaveManager _saveManager;
+        
         [SerializeField] private SelectSlotToEquipPopup selectSlotToEquipPopup;
-        [Title("Content")] 
+        [Title("Common")] 
         [SerializeField] private Image rarityImage;
         [SerializeField] private TextMeshProUGUI rarityText;
         [SerializeField] private TextMeshProUGUI titleText;
         [SerializeField] private Image iconImage;
-        [Space]
+        [SerializeField] private TextMeshProUGUI descriptionText;
+        [Title("Level")]
         [SerializeField] private TextMeshProUGUI levelText;
         [SerializeField] private Slider amountSlider;
+        [SerializeField] private TextMeshProUGUI amountText;
         [Space]
+        [SerializeField] private RectTransform upgradeFrame;
+        [SerializeField] private Button upgradeButton;
+        [SerializeField] private TextMeshProUGUI softCurrencyUpgradeCostText;
+        [Title("Stats")]
         [SerializeField] private TextMeshProUGUI healthText;
         [SerializeField] private TextMeshProUGUI damageText;
         [SerializeField] private TextMeshProUGUI attackSpeedText;
         [SerializeField] private TextMeshProUGUI attackRangeText;
-        [Space]
-        [SerializeField] private TextMeshProUGUI descriptionText;
-        [Space]
+        [Title("Upgrades")]
         [SerializeField] private TextMeshProUGUI upgrade0Level;
         [SerializeField] private TextMeshProUGUI upgrade0Description;
         [SerializeField] private TextMeshProUGUI upgrade1Level;
@@ -39,6 +50,9 @@ namespace Project.Runtime.Lobby.Equipment
         [SerializeField] private Button closeButton;
         [SerializeField] private Button blackoutCloseButton;
 
+        private DeckCard _deckCard;
+        private Sequence _sequence;
+        
         private void Start()
         {
             Hide();
@@ -46,10 +60,31 @@ namespace Project.Runtime.Lobby.Equipment
             equipButton.onClick.AddListener(OnClickEquip);
             closeButton.onClick.AddListener(Hide);
             blackoutCloseButton.onClick.AddListener(Hide);
+            upgradeButton.onClick.AddListener(Upgrade);
+        }
+
+        private void Upgrade()
+        {
+            var amountToUpgrade = UpgradeConstants.GetAmountToUpgrade(_deckCard);
+            var softCurrencyCost = UpgradeConstants.GetUpgradeCost(_deckCard);
+            if (_deckCard.CardSaveData.amount >= amountToUpgrade &&
+                _persistentPlayerData.SoftCurrency.Take(softCurrencyCost))
+            {
+                _deckCard.CardSaveData.level++;
+                _deckCard.CardSaveData.amount -= amountToUpgrade;
+                SetDeckCard(_deckCard);
+                
+                _saveManager.Save();
+
+                levelText.transform.DOKill(true);
+                levelText.transform.DOPunchScale(Vector3.one * 1.2f, 0.4f, 1).SetLink(levelText.gameObject);
+            }
         }
 
         public void SetDeckCard(DeckCard deckCard)
         {
+            _deckCard = deckCard;
+            
             var cardConfig = deckCard.CardConfig;
             var buildingConfig = cardConfig.GetBuildingConfigFromPerks();
             var rarityColor = RarityColors.GetColorByRarity(cardConfig.Rarity);
@@ -62,7 +97,22 @@ namespace Project.Runtime.Lobby.Equipment
             iconImage.color = deckCard.CardSaveData.isOpen ? Color.white : new Color(0, 0, 0, 1f);
         
             levelText.SetText($"{deckCard.CardSaveData.level + 1}");
-            amountSlider.value = 0f; // todo put percent of: amount / need to level
+            
+            var upgradeSoftCurrencyCost = UpgradeConstants.GetUpgradeCost(_deckCard);
+            var amountToUpgrade = UpgradeConstants.GetAmountToUpgrade(deckCard);
+            amountSlider.value = (float)deckCard.CardSaveData.amount / amountToUpgrade;
+            amountText.SetText($"{deckCard.CardSaveData.amount}<size=80%>/{amountToUpgrade}");
+            upgradeFrame.gameObject.SetActive(deckCard.CardSaveData.amount >= amountToUpgrade);
+            softCurrencyUpgradeCostText.SetText($"{upgradeSoftCurrencyCost}");
+            upgradeButton.interactable = _persistentPlayerData.SoftCurrency.Has(upgradeSoftCurrencyCost);
+            if (upgradeButton.interactable)
+            {
+                _sequence = DOTween.Sequence()
+                    .Append(upgradeButton.transform.DOScale(1.05f, 1f).SetEase(Ease.Linear))
+                    .Append(upgradeButton.transform.DOScale(1f, 1f).SetEase(Ease.Linear))
+                    .SetLink(upgradeButton.gameObject)
+                    .SetLoops(-1, LoopType.Restart);
+            } else _sequence?.Kill();
 
             if (buildingConfig is UpgradableTowerConfig upgradableTowerConfig)
             {

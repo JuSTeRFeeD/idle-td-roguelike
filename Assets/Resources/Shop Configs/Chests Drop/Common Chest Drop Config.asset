@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a71f8655bc9b4aadb7276e75f39791a6, type: 3}
+  m_Name: Common Chest Drop Config
+  m_EditorClassIdentifier: 
+  legendaryCardChance: 0.0125
+  epicCardChance: 0.025
+  rareCardChance: 0.1
+  uncommonCardChance: 0.275
+  commonCardChance: 0.55
+  dropCards:
+  - {fileID: 11400000, guid: c0e99160604421a4d9fae762bf620a8c, type: 2}
+  - {fileID: 11400000, guid: ffa9bea633101f54c935d47536929d9c, type: 2}
+  - {fileID: 11400000, guid: e8062642e716e4847a3abf32771bdd07, type: 2}
+  - {fileID: 11400000, guid: 1e211934d331b4645ac070d8b9d33890, type: 2}
+  - {fileID: 11400000, guid: f5a706110fecef640a788f3a86eb5a48, type: 2}
+  - {fileID: 11400000, guid: 86db125c9d20f3d4aaba54a154cd6f6e, type: 2}

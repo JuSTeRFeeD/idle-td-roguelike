@@ -2,7 +2,7 @@ using Project.Runtime.ECS.Components.Perks;
 using Scellecs.Morpeh;
 using UnityEngine;
 
-namespace Project.Runtime.Scriptable.Card.Perks.TowersPerks
+namespace Project.Runtime.Scriptable.Card.Perks.TowersPerks.Crystal
 {
     [CreateAssetMenu(menuName = "Game/Perks/Towers/Crystal/CrystalBouncesCountPerk")]
     public class CrystalBouncesCountPerk : PerkConfig

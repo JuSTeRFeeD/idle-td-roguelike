@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ShowUniqueId>k__BackingField: 0
   uniqueID: 2566296e-fd8b-4b5a-a396-b043edac60c2
+  rarity: 0
   icon: {fileID: 21300000, guid: 78676bf97c848be4384cf76ffff94d84, type: 3}
   title: Add projectile bounces on hit
   isBuilding: 0
@@ -36,6 +37,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ShowUniqueId>k__BackingField: 0
   uniqueID: bc616f7c-3cdd-43c7-8cbf-212738a850d0
+  rarity: 0
   icon: {fileID: 21300000, guid: 7083ab1f5d60b97449d1d56dd51275d3, type: 3}
   title: Increase Crystal Attack Damage
   isBuilding: 0
@@ -58,6 +60,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ShowUniqueId>k__BackingField: 0
   uniqueID: 130b1aea-2e2a-4b8e-99da-3a0335e10c1d
+  rarity: 2
   icon: {fileID: 21300000, guid: c4a75b6616dfbf740ba9897e17e886a6, type: 3}
   title: Crystal Tower
   isBuilding: 1
@@ -83,6 +86,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ShowUniqueId>k__BackingField: 0
   uniqueID: 2954979a-1cad-4aa0-80da-c250e2ed910b
+  rarity: 0
   icon: {fileID: 21300000, guid: 78676bf97c848be4384cf76ffff94d84, type: 3}
   title: Increase Crystal Attack Speed
   isBuilding: 0

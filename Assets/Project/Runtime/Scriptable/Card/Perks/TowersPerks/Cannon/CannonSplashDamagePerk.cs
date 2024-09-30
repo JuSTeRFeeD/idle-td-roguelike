@@ -2,7 +2,7 @@ using Project.Runtime.ECS.Components.Perks;
 using Scellecs.Morpeh;
 using UnityEngine;
 
-namespace Project.Runtime.Scriptable.Card.Perks.TowersPerks
+namespace Project.Runtime.Scriptable.Card.Perks.TowersPerks.Cannon
 {
     [CreateAssetMenu(menuName = "Game/Perks/Towers/Cannon/CannonSplashDamagePerk")]
     public class CannonSplashDamagePerk : PerkConfig
