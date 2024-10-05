@@ -55,7 +55,7 @@ namespace Project.Runtime.Core
             
             
             // Initialize ecs
-            if (World.Default == null) World.Create();
+            if (World.Default == null) World.Create("Main");
             builder.RegisterInstance<World>(World.Default);
             builder.RegisterEntryPoint<EscBootstrapper>();
         }

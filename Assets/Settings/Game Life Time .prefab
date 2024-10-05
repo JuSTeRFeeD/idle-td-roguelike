@@ -557,3 +557,12 @@ MonoBehaviour:
     type: 2}
   globalMapLevelConfig: {fileID: 11400000, guid: 28b7d1cfe4acd894599b1a47cff9e65e,
     type: 2}
+  gameCurrencies:
+  - {fileID: 11400000, guid: 22efdc6310b1c614aaf229c5969e6bf7, type: 2}
+  - {fileID: 11400000, guid: 15ab76a3ea1556640afa30151c77c94d, type: 2}
+  - {fileID: 11400000, guid: 960c984dc155703438f2e53a1af6346a, type: 2}
+  - {fileID: 11400000, guid: 64bdb7cde98f71541a953366381b8ecd, type: 2}
+  - {fileID: 11400000, guid: cf1b82712fce5fe4e80fa1fb6f8a19a8, type: 2}
+  winConfig: {fileID: 11400000, guid: 7b768d2e496c3c1459279fa907d07475, type: 2}
+  loseConfig: {fileID: 11400000, guid: 7b768d2e496c3c1459279fa907d07475, type: 2}
+  bonusWinConfig: {fileID: 11400000, guid: 7b768d2e496c3c1459279fa907d07475, type: 2}

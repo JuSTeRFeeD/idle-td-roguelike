@@ -34,7 +34,9 @@ namespace Project.Runtime.ECS
         public EscBootstrapper(IObjectResolver container, World world)
         {
             SystemGroupExtension.SetResolver(container);
+            
             _world = world;
+            _world.UpdateByUnity = true;
             
             _commonSystemsGroup = world.CreateSystemsGroup();
             _postTickSystems = world.CreateSystemsGroup();
@@ -45,8 +47,7 @@ namespace Project.Runtime.ECS
             AddOneFrames();
             AddCommonSystems();
             AddPostTickSystems();
-            
-            Debug.Log("Esc Initialized!");
+            Debug.Log($"Ecs Init World {_world.GetFriendlyName()}");
         }
 
         private void AddOneFrames()
@@ -109,8 +110,9 @@ namespace Project.Runtime.ECS
             // --- Enemies ---
             _commonSystemsGroup.AddSystem<NightTimeWaveSystem>();
             _commonSystemsGroup.AddSystem<SpawnEnemySystem>();
-            _commonSystemsGroup.AddSystem<EnemyFindTargetSystem>();
+            _commonSystemsGroup.AddSystem<EnemyFindMoveTargetSystem>();
             _commonSystemsGroup.AddSystem<EnemyMeleeAttackSystem>();
+            _commonSystemsGroup.AddSystem<EnemyRefreshPathOnMapChangeSystem>();
             
             // --- Combat ---
             _postTickSystems.AddSystem<AttackCooldownSystem>();
@@ -127,6 +129,7 @@ namespace Project.Runtime.ECS
             _commonSystemsGroup.AddSystem<BombExplosionOnTakeDamageSystem>();
             _commonSystemsGroup.AddSystem<BaseTowerApplyDamageSystem>(); // will skip next system
             _commonSystemsGroup.AddSystem<DamagePopupSystem>();
+            _commonSystemsGroup.AddSystem<ApplyDamageStatisticSystem>();
             _commonSystemsGroup.AddSystem<ApplyDamageSystem>();
             _commonSystemsGroup.AddSystem<DeathSystem>();
             
@@ -158,11 +161,6 @@ namespace Project.Runtime.ECS
         
         public void Dispose()
         {
-            _commonSystemsGroup?.Dispose();
-            _postTickSystems?.Dispose();
-
-            _world?.RemoveSystemsGroup(_commonSystemsGroup);
-            _world?.RemoveSystemsGroup(_postTickSystems);
             _world?.Dispose();
         }
     }

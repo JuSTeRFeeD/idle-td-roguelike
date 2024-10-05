@@ -24,7 +24,7 @@ namespace Project.Runtime.ECS.Systems.Pathfinding
 
         private readonly Dictionary<(Vector2Int, Vector2Int), List<Vector2Int>> _pathCache = new();
         private float _delay = 0;
-        private const float DelayTime = 0.3f;
+        private const float DelayTime = 0.2f;
         
         public void OnAwake()
         {
@@ -43,6 +43,7 @@ namespace Project.Runtime.ECS.Systems.Pathfinding
             // When map changed we need to recalculate cached path
             if (_mapChangedFilter.IsNotEmpty())
             {
+                UnityEngine.Debug.Log("MAP CHANGED -> RESET CACHE FOR ASTAR");
                 _pathCache.Clear();
             }
             

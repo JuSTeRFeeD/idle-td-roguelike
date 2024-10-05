@@ -4,7 +4,7 @@ using Scellecs.Morpeh;
 
 namespace Project.Runtime.ECS.Systems.FindTarget
 {
-    public static class FindByAttackRange
+    public static class FindByAttackRangeExt
     {
         [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.NullChecks, false)]
         [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.ArrayBoundsChecks, false)]

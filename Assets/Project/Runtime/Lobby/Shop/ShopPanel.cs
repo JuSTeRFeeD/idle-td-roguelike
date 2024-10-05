@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Project.Runtime.Features.GameplayMenus;
+using Project.Runtime.Scriptable.Currency;
 using Project.Runtime.Scriptable.Shop;
 using Project.Runtime.Services.PlayerProgress;
 using Project.Runtime.Services.Saves;
@@ -13,7 +14,8 @@ namespace Project.Runtime.Lobby.Shop
     {
         [Inject] private PersistentPlayerData _persistentPlayerData;
         [Inject] private ISaveManager _saveManager;
-        
+
+        [SerializeField] private CurrencyConfig hardCurrencyConfig;
         [SerializeField] private List<ShopItemView> shopItemViews;
 
         private void Start()
@@ -42,7 +44,7 @@ namespace Project.Runtime.Lobby.Shop
                     _persistentPlayerData.Chests.AddChest(ChestType.Epic, shopItemConfig.Amount);
                     break;
                 case ShopGiveOnBuy.HardCurrency:
-                    _persistentPlayerData.HardCurrency.Add(shopItemConfig.Amount);
+                    _persistentPlayerData.WalletByCurrency[hardCurrencyConfig].Add(shopItemConfig.Amount);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

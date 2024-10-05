@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using Project.Runtime.Core;
+using Project.Runtime.Player;
+using Project.Runtime.Scriptable.Card;
+using Project.Runtime.Scriptable.Shop;
+using Project.Runtime.Services.PlayerProgress;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
@@ -22,6 +26,10 @@ namespace Project.Runtime.Features.GameplayMenus
         [Title("Inv")] 
         [SerializeField] private GridLayoutGroup itemsGridLayoutGroup;
         [SerializeField] private List<InventoryItemView> items;
+        [Title("Statistics")]
+        [SerializeField] private TextMeshProUGUI totalPlacedTowersStat;
+        [SerializeField] private TextMeshProUGUI totalDealtDamageStat;
+        [SerializeField] private TextMeshProUGUI totalKilledEnemiesStat;
         [Title("Buttons")]
         [SerializeField] private Button nextButton;
 
@@ -38,10 +46,10 @@ namespace Project.Runtime.Features.GameplayMenus
             Hide();
         }
 
-        public void Setup(bool isWin)
+        public void SetIsWin(bool isWin)
         {
             _isWin = isWin;
-            winLoseTitleText.SetText(_isWin ? "ПОБЕДА!" : "Поражение");
+            winLoseTitleText.SetText(_isWin ? "Победа!" : "Поражение");
         }
         
         public override void Show()
@@ -68,8 +76,6 @@ namespace Project.Runtime.Features.GameplayMenus
             animator.SetTrigger(Play);
             
             yield return new WaitForSeconds(delay + 0.8f);
-            
-            // TODO: тут нужно оставить включенными только для выпавшие предметы
             
             _itemsSequence = DOTween.Sequence().SetLink(gameObject);
             for (var index = 0; index < items.Count; index++)
@@ -100,6 +106,43 @@ namespace Project.Runtime.Features.GameplayMenus
                 inventoryItemView.transform.localScale = Vector3.one;
             }
             animator.SetTrigger(Skip);
+        }
+
+        public void SetStatistics(int totalPlacedTowers, int totalDamageDealt, int totalKilledEnemies)
+        {
+            totalPlacedTowersStat.SetText("Установлено строений: " + totalPlacedTowers);
+            totalDealtDamageStat.SetText("Нанесено урона: " + totalDamageDealt);
+            totalKilledEnemiesStat.SetText("Враго повержено: " + totalKilledEnemies);
+        }
+
+        public void SetDrops(List<DropChancesConfig.CurrencyDrop> currencyDrops, CardConfig randomCardDrop)
+        {
+            var idx = 0;
+            
+            foreach (var currencyDrop in currencyDrops)
+            {
+                items[idx].gameObject.SetActive(true);
+                items[idx].SetCurrencyData(currencyDrop.CurrencyConfig, currencyDrop.Amount);
+                idx++;
+            }
+
+            if (randomCardDrop != null)
+            {
+                items[idx].gameObject.SetActive(true);
+                items[idx].SetDeckCardData(new DeckCard
+                {
+                    CardConfig = randomCardDrop,
+                    CardSaveData = new CardSaveData
+                    {
+                        amount = 1
+                    }
+                });
+            }
+
+            while (idx < items.Count)
+            {
+                items[idx++].gameObject.SetActive(false);
+            }
         }
     }
 }

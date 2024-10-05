@@ -70,7 +70,7 @@ namespace Project.Runtime.Lobby.Shop
             }
         }
 
-        public void OpenChest(ChestType chestType, ChestDropConfig chestDropConfig, int amount)
+        public void OpenChest(ChestType chestType, DropChancesConfig dropChancesConfig, int amount)
         {
             if (_isOpening) return;
             _isOpening = true;
@@ -78,8 +78,8 @@ namespace Project.Runtime.Lobby.Shop
             _drops.Clear();
             for (var i = 0; i < amount; i++)
             {
-                var droppedCardConfig = chestDropConfig.GetRandomCard();
-                var invDeckCard = _persistentPlayerData.inventoryCards.Find(cardSave => cardSave.id == droppedCardConfig.uniqueID);
+                var droppedCardConfig = dropChancesConfig.GetRandomCard();
+                var invDeckCard = _persistentPlayerData.InventoryCards.Find(cardSave => cardSave.id == droppedCardConfig.uniqueID);
                 invDeckCard.isOpen = true;
                 invDeckCard.amount++;
                 _drops.Add(droppedCardConfig);

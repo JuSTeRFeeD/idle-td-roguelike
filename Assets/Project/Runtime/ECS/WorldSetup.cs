@@ -16,7 +16,6 @@ namespace Project.Runtime.ECS
         [SerializeField] private PlayerLevelsConfig playerLevelsConfig;
         
         [Header("Waves & Enemies")]
-        [SerializeField] private NightWavesConfig nightWavesConfig;
         [SerializeField] private Transform[] enemySpawnPoints;
 
         [Header("Building")] 

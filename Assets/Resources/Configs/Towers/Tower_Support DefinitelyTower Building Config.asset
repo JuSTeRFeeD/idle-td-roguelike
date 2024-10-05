@@ -15,6 +15,7 @@ MonoBehaviour:
   <ShowUniqueId>k__BackingField: 0
   uniqueID: c55b243e-b5b6-4bda-98cb-24f695d637d3
   title: Definitely a tower
+  description: 
   prefab: {fileID: 7768194209125102205, guid: 8c647265a83b505448311ace2b988479, type: 3}
   size: 1
   upgradeLevels: 2
@@ -25,4 +26,6 @@ MonoBehaviour:
     stonePrice: 8
   health:
     min: 200
-    max: 500
+    max: 1500
+  supportTowerType: 0
+  isOneLifeBuilding: 0

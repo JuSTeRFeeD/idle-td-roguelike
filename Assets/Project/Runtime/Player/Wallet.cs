@@ -1,4 +1,5 @@
 using System;
+using Project.Runtime.Scriptable.Currency;
 
 namespace Project.Runtime.Player
 {
@@ -7,7 +8,14 @@ namespace Project.Runtime.Player
         public int Balance { get; private set; }
         
         /// prev, new 
-        public event Action<int, int> OnChange; 
+        public event Action<int, int> OnChange;
+
+        public readonly CurrencyConfig CurrencyConfig;
+
+        public Wallet(CurrencyConfig currencyConfig)
+        {
+            CurrencyConfig = currencyConfig;
+        }
         
         public void Add(int amount)
         {

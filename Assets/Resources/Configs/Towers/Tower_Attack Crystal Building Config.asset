@@ -15,6 +15,7 @@ MonoBehaviour:
   <ShowUniqueId>k__BackingField: 0
   uniqueID: c4b91ba1-3e40-427f-b588-56c74e2c86d5
   title: Crystall Tower
+  description: 
   prefab: {fileID: 357257411305374896, guid: 3710971f9a167e14795d994ca88f9d5f, type: 3}
   size: 2
   upgradeLevels: 5
@@ -39,10 +40,10 @@ MonoBehaviour:
   projectileSpeed: 8
   damage:
     min: 26
-    max: 140
+    max: 420
   attackCooldown:
     min: 1.6
-    max: 0.4
+    max: 0.8
   attackRange:
     min: 6
     max: 13

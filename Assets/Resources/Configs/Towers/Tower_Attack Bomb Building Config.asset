@@ -15,6 +15,7 @@ MonoBehaviour:
   <ShowUniqueId>k__BackingField: 0
   uniqueID: 4fcf7367-f665-4b91-a472-3d656fba825f
   title: Bomby
+  description: 
   prefab: {fileID: 1532579494122307671, guid: ee4a84a9e0c1bd94e9d817790ee12e59, type: 3}
   size: 1
   upgradeLevels: 5
@@ -37,8 +38,8 @@ MonoBehaviour:
   projectileView: {fileID: 0}
   projectileSpeed: 2
   damage:
-    min: 200
-    max: 1800
+    min: 192
+    max: 968
   attackCooldown:
     min: 5
     max: 30

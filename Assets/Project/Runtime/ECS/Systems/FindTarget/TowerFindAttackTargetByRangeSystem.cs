@@ -62,12 +62,12 @@ namespace Project.Runtime.ECS.Systems.FindTarget
         {
             foreach (var entity in _buildingsFlyingFocusFilter)
             {
-                FindByAttackRange.FindTargetWithFilter(entity, _flyingEnemiesFilter, _attackRangeRuntimeStash, _viewEntityStash);
+                FindByAttackRangeExt.FindTargetWithFilter(entity, _flyingEnemiesFilter, _attackRangeRuntimeStash, _viewEntityStash);
             }
             World.Commit();
             foreach (var entity in _buildingsGroundFocusFilter)
             {
-                FindByAttackRange.FindTargetWithFilter(entity, _groundEnemiesFilter, _attackRangeRuntimeStash, _viewEntityStash);
+                FindByAttackRangeExt.FindTargetWithFilter(entity, _groundEnemiesFilter, _attackRangeRuntimeStash, _viewEntityStash);
             }
         }
 

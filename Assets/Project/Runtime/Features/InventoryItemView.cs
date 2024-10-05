@@ -1,6 +1,7 @@
 using System;
 using Project.Runtime.Player;
 using Project.Runtime.Scriptable;
+using Project.Runtime.Scriptable.Currency;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -18,6 +19,14 @@ namespace Project.Runtime.Features
         public event Action<InventoryItemView> OnClick;
 
         public DeckCard DeckCard { get; private set; }
+
+        public void SetCurrencyData(CurrencyConfig currencyConfig, int amount)
+        {
+            towerIconImage.enabled = false;
+            iconImage.enabled = true;
+            iconImage.sprite = currencyConfig.Icon;
+            amountText.SetText($"{amount}");
+        }
         
         public void SetDeckCardData(DeckCard deckCard)
         {
@@ -31,7 +40,7 @@ namespace Project.Runtime.Features
             var clr = deckCard.CardSaveData.isOpen ? Color.white : Color.black;
             iconImage.color = towerIconImage.color = clr; 
             
-            rarityImage.color = RarityColors.GetColorByRarity(deckCard.CardConfig.Rarity);
+            rarityImage.color = RarityExt.GetColorByRarity(deckCard.CardConfig.Rarity);
             if (deckCard.CardSaveData.isOpen)
             {
                 amountText.SetText($"{deckCard.CardSaveData.level + 1}");

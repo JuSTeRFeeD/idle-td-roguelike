@@ -95,6 +95,10 @@ MonoBehaviour:
   completedPointSprite: {fileID: 21300000, guid: 82021ffe062b25948a324c8f9a33d505,
     type: 3}
   defaultPointSprite: {fileID: 21300000, guid: 1bdbd8dae1530e74ab394f30d9bcf22b, type: 3}
+  iconImage: {fileID: 6229972629163322779}
+  bossIconSprite: {fileID: 21300000, guid: 92aa386453608d044bd10b382d2339be, type: 3}
+  bonusIconSprite: {fileID: 21300000, guid: 53831ffd2c1064d07b3fcc10982b1e0d, type: 3}
+  commonIconSprite: {fileID: 21300000, guid: fe74c444ac6ec624885b98bec29c5706, type: 3}
 --- !u!1 &4523902941149725270
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,7 +239,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: fe74c444ac6ec624885b98bec29c5706, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a76913fe2f0cab34bb29d7b34420050b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

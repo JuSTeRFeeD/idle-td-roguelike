@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Project.Runtime.Core.Data;
 using Project.Runtime.Services.PlayerProgress;
 
 namespace Project.Runtime.Services.Saves
@@ -9,9 +10,9 @@ namespace Project.Runtime.Services.Saves
     {
         public string mapSave;
         public int curMapPointIndex;
-        
-        public int hardBalance;
-        public int softBalance;
+        public int completedMapsCount;
+
+        public DictionarySerializeContainer<string, int> balanceByCurrencyId;
         
         public List<CardSaveData> inventoryCards = new();
 

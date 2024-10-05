@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Project.Runtime.Player;
+using Project.Runtime.Scriptable.Card;
+using Project.Runtime.Scriptable.Currency;
 using Project.Runtime.Scriptable.Shop;
 
 namespace Project.Runtime.Services.PlayerProgress
@@ -9,13 +12,37 @@ namespace Project.Runtime.Services.PlayerProgress
     {
         public string MapData; // LevelMapGenerator.cs Serialization
         public int CurMapPointIndex;
+        public int CompletedMapsCount;
         
-        public readonly Wallet HardCurrency = new();
-        public readonly Wallet SoftCurrency = new();
+        public readonly Dictionary<CurrencyConfig, Wallet> WalletByCurrency = new();
         
-        public List<CardSaveData> inventoryCards = new();
+        public List<CardSaveData> InventoryCards = new();
 
         public Chests Chests = new();
+
+        public PersistentPlayerData(IEnumerable<CurrencyConfig> gameCurrencies)
+        {
+            foreach (var currencyConfig in gameCurrencies)
+            {
+                WalletByCurrency.Add(currencyConfig, new Wallet(currencyConfig));
+            }
+        }
+
+        public Wallet GetWalletByCurrencyId(string currencyId)
+        {
+            return WalletByCurrency.FirstOrDefault(i => i.Key.uniqueID == currencyId).Value;
+        }
+        
+        public CardSaveData GetCardSaveDataByCardId(string id)
+        {
+            return InventoryCards.FirstOrDefault(i => i.id == id);
+        }
+
+        public void AddCardAmountToInventory(CardConfig cardConfig, int amount = 1)
+        {
+            var data = GetCardSaveDataByCardId(cardConfig.uniqueID);
+            data.amount += amount;
+        }
     }
 
     public class Chests

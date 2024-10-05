@@ -43,7 +43,7 @@ namespace Project.Runtime.ECS.Systems.FindTarget
         {
             foreach (var entity in _enemiesFilter)
             {
-                FindByAttackRange.FindTargetWithFilter(entity, _allyBuildingsFilter, _attackRangeRuntimeStash, _viewEntityStash);
+                FindByAttackRangeExt.FindTargetWithFilter(entity, _allyBuildingsFilter, _attackRangeRuntimeStash, _viewEntityStash);
             }
         }
 

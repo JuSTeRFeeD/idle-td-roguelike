@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace Project.Runtime.Features.Widgets
 {
-    public class CardWidget : MonoBehaviour, IPointerClickHandler, IDragHandler
+    public class CardWidget : MonoBehaviour, IPointerClickHandler, IDragHandler, IBeginDragHandler
     {
         [SerializeField] private Image bgImage;
         [SerializeField] private Image iconImage;
@@ -26,6 +26,7 @@ namespace Project.Runtime.Features.Widgets
 
         public event Action<int> OnClickCard;
         public event Action<CardWidget, PointerEventData> OnDragCard; 
+        public event Action<CardWidget, PointerEventData> OnDragCardStart; 
         
         public void Init(int id)
         {
@@ -78,6 +79,11 @@ namespace Project.Runtime.Features.Widgets
         public void OnDrag(PointerEventData eventData)
         {
             OnDragCard?.Invoke(this, eventData);
+        }
+
+        public void OnBeginDrag(PointerEventData eventData)
+        {
+            OnDragCardStart?.Invoke(this, eventData);
         }
     }
 }

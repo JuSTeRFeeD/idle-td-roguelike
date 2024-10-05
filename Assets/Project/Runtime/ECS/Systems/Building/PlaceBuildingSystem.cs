@@ -9,6 +9,7 @@ using Project.Runtime.Features.Inventory;
 using Project.Runtime.Features.TimeManagement;
 using Project.Runtime.Scriptable.Buildings;
 using Project.Runtime.Scriptable.Enemies;
+using Project.Runtime.Services.PlayerProgress;
 using Scellecs.Morpeh;
 using UnityEngine;
 using VContainer;
@@ -26,16 +27,21 @@ namespace Project.Runtime.ECS.Systems.Building
         [Inject] private CameraController _cameraController;
         [Inject] private HandsManager _handsManager;
         [Inject] private InventoryStorage _inventoryStorage;
+        [Inject] private PersistentPlayerData _persistentPlayerData;
         
         public World World { get; set; }
 
         private Filter _filter;
+        private Filter _statisticsFilter;
 
         public void OnAwake()
         {
             _filter = World.Filter
                 .With<PlaceBuildingCardRequest>()
                 .With<PlacingBuildingCard>()
+                .Build();
+            _statisticsFilter = World.Filter
+                .With<TotalPlacedTowersStatistic>()
                 .Build();
         }
 
@@ -82,7 +88,11 @@ namespace Project.Runtime.ECS.Systems.Building
                     var buildingEntity = World.CreateEntity();
                     
                     // for systems know about map changes
-                    World.CreateEntity().AddComponent<MapGridChangedOneFrame>();
+                    var changeEvent = World.CreateEntity();
+                    changeEvent.AddComponent<MapGridChangedOneFrame>();
+                    changeEvent.AddComponent<GridPlacedTowerOneFrame>();
+
+                    _statisticsFilter.First().GetComponent<TotalPlacedTowersStatistic>().Value++;
                     
                     view = _mapManager.PutBuilding(
                         placingBuilding.BuildingConfig, 
@@ -96,7 +106,7 @@ namespace Project.Runtime.ECS.Systems.Building
                         towerView.TowerViewUpgrades.SetLevel(0);
                     }
                         
-                    SetupEntity(buildingEntity, placingBuilding.BuildingConfig, view);
+                    SetupEntity(buildingEntity, placingBuilding.BuildingConfig, placingBuilding.CardConfigId, view);
 
                     if (!isSystemAction)
                     {
@@ -157,8 +167,18 @@ namespace Project.Runtime.ECS.Systems.Building
             }
         }
 
-        private void SetupEntity(in Entity buildingEntity, in BuildingConfig buildingConfig, in EntityView view)
+        private void SetupEntity(in Entity buildingEntity, in BuildingConfig buildingConfig,
+            string placingBuildingCardConfigId, in EntityView view)
         {
+            var cardSaveData = _persistentPlayerData.GetCardSaveDataByCardId(placingBuildingCardConfigId);
+            var addHealthPercentByLvl = 0f;
+            var addDamagePercentByLvl = 0f;
+            if (cardSaveData != null)
+            {
+                addHealthPercentByLvl = 0.1f * cardSaveData.level;
+                addDamagePercentByLvl = 0.15f * cardSaveData.level;
+            }
+            
             switch (buildingConfig)
             {
                 case BaseBuildingConfig baseBuilding:
@@ -292,14 +312,15 @@ namespace Project.Runtime.ECS.Systems.Building
                     }
                     
                     // Health
+                    var initHp = attackTower.Health.min + addHealthPercentByLvl * attackTower.Health.min;
                     buildingEntity.SetComponent(new HealthDefault
                     {
-                        Value = attackTower.Health.min
+                        Value = initHp
                     });
                     buildingEntity.SetComponent(new HealthCurrent
                     {
-                        Value = attackTower.Health.min,
-                        GhostValue = attackTower.Health.min
+                        Value = initHp,
+                        GhostValue = initHp
                     });
                     
                     // Critical chance & damage
@@ -315,10 +336,11 @@ namespace Project.Runtime.ECS.Systems.Building
                     });
                     
                     // Attack
+                    var initDmg = attackTower.Damage.min + addDamagePercentByLvl * attackTower.Damage.min;
                     buildingEntity.AddComponent<AttackDamageRuntime>();
                     buildingEntity.SetComponent(new AttackDamage
                     {
-                        Value = attackTower.Damage.min
+                        Value = initDmg
                     });
                     
                     // Range

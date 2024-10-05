@@ -43,7 +43,7 @@ namespace Project.Runtime.Lobby.Map
             ConnectPointsWithLines();
         }
 
-        public void LoadMap(List<MapPoint> mapPoints)
+        public void LoadMap(List<MapPoint> mapPoints) // from cache
         {
             mapPoints[0].IsCanBeSelected = true;
             foreach (var mapPoint in mapPoints)
@@ -63,7 +63,7 @@ namespace Project.Runtime.Lobby.Map
             ConnectPointsWithLines();
         }
         
-        public void LoadMap(string data)
+        public void LoadMap(string data) // from save data
         {
             _sceneSharedData.MapPoints.Clear();   
             _grid = new MapPoint[width, height];
@@ -172,12 +172,21 @@ namespace Project.Runtime.Lobby.Map
         // Создание объекта MapPoint и его отображения в UI
         private MapPoint CreateMapPoint(Vector2Int position, bool isBranch)
         {
-            var point = new MapPoint(position, isBranch ? MapPoint.MapPointType.Bonus : MapPoint.MapPointType.Main);
+            var type = GetPointMapPointType(position, isBranch);
+            var point = new MapPoint(position, type);
             CreatePointView(point);
 
             _grid[position.x, position.y] = point;
 
             return point;
+        }
+
+        private MapPoint.MapPointType GetPointMapPointType(Vector2Int position, bool isBranch)
+        {
+            var type = MapPoint.MapPointType.Common;
+            if (position == EndPos) type = MapPoint.MapPointType.Boss;
+            else if (isBranch) type = MapPoint.MapPointType.Bonus;
+            return type;
         }
 
         private void CreatePointView(MapPoint mapPoint)
@@ -241,7 +250,7 @@ namespace Project.Runtime.Lobby.Map
                 sb.Append("|");
                 sb.Append(point.IsCompleted ? "1" : "0"); // Статус завершенности
                 sb.Append("|");
-                sb.Append(point.PointType == MapPoint.MapPointType.Main ? "0" : "1"); // Main (0) / Bonus (1)
+                sb.Append(point.PointType == MapPoint.MapPointType.Common ? "0" : "1"); // Main (0) / Bonus (1)
                 sb.Append("|");
             }
             return sb.ToString().TrimEnd('|'); // Убираем последний символ |
@@ -275,8 +284,14 @@ namespace Project.Runtime.Lobby.Map
                 // Статус завершенности
                 var isCompleted = pointStrings[i + 2] == "1";
 
-                // Тип точки (Main или Bonus)
-                var type = pointStrings[i + 3] == "0" ? MapPoint.MapPointType.Main : MapPoint.MapPointType.Bonus;
+                // Тип точки (Common/Bonus/Boss)
+                var type = pointStrings[i + 3] switch
+                {
+                    "0" => MapPoint.MapPointType.Common,
+                    "1" => MapPoint.MapPointType.Bonus,
+                    "2" => MapPoint.MapPointType.Boss,
+                    _ => MapPoint.MapPointType.Common
+                };
 
                 // Создаем MapPoint
                 var mapPoint = CreateMapPoint(position, type == MapPoint.MapPointType.Bonus);

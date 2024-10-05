@@ -1,8 +1,9 @@
-using System;
 using Project.Runtime.Player;
+using Project.Runtime.Scriptable.Currency;
 using Project.Runtime.Services.PlayerProgress;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using VContainer;
 
 namespace Project.Runtime.Lobby
@@ -12,34 +13,21 @@ namespace Project.Runtime.Lobby
         [Inject] private PersistentPlayerData _persistentPlayerData;
         
         [SerializeField] private TextMeshProUGUI valueText;
-        [SerializeField] private SubscribeToWalletType subscribeToWalletType;
+        [SerializeField] private Image currencyIcon;
+        [SerializeField] private CurrencyConfig currencyConfig;
         
-        private enum SubscribeToWalletType
-        {
-            HardCurrency,
-            SoftCurrency
-        }
 
         private Wallet _wallet;
 
         private void Start()
         {
-            switch (subscribeToWalletType)
-            {
-                case SubscribeToWalletType.HardCurrency:
-                    Subscribe(_persistentPlayerData.HardCurrency);
-                    break;
-                case SubscribeToWalletType.SoftCurrency:
-                    Subscribe(_persistentPlayerData.SoftCurrency);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            Subscribe(_persistentPlayerData.WalletByCurrency[currencyConfig]);
         }
 
         private void Subscribe(Wallet wallet)
         {
             _wallet = wallet;
+            currencyIcon.sprite = wallet.CurrencyConfig.Icon;
             OnChangeBalance(_wallet.Balance, _wallet.Balance);
             _wallet.OnChange += OnChangeBalance;
         }

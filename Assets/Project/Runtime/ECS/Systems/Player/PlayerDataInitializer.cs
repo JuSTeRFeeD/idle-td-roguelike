@@ -53,8 +53,24 @@ namespace Project.Runtime.ECS.Systems.Player
             _headerUI.SetLevel(0);
             _headerUI.SetLevelExp(0, 1);
             
-            // --- Perks & Upgrades ---
+            InitTowersUpgradesEntities();
+            InitStatisticsEntities();
+        }
 
+        private void InitStatisticsEntities()
+        {
+            var entity = World.CreateEntity();
+            entity.AddComponent<StatisticTag>();
+            entity.AddComponent<TotalPlacedTowersStatistic>();
+            entity.AddComponent<TotalDealtDamageStatistic>();
+            entity.AddComponent<TotalKilledEnemiesStatistic>();
+            entity.AddComponent<TotalKilledGroundEnemiesStatistic>();
+            entity.AddComponent<TotalKilledFlyEnemiesStatistic>();
+            entity.AddComponent<TotalKilledBossEnemiesStatistic>();
+        }
+
+        private void InitTowersUpgradesEntities()
+        {
             // TODO: GET FROM PLAYER PROGRESS
             const float criticalChance = 0.1f;
             const float criticalDamage = 0.2f; 

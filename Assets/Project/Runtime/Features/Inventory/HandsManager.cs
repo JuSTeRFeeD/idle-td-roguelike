@@ -53,6 +53,7 @@ namespace Project.Runtime.Features.Inventory
                 item.SetConfig(buildingConfig);
                 item.HidePoints();
                 item.OnDragCard += OnDragCard;
+                item.OnDragCard += OnDragCardStart;
                 
                 _cardWidgets.Add(item);
             }
@@ -63,15 +64,19 @@ namespace Project.Runtime.Features.Inventory
             foreach (var i in _cardWidgets)
             {
                 i.OnDragCard -= OnDragCard;
+                i.OnDragCardStart -= OnDragCardStart;
                 Destroy(i.gameObject);
             }
             _cardWidgets.Clear();
         }
 
+        private void OnDragCardStart(CardWidget cardWidget, PointerEventData eventData)
+        {
+            handsCardDropFrame.SetActive(true);
+        }
+
         private void OnDragCard(CardWidget cardWidget, PointerEventData eventData)
         {
-            SetPlacingEnabledEnabled(true);
-            
             // No building or spell
             if (!cardWidget.CardConfig.IsBuilding)
             {
@@ -87,6 +92,7 @@ namespace Project.Runtime.Features.Inventory
             if (eventData.pointerCurrentRaycast.gameObject.CompareTag("HandsCardDropFrame"))
             {
                 OnCardUseStart?.Invoke(cardWidget);
+                SetPlacingEnabledEnabled(true);
                 SetIsCardDrag(true);
             }
         }
@@ -101,7 +107,7 @@ namespace Project.Runtime.Features.Inventory
         public void SetPlacingEnabledEnabled(bool value)
         {
             grid.SetActive(value);
-            handsCardDropFrame.SetActive(value);
+            if (!value) handsCardDropFrame.SetActive(false);
         }
     }
 }

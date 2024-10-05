@@ -3,6 +3,7 @@ using Project.Runtime.Features.GameplayMenus;
 using Project.Runtime.Player;
 using Project.Runtime.Scriptable;
 using Project.Runtime.Scriptable.Buildings;
+using Project.Runtime.Scriptable.Currency;
 using Project.Runtime.Services.PlayerProgress;
 using Project.Runtime.Services.Saves;
 using Sirenix.OdinInspector;
@@ -18,7 +19,9 @@ namespace Project.Runtime.Lobby.Equipment
         [Inject] private PersistentPlayerData _persistentPlayerData;
         [Inject] private ISaveManager _saveManager;
         
+        [SerializeField] private CurrencyConfig useCurrencyConfigForUpgrade;
         [SerializeField] private SelectSlotToEquipPopup selectSlotToEquipPopup;
+        
         [Title("Common")] 
         [SerializeField] private Image rarityImage;
         [SerializeField] private TextMeshProUGUI rarityText;
@@ -68,7 +71,7 @@ namespace Project.Runtime.Lobby.Equipment
             var amountToUpgrade = UpgradeConstants.GetAmountToUpgrade(_deckCard);
             var softCurrencyCost = UpgradeConstants.GetUpgradeCost(_deckCard);
             if (_deckCard.CardSaveData.amount >= amountToUpgrade &&
-                _persistentPlayerData.SoftCurrency.Take(softCurrencyCost))
+                _persistentPlayerData.WalletByCurrency[useCurrencyConfigForUpgrade].Take(softCurrencyCost))
             {
                 _deckCard.CardSaveData.level++;
                 _deckCard.CardSaveData.amount -= amountToUpgrade;
@@ -87,15 +90,17 @@ namespace Project.Runtime.Lobby.Equipment
             
             var cardConfig = deckCard.CardConfig;
             var buildingConfig = cardConfig.GetBuildingConfigFromPerks();
-            var rarityColor = RarityColors.GetColorByRarity(cardConfig.Rarity);
+            var rarityColor = RarityExt.GetColorByRarity(cardConfig.Rarity);
             
             rarityImage.color = rarityColor;
             rarityText.color = rarityColor;
-            rarityText.text = cardConfig.Rarity.ToString();
+            rarityText.text = RarityExt.GetRarityName(cardConfig.Rarity);
             titleText.SetText(buildingConfig.Title);
             iconImage.sprite = cardConfig.Icon;
             iconImage.color = deckCard.CardSaveData.isOpen ? Color.white : new Color(0, 0, 0, 1f);
-        
+            descriptionText.SetText("<todo put text in ItemInfoPopup.cs>");
+            
+            // Level & Upgrade & Level
             levelText.SetText($"{deckCard.CardSaveData.level + 1}");
             
             var upgradeSoftCurrencyCost = UpgradeConstants.GetUpgradeCost(_deckCard);
@@ -104,7 +109,7 @@ namespace Project.Runtime.Lobby.Equipment
             amountText.SetText($"{deckCard.CardSaveData.amount}<size=80%>/{amountToUpgrade}");
             upgradeFrame.gameObject.SetActive(deckCard.CardSaveData.amount >= amountToUpgrade);
             softCurrencyUpgradeCostText.SetText($"{upgradeSoftCurrencyCost}");
-            upgradeButton.interactable = _persistentPlayerData.SoftCurrency.Has(upgradeSoftCurrencyCost);
+            upgradeButton.interactable = _persistentPlayerData.WalletByCurrency[useCurrencyConfigForUpgrade].Has(upgradeSoftCurrencyCost);
             if (upgradeButton.interactable)
             {
                 _sequence = DOTween.Sequence()
@@ -114,20 +119,23 @@ namespace Project.Runtime.Lobby.Equipment
                     .SetLoops(-1, LoopType.Restart);
             } else _sequence?.Kill();
 
+            // Stats
+            healthText.SetText("Здоровье -");
+            damageText.SetText("Урон -");
+            attackSpeedText.SetText("Скорость атаки -");
+            attackRangeText.SetText("Радиус атаки -");
             if (buildingConfig is UpgradableTowerConfig upgradableTowerConfig)
             {
                 healthText.SetText($"Здоровье {upgradableTowerConfig.Health.min} - {upgradableTowerConfig.Health.max}");
             }
-             
             if (buildingConfig is AttackTowerBuildingConfig attackTowerConfig)
             {
                 damageText.SetText($"Урон {attackTowerConfig.Damage.min} - {attackTowerConfig.Damage.max}");
                 attackSpeedText.SetText($"Скорость атаки {attackTowerConfig.AttackCooldown.min} - {attackTowerConfig.AttackCooldown.max}");
                 attackRangeText.SetText($"Радиус атаки {attackTowerConfig.AttackRange.min} - {attackTowerConfig.AttackRange.max}");
             }
-        
-            descriptionText.SetText("<todo put text in ItemInfoPopup.cs>");
-        
+            
+            // Upgrades
             upgrade0Level.SetText("0");
             upgrade0Description.SetText("<todo put text in ItemInfoPopup.cs>");
             upgrade1Level.SetText("0");

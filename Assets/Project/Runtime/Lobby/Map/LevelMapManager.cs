@@ -22,7 +22,7 @@ namespace Project.Runtime.Lobby.Map
         [SerializeField] private LevelMapGenerator levelMapGenerator;
         [SerializeField] private Button startGameButton;
 
-        private MapPointView selectedView;
+        private MapPointView _selectedView;
         
         private void Start()
         {
@@ -38,16 +38,18 @@ namespace Project.Runtime.Lobby.Map
             var height = _sceneSharedData.MapPoints[_persistentPlayerData.CurMapPointIndex].Position.y;
             if (height == levelMapGenerator.Height)
             {
-                _sceneSharedData.NightWavesConfig = _mapLevelConfig.GetBossConfig(height);
+                _sceneSharedData.NightWavesConfig = _mapLevelConfig.GetBossConfig(_persistentPlayerData.CompletedMapsCount);
             }
             else {
                 _sceneSharedData.NightWavesConfig = selectedPoint.PointType switch
                 {
-                    MapPoint.MapPointType.Main => _mapLevelConfig.GetCommonConfig(height),
-                    MapPoint.MapPointType.Bonus => _mapLevelConfig.GetBonusConfig(height),
+                    MapPoint.MapPointType.Common => _mapLevelConfig.GetCommonConfig(_persistentPlayerData.CompletedMapsCount),
+                    MapPoint.MapPointType.Bonus => _mapLevelConfig.GetBonusConfig(_persistentPlayerData.CompletedMapsCount),
                     _ => throw new ArgumentOutOfRangeException()
                 };
             }
+            
+            Debug.Log($"Start game | _sceneSharedData.NightWavesConfig.name: {_sceneSharedData.NightWavesConfig.name}");
 
             // To the game
             StartCoroutine(_sceneLoader.LoadSceneAsync("Game"));
@@ -65,20 +67,20 @@ namespace Project.Runtime.Lobby.Map
             if (!_sceneSharedData.MapPoints.IsNullOrEmpty())
             {
                 levelMapGenerator.LoadMap(_sceneSharedData.MapPoints);
-                SelectPoint();
+                InitSelectedPoint();
                 return;
             }
             // load
             if (!string.IsNullOrEmpty(_persistentPlayerData.MapData))
             {
                 levelMapGenerator.LoadMap(_persistentPlayerData.MapData);
-                SelectPoint();
+                InitSelectedPoint();
                 return;
             }
             GenerateNewMap();
         }
 
-        private void SelectPoint()
+        private void InitSelectedPoint()
         {
             var point = _sceneSharedData.MapPoints[_persistentPlayerData.CurMapPointIndex];
             if (point.IsCompleted)
@@ -93,7 +95,7 @@ namespace Project.Runtime.Lobby.Map
                 _persistentPlayerData.CurMapPointIndex = notCompletedIndex;
                 point = _sceneSharedData.MapPoints[_persistentPlayerData.CurMapPointIndex];
             }
-            levelMapGenerator._viewsByPosition[point.Position].SetSelected(true);
+            OnClickPointView(levelMapGenerator._viewsByPosition[point.Position]);
         }
 
         private void GenerateNewMap()
@@ -101,7 +103,7 @@ namespace Project.Runtime.Lobby.Map
             levelMapGenerator.GenerateMap();
             _persistentPlayerData.CurMapPointIndex = 0;
             var point = _sceneSharedData.MapPoints[0];
-            levelMapGenerator._viewsByPosition[point.Position].SetSelected(true);
+            OnClickPointView(levelMapGenerator._viewsByPosition[point.Position]);
             Save();
         }
 
@@ -115,13 +117,13 @@ namespace Project.Runtime.Lobby.Map
 
         private void OnClickPointView(MapPointView pointView)
         {
-            if (selectedView)
+            if (_selectedView)
             {
-                selectedView.SetSelected(false);
+                _selectedView.SetSelected(false);
             }
 
-            selectedView = pointView;
-            selectedView.SetSelected(false);
+            _selectedView = pointView;
+            _selectedView.SetSelected(true);
 
             var idx = _sceneSharedData.MapPoints.IndexOf(pointView.MapPoint);
             _persistentPlayerData.CurMapPointIndex = idx;

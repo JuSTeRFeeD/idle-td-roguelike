@@ -6,6 +6,7 @@ using Project.Runtime.Features.TimeManagement;
 using Project.Runtime.Scriptable.Card;
 using Scellecs.Morpeh;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using VContainer;
 
 namespace Project.Runtime.ECS.Systems.Player
@@ -94,6 +95,7 @@ namespace Project.Runtime.ECS.Systems.Player
                     placingCardEntity.Dispose();
                     _handsManager.SetIsCardDrag(false);
                     _handsManager.SetPlacingEnabledEnabled(false);
+                    EventSystem.current.SetSelectedGameObject(null);
                 } 
                 
                 // Level up

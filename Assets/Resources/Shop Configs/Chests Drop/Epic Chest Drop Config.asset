@@ -17,10 +17,5 @@ MonoBehaviour:
   rareCardChance: 0.21
   uncommonCardChance: 0.39
   commonCardChance: 0.5
-  dropCards:
-  - {fileID: 11400000, guid: c0e99160604421a4d9fae762bf620a8c, type: 2}
-  - {fileID: 11400000, guid: ffa9bea633101f54c935d47536929d9c, type: 2}
-  - {fileID: 11400000, guid: e8062642e716e4847a3abf32771bdd07, type: 2}
-  - {fileID: 11400000, guid: 1e211934d331b4645ac070d8b9d33890, type: 2}
-  - {fileID: 11400000, guid: f5a706110fecef640a788f3a86eb5a48, type: 2}
-  - {fileID: 11400000, guid: 86db125c9d20f3d4aaba54a154cd6f6e, type: 2}
+  cardsListConfig: {fileID: 11400000, guid: 264c7eb7fb5335742a4c4d8a5020a1cb, type: 2}
+  currencyDrops: []

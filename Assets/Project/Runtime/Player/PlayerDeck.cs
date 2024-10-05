@@ -32,7 +32,7 @@ namespace Project.Runtime.Player
         public void InitializeAfterLoadSaves(CardsDatabase cardsDatabase)
         {
             // First time cards
-            if (_persistentPlayerData.inventoryCards.Count == 0)
+            if (_persistentPlayerData.InventoryCards.Count == 0)
             {
                 var set = new HashSet<string>();
                 // init first time cards
@@ -54,7 +54,7 @@ namespace Project.Runtime.Player
                         CardSaveData = cardSaveData
                     };
 
-                    _persistentPlayerData.inventoryCards.Add(cardSaveData);
+                    _persistentPlayerData.InventoryCards.Add(cardSaveData);
                     _inventoryCards.Add(deckCard);
                     set.Add(cardConfig.uniqueID);
                 }
@@ -77,13 +77,13 @@ namespace Project.Runtime.Player
                         CardSaveData = cardSaveData
                     };
                     
-                    _persistentPlayerData.inventoryCards.Add(cardSaveData);
+                    _persistentPlayerData.InventoryCards.Add(cardSaveData);
                     _inventoryCards.Add(deckCard);
                 }
                 return;
             }
             
-            foreach (var cardSaveData in _persistentPlayerData.inventoryCards)
+            foreach (var cardSaveData in _persistentPlayerData.InventoryCards)
             {
                 var cardConfig = cardsDatabase.GetById(cardSaveData.id);
                 _inventoryCards.Add(new DeckCard

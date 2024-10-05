@@ -15,6 +15,7 @@ MonoBehaviour:
   <ShowUniqueId>k__BackingField: 0
   uniqueID: de5ad661-607b-4ba3-b0b8-71416a8f5491
   title: Cannon Tower
+  description: 
   prefab: {fileID: 1583291249685556938, guid: 04d763664103e0442baddaa8aba7ce75, type: 3}
   size: 2
   upgradeLevels: 5
@@ -39,7 +40,7 @@ MonoBehaviour:
   projectileSpeed: 8
   damage:
     min: 40
-    max: 180
+    max: 540
   attackCooldown:
     min: 2
     max: 1.4

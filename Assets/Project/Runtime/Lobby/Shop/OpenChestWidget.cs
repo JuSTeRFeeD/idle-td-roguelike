@@ -18,7 +18,7 @@ namespace Project.Runtime.Lobby.Shop
         
         [Title("Setup")]
         [SerializeField] private ChestType chestType;
-        [SerializeField] private ChestDropConfig chestDropConfig;
+        [SerializeField] private DropChancesConfig dropChancesConfig;
         [Space]
         [SerializeField] private TextMeshProUGUI titleText;
         [SerializeField] private Button openButton;
@@ -36,7 +36,7 @@ namespace Project.Runtime.Lobby.Shop
         {
             if (_persistentPlayerData.Chests.TakeChest(chestType, amount))
             {
-                _chestOpeningController.OpenChest(chestType, chestDropConfig, amount);
+                _chestOpeningController.OpenChest(chestType, dropChancesConfig, amount);
             }
             else
             {

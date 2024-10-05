@@ -12,10 +12,12 @@ namespace Project.Runtime.Lobby.Map
         public bool IsCompleted;
         public bool IsCanBeSelected;
         public MapPointType PointType { get; private set; }
+        
         public enum MapPointType
         {
-            Main,
-            Bonus
+            Common,
+            Bonus,
+            Boss
         }
         
         public MapPoint(Vector2Int position, MapPointType pointType)
