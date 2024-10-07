@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a61cc5d96e7e46e9a9c735f24bdf02a4, type: 3}
+  m_Name: Card_Give Tomb Tower
+  m_EditorClassIdentifier: 
+  <ShowUniqueId>k__BackingField: 0
+  uniqueID: 7fd66f83-511c-46d5-98cb-7cd642b78154
+  rarity: 3
+  icon: {fileID: 21300000, guid: f9e50cb99ceb83247bd903ef89a7a7e9, type: 3}
+  title: "\u0422\u043E\u043C\u0431\u0430"
+  shortInfo: "\u0421\u0442\u0440\u043E\u0435\u043D\u0438\u0435"
+  isBuilding: 1
+  maxPerGame: 8
+  perks:
+  - {fileID: 11400000, guid: 44948fe803ac38d40ad585fbcb22847a, type: 2}
+  subCardConfigs:
+  - {fileID: 3818960788637735455}
+  __SetNameToSubActive: Attack Speed Perk
+--- !u!114 &3818960788637735455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a61cc5d96e7e46e9a9c735f24bdf02a4, type: 3}
+  m_Name: Attack Speed Perk
+  m_EditorClassIdentifier: 
+  <ShowUniqueId>k__BackingField: 0
+  uniqueID: d9537956-3fd7-4689-85c9-aa3f76e3d43e
+  rarity: 0
+  icon: {fileID: 21300000, guid: f9e50cb99ceb83247bd903ef89a7a7e9, type: 3}
+  title: "\u0422\u043E\u043C\u0431\u0430"
+  shortInfo: "\u0421\u043A\u043E\u0440\u043E\u0441\u0442\u044C \u0430\u0442\u0430\u043A\u0438"
+  isBuilding: 0
+  maxPerGame: 3
+  perks:
+  - {fileID: 11400000, guid: 2fe1d0362265d2c4fa48ec4f724149ce, type: 2}
+  subCardConfigs: []
+  __SetNameToSubActive: 

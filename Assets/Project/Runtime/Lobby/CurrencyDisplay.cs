@@ -1,3 +1,5 @@
+using System.Globalization;
+using Project.Runtime.Features;
 using Project.Runtime.Player;
 using Project.Runtime.Scriptable.Currency;
 using Project.Runtime.Services.PlayerProgress;
@@ -39,7 +41,7 @@ namespace Project.Runtime.Lobby
 
         private void OnChangeBalance(int prevBalance, int newBalance)
         {
-            valueText.SetText(newBalance.ToString());
+            valueText.SetText(newBalance.FormatValue());
         }
     }
 }

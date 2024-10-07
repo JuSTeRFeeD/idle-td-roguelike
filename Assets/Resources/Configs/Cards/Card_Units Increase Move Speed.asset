@@ -14,8 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ShowUniqueId>k__BackingField: 0
   uniqueID: 2d9a37bd-55db-4da3-9a63-08a5833d4900
-  icon: {fileID: 21300000, guid: 1bb6c0acc2f637d468b172d8bae7ec99, type: 3}
-  title: Units Move Speed
-  isBuildingOrSpell: 0
+  rarity: 0
+  icon: {fileID: 21300000, guid: 66d0de4fe76870b418274330264eff0e, type: 3}
+  title: "\u0421\u043A\u043E\u0440\u043E\u0441\u0442\u044C \u0440\u0430\u0431\u043E\u0447\u0438\u0445"
+  shortInfo: "\u0420\u0430\u0431\u043E\u0447\u0438\u0435"
+  isBuilding: 0
+  maxPerGame: 3
   perks:
   - {fileID: 11400000, guid: 524becd298900424fabe646361720a43, type: 2}
+  subCardConfigs: []
+  __SetNameToSubActive: 

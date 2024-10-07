@@ -16,10 +16,8 @@ namespace Project.Runtime.Features.Leveling
         [Inject] private LevelUpCardsManager _levelUpCardsManager;
         
         [SerializeField] private List<CardWidget> cards = new();
-        [SerializeField] private TextMeshProUGUI selectedCardDescriptionText;
-        
+
         public event Action<CardConfig> OnCardSelect; 
-        private int _selectedCardId = -1;
         
         private void Start()
         {
@@ -28,7 +26,6 @@ namespace Project.Runtime.Features.Leveling
             var idx = 0;
             foreach (var card in cards)
             {
-                card.SetIsSelected(false);
                 card.Init(idx++);
                 card.OnClickCard += OnCardClickCard;
             }
@@ -36,47 +33,29 @@ namespace Project.Runtime.Features.Leveling
 
         private void OnCardClickCard(int id)
         {
-            if (_selectedCardId == id)
-            {
-                CardSelected();
-                return;
-            }
-            
-            if (_selectedCardId >= 0)
-            {
-                cards[_selectedCardId].SetIsSelected(false);
-            }
-            _selectedCardId = id;
-            cards[_selectedCardId].SetIsSelected(true);
-
-            ShowSelectedCardDescription();
-        }
-
-        private void ShowSelectedCardDescription()
-        {
-            var descriptionStringBuilder = new StringBuilder();
-            var perksCount = cards[_selectedCardId].CardConfig.Perks.Count;
-            _levelUpCardsManager.AppliesCountByPerkUniqueId.TryGetValue(cards[_selectedCardId].CardConfig.uniqueID, out var applyIndex);
-            for (var index = 0; index < perksCount; index++)
-            {
-                var cardConfigPerk = cards[_selectedCardId].CardConfig.Perks[index];
-                descriptionStringBuilder.Append(cardConfigPerk.GetPerkDescription(applyIndex));
-                if (index + 1 < perksCount) descriptionStringBuilder.Append("\n");
-            }
-            selectedCardDescriptionText.SetText(descriptionStringBuilder.ToString());
-        }
-
-        private void CardSelected()
-        {
-            var cardConfig = cards[_selectedCardId].CardConfig;
+            var cardConfig = cards[id].CardConfig;
             OnCardSelect?.Invoke(cardConfig);
             _levelUpCardsManager.DecreaseDropCount(cardConfig);
+            
             Hide();
         }
 
+        private string GetDescription(CardConfig cardConfig)
+        {
+            var descriptionStringBuilder = new StringBuilder();
+            var perksCount = cardConfig.Perks.Count;
+            _levelUpCardsManager.AppliesCountByPerkUniqueId.TryGetValue(cardConfig.uniqueID, out var applyIndex);
+            for (var index = 0; index < perksCount; index++)
+            {
+                var cardConfigPerk = cardConfig.Perks[index];
+                descriptionStringBuilder.Append(cardConfigPerk.GetPerkDescription(applyIndex));
+                if (index + 1 < perksCount) descriptionStringBuilder.Append("\n");
+            }
+            return descriptionStringBuilder.ToString();
+        }
+        
         public override void Show()
         {
-            _selectedCardId = -1;
             var idx = 0;
             var cardsToShow = _levelUpCardsManager.GetRandomCard();
             foreach (var card in cards)
@@ -86,7 +65,7 @@ namespace Project.Runtime.Features.Leveling
                     var config = cardsToShow[idx];
                     card.gameObject.SetActive(true);
                     card.SetConfig(config);
-                    card.SetIsSelected(false);
+                    card.SetDescription(GetDescription(config));
 
                     if (config.IsBuilding)
                     {
@@ -106,20 +85,18 @@ namespace Project.Runtime.Features.Leveling
                 }
             }
 
-            OnCardClickCard(1);
             base.Show();
         }
 
-        private static int AnimateCardShow(CardWidget cardWidget, int idx)
+        private static void AnimateCardShow(CardWidget cardWidget, int idx)
         {
             Transform cardTransform;
             (cardTransform = cardWidget.transform).DOKill();
-            cardTransform.localScale = new Vector3(0, 1, 1);
+            cardTransform.localScale = Vector3.zero;
             cardTransform
-                .DOScaleX(1f, 0.235f)
-                .SetDelay(idx * 0.2f)
+                .DOScale(1f, 0.25f)
+                .SetDelay(idx * 0.1f)
                 .SetLink(cardTransform.gameObject);
-            return idx;
         }
     }
 }

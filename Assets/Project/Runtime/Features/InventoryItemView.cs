@@ -26,6 +26,7 @@ namespace Project.Runtime.Features
             iconImage.enabled = true;
             iconImage.sprite = currencyConfig.Icon;
             amountText.SetText($"{amount}");
+            rarityImage.color = RarityExt.GetColorByRarity(currencyConfig.Rarity);
         }
         
         public void SetDeckCardData(DeckCard deckCard)

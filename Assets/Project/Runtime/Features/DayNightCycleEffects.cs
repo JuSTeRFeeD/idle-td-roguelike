@@ -6,18 +6,24 @@ namespace Project.Runtime.Features
 {
     public class DayNightCycleEffects : MonoBehaviour
     {
+        public Animator nightComingAnimator;
+        
         public PostProcessVolume dayVolume;
         public PostProcessVolume nightVolume;
         public float transitionDuration = 2f;
         
         private float _transitionProgress = 0f;
         private bool _isDay = true;
+        private static readonly int AnimPlay = Animator.StringToHash("play");
 
         public void SetTime(bool isDayTime)
         {
             if (_isDay == isDayTime) return;
             
             _isDay = !_isDay;
+            
+            if (!_isDay) nightComingAnimator.SetTrigger(AnimPlay);
+            
             StopAllCoroutines();
             StartCoroutine(Transition(
             _isDay ? nightVolume : dayVolume, 

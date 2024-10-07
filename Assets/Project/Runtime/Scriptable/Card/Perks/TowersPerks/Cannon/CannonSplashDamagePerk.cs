@@ -22,9 +22,7 @@ namespace Project.Runtime.Scriptable.Card.Perks.TowersPerks.Cannon
 
         public override string GetPerkDescription(int applyIndex)
         {
-            return $"Cannon Tower gets additional " +
-                   $"{DescColors.DamageColor}Splash Damage</color> ({DescColors.ValueColor}{additionalSplashDamagePercent[applyIndex] * 100:#0.#}%</color>) " +
-                   $"and {DescColors.SpecialColor}Splash Damage Range</color> ({DescColors.ValueColor}{additionalSplashDamageRadius[applyIndex]:#0.#}</color>)";
+            return $"Пушка получает дополнительный {DescColors.DamageColor}урон по области</color> ({DescColors.ValueColor}{additionalSplashDamagePercent[applyIndex] * 100:#0.#}%</color>) и {DescColors.SpecialColor}радиус урона по области</color> ({DescColors.ValueColor}{additionalSplashDamageRadius[applyIndex]:#0.#}</color>)";
         }
     }
 }

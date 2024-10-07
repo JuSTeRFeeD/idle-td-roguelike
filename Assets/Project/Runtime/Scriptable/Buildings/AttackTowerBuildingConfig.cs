@@ -8,10 +8,11 @@ namespace Project.Runtime.Scriptable.Buildings
 {
     public enum AttackTowerType
     {
-        Cannon,
-        Crossbow,
-        Crystal,
-        Bomb
+        Cannon = 0,
+        Crossbow = 1,
+        Crystal = 2,
+        Bomb = 3,
+        Tomb = 4,
     }
     
     [CreateAssetMenu(menuName = "Game/Buildings/AttackTower")]

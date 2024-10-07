@@ -106,7 +106,6 @@ namespace Project.Runtime.ECS.Systems.Player
                     entity.RemoveComponent<LevelUp>();
                 }
                 
-                
                 World.UpdateByUnity = false;
                 Time.timeScale = 1f;
                 

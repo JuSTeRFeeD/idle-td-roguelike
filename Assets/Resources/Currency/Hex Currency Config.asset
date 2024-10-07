@@ -17,3 +17,4 @@ MonoBehaviour:
   iconSprite: {fileID: 21300000, guid: 0846ffa348831a14591ebc648a84cc14, type: 3}
   currencyName: Hex
   initialBalance: 0
+  rarity: 1

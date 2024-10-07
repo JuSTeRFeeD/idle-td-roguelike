@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using DG.Tweening;
-using Project.Runtime.Features;
 using Project.Runtime.Player;
-using Project.Runtime.Scriptable.Card;
+using Project.Runtime.Scriptable.Currency;
 using Project.Runtime.Scriptable.Shop;
 using Project.Runtime.Services.PlayerProgress;
 using Project.Runtime.Services.Saves;
@@ -11,7 +10,6 @@ using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Playables;
-using UnityEngine.UI;
 using VContainer;
 
 namespace Project.Runtime.Lobby.Shop
@@ -34,21 +32,26 @@ namespace Project.Runtime.Lobby.Shop
         [Title("UI")]
         [SerializeField] private ChestOpenPanel openChestPanel;
         [SerializeField] private TextMeshProUGUI continueText;
-        [SerializeField] private List<DropTuple> collectedItems;
+        [Space]
+        [SerializeField] private int dropItemsCapacity;
+        [SerializeField] private ChestDropItemView chestDropItemViewPrefab;
+        [SerializeField] private RectTransform itemsContainer;
         
-        [Serializable]
-        public struct DropTuple
-        {
-            public RectTransform container;
-            public Image previewBrightImage;
-            public InventoryItemView previewLootItem;
-        }
-        
-        private bool _isOpening;
-        private bool _isWaitClickToOpen;
-        private bool _isWaitEndClick;
+        private readonly List<ChestDropItemView> _dropItems = new();
+        private bool _dropItemsInitialized;
+        private Sequence _showItemsSequence;
 
-        private readonly List<CardConfig> _drops = new();
+        private State _state = State.None;
+
+        private enum State
+        {
+            None,
+            Animating,
+            WaitClickToOpen,
+            WaitClickToClose,
+        }
+
+        private int _totalDroppedItemsCount = 0;
         
         private void Start()
         {
@@ -59,30 +62,85 @@ namespace Project.Runtime.Lobby.Shop
             openChestPanel.OnClick += OnClickUI;
 
             continueText.enabled = false;
-            HideAllDrops();
         }
 
-        private void HideAllDrops()
+        private void InitializeDropItems()
         {
-            foreach (var collectedItem in collectedItems)
+            if (_dropItemsInitialized) return;
+            _dropItemsInitialized = true;
+            for (var i = 0; i < dropItemsCapacity; i++)
             {
-                collectedItem.container.gameObject.SetActive(false);
+                _dropItems.Add(Instantiate(chestDropItemViewPrefab, itemsContainer));
+            }
+        }
+
+        private void HideItems()
+        {
+            foreach (var item in _dropItems)
+            {
+                item.gameObject.SetActive(false);
             }
         }
 
         public void OpenChest(ChestType chestType, DropChancesConfig dropChancesConfig, int amount)
         {
-            if (_isOpening) return;
-            _isOpening = true;
+            if (_state != State.None) return;
+            _state = State.Animating;
 
-            _drops.Clear();
+            InitializeDropItems();
+            HideItems();
+            
+            _totalDroppedItemsCount = 0;
+            
+            // Currency
+            var amountByCurrency = new Dictionary<CurrencyConfig, int>(10);
+            for (var i = 0; i < amount; i++)
+            {
+                var droppedCurrencies = dropChancesConfig.GetRandomCurrencyDrops();
+                foreach (var currencyDrop in droppedCurrencies)
+                {
+                    if (amountByCurrency.ContainsKey(currencyDrop.CurrencyConfig))
+                    {
+                        amountByCurrency[currencyDrop.CurrencyConfig] += currencyDrop.Amount;
+                    }
+                    else
+                    {
+                        amountByCurrency.Add(currencyDrop.CurrencyConfig, currencyDrop.Amount);
+                    }
+                }
+            }
+            foreach (var (currencyConfig, value) in amountByCurrency)
+            {
+                // saving
+                _persistentPlayerData.WalletByCurrency[currencyConfig].Add(value);
+                    
+                // preview set
+                _dropItems[_totalDroppedItemsCount].inventoryItemView.SetCurrencyData(currencyConfig, value);
+
+                _totalDroppedItemsCount++;
+            }
+
+            // Cards 
             for (var i = 0; i < amount; i++)
             {
                 var droppedCardConfig = dropChancesConfig.GetRandomCard();
+                
+                // saving
                 var invDeckCard = _persistentPlayerData.InventoryCards.Find(cardSave => cardSave.id == droppedCardConfig.uniqueID);
-                invDeckCard.isOpen = true;
                 invDeckCard.amount++;
-                _drops.Add(droppedCardConfig);
+                invDeckCard.isOpen = true;
+
+                // preview set
+                _dropItems[_totalDroppedItemsCount].inventoryItemView.SetDeckCardData(new DeckCard
+                {
+                    CardConfig = droppedCardConfig,
+                    CardSaveData = new CardSaveData
+                    {
+                        amount = 1,
+                        isOpen = true
+                    }
+                });
+                _totalDroppedItemsCount++;
             }
             _saveManager.Save();
 
@@ -101,26 +159,27 @@ namespace Project.Runtime.Lobby.Shop
             }
             
             _lobbyPanelsManager.SetPanel(LobbyPanelType.None);
-            openChestPlayableDirector.Play();
             openChestPlayableDirector.gameObject.SetActive(true);
+            openChestPlayableDirector.time = 0;
+            openChestPlayableDirector.Play();
         }
 
         public void PauseAnim()
         {
             openChestPlayableDirector.Pause();
             openChestPanel.Show();
-            _isWaitClickToOpen = true;
             continueText.enabled = true;
+            _state = State.WaitClickToOpen;
         }
 
         private void OnClickUI()
         {
-            if (_isWaitClickToOpen)
+            if (_state == State.WaitClickToOpen)
             {
                 ContinueAnim();
             }
 
-            if (_isWaitEndClick)
+            if (_state == State.WaitClickToClose)
             {
                 EndAnim();
             }
@@ -128,41 +187,32 @@ namespace Project.Runtime.Lobby.Shop
 
         private void ContinueAnim()
         {
-            _isWaitClickToOpen = false;
+            _state = State.Animating;
             openChestPlayableDirector.Resume();
             continueText.enabled = false;
         }
 
         public void OnChestOpened()
         {
+            _showItemsSequence = DOTween.Sequence();
             var i = 0;
-            for (; i < _drops.Count; i++)
+            for (; i < _totalDroppedItemsCount; i++)
             {
-                var dropTuple = collectedItems[i];
-                dropTuple.container.gameObject.SetActive(true);
-                dropTuple.previewLootItem.transform.localScale = Vector3.zero;
-                DOTween.Sequence()
-                    .Append(dropTuple.previewLootItem.transform.DOScale(1f, 0.35f))
-                    .SetEase(Ease.OutBack)
-                    .SetLink(dropTuple.previewLootItem.gameObject)
-                    .SetDelay(0.1f * i)
-                    .OnComplete(() =>
-                    {
-                        continueText.enabled = true;
-                        _isWaitEndClick = true;
-                    });
-            
-                dropTuple.previewLootItem.SetDeckCardData(new DeckCard
-                {
-                    CardConfig = _drops[i],
-                    CardSaveData = new CardSaveData { amount = 1, isOpen = true }
-                });
+                var item = _dropItems[i];
+                item.gameObject.SetActive(true);
+                item.inventoryItemView.transform.localScale = Vector3.zero;
+                _showItemsSequence.Join(
+                    item.inventoryItemView.transform.DOScale(1f, 0.35f)
+                        .SetEase(Ease.OutBack)
+                        .SetDelay(0.1f * i)
+                )
+                .SetLink(item.inventoryItemView.gameObject);
             }
-
-            for (; i < collectedItems.Count; i++)
+            _showItemsSequence.OnComplete(() =>
             {
-                collectedItems[i].container.gameObject.SetActive(false);
-            }
+                continueText.enabled = true;
+                _state = State.WaitClickToClose;
+            });
         }
 
         private void EndAnim()
@@ -170,13 +220,13 @@ namespace Project.Runtime.Lobby.Shop
             _lobbyPanelsManager.SetPanel(LobbyPanelType.Shop);
             
             openChestPanel.Hide();
+            openChestPlayableDirector.Stop();
             openChestPlayableDirector.gameObject.SetActive(false);
-            
-            _isOpening = false;
-            _isWaitClickToOpen = false;
-            _isWaitEndClick = false;
+            _showItemsSequence?.Kill(true);
 
-            HideAllDrops();
+            _state = State.None;
+
+            HideItems();
         }
     }
 }

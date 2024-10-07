@@ -14,11 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ShowUniqueId>k__BackingField: 0
   uniqueID: 853b0b0b-a8c6-4a9c-9409-54e87dd56182
-  title: Crossbow Tower
-  description: 
+  title: "\u0410\u0440\u0431\u0430\u043B\u0435\u0442"
+  description: "\u0418\u043C\u0435\u0435\u0442 \u0431\u043E\u043B\u044C\u0448\u043E\u0439
+    \u0440\u0430\u0434\u0438\u0443\u0441 \u0430\u0442\u0430\u043A\u0438 \u0438 \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u044C
+    \u0430\u0442\u0430\u043A\u0438. \u041F\u0440\u0438\u043E\u0440\u0438\u0442\u0435\u0442
+    \u043F\u043E \u043B\u0435\u0442\u0430\u044E\u0449\u0438\u043C \u0432\u0440\u0430\u0433\u0430\u043C"
   prefab: {fileID: 8227337582012608927, guid: 5cdfcf7912249b54ebfeb8400304df04, type: 3}
   size: 2
-  upgradeLevels: 5
   upgradePrices:
   - woodPrice: 5
     stonePrice: 0
@@ -28,11 +30,11 @@ MonoBehaviour:
     stonePrice: 10
   - woodPrice: 15
     stonePrice: 10
-  - woodPrice: 15
-    stonePrice: 15
+  - woodPrice: 21
+    stonePrice: 0
   health:
-    min: 30
-    max: 100
+    min: 20
+    max: 60
   focusEnemyTypes: 0100000000000000
   attackTowerType: 1
   projectileView: {fileID: -1677189479211087335, guid: 182c90b664191fb4d8d15aa3e27d4deb,

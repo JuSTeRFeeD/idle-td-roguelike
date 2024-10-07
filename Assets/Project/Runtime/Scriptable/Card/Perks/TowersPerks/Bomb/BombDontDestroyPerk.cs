@@ -28,7 +28,7 @@ namespace Project.Runtime.Scriptable.Card.Perks.TowersPerks.Bomb
 
         public override string GetPerkDescription(int applyIndex)
         {
-            return $"The {DescColors.GiveTowerColor}bomb</color> has a {DescColors.ValueColor}{chanceToDontDestroy[applyIndex] * 100:##.#}% chance</color> of going into recharge instead of being destroyed.";
+            return $"{DescColors.GiveTowerColor}Бомба</color> имеет шанс {DescColors.ValueColor}{chanceToDontDestroy[applyIndex] * 100:##.#}%</color> уйти на перезарядку вместо уничтожения";
         }
     }
 }

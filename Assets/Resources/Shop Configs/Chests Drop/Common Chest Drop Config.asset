@@ -18,4 +18,19 @@ MonoBehaviour:
   uncommonCardChance: 0.275
   commonCardChance: 0.55
   cardsListConfig: {fileID: 11400000, guid: 264c7eb7fb5335742a4c4d8a5020a1cb, type: 2}
-  currencyDrops: []
+  currencyDrops:
+  - chanceToGiveSomeAmount: 0.01
+    minMaxDropAmount: {x: 1, y: 1}
+    currency: {fileID: 11400000, guid: 64bdb7cde98f71541a953366381b8ecd, type: 2}
+  - chanceToGiveSomeAmount: 0.01
+    minMaxDropAmount: {x: 1, y: 2}
+    currency: {fileID: 11400000, guid: d9d266e8ca790744486282d1c9a07b79, type: 2}
+  - chanceToGiveSomeAmount: 0.005
+    minMaxDropAmount: {x: 1, y: 1}
+    currency: {fileID: 11400000, guid: cf1b82712fce5fe4e80fa1fb6f8a19a8, type: 2}
+  - chanceToGiveSomeAmount: 0.005
+    minMaxDropAmount: {x: 1, y: 1}
+    currency: {fileID: 11400000, guid: ad58935cca89f1046b8d634e72615c22, type: 2}
+  - chanceToGiveSomeAmount: 0.01
+    minMaxDropAmount: {x: 1, y: 10}
+    currency: {fileID: 11400000, guid: 22efdc6310b1c614aaf229c5969e6bf7, type: 2}

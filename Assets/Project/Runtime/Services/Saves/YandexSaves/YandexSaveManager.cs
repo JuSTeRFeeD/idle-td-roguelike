@@ -20,6 +20,9 @@ namespace Project.Runtime.Services.Saves.YandexSaves
             WebSaveSystem.PlayerProgressData.curMapPointIndex = _persistentPlayerData.CurMapPointIndex;
             WebSaveSystem.PlayerProgressData.completedMapsCount = _persistentPlayerData.CompletedMapsCount;
             
+            // Gameplay
+            WebSaveSystem.PlayerProgressData.autoUpgradeTowersChecked = _persistentPlayerData.AutoUpgradeTowersChecked;
+            
             // Balance
             WebSaveSystem.PlayerProgressData.balanceByCurrencyId?.Clear();
             var balanceDict = new Dictionary<string, int> ();
@@ -29,10 +32,6 @@ namespace Project.Runtime.Services.Saves.YandexSaves
             }
             WebSaveSystem.PlayerProgressData.balanceByCurrencyId =
                 new DictionarySerializeContainer<string, int>(balanceDict);
-            
-            // Chests
-            WebSaveSystem.PlayerProgressData.commonChestCount = _persistentPlayerData.Chests.CommonChestCount;
-            WebSaveSystem.PlayerProgressData.epicChestCount = _persistentPlayerData.Chests.EpicChestCount;
             
             // Inventory
             WebSaveSystem.PlayerProgressData.inventoryCards = _persistentPlayerData.InventoryCards;
@@ -54,6 +53,9 @@ namespace Project.Runtime.Services.Saves.YandexSaves
             _persistentPlayerData.CurMapPointIndex = data.curMapPointIndex;
             _persistentPlayerData.CompletedMapsCount = data.completedMapsCount;
             
+            // Gameplay
+            _persistentPlayerData.AutoUpgradeTowersChecked = data.autoUpgradeTowersChecked;
+            
             // Balance
             if (data.balanceByCurrencyId != null)
             {
@@ -62,10 +64,6 @@ namespace Project.Runtime.Services.Saves.YandexSaves
                     _persistentPlayerData.GetWalletByCurrencyId(key).Add(value);
                 }
             }
-
-            // Chest
-            _persistentPlayerData.Chests.AddChest(ChestType.Common, data.commonChestCount);
-            _persistentPlayerData.Chests.AddChest(ChestType.Epic, data.epicChestCount);
 
             // Inventory
             _persistentPlayerData.InventoryCards = data.inventoryCards;

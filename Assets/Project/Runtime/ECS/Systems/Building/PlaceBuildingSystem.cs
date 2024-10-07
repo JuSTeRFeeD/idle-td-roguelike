@@ -76,10 +76,14 @@ namespace Project.Runtime.ECS.Systems.Building
                     
                     // change view lvl
                     view = building.Entity.GetComponent<ViewEntity>().Value;
-                    var towerView = (AttackTowerView)view;
-                    if (towerView.TowerViewUpgrades) towerView.TowerViewUpgrades.SetLevel(building.lvl);
-                    UpgradeBuildingEntity(building.Entity, towerConfig, building.lvl);
-
+                    
+                    var mergedToBuildingTag = building.Entity.GetComponent<BuildingTag>();
+                    building.Entity.AddComponent<BuildingUpgraded>();
+                        
+                    var towerView = (AttackTowerView)view; 
+                    if (towerView.TowerViewUpgrades) towerView.TowerViewUpgrades.SetLevel(mergedToBuildingTag.Level);
+                    UpgradeBuildingEntity(building.Entity, towerConfig, mergedToBuildingTag.Level);
+                
                     VfxPool.Spawn(_vfxSetup.TowerLevelUpVfx, towerView.transform.position);
                 }
                 // Put new
@@ -145,7 +149,7 @@ namespace Project.Runtime.ECS.Systems.Building
 
         private void UpgradeBuildingEntity(Entity buildingEntity, UpgradableTowerConfig buildingConfig, int level)
         {
-            var maxLevel = buildingConfig.UpgradeLevels;
+            var maxLevel = buildingConfig.UpgradePrices.Length;
             
             // HP
             ref var currentHealth = ref buildingEntity.GetComponent<HealthCurrent>().Value;
@@ -178,6 +182,15 @@ namespace Project.Runtime.ECS.Systems.Building
                 addHealthPercentByLvl = 0.1f * cardSaveData.level;
                 addDamagePercentByLvl = 0.15f * cardSaveData.level;
             }
+
+            // Link Animator
+            if (view is AttackTowerView attackTowerView && attackTowerView.Animator)
+            {
+                buildingEntity.SetComponent(new ViewAnimator
+                {
+                    Value = attackTowerView.Animator
+                });
+            }
             
             switch (buildingConfig)
             {
@@ -186,7 +199,7 @@ namespace Project.Runtime.ECS.Systems.Building
                     buildingEntity.SetComponent(new BuildingTag
                     {
                         BuildingConfigId = buildingConfig.uniqueID,
-                        Size = buildingConfig.Size
+                        Size = buildingConfig.Size,
                     });
                     buildingEntity.AddComponent<BaseTowerTag>();
 
@@ -260,7 +273,9 @@ namespace Project.Runtime.ECS.Systems.Building
                     buildingEntity.SetComponent(new BuildingTag
                     {
                         BuildingConfigId = buildingConfig.uniqueID,
-                        Size = buildingConfig.Size
+                        Size = buildingConfig.Size,
+                        Level = 0,
+                        MaxLevel = attackTower.UpgradePrices.Length
                     });
                     switch (attackTower.AttackTowerType)
                     {
@@ -291,6 +306,16 @@ namespace Project.Runtime.ECS.Systems.Building
                             buildingEntity.AddComponent<BombTowerTag>();
                             buildingEntity.AddComponent<OneLifeTag>(); 
                             break;
+                        
+                        case AttackTowerType.Tomb:
+                            buildingEntity.AddComponent<TombTowerTag>();
+                            buildingEntity.AddComponent<AoeAttackingTowerTag>();
+                            buildingEntity.AddComponent<TowerAttackLandsToTheGroundEnemy>(); // TODO: это в прокачку тавера вынести
+                            buildingEntity.SetComponent(new DelayToPerformAttack
+                            {
+                                Value = 0.1f
+                            });
+                            break;
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
@@ -301,10 +326,10 @@ namespace Project.Runtime.ECS.Systems.Building
                         switch (attackTowerFocusEnemyType)
                         {
                             case EnemyType.Ground:
-                                buildingEntity.AddComponent<TowerFocusGroundEnemiesTag>();
+                                buildingEntity.AddComponent<FocusGroundEnemiesTag>();
                                 break;
                             case EnemyType.Flying:
-                                buildingEntity.AddComponent<TowerFocusFlyingEnemiesTag>();
+                                buildingEntity.AddComponent<FocusFlyingEnemiesTag>();
                                 break;
                             default:
                                 throw new ArgumentOutOfRangeException();
@@ -379,7 +404,9 @@ namespace Project.Runtime.ECS.Systems.Building
                     buildingEntity.SetComponent(new BuildingTag
                     {
                         BuildingConfigId = buildingConfig.uniqueID,
-                        Size = buildingConfig.Size
+                        Size = buildingConfig.Size,
+                        Level = 0,
+                        MaxLevel = supportBuildingConfig.UpgradePrices.Length
                     });
                     
                     // Health

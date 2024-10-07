@@ -16,6 +16,8 @@ namespace Project.Runtime.Lobby.Shop
         [Inject] private ISaveManager _saveManager;
 
         [SerializeField] private CurrencyConfig hardCurrencyConfig;
+        [SerializeField] private CurrencyConfig commonChestCurrencyConfig;
+        [SerializeField] private CurrencyConfig epicChestCurrencyConfig;
         [SerializeField] private List<ShopItemView> shopItemViews;
 
         private void Start()
@@ -38,10 +40,10 @@ namespace Project.Runtime.Lobby.Shop
             switch (shopItemConfig.GiveOnBuy)
             {
                 case ShopGiveOnBuy.CommonChest:
-                    _persistentPlayerData.Chests.AddChest(ChestType.Common, shopItemConfig.Amount);
+                    _persistentPlayerData.WalletByCurrency[commonChestCurrencyConfig].Add(shopItemConfig.Amount);
                     break;
                 case ShopGiveOnBuy.EpicChest:
-                    _persistentPlayerData.Chests.AddChest(ChestType.Epic, shopItemConfig.Amount);
+                    _persistentPlayerData.WalletByCurrency[epicChestCurrencyConfig].Add(shopItemConfig.Amount);
                     break;
                 case ShopGiveOnBuy.HardCurrency:
                     _persistentPlayerData.WalletByCurrency[hardCurrencyConfig].Add(shopItemConfig.Amount);

@@ -103,23 +103,26 @@ namespace Project.Runtime.ECS.Systems.Player
 
             _cameraController.SetPosition(_selectedEntity.ViewPosition() - new Vector3(2, 0, 2));
             
-            if (entity.Has<BuildingTag>() && _buildingsDatabase.TryGetById(
-                    entity.GetComponent<BuildingTag>().BuildingConfigId, out var config))
+            if (entity.Has<BuildingTag>())
             {
+                ref readonly var buildingTag = ref entity.GetComponent<BuildingTag>();
+                _buildingsDatabase.TryGetById(buildingTag.BuildingConfigId, out var config);
+                
                 // Upgradable
                 if (config is UpgradableTowerConfig upgradableTowerConfig)
                 {
-                    var gridPos = GridUtils.ConvertWorldToGridPos(entity.ViewPosition());
-                    var building = _mapManager.Buildings[gridPos];
-                    _buildingManagementPanel.SetTitleAndLevel(config.Title, building.lvl, (float)building.lvl / upgradableTowerConfig.UpgradeLevels);
-                    
                     // Upgrade
-                    if (building.lvl < upgradableTowerConfig.UpgradeLevels)
+                    if (buildingTag.Level < upgradableTowerConfig.UpgradePrices.Length)
                     {
-                        var prices = upgradableTowerConfig.UpgradePrices[building.lvl]; 
+                        var prices = upgradableTowerConfig.UpgradePrices[buildingTag.Level]; 
                         _buildingManagementPanel.AddTowerWidget(OnClickTowerUpgrade);
                         _buildingManagementPanel.SetUpgradeTowerWidgetPrices(prices.woodPrice, prices.stonePrice);
                     }
+                    
+                    _buildingManagementPanel.SetTitleAndLevel(
+                        config.Title,
+                        buildingTag.Level, 
+                        (float)buildingTag.Level  / upgradableTowerConfig.UpgradePrices.Length);
                 }
                 else
                 {
@@ -159,103 +162,47 @@ namespace Project.Runtime.ECS.Systems.Player
             {
                 _buildingManagementPanel.AddStatsWidget(1);
             }
-            
+
+            _buildingManagementPanel.ResetScroll();
         }
 
         private void OnClickTowerUpgrade()
         {
             if (_selectedEntity.IsNullOrDisposed()) return;
-            if (!_selectedEntity.Has<BuildingTag>()) return;
-
-            var buildingId = _selectedEntity.GetComponent<BuildingTag>().BuildingConfigId;
-            if (!_buildingsDatabase.TryGetById(buildingId, out var config)) return;
-
-            // Get prices
-            if (config is not UpgradableTowerConfig upgradableTowerConfig) return;
-            var gridPos = GridUtils.ConvertWorldToGridPos(_selectedEntity.ViewPosition());
-            var building = _mapManager.Buildings[gridPos];
-            var prices = upgradableTowerConfig.UpgradePrices[building.lvl];
-            
-            // Decreasing resources
-            TakeResourcesFromStorages(prices);
-
-            // Spawn building over other building to auto merge in building systems
-            var request = World.CreateEntity();
-            request.SetComponent(new PlacingBuildingCard
-            {
-                BuildingConfig = config,
-                CurrentPosition = _selectedEntity.ViewPosition(),
-                IsCollisionDetected = true,
-                IsMergeCollisionDetected = true
-            });
-            request.SetComponent(new PlaceBuildingCardRequest());
-
-            // Redraw ui
-            _buildingManagementPanel.SetTitleAndLevel(
-                config.Title, 
-                building.lvl + 1, 
-                (float)(building.lvl + 1) / upgradableTowerConfig.UpgradeLevels);
-            if (building.lvl + 1 >= upgradableTowerConfig.UpgradeLevels)
-            {
-                _buildingManagementPanel.DestroyUpgradeTowerWidget();
-            }
-            else
-            {
-                var nextPrices = upgradableTowerConfig.UpgradePrices[building.lvl + 1];
-                _buildingManagementPanel.SetUpgradeTowerWidgetPrices(nextPrices.woodPrice, nextPrices.stonePrice);
-            }
-        }
-
-        private void TakeResourcesFromStorages(UpgradableTowerConfig.UpgradePrice prices)
-        {
-            while (prices.woodPrice > 0)
-            {
-                foreach (var entity in _woodStorageFilter)
-                {
-                    ref var storage = ref _woodStorageStash.Get(entity);
-                    if (storage.Current >= prices.woodPrice)
-                    {
-                        storage.Current -= prices.woodPrice;
-                        prices.woodPrice = 0;
-                        entity.SafeRemove<WoodStorageFullTag>();
-                    }
-                    else if (storage.Current > 0)
-                    {
-                        var possible = prices.woodPrice - storage.Current;
-                        storage.Current -= possible;
-                        prices.woodPrice -= possible;
-                        entity.SafeRemove<WoodStorageFullTag>();
-                    }
-
-                }
-            }
-
-            while (prices.stonePrice > 0)
-            {
-                foreach (var entity in _stoneStorageFilter)
-                {
-                    ref var storage = ref _stoneStorageStash.Get(entity);
-                    if (storage.Current >= prices.stonePrice)
-                    {
-                        storage.Current -= prices.stonePrice;
-                        prices.stonePrice = 0;
-                        entity.SafeRemove<StoneStorageFullTag>();
-                    }
-                    else if (storage.Current > 0)
-                    {
-                        var possible = prices.stonePrice - storage.Current;
-                        storage.Current -= possible;
-                        prices.stonePrice -= possible;
-                        entity.SafeRemove<StoneStorageFullTag>();
-                    }
-                }
-            }
+            _selectedEntity.AddComponent<UpgradeBuildingRequest>();
         }
 
         public void OnUpdate(float deltaTime)
         {
             if (_selectedEntity.IsNullOrDisposed()) return;
-
+            
+            // TODO: optimize cuz allocations each frame for redraw text & ui
+            
+            if (_selectedEntity.Has<BuildingUpgraded>())
+            {
+                ref readonly var buildingTag = ref _selectedEntity.GetComponent<BuildingTag>();
+                var buildingId = buildingTag.BuildingConfigId;
+                if (_buildingsDatabase.TryGetById(buildingId, out var config) &&
+                    config is UpgradableTowerConfig upgradableTowerConfig)
+                {
+                    // Redraw ui prices
+                    _buildingManagementPanel.SetTitleAndLevel(
+                        config.Title,
+                        buildingTag.Level,
+                        (float)buildingTag.Level / upgradableTowerConfig.UpgradePrices.Length);
+                    if (buildingTag.Level >= upgradableTowerConfig.UpgradePrices.Length)
+                    {
+                        _buildingManagementPanel.DestroyUpgradeTowerWidget();
+                    }
+                    else
+                    {
+                        var nextPrices = upgradableTowerConfig.UpgradePrices[buildingTag.Level];
+                        _buildingManagementPanel.SetUpgradeTowerWidgetPrices(nextPrices.woodPrice, nextPrices.stonePrice);
+                    }
+                }
+                _selectedEntity.RemoveComponent<BuildingUpgraded>();
+            }
+            
             // Отображение в UI сколько использует юнитов этот тавер
             if (_selectedEntity.Has<UnitsOwnedTag>())
             {
@@ -293,17 +240,17 @@ namespace Project.Runtime.ECS.Systems.Player
             {
                 var list = new List<string>
                 {
-                    $"Damage {_selectedEntity.GetComponent<AttackDamageRuntime>().Value:##.#}",
-                    $"Range {_selectedEntity.GetComponent<AttackRangeRuntime>().Value:##.#}",
-                    $"Health: {_selectedEntity.GetComponent<HealthDefault>().Value:##.#}",
+                    $"Урон {_selectedEntity.GetComponent<AttackDamageRuntime>().Value:#0.#}",
+                    $"Радиус {_selectedEntity.GetComponent<AttackRangeRuntime>().Value:#0.#}",
+                    $"Здоровье {_selectedEntity.GetComponent<HealthDefault>().Value:#0.#}",
                 };
                 if (_selectedEntity.Has<BombTowerTag>())
                 {
-                    list.Add($"Cooldown: {_selectedEntity.GetComponent<AttackCooldownRuntime>().Value:F1}");
+                    list.Add($"Перезарядка {_selectedEntity.GetComponent<AttackCooldownRuntime>().Value:#0.#}");
                 }
                 else
                 {
-                    list.Add($"Attack Speed: {(1f / _selectedEntity.GetComponent<AttackCooldownRuntime>().Value):F1}");
+                    list.Add($"Атак в сек. {1f / _selectedEntity.GetComponent<AttackCooldownRuntime>().Value:#0.#}");
                 }
                 _buildingManagementPanel.SetStatsWidgetText(list);
             }
@@ -312,20 +259,20 @@ namespace Project.Runtime.ECS.Systems.Player
             {
                 var stats = new List<string>(4)
                 {
-                    $"Crit. Chance: {_selectedEntity.GetComponent<CriticalChanceRuntime>().Value * 100:#0.#}%",
-                    $"Crit. Damage: {_selectedEntity.GetComponent<CriticalDamageRuntime>().Value * 100:#0.#}%",
+                    $"Крит. шанс {_selectedEntity.GetComponent<CriticalChanceRuntime>().Value * 100:#0.#}%",
+                    $"Крит. урон {_selectedEntity.GetComponent<CriticalDamageRuntime>().Value * 100:#0.#}%",
                 };
                 if (_selectedEntity.Has<TowerWithBouncingProjectileRuntime>())
                 {
-                    stats.Add($"Hit Bounces: {_selectedEntity.GetComponent<TowerWithBouncingProjectileRuntime>().Bounces}");
+                    stats.Add($"Отскоки {_selectedEntity.GetComponent<TowerWithBouncingProjectileRuntime>().Bounces}");
                 }
                 if (_selectedEntity.Has<SplashDamageRuntime>())
                 {
                     ref readonly var splashDamage = ref _selectedEntity.GetComponent<SplashDamageRuntime>();
-                    stats.Add($"Splash Damage: {splashDamage.PercentFromDamage * 100:#0.#}%");
+                    stats.Add($"Сплеш урон {splashDamage.PercentFromDamage * 100:#0.#}%");
                     if (stats.Count < 4)
                     {
-                        stats.Add($"Splash Radius: {splashDamage.Radius:##.#}");
+                        stats.Add($"Сплеш радиус {splashDamage.Radius:#0.#}");
                     }
                 }
                 _buildingManagementPanel.SetStatsWidgetText(stats, 1);

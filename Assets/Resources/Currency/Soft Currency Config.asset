@@ -17,3 +17,4 @@ MonoBehaviour:
   iconSprite: {fileID: 21300000, guid: a76913fe2f0cab34bb29d7b34420050b, type: 3}
   currencyName: Soft
   initialBalance: 0
+  rarity: 2

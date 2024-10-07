@@ -10,16 +10,14 @@ namespace Project.Runtime.Features.Widgets
 {
     public class CardWidget : MonoBehaviour, IPointerClickHandler, IDragHandler, IBeginDragHandler
     {
-        [SerializeField] private Image bgImage;
         [SerializeField] private Image iconImage;
         [SerializeField] private TextMeshProUGUI cardTitleText;
+        [SerializeField] private TextMeshProUGUI descriptionText;
+        [SerializeField] private TextMeshProUGUI shortInfoText;
         [Space]
         [SerializeField] private Image[] pointsImages;
         [SerializeField] private Sprite emptyPointSprite;
         [SerializeField] private Sprite filledPointSprite;
-
-        private Vector3 _initScale;
-        private const float AnimDuration = 0.1f;
 
         public int Id { get; private set; }
         public CardConfig CardConfig { get; private set; }
@@ -37,11 +35,18 @@ namespace Project.Runtime.Features.Widgets
         {
             CardConfig = cardConfig;
             iconImage.sprite = cardConfig.Icon;
-            cardTitleText.SetText(cardConfig.Title);
+            if (cardTitleText) cardTitleText.SetText(cardConfig.Title);
+            if (shortInfoText) shortInfoText.SetText(cardConfig.ShortInfo);
+        }
+
+        public void SetDescription(string text)
+        {
+            if (descriptionText) descriptionText.SetText(text);
         }
 
         public void HidePoints()
         {
+            if (pointsImages.Length == 0) return;
             foreach (var pointsImage in pointsImages)
             {
                 pointsImage.enabled = false;
@@ -49,26 +54,13 @@ namespace Project.Runtime.Features.Widgets
         }
         public void SetPoints(int points)
         {
+            if (pointsImages.Length == 0) return;
             var i = 0;
             for (; i < pointsImages.Length; i++)
             {
                 pointsImages[i].enabled = true;
                 pointsImages[i].sprite = points > i ? filledPointSprite : emptyPointSprite;
             }
-        }
-
-        private void Start()
-        {
-            _initScale = bgImage.transform.localScale * .95f;
-        }
-
-        public void SetIsSelected(bool value)
-        {
-            bgImage.transform.DOKill();
-            bgImage.transform
-                .DOScale(value ? _initScale * 1.2f : _initScale, AnimDuration * Time.timeScale)
-                .SetLink(gameObject);
-            
         }
 
         public void OnPointerClick(PointerEventData eventData)

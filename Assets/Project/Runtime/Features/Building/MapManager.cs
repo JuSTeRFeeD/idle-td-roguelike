@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using NTC.Pool;
+using Project.Runtime.ECS.Components;
 using Project.Runtime.ECS.Views;
 using Project.Runtime.Features.Building.Data;
 using Project.Runtime.Scriptable.Buildings;
@@ -46,7 +47,6 @@ namespace Project.Runtime.Features.Building
                         rotY = rotation.eulerAngles.y,
                         IsRootPos = isRootPos,
                         RootIdx = ConvertToIndex(gridPos),
-                        lvl = 0,
                         Entity = buildingEntity,
                         IsAllyBuilding = buildingConfig is not MapResourceConfig
                     };
@@ -73,20 +73,30 @@ namespace Project.Runtime.Features.Building
         public BuildingData UpgradeBuilding(UpgradableTowerConfig buildingConfig, Vector2Int gridPos)
         {
             var building = Buildings[gridPos];
+            
             if (!building.IsRootPos) building = Buildings[ConvertToGrid(building.RootIdx)];
             if (building.id != buildingConfig.uniqueID)
             {
                 Debug.LogError($"[MapManager] Id missmatch {building.id} != {buildingConfig.uniqueID} | gridPos {gridPos}");
                 return null;
             }
-            if (building.lvl >= buildingConfig.UpgradeLevels)
+            
+            ref var buildingTag = ref building.Entity.GetComponent<BuildingTag>();
+            
+            // Cant upgrade cuz lvl max
+            if (buildingTag.Level >= buildingConfig.UpgradePrices.Length)
             {
-                Debug.LogWarning($"[MapManager] MaxLevel {building.lvl} >= {buildingConfig.UpgradeLevels} | gridPos {gridPos}");
+                Debug.LogWarning($"[MapManager] MaxLevel {buildingTag.Level} >= {buildingConfig.UpgradePrices.Length} | gridPos {gridPos}");
                 return null;
             }
             
-            building.lvl++;
-            Debug.Log($"[MapManager] Merged, new lvl {building.lvl}");
+            buildingTag.Level++;
+            if (buildingTag.Level == buildingConfig.UpgradePrices.Length)
+            {
+                building.Entity.AddComponent<MaxLevelReachedTag>();
+            }
+            
+            Debug.Log($"[MapManager] Merged, new lvl {buildingTag.Level}");
             return building;
         }
 

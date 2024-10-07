@@ -12,6 +12,8 @@ namespace Project.Runtime.Services.Saves
         public int curMapPointIndex;
         public int completedMapsCount;
 
+        public bool autoUpgradeTowersChecked;
+        
         public DictionarySerializeContainer<string, int> balanceByCurrencyId;
         
         public List<CardSaveData> inventoryCards = new();

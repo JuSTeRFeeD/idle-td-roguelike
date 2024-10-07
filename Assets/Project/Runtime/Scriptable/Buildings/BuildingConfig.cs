@@ -9,7 +9,7 @@ namespace Project.Runtime.Scriptable.Buildings
     {
         [Title("Building")]
         [SerializeField] private string title;
-        [SerializeField] private string description;
+        [SerializeField, TextArea] private string description;
         [SerializeField] private EntityView prefab;
         [MinValue(1)]
         [SerializeField] private int size = 1;

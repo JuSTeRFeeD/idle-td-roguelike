@@ -6,7 +6,6 @@ namespace Project.Runtime.Features.Building.Data
     public class BuildingData
     {
         public string id;
-        public int lvl;
         public int gridIdx;
         public float rotY;
         

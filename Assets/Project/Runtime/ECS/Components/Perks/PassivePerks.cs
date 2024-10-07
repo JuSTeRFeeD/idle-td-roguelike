@@ -56,6 +56,13 @@ namespace Project.Runtime.ECS.Components.Perks
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct TombTowerUpgradesTag : IComponent
+    {
+    }
+    
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct TowerWithBouncesUpgrade : IComponent
     {
         public int AdditionalBounces;

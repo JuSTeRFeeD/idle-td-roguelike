@@ -14,6 +14,7 @@ namespace Project.Runtime.Scriptable.Card
         [SerializeField] private Rarity rarity;
         [SerializeField, PreviewField] private Sprite icon;
         [SerializeField] private string title;
+        [SerializeField] private string shortInfo;
         [SerializeField] private bool isBuilding;
         [Space]
         [Tooltip("How much cards of this type can be dropped during game phase")]
@@ -29,6 +30,7 @@ namespace Project.Runtime.Scriptable.Card
         public Rarity Rarity => rarity;
         public Sprite Icon => icon;
         public string Title => title;
+        public string ShortInfo => shortInfo;
         public bool IsBuilding => isBuilding;
         public int MaxPerGame => maxPerGame;
         public List<IPerk> Perks => perks.ConvertAll<IPerk>(perk => perk);

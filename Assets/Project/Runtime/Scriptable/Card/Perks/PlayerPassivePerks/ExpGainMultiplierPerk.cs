@@ -23,7 +23,7 @@ namespace Project.Runtime.Scriptable.Card.Perks.PlayerPassivePerks
 
         public override string GetPerkDescription(int applyIndex)
         {
-            return $"Increase {DescColors.SpecialColor}gaining exp</color> for {DescColors.ValueColor}{Mathf.RoundToInt(multipliers[applyIndex] * 100 - 100):##.#}%</color>";
+            return $"Увеличить {DescColors.SpecialColor}получаемый опыт</color> на {DescColors.ValueColor}{Mathf.RoundToInt(multipliers[applyIndex] * 100 - 100):##.#}%</color>";
         }
     }
 }

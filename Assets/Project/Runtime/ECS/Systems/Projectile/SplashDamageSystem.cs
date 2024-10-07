@@ -1,6 +1,7 @@
 using Project.Runtime.ECS.Components;
 using Project.Runtime.ECS.Components.Enemies;
 using Project.Runtime.ECS.Extensions;
+using Project.Runtime.ECS.Systems.FindTarget;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Helpers;
 using UnityEngine;
@@ -16,7 +17,12 @@ namespace Project.Runtime.ECS.Systems.Projectile
 
         private Filter _filter;
         private Filter _enemiesFilter;
+        
+        private Stash<ViewEntity> _viewEntityStash;
+        private Stash<DamageAccumulator> _damageAccumulatorStash;
 
+        private Entity[] _hits = new Entity[128];
+        
         public void OnAwake()
         {
             _filter = World.Filter
@@ -30,6 +36,9 @@ namespace Project.Runtime.ECS.Systems.Projectile
                 .With<ViewEntity>()
                 .Without<ToDestroyTag>()
                 .Build();
+
+            _viewEntityStash = World.GetStash<ViewEntity>();
+            _damageAccumulatorStash = World.GetStash<DamageAccumulator>();
         }
 
         public void OnUpdate(float deltaTime)
@@ -40,16 +49,11 @@ namespace Project.Runtime.ECS.Systems.Projectile
                 ref readonly var damage = ref entity.GetComponent<AttackDamageRuntime>().Value;
                 ref readonly var splashDamage = ref entity.GetComponent<SplashDamageRuntime>();
 
-                var hitPoint = hitEntity.ViewPosition();
-                foreach (var enemyEntity in _enemiesFilter)
+                var count = FindByAttackRangeExt.GetInRangeFilterNoAlloc(hitEntity, _enemiesFilter, splashDamage.Radius, _viewEntityStash, ref _hits);
+                for (var i = 0; i < count; i++)
                 {
-                    var enemyPos = enemyEntity.ViewPosition();
-                    if (Vector3.SqrMagnitude(enemyPos - hitPoint) > splashDamage.Radius * splashDamage.Radius)
-                    {
-                        continue;
-                    }
-
-                    enemyEntity.AddOrGet<DamageAccumulator>().Value += damage * splashDamage.PercentFromDamage;
+                    var hitTo = _hits[i];
+                    _damageAccumulatorStash.AddOrGet(hitTo).Value += damage * splashDamage.PercentFromDamage;
                 }
             }
         }

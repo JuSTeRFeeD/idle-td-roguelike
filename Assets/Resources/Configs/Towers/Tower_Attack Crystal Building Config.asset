@@ -14,11 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ShowUniqueId>k__BackingField: 0
   uniqueID: c4b91ba1-3e40-427f-b588-56c74e2c86d5
-  title: Crystall Tower
-  description: 
+  title: "\u041A\u0440\u0438\u0441\u0442\u0430\u043B"
+  description: "\u041C\u0430\u0433\u0438\u0447\u0435\u0441\u043A\u0430\u044F \u0431\u0430\u0448\u043D\u0430\u044F
+    \u0441 \u043A\u0440\u0438\u0441\u0442\u0430\u043B\u043B\u043E\u043C. \u0415\u0435
+    \u0430\u0442\u0430\u043A\u0430 \u0434\u0435\u043B\u0430\u0435\u0442 \u043E\u0442\u0441\u043A\u043E\u043A\u0438
+    \u043C\u0435\u0436\u0434\u0443 \u0432\u0440\u0430\u0433\u0430\u043C\u0438"
   prefab: {fileID: 357257411305374896, guid: 3710971f9a167e14795d994ca88f9d5f, type: 3}
   size: 2
-  upgradeLevels: 5
   upgradePrices:
   - woodPrice: 3
     stonePrice: 3
@@ -28,11 +30,11 @@ MonoBehaviour:
     stonePrice: 7
   - woodPrice: 11
     stonePrice: 11
-  - woodPrice: 15
-    stonePrice: 15
+  - woodPrice: 20
+    stonePrice: 21
   health:
-    min: 30
-    max: 100
+    min: 25
+    max: 90
   focusEnemyTypes: 00000000
   attackTowerType: 2
   projectileView: {fileID: -1677189479211087335, guid: 182c90b664191fb4d8d15aa3e27d4deb,

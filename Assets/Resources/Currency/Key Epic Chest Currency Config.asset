@@ -17,3 +17,4 @@ MonoBehaviour:
   iconSprite: {fileID: 21300000, guid: d92f43902b557d4458e4b84e782872ed, type: 3}
   currencyName: Epic chest key
   initialBalance: 0
+  rarity: 2

@@ -4,29 +4,31 @@ using Scellecs.Morpeh;
 using UnityEngine;
 using VContainer;
 
-namespace Project.Runtime.ECS.Systems.Shooting
+namespace Project.Runtime.ECS.Systems.Attack
 {
     [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.NullChecks, false)]
     [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.ArrayBoundsChecks, false)]
     [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.DivideByZeroChecks, false)]
-    public class ShootToAttackTargetSystem : ISystem
+    public class AoeAttackStartSystem : ISystem
     {
-        [Inject] private VfxSetup vfxSetup;
+        [Inject] private VfxSetup _vfxSetup;
         
         public World World { get; set; }
 
         private Filter _filter;
-        
+        private static readonly int AnimAttackTrigger = Animator.StringToHash("attack");
+
         public void OnAwake()
         {
             _filter = World.Filter
                 .With<AttackTarget>()
                 .With<ShootPoint>()
-                .With<AttackProjectileData>()
                 .With<AttackDamageRuntime>()
                 .With<AttackCooldownRuntime>()
                 .With<AttackRangeRuntime>()
+                .With<AoeAttackingTowerTag>()
                 .Without<IsAttackOnCooldown>()
+                .Without<IsOnDelayToPerformAttack>()
                 .Build();
         }
 
@@ -62,54 +64,48 @@ namespace Project.Runtime.ECS.Systems.Shooting
                     EstimateTime = attackCooldownRuntime
                 });
                 
-                // Creating projectile
-                var projectileEntity = World.CreateEntity();
-                projectileEntity.InstantiateView(projectileParams.EntityView, shootPoint, Quaternion.identity);
-                projectileEntity.SetComponent(new ProjectileTag());
-                projectileEntity.SetComponent(new TrajectoryProjectile
+                // Anim
+                if (entity.Has<ViewAnimator>())
                 {
-                    MaxAdditionalHeight = 1.5f
-                });
-                projectileEntity.SetComponent(new ProjectileMoveData
-                {
-                    StartMovePosition = shootPoint,
-                    TravelTime = 0
-                });
-                projectileEntity.SetComponent(new MoveSpeedRuntime
-                {
-                    Value = projectileParams.ProjectileSpeed
-                });
-                projectileEntity.SetComponent(new AttackDamageRuntime
+                    entity.GetComponent<ViewAnimator>().Value.SetTrigger(AnimAttackTrigger);
+                }
+                
+                // Creating aoe cast projectile
+                var aoeCastEntity = World.CreateEntity();
+                aoeCastEntity.InstantiateView(projectileParams.EntityView, shootPoint, Quaternion.identity);
+                aoeCastEntity.AddComponent<AoeCastTag>();
+                aoeCastEntity.AddComponent<ProjectileTag>();
+                aoeCastEntity.SetComponent(new AttackDamageRuntime
                 {
                     Value = attackDamageRuntime
                 });
-                projectileEntity.SetComponent(new AttackTarget
+                aoeCastEntity.SetComponent(new AttackRangeRuntime
                 {
-                    Value = attackTarget
+                    Value = attackRangeRuntime
                 });
-
-                if (entity.Has<SplashDamageRuntime>())
+                
+                // Land
+                if (entity.Has<TowerAttackLandsToTheGroundEnemy>())
                 {
-                    projectileEntity.SetComponent(entity.GetComponent<SplashDamageRuntime>());
+                    aoeCastEntity.AddComponent<TowerAttackLandsToTheGroundEnemy>();
                 }
-
-                if (entity.Has<TowerWithBouncingProjectileRuntime>())
+                
+                // Focus
+                if (entity.Has<FocusGroundEnemiesTag>())
                 {
-                    projectileEntity.SetComponent(new BouncingProjectile
+                    aoeCastEntity.AddComponent<FocusGroundEnemiesTag>();
+                }
+                if (entity.Has<FocusFlyingEnemiesTag>())
+                {
+                    aoeCastEntity.AddComponent<FocusFlyingEnemiesTag>();
+                }
+                
+                if (entity.Has<DelayToPerformAttack>())
+                {
+                    aoeCastEntity.SetComponent(new IsOnDelayToPerformAttack
                     {
-                        BouncesLeft = entity.GetComponent<TowerWithBouncingProjectileRuntime>().Bounces
+                        Value = entity.GetComponent<DelayToPerformAttack>().Value 
                     });
-                }
-
-                // Change target to prevent shooting to the same target
-                ref var ghostTargetHealth = ref attackTarget.GetComponent<HealthCurrent>().GhostValue;
-                ghostTargetHealth -= attackDamageRuntime;
-                if (ghostTargetHealth <= 0)
-                {
-                    // еще можно вынести в перк в отдельную систему прокачки в лобби
-                    // TODO: если тавера будут слишком имбовыми - убрать механнику ghostHealth и WillDeadAtNextTick
-                    attackTarget.SetComponent(new WillDeadAtNextTickTag());
-                    entity.RemoveComponent<AttackTarget>();
                 }
 
                 SpawnVfx(entity, shootPoint);
@@ -120,7 +116,7 @@ namespace Project.Runtime.ECS.Systems.Shooting
         {
             if (entity.Has<CannonTowerTag>())
             {
-                VfxPool.Spawn(vfxSetup.CannonShootImpactVfx, shootPoint);
+                VfxPool.Spawn(_vfxSetup.CannonShootImpactVfx, shootPoint);
             }
         }
 

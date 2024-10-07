@@ -14,22 +14,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ShowUniqueId>k__BackingField: 0
   uniqueID: 4fcf7367-f665-4b91-a472-3d656fba825f
-  title: Bomby
-  description: 
+  title: "\u0411\u043E\u043C\u0431\u0430"
+  description: "\u0412\u0437\u0440\u044B\u0432\u043E\u043E\u043F\u0430\u0441\u043D\u0430\u044F
+    \u0432\u0435\u0449\u044C. \u041D\u0430\u043D\u043E\u0441\u0438\u0442 \u043E\u0433\u0440\u043E\u043C\u043D\u044B\u0439
+    \u0443\u0440\u043E\u043D \u043F\u043E \u043E\u0431\u043B\u0430\u0441\u0442\u0438
+    \u043F\u043E\u0441\u043B\u0435 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u0430
+    \u0441 \u0432\u0440\u0430\u0433\u043E\u043C"
   prefab: {fileID: 1532579494122307671, guid: ee4a84a9e0c1bd94e9d817790ee12e59, type: 3}
   size: 1
   upgradeLevels: 5
   upgradePrices:
-  - woodPrice: 1
-    stonePrice: 1
   - woodPrice: 2
-    stonePrice: 2
+    stonePrice: 1
   - woodPrice: 3
-    stonePrice: 3
-  - woodPrice: 4
     stonePrice: 4
-  - woodPrice: 5
-    stonePrice: 5
+  - woodPrice: 7
+    stonePrice: 7
+  - woodPrice: 8
+    stonePrice: 8
+  - woodPrice: 10
+    stonePrice: 10
   health:
     min: 1
     max: 1

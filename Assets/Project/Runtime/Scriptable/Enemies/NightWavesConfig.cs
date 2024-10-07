@@ -20,7 +20,7 @@ namespace Project.Runtime.Scriptable.Enemies
         public class WaveData
         {
             public List<WaveEnemyData> enemies = new();
-            [MinMaxSlider(0.05f, .5f)]
+            [MinMaxSlider(0.1f, .5f)]
             public Vector2 spawnDelayBetween = new (0.1f, .5f);
         }
 

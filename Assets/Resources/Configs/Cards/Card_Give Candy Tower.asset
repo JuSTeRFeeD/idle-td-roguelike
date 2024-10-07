@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ShowUniqueId>k__BackingField: 0
   uniqueID: 977a4872-56c0-447d-9a22-85f46cdc3b9f
+  rarity: 0
   icon: {fileID: 21300132, guid: 7ab74e659e1f0a34d9cfec21c478fc12, type: 3}
   title: Candy Tower
+  shortInfo: "\u0421\u0442\u0440\u043E\u0435\u043D\u0438\u0435"
   isBuilding: 1
   maxPerGame: 3
   perks:

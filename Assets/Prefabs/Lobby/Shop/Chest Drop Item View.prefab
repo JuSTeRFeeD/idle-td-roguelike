@@ -9,8 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9029002232493944247}
+  - component: {fileID: -8870890517076807889}
   m_Layer: 0
-  m_Name: Open Chest Drop Tuple
+  m_Name: Chest Drop Item View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37,6 +38,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &-8870890517076807889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3834529444865954022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 129502c2bfe2464f901084f31c6d24b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryItemView: {fileID: 3440189021683035080}
 --- !u!1 &6545768536475063185
 GameObject:
   m_ObjectHideFlags: 0
@@ -310,6 +324,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cbc4d74f566ef3a4ea3931f5fccff87e, type: 3}
+--- !u!114 &3440189021683035080 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8501432982325276126, guid: cbc4d74f566ef3a4ea3931f5fccff87e,
+    type: 3}
+  m_PrefabInstance: {fileID: 6504651353830458902}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47d61f1f735344589c67dac01aa582c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &8448850675729376743 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3388238666248692721, guid: cbc4d74f566ef3a4ea3931f5fccff87e,

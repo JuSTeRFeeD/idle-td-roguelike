@@ -24,7 +24,7 @@ namespace Project.Runtime.Scriptable.Card.Perks.TowersPerks.Crossbow
 
         public override string GetPerkDescription(int applyIndex)
         {
-            return $"Increase {DescColors.DamageColor}attack damage</color> of crossbow towers to {DescColors.ValueColor}{Mathf.RoundToInt(attackDamageMultipliers[applyIndex] * 100 - 100):##.#}%</color>";
+            return $"Увеличить {DescColors.DamageColor}урон</color> арбалета на {DescColors.ValueColor}{Mathf.RoundToInt(attackDamageMultipliers[applyIndex] * 100 - 100):##.#}%</color>";
         }
     }
 }

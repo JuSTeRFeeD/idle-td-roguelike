@@ -563,6 +563,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 960c984dc155703438f2e53a1af6346a, type: 2}
   - {fileID: 11400000, guid: 64bdb7cde98f71541a953366381b8ecd, type: 2}
   - {fileID: 11400000, guid: cf1b82712fce5fe4e80fa1fb6f8a19a8, type: 2}
+  - {fileID: 11400000, guid: d9d266e8ca790744486282d1c9a07b79, type: 2}
+  - {fileID: 11400000, guid: ad58935cca89f1046b8d634e72615c22, type: 2}
   winConfig: {fileID: 11400000, guid: 7b768d2e496c3c1459279fa907d07475, type: 2}
   loseConfig: {fileID: 11400000, guid: 7b768d2e496c3c1459279fa907d07475, type: 2}
   bonusWinConfig: {fileID: 11400000, guid: 7b768d2e496c3c1459279fa907d07475, type: 2}

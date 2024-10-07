@@ -2,6 +2,7 @@
 using Project.Runtime.ECS.Components;
 using Project.Runtime.ECS.Extensions;
 using Project.Runtime.ECS.Systems;
+using Project.Runtime.ECS.Systems.Attack;
 using Project.Runtime.ECS.Systems.Building;
 using Project.Runtime.ECS.Systems.Cooldown;
 using Project.Runtime.ECS.Systems.Enemies;
@@ -10,7 +11,6 @@ using Project.Runtime.ECS.Systems.GameCycle;
 using Project.Runtime.ECS.Systems.Pathfinding;
 using Project.Runtime.ECS.Systems.Player;
 using Project.Runtime.ECS.Systems.Projectile;
-using Project.Runtime.ECS.Systems.Shooting;
 using Project.Runtime.ECS.Systems.Stats;
 using Project.Runtime.ECS.Systems.TakingDamage;
 using Project.Runtime.ECS.Systems.Units;
@@ -53,6 +53,8 @@ namespace Project.Runtime.ECS
         private void AddOneFrames()
         {
             _world.RegisterOneFrame<EntityClickEvent>();
+            _world.RegisterOneFrame<UpgradeBuildingRequest>();
+            _world.RegisterOneFrame<BuildingUpgraded>();
             _world.RegisterOneFrame<MoveToTargetCompleted>();
             _world.RegisterOneFrame<MapGridChangedOneFrame>();
             _world.RegisterOneFrame<AttackCooldownEndOneFrame>();
@@ -102,6 +104,8 @@ namespace Project.Runtime.ECS
             _commonSystemsGroup.AddSystem<FollowOwnerSystem>();
             
             _commonSystemsGroup.AddSystem<BuildingClickSystem>();
+            _commonSystemsGroup.AddSystem<AutoUpgradeTowersSystem>();
+            _commonSystemsGroup.AddSystem<UpgradeBuildingSystem>();
 
             _commonSystemsGroup.AddSystem<EnemyFindAttackTargetByRangeSystem>();
             _commonSystemsGroup.AddSystem<TowerFindAttackTargetByRangeSystem>();
@@ -118,11 +122,16 @@ namespace Project.Runtime.ECS
             _postTickSystems.AddSystem<AttackCooldownSystem>();
             _postTickSystems.AddSystem<RemoveBombDestroyedOnCooldownEndSystem>();
             
+            _commonSystemsGroup.AddSystem<UpdateDelayToPerformAttackSystem>();
+            _commonSystemsGroup.AddSystem<AoeAttackStartSystem>();
             _commonSystemsGroup.AddSystem<ShootToAttackTargetSystem>();
+            
             _commonSystemsGroup.AddSystem<TrajectoryProjectileMoveSystem>();
             _commonSystemsGroup.AddSystem<BounceProjectileSystem>();
             _commonSystemsGroup.AddSystem<SplashDamageSystem>();
-            _commonSystemsGroup.AddSystem<ProjectileHitSystem>();
+            _commonSystemsGroup.AddSystem<PerformAoeAttackCastSystem>();
+            _commonSystemsGroup.AddSystem<ProjectileHitLandToTheGroundEnemySystem>();
+            _commonSystemsGroup.AddSystem<ProjectileHitDealDamageSystem>();
             
             // Taking damage
             _commonSystemsGroup.AddSystem<MarkBuildingAsDamagedSystem>();

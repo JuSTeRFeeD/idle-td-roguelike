@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ShowUniqueId>k__BackingField: 0
   uniqueID: 1709d3d1-49ca-4bf8-88fe-ce61606c64c5
+  rarity: 0
   icon: {fileID: 21300000, guid: 0359c941687ebc8468973c23ffe7124b, type: 3}
-  title: Definitely a tower
+  title: "\u041E\u043F\u0440\u0435\u0434\u0435\u043B\u0435\u043D\u043D\u043E \u0431\u0430\u0448\u043D\u044F"
+  shortInfo: "\u0421\u0442\u0440\u043E\u0435\u043D\u0438\u0435"
   isBuilding: 1
   maxPerGame: 4
   perks:

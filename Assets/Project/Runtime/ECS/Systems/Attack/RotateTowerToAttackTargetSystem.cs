@@ -3,7 +3,7 @@ using Project.Runtime.ECS.Views;
 using Scellecs.Morpeh;
 using UnityEngine;
 
-namespace Project.Runtime.ECS.Systems.Shooting
+namespace Project.Runtime.ECS.Systems.Attack
 {
     [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.NullChecks, false)]
     [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.ArrayBoundsChecks, false)]

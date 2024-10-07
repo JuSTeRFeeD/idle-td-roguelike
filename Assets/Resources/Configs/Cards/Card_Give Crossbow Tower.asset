@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ShowUniqueId>k__BackingField: 0
   uniqueID: da32a0fd-8587-4a1b-bd9d-a8486e9592ee
+  rarity: 0
   icon: {fileID: 21300000, guid: 4f11d8ee52d00214e893b0ead5222c61, type: 3}
-  title: Crossbow Tower
+  title: "\u0410\u0440\u0431\u0430\u043B\u0435\u0442"
+  shortInfo: "\u0421\u0442\u0440\u043E\u0435\u043D\u0438\u0435"
   isBuilding: 1
   maxPerGame: 12
   perks:
@@ -38,8 +40,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ShowUniqueId>k__BackingField: 0
   uniqueID: 317cac2d-9acb-4116-bdd2-529d900ad78b
-  icon: {fileID: 21300000, guid: 7083ab1f5d60b97449d1d56dd51275d3, type: 3}
-  title: Increase Crossbow Attack Damage
+  rarity: 0
+  icon: {fileID: 21300000, guid: 4f11d8ee52d00214e893b0ead5222c61, type: 3}
+  title: "\u0410\u0440\u0431\u0430\u043B\u0435\u0442"
+  shortInfo: "\u0423\u0440\u043E\u043D"
   isBuilding: 0
   maxPerGame: 3
   perks:
@@ -60,8 +64,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ShowUniqueId>k__BackingField: 0
   uniqueID: 667df76a-9b67-4443-b97c-51586f4afd5e
-  icon: {fileID: 21300000, guid: 78676bf97c848be4384cf76ffff94d84, type: 3}
-  title: Increase Crossbow Attack Speed
+  rarity: 0
+  icon: {fileID: 21300000, guid: 4f11d8ee52d00214e893b0ead5222c61, type: 3}
+  title: "\u0410\u0440\u0431\u0430\u043B\u0435\u0442"
+  shortInfo: "\u0421\u043A\u043E\u0440\u043E\u0441\u0442\u044C \u0430\u0442\u0430\u043A\u0438"
   isBuilding: 0
   maxPerGame: 3
   perks:

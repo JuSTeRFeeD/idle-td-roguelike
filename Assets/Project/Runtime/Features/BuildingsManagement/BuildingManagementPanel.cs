@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Project.Runtime.Features.GameplayMenus;
 using Project.Runtime.Features.Widgets;
 using Project.Runtime.Scriptable.Buildings;
+using Project.Runtime.Services.PlayerProgress;
 using Scellecs.Morpeh;
 using TMPro;
 using UnityEngine;
@@ -13,13 +14,19 @@ namespace Project.Runtime.Features.BuildingsManagement
 {
     public class BuildingManagementPanel : PanelBase
     {
+        [Inject] private PersistentPlayerData _persistentPlayerData;
         [Inject] private PanelsManager _panelsManager;
         
         [SerializeField] private Button closeButton;
         [SerializeField] private TextMeshProUGUI panelTitleText;
         [SerializeField] private Image upgadeProgressBg;
         [SerializeField] private Image upgadeProgress;
+
+        [Header("Auto upgrade")] 
+        [SerializeField] private Toggle autoUpgradeToggle;
+        
         [Header("Widgets")]
+        [SerializeField] private ScrollRect scrollRect;
         [SerializeField] private Transform container;
         [SerializeField] private UnitsWidget unitsWidgetPrefab;
         [SerializeField] private StorageInfoWidget storageInfoWidgetPrefab;
@@ -29,7 +36,7 @@ namespace Project.Runtime.Features.BuildingsManagement
         private StorageInfoWidget _storageInfoWidget;
         private UnitsWidget _unitsWidget;
         private TowerWidget _towerWidget;
-        private StatsWidget[] _statsWidgets = new StatsWidget[2];
+        private readonly StatsWidget[] _statsWidgets = new StatsWidget[2];
 
         public event Action OnCloseClick;
         
@@ -37,6 +44,14 @@ namespace Project.Runtime.Features.BuildingsManagement
         {
             closeButton.onClick.AddListener(ClosePanel);
             _panelsManager.OnChangePanel += OnChangePanel;
+
+            autoUpgradeToggle.isOn = _persistentPlayerData.AutoUpgradeTowersChecked;
+            autoUpgradeToggle.onValueChanged.AddListener(OnAutoUpgradeToggleChanged);
+        }
+
+        private void OnAutoUpgradeToggleChanged(bool value)
+        {
+            _persistentPlayerData.AutoUpgradeTowersChecked = value;
         }
 
         private void OnDestroy()
@@ -73,13 +88,15 @@ namespace Project.Runtime.Features.BuildingsManagement
 
         public void SetTitleAndLevel(string title, int level, float upgradeProgress)
         {
+            if (!_towerWidget) return;
+            
             if (upgradeProgress >= 1f)
             {
-                panelTitleText.SetText($"{title} <size=80%><color=yellow>lv.{level + 1} <color=orange>MAX");    
+                panelTitleText.SetText($"{title} <size=80%><color=yellow>ур.{level + 1} <color=orange>МАКС.");    
             }
             else
             {
-                panelTitleText.SetText($"{title} <size=80%><color=yellow>lv.{level + 1}");
+                panelTitleText.SetText($"{title} <size=80%><color=yellow>ур.{level + 1}");
             }
             
             upgadeProgress.fillAmount = upgradeProgress;
@@ -157,6 +174,11 @@ namespace Project.Runtime.Features.BuildingsManagement
             if (!_unitsWidget) Debug.LogError($"_unitsWidget doesn't added to panel!");
 #endif
             _unitsWidget.SetUnits(usedUnits, currentCapacity, maxCapacity);
+        }
+
+        public void ResetScroll()
+        {
+            scrollRect.verticalNormalizedPosition = 1f;
         }
     }
 }

@@ -14,9 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ShowUniqueId>k__BackingField: 0
   uniqueID: 4a8d279d-4a46-4127-bcaf-c5086517b366
-  icon: {fileID: 21300000, guid: 6464797271e329d4392aaad71421eb88, type: 3}
-  title: Faster gathering
-  isBuildingOrSpell: 0
+  rarity: 0
+  icon: {fileID: 21300000, guid: 66d0de4fe76870b418274330264eff0e, type: 3}
+  title: "\u0421\u043A\u043E\u0440\u043E\u0441\u0442\u044C \u0434\u043E\u0431\u044B\u0447\u0438"
+  shortInfo: "\u0420\u0430\u0431\u043E\u0447\u0438\u0435"
+  isBuilding: 0
   maxPerGame: 3
   perks:
   - {fileID: 11400000, guid: c8a3afc250bc1434b8bedf53913ca92f, type: 2}
+  subCardConfigs: []
+  __SetNameToSubActive: 

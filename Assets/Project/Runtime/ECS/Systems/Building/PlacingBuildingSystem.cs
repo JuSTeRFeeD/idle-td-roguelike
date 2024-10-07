@@ -70,7 +70,7 @@ namespace Project.Runtime.ECS.Systems.Building
                     if (buildingData != null)
                     {
                         if (buildingData.id == upgradableTowerConfig.uniqueID &&
-                            buildingData.lvl < upgradableTowerConfig.UpgradeLevels)
+                            buildingData.Entity.GetComponent<BuildingTag>().Level < upgradableTowerConfig.UpgradePrices.Length)
                         {
                             isMergeCollisionDetected = true;
                         }

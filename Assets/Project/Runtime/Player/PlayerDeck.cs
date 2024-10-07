@@ -31,10 +31,11 @@ namespace Project.Runtime.Player
 
         public void InitializeAfterLoadSaves(CardsDatabase cardsDatabase)
         {
+            var addedIds = new HashSet<string>();
+            
             // First time cards
             if (_persistentPlayerData.InventoryCards.Count == 0)
             {
-                var set = new HashSet<string>();
                 // init first time cards
                 for (var i = 0; i < _firstTimeCardsListConfig.Cards.Count; i++)
                 {
@@ -56,11 +57,11 @@ namespace Project.Runtime.Player
 
                     _persistentPlayerData.InventoryCards.Add(cardSaveData);
                     _inventoryCards.Add(deckCard);
-                    set.Add(cardConfig.uniqueID);
+                    addedIds.Add(cardConfig.uniqueID);
                 }
 
                 // init other buildings
-                var allOtherBuildings = cardsDatabase.GetAllItems().Where(i => i.IsBuilding && !set.Contains(i.uniqueID));
+                var allOtherBuildings = cardsDatabase.GetAllItems().Where(i => i.IsBuilding && !addedIds.Contains(i.uniqueID));
                 foreach (var cardConfig in allOtherBuildings)
                 {
                     var cardSaveData = new CardSaveData
@@ -82,7 +83,8 @@ namespace Project.Runtime.Player
                 }
                 return;
             }
-            
+
+            // adding from saves
             foreach (var cardSaveData in _persistentPlayerData.InventoryCards)
             {
                 var cardConfig = cardsDatabase.GetById(cardSaveData.id);
@@ -91,6 +93,29 @@ namespace Project.Runtime.Player
                     CardConfig = cardConfig,
                     CardSaveData = cardSaveData
                 });
+                addedIds.Add(cardConfig.uniqueID);
+            }
+            
+            // добавление недостающих (новых после обнов)
+            var notSavedOtherBuildings = cardsDatabase.GetAllItems().Where(i => i.IsBuilding && !addedIds.Contains(i.uniqueID));
+            foreach (var cardConfig in notSavedOtherBuildings)
+            {
+                var cardSaveData = new CardSaveData
+                {
+                    id = cardConfig.uniqueID,
+                    level = 0,
+                    amount = 0,
+                    isOpen = false
+                };
+                    
+                var deckCard = new DeckCard
+                {
+                    CardConfig = cardConfig,
+                    CardSaveData = cardSaveData
+                };
+                    
+                _persistentPlayerData.InventoryCards.Add(cardSaveData);
+                _inventoryCards.Add(deckCard);
             }
         }
 

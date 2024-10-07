@@ -30,11 +30,11 @@ namespace Project.Runtime.Features
 
         public void SetDayNight(DayNight dayNight, bool isDay)
         {
-            var dayOrNight = isDay ? "Day" : "Night";
+            var dayOrNight = isDay ? "День" : "Ночь";
             var time = dayNight.EstimateTime > 5f 
                 ? $"{(int)dayNight.EstimateTime}" 
                 : $"{dayNight.EstimateTime:#.0}";
-            dayNightText.SetText($"{dayOrNight} {time} sec\n<size=80%>Day {dayNight.DayNumber}");
+            dayNightText.SetText($"{dayOrNight} {time} сек\n<size=80%>День {dayNight.DayNumber}");
         }
 
         public void SetLevelExp(float current, float target)
@@ -44,7 +44,7 @@ namespace Project.Runtime.Features
         
         public void SetLevel(int level)
         {
-            playerLevelText.SetText($"{level}\n<size=40%>LEVEL");
+            playerLevelText.SetText($"{level}\n<size=40%>Уровень");
         }
     }
 }

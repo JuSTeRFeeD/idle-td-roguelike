@@ -26,7 +26,24 @@ namespace Project.Runtime.ECS.Components
     {
         public string BuildingConfigId;
         public int Size;
+        public int Level;
+        public int MaxLevel;
     }
+
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct MaxLevelReachedTag : IComponent { }
+    
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct UpgradeBuildingRequest : IComponent { }
+    
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct BuildingUpgraded : IComponent { }
 
     /// Tower health < maxHealth, днем нуждается в починке юнитами
     [Il2CppSetOption(Option.NullChecks, false)]
@@ -90,6 +107,11 @@ namespace Project.Runtime.ECS.Components
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct DummyTowerTag : IComponent { }
+    
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct TombTowerTag : IComponent { }
     
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
@@ -206,10 +228,10 @@ namespace Project.Runtime.ECS.Components
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct TowerFocusGroundEnemiesTag : IComponent {}
+    public struct FocusGroundEnemiesTag : IComponent {}
     
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct TowerFocusFlyingEnemiesTag : IComponent {}
+    public struct FocusFlyingEnemiesTag : IComponent {}
 }

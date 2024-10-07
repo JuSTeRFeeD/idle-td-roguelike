@@ -116,6 +116,17 @@ namespace Project.Runtime.ECS.Systems.Player
             {
                 AdditionalBounces = 0
             });
+            
+            // Tomb
+            var tombUpgradesEntity = World.CreateEntity();
+            tombUpgradesEntity.AddComponent<TombTowerUpgradesTag>();
+            tombUpgradesEntity.SetComponent(new TowerAttackUpgrades
+            {
+                AttackDamageMultiplier = 1,
+                AttackSpeedMultiplier = 1,
+                CriticalChance = criticalChance,
+                CriticalDamage = criticalDamage
+            });
         }
 
         public void Dispose()

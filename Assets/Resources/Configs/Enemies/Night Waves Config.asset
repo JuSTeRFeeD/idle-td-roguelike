@@ -80,4 +80,4 @@ MonoBehaviour:
     - enemyConfig: {fileID: 11400000, guid: e7ce1f78a8a5d7d44a7004d42f1696b6, type: 2}
       countToSpawn: 5
       delay: 20
-    spawnDelayBetween: {x: 0.05, y: 0.2682035}
+    spawnDelayBetween: {x: 0.1, y: 0.2682035}

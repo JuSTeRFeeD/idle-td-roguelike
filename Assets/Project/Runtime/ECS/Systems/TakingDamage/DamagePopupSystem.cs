@@ -43,7 +43,7 @@ namespace Project.Runtime.ECS.Systems.TakingDamage
                 view.SetValue(damageAccumulator.Value);
                 popupEntity.SetComponent(new DestroyOverTime
                 {
-                    EstimateTime = 0.5f
+                    EstimateTime = 1.1f
                 });
             }
         }

@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ShowUniqueId>k__BackingField: 0
   uniqueID: d1f7aa07-5c61-46b9-8cd5-ab40641f9a85
-  title: Base Tower
+  title: "\u0420\u0430\u0442\u0443\u0448\u0430"
+  description: "\u0425\u043E\u0440\u043E\u0448\u0430\u044F, \u0432\u044B\u0441\u043E\u043A\u0430\u044F"
   prefab: {fileID: 2426575903459579230, guid: eb4444ec3d4389d4d8d3266551ead662, type: 3}
   size: 2
   health: 5

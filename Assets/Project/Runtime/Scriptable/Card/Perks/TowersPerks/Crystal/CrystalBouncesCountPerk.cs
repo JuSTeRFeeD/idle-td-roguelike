@@ -7,7 +7,7 @@ namespace Project.Runtime.Scriptable.Card.Perks.TowersPerks.Crystal
     [CreateAssetMenu(menuName = "Game/Perks/Towers/Crystal/CrystalBouncesCountPerk")]
     public class CrystalBouncesCountPerk : PerkConfig
     {
-        [SerializeField] private int[] setBouncesCount = { 1, 2, 4 };
+        [SerializeField] private int[] setBouncesCount = { 2, 3, 4 };
         
         public override void Apply(World world, int applyIndex)
         {
@@ -21,7 +21,7 @@ namespace Project.Runtime.Scriptable.Card.Perks.TowersPerks.Crystal
 
         public override string GetPerkDescription(int applyIndex)
         {
-            return $"Increase {DescColors.SpecialColor}bounces count</color> of crystal tower between enemies up to {DescColors.ValueColor}{setBouncesCount[applyIndex]}";
+            return $"Увеличить {DescColors.SpecialColor}количество отскоков</color> снаряда после попадания кристалла до {DescColors.ValueColor}{setBouncesCount[applyIndex]}";
         }
     }
 }

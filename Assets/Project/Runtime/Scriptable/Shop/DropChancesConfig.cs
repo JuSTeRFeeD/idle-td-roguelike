@@ -100,14 +100,25 @@ namespace Project.Runtime.Scriptable.Shop
         // Method to filter and return a random card from the list by rarity
         private CardConfig GetCardByRarity(Rarity rarity, bool nullPossible)
         {
-            var filteredCards = cardsListConfig.Cards.Where(c => c.Rarity == rarity).ToList();
-            if (filteredCards.Count == 0)
+            var filteredCards = cardsListConfig.Cards.Where(c => c.Rarity == rarity).ToArray();
+            
+            // не нашли карточки с такой редкостью
+            if (filteredCards.Length == 0)
             {
-                return nullPossible ? null : GetCardByRarity(rarity, false);
+                if (nullPossible) return null;
+                switch (rarity)
+                {
+                    case Rarity.Legendary:
+                        return GetCardByRarity(rarity - 1, false);
+                    case Rarity.Common:
+                        return GetCardByRarity(rarity + 1, false);
+                    default:
+                        GetCardByRarity(rarity + (Random.Range(0, 2) == 0 ? 1 : -1), false);
+                        break;
+                }
             }
 
-            var randomIndex = Random.Range(0, filteredCards.Count);
-            return filteredCards[randomIndex];
+            return filteredCards[Random.Range(0, filteredCards.Length)];
         }
     }
 }

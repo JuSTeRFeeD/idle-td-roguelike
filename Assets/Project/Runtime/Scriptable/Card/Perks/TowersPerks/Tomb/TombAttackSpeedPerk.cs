@@ -1,0 +1,30 @@
+using Project.Runtime.ECS.Components.Perks;
+using Scellecs.Morpeh;
+using Sirenix.OdinInspector;
+using UnityEngine;
+
+namespace Project.Runtime.Scriptable.Card.Perks.TowersPerks.Tomb
+{
+    [CreateAssetMenu(menuName = "Game/Perks/Towers/Tomb/TombAttackSpeedPerk")]
+    public class TombAttackSpeedPerk : PerkConfig
+    {
+        [InfoBox("ЭТО МНОЖИТЕЛЬ. Скорость атаки нужно увеличивать умножая на 0.9f, 0.5f")] 
+        [SerializeField] private float[] attackSpeedMultipliers = { 0.9f, 0.85f, 0.75f };
+        
+        public override void Apply(World world, int applyIndex)
+        {
+            foreach (var entity in world.Filter
+                         .With<TombTowerUpgradesTag>()
+                         .With<TowerAttackUpgrades>()
+                         .Build())
+            {
+                entity.GetComponent<TowerAttackUpgrades>().AttackSpeedMultiplier = attackSpeedMultipliers[applyIndex];
+            }
+        }
+
+        public override string GetPerkDescription(int applyIndex)
+        {
+            return $"Увеличить {DescColors.SpeedColor}скорость атаки</color> томбы на {DescColors.ValueColor}{Mathf.RoundToInt(100 - attackSpeedMultipliers[applyIndex] * 100):##.#}%</color>";
+        }   
+    }
+}

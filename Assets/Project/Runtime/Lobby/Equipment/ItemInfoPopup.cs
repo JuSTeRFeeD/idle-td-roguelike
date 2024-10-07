@@ -98,7 +98,7 @@ namespace Project.Runtime.Lobby.Equipment
             titleText.SetText(buildingConfig.Title);
             iconImage.sprite = cardConfig.Icon;
             iconImage.color = deckCard.CardSaveData.isOpen ? Color.white : new Color(0, 0, 0, 1f);
-            descriptionText.SetText("<todo put text in ItemInfoPopup.cs>");
+            descriptionText.SetText(buildingConfig.Description);
             
             // Level & Upgrade & Level
             levelText.SetText($"{deckCard.CardSaveData.level + 1}");
@@ -131,7 +131,7 @@ namespace Project.Runtime.Lobby.Equipment
             if (buildingConfig is AttackTowerBuildingConfig attackTowerConfig)
             {
                 damageText.SetText($"Урон {attackTowerConfig.Damage.min} - {attackTowerConfig.Damage.max}");
-                attackSpeedText.SetText($"Скорость атаки {attackTowerConfig.AttackCooldown.min} - {attackTowerConfig.AttackCooldown.max}");
+                attackSpeedText.SetText($"Атак в сек. {1f / attackTowerConfig.AttackCooldown.min:#0.#} - {1f / attackTowerConfig.AttackCooldown.max:#0.#}");
                 attackRangeText.SetText($"Радиус атаки {attackTowerConfig.AttackRange.min} - {attackTowerConfig.AttackRange.max}");
             }
             

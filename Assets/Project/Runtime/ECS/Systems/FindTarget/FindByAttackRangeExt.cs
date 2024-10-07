@@ -4,6 +4,9 @@ using Scellecs.Morpeh;
 
 namespace Project.Runtime.ECS.Systems.FindTarget
 {
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.NullChecks, false)]
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.ArrayBoundsChecks, false)]
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.DivideByZeroChecks, false)]
     public static class FindByAttackRangeExt
     {
         [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.NullChecks, false)]
@@ -26,11 +29,9 @@ namespace Project.Runtime.ECS.Systems.FindTarget
                 var sqrMagnitude = (targetPos - entityPos).sqrMagnitude;
 
                 // Если цель ближе и находится в радиусе атаки
-                if (sqrMagnitude < nearestSqrMagnitude)
-                {
-                    nearestSqrMagnitude = sqrMagnitude;
-                    nearestEntity = target;
-                }
+                if (sqrMagnitude > nearestSqrMagnitude) continue;
+                nearestSqrMagnitude = sqrMagnitude;
+                nearestEntity = target;
             }
 
             if (nearestEntity != null)
@@ -40,6 +41,31 @@ namespace Project.Runtime.ECS.Systems.FindTarget
                     Value = nearestEntity
                 });
             }
+        }
+        
+        [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.NullChecks, false)]
+        [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.ArrayBoundsChecks, false)]
+        [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.DivideByZeroChecks, false)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int GetInRangeFilterNoAlloc(in Entity entity, in Filter targetsFilter, in float attackRange, in Stash<ViewEntity> viewStash, ref Entity[] hits)
+        {
+            var attackRangeSqr = attackRange * attackRange;
+            var entityPos = viewStash.Get(entity).Value.transform.position;
+            var count = 0;
+
+            foreach (var target in targetsFilter)
+            {
+                var targetPos = viewStash.Get(target).Value.transform.position;
+                var sqrMagnitude = (targetPos - entityPos).sqrMagnitude;
+
+                // Если цель находится в радиусе атаки
+                if (sqrMagnitude <= attackRangeSqr)
+                {
+                    hits[count++] = target;
+                }
+            }
+
+            return count;
         }
     }
 }

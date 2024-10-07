@@ -17,7 +17,7 @@ namespace Project.Runtime.Scriptable.Card.Perks
 
         public override string GetPerkDescription(int applyIndex)
         {
-            return $"Gives {DescColors.GiveTowerColor}{buildingConfig.Title}</color> card";
+            return $"Дает карточку {DescColors.GiveTowerColor}{buildingConfig.Title}</color>, которую можно разместить на карте";
         }
     }
 }

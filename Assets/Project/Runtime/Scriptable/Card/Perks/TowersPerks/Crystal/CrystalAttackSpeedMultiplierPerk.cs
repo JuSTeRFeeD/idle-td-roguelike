@@ -24,7 +24,7 @@ namespace Project.Runtime.Scriptable.Card.Perks.TowersPerks.Crystal
 
         public override string GetPerkDescription(int applyIndex)
         {
-            return $"Increase {DescColors.SpeedColor}attack speed</color> of crystal towers to {DescColors.ValueColor}{Mathf.RoundToInt(100 - attackSpeedMultipliers[applyIndex] * 100):##.#}%</color>";
+            return $"Увеличить {DescColors.SpeedColor}скорость атаки</color> кристалла на {DescColors.ValueColor}{Mathf.RoundToInt(100 - attackSpeedMultipliers[applyIndex] * 100):##.#}%</color>";
         }   
     }
 }
