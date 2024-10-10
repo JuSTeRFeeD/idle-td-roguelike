@@ -115,14 +115,14 @@ namespace Project.Runtime.Features.GameplayMenus
             totalKilledEnemiesStat.SetText("Враго повержено: " + totalKilledEnemies);
         }
 
-        public void SetDrops(List<DropChancesConfig.CurrencyDrop> currencyDrops, CardConfig randomCardDrop)
+        public void SetDrops(List<CurrencyTuple> currencyDrops, CardConfig randomCardDrop)
         {
             var idx = 0;
             
             foreach (var currencyDrop in currencyDrops)
             {
                 items[idx].gameObject.SetActive(true);
-                items[idx].SetCurrencyData(currencyDrop.CurrencyConfig, currencyDrop.Amount);
+                items[idx].SetCurrencyData(currencyDrop.currencyConfig, currencyDrop.amount);
                 idx++;
             }
 

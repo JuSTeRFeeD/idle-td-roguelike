@@ -42,8 +42,8 @@ MonoBehaviour:
   uniqueID: 317cac2d-9acb-4116-bdd2-529d900ad78b
   rarity: 0
   icon: {fileID: 21300000, guid: 4f11d8ee52d00214e893b0ead5222c61, type: 3}
-  title: "\u0410\u0440\u0431\u0430\u043B\u0435\u0442"
-  shortInfo: "\u0423\u0440\u043E\u043D"
+  title: "\u0423\u0440\u043E\u043D"
+  shortInfo: "\u0410\u0440\u0431\u0430\u043B\u0435\u0442"
   isBuilding: 0
   maxPerGame: 3
   perks:
@@ -66,8 +66,8 @@ MonoBehaviour:
   uniqueID: 667df76a-9b67-4443-b97c-51586f4afd5e
   rarity: 0
   icon: {fileID: 21300000, guid: 4f11d8ee52d00214e893b0ead5222c61, type: 3}
-  title: "\u0410\u0440\u0431\u0430\u043B\u0435\u0442"
-  shortInfo: "\u0421\u043A\u043E\u0440\u043E\u0441\u0442\u044C \u0430\u0442\u0430\u043A\u0438"
+  title: "\u0421\u043A\u043E\u0440\u043E\u0441\u0442\u044C \u0430\u0442\u0430\u043A\u0438"
+  shortInfo: "\u0410\u0440\u0431\u0430\u043B\u0435\u0442"
   isBuilding: 0
   maxPerGame: 3
   perks:

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Project.Runtime.Features.Building;
 using Project.Runtime.Features.Widgets;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using VContainer;
@@ -18,6 +19,9 @@ namespace Project.Runtime.Features.Inventory
         [Space]
         [SerializeField] private PlaceCardPanel placeCardPanel;
         [SerializeField] private GameObject grid;
+        [Title("SFX")]
+        [SerializeField] private AudioSource source;
+        [SerializeField] private AudioClip putSound;
 
         private readonly List<CardWidget> _cardWidgets = new();
 
@@ -102,6 +106,11 @@ namespace Project.Runtime.Features.Inventory
             IsCardDrag = value;
             if (value) placeCardPanel.Show();
             else placeCardPanel.Hide();
+        }
+
+        public void PlayPutSound()
+        {
+            source.PlayOneShot(putSound, 0.5f);
         }
 
         public void SetPlacingEnabledEnabled(bool value)

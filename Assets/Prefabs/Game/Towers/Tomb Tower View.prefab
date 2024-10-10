@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f94a8c39330406782756089f8872d45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  realModelPosition: {fileID: 4457249372336958205}
   shootPoint: {fileID: 1313673200270774117}
   rotatingTower: {fileID: 0}
   towerViewUpgrades: {fileID: 0}

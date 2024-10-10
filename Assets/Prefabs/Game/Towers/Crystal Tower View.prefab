@@ -385,9 +385,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f94a8c39330406782756089f8872d45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  realModelPosition: {fileID: 5286417705777348942}
   shootPoint: {fileID: 2672226767905264874}
   rotatingTower: {fileID: 0}
   towerViewUpgrades: {fileID: 8278040987110806837}
+  animator: {fileID: 0}
 --- !u!135 &3583367506068842569
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -37,8 +37,10 @@ MonoBehaviour:
     max: 60
   focusEnemyTypes: 0100000000000000
   attackTowerType: 1
-  projectileView: {fileID: -1677189479211087335, guid: 182c90b664191fb4d8d15aa3e27d4deb,
+  projectileView: {fileID: 1479536283174257539, guid: b3332d0dfebfb684c8ae4621d4497e79,
     type: 3}
+  shootVfx: {fileID: 0}
+  hitVfx: {fileID: 5053903234363496674, guid: a906040edf4657244bca32910cbb1d38, type: 3}
   projectileSpeed: 10
   damage:
     min: 35

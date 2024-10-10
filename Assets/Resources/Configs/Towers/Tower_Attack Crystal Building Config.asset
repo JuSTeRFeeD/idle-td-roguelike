@@ -39,6 +39,8 @@ MonoBehaviour:
   attackTowerType: 2
   projectileView: {fileID: -1677189479211087335, guid: 182c90b664191fb4d8d15aa3e27d4deb,
     type: 3}
+  shootVfx: {fileID: 0}
+  hitVfx: {fileID: 19853034, guid: 75f1cf315f9fe954c814f9681228d587, type: 3}
   projectileSpeed: 8
   damage:
     min: 26

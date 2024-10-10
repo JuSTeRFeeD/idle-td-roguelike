@@ -19,7 +19,6 @@ MonoBehaviour:
     \u043A\u0430\u043A \u043C\u043E\u043B\u043E\u0442"
   prefab: {fileID: 4204910808033033264, guid: c1b9842020972e64b855a5c732efb80e, type: 3}
   size: 2
-  upgradeLevels: 5
   upgradePrices:
   - woodPrice: 3
     stonePrice: 4
@@ -38,6 +37,9 @@ MonoBehaviour:
   attackTowerType: 4
   projectileView: {fileID: 221648314298367499, guid: 48c6e12c15568fb4cbf9917a3d9c79b5,
     type: 3}
+  shootVfx: {fileID: 8444348153191069117, guid: 093c2b222d837a844b0c504bb7146fc0,
+    type: 3}
+  hitVfx: {fileID: 0}
   projectileSpeed: 2
   damage:
     min: 50

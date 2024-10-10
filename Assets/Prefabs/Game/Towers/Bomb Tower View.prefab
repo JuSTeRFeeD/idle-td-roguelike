@@ -123,9 +123,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de16411d26428344ea427988f9d03bdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  realModelPosition: {fileID: 516296109016560974}
   shootPoint: {fileID: 516296109016560974}
   rotatingTower: {fileID: 0}
   towerViewUpgrades: {fileID: 2488613554073197245}
+  animator: {fileID: 0}
   basicMaterial: {fileID: 2100000, guid: 9b4c2ad44c6c00f4ea4ec5c6fe6f2ae1, type: 2}
   destroyedMaterial: {fileID: 2100000, guid: cb232d61720a28044acf103240402035, type: 2}
   renderers:

@@ -45,23 +45,18 @@ namespace Project.Runtime.Scriptable.Shop
         public float UncommonCardChance => uncommonCardChance;
         public float CommonCardChance => commonCardChance;
 
-        public struct CurrencyDrop
+        public List<CurrencyTuple> GetRandomCurrencyDrops()
         {
-            public int Amount;
-            public CurrencyConfig CurrencyConfig;
-        }
-        public List<CurrencyDrop> GetRandomCurrencyDrops()
-        {
-            List<CurrencyDrop> res = new();
+            List<CurrencyTuple> res = new();
             foreach (var currencyDropChance in currencyDrops)
             {
                 if (Random.Range(0, 1f) > currencyDropChance.ChanceToGiveSomeAmount) continue;
                 var amount = Random.Range(currencyDropChance.MinMaxDropAmount.x, currencyDropChance.MinMaxDropAmount.y);
                 if (amount <= 0) continue;
-                res.Add(new CurrencyDrop
+                res.Add(new CurrencyTuple
                 {
-                    Amount = amount,
-                    CurrencyConfig = currencyDropChance.CurrencyConfig 
+                    amount = amount,
+                    currencyConfig = currencyDropChance.CurrencyConfig 
                 });
             }
             return res;

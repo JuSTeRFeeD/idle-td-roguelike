@@ -11,8 +11,6 @@ namespace Project.Runtime.ECS.Systems.Projectile
     [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.DivideByZeroChecks, false)]
     public class PerformAoeAttackCastSystem : ISystem
     {
-        [Inject] private VfxSetup _vfxSetup;
-        
         public World World { get; set; }
 
         private Filter _aoeFilter;
@@ -92,7 +90,10 @@ namespace Project.Runtime.ECS.Systems.Projectile
             
             foreach (var entity in _aoeFilter)
             {
-                VfxPool.Spawn(_vfxSetup.PutTowerVfx, _viewEntityStash.Get(entity).Value.transform.position);
+                if (entity.Has<ShootVfx>())
+                {
+                    VfxPool.Spawn(entity.GetComponent<ShootVfx>().Value, _viewEntityStash.Get(entity).Value.RealModelPosition.position);
+                }
                 entity.Dispose();
             }
         }

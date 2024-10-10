@@ -1,4 +1,5 @@
 using Project.Runtime.ECS;
+using Project.Runtime.Lobby.Missions;
 using Project.Runtime.Player;
 using Project.Runtime.Player.Databases;
 using Project.Runtime.Scriptable.Card;
@@ -47,6 +48,7 @@ namespace Project.Runtime.Core
 
             builder.Register<BuildingsDatabase>(Lifetime.Singleton);
             builder.Register<CardsDatabase>(Lifetime.Singleton);
+            builder.Register<MissionsDatabase>(Lifetime.Singleton);
 
             builder.RegisterInstance<PlayerDeck>(new PlayerDeck(playerData, commonCardsList, firstTimeCardsList));
         

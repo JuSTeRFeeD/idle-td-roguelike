@@ -99,13 +99,13 @@ namespace Project.Runtime.Lobby.Shop
                 var droppedCurrencies = dropChancesConfig.GetRandomCurrencyDrops();
                 foreach (var currencyDrop in droppedCurrencies)
                 {
-                    if (amountByCurrency.ContainsKey(currencyDrop.CurrencyConfig))
+                    if (amountByCurrency.ContainsKey(currencyDrop.currencyConfig))
                     {
-                        amountByCurrency[currencyDrop.CurrencyConfig] += currencyDrop.Amount;
+                        amountByCurrency[currencyDrop.currencyConfig] += currencyDrop.amount;
                     }
                     else
                     {
-                        amountByCurrency.Add(currencyDrop.CurrencyConfig, currencyDrop.Amount);
+                        amountByCurrency.Add(currencyDrop.currencyConfig, currencyDrop.amount);
                     }
                 }
             }

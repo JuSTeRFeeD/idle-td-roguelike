@@ -40,10 +40,26 @@ namespace Project.Runtime.ECS.Components
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct AttackProjectileData : IComponent
+    public struct ProjectileData : IComponent
     {
         public EntityView EntityView;
         public float ProjectileSpeed;
+    }
+
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct ShootVfx : IComponent
+    {
+        public ParticleSystem Value;
+    }
+    
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct HitVfx : IComponent
+    {
+        public ParticleSystem Value;
     }
 
     [Il2CppSetOption(Option.NullChecks, false)]

@@ -16,9 +16,9 @@ MonoBehaviour:
   uniqueID: 17271e22-5cdb-4202-b1b4-33aece2d423f
   enemyView: {fileID: 8054620843101967533, guid: 10d6e156aeee6c143b64de76503c6f9e,
     type: 3}
-  health: 60
-  moveSpeed: 0.8
-  attackDamage: 6
+  health: 40
+  moveSpeed: 1
+  attackDamage: 3
   attackRange: 4
   attackCooldown: 1
   enemyType: 1

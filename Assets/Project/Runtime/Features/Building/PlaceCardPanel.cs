@@ -9,7 +9,7 @@ namespace Project.Runtime.Features.Building
     public class PlaceCardPanel : PanelBase, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
     {
         [SerializeField] private Image cancelFrame;
-
+        
         private readonly Color _baseColor = new(0, 0, 0, 0.9f);
         private readonly Color _hoverColor = new(1, 0, 0, 0.9f);
         private bool _isPointerOnFrame;

@@ -1,5 +1,6 @@
 using Project.Runtime.ECS.Components.Enemies;
 using Scellecs.Morpeh;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Project.Runtime.ECS.Views
@@ -8,7 +9,12 @@ namespace Project.Runtime.ECS.Views
     {
         public Entity Entity { get; private set; }
         
+        [SerializeField] private Transform realModelPosition;
+        
+        public Transform RealModelPosition => realModelPosition;
+        
 #if UNITY_EDITOR
+        [Title("Dev")]
         public EntityId EntityId;
 #endif
 

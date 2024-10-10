@@ -22,7 +22,7 @@ namespace Project.Runtime.ECS.Systems.Attack
             _filter = World.Filter
                 .With<AttackTarget>()
                 .With<ShootPoint>()
-                .With<AttackProjectileData>()
+                .With<ProjectileData>()
                 .With<AttackDamageRuntime>()
                 .With<AttackCooldownRuntime>()
                 .With<AttackRangeRuntime>()
@@ -54,7 +54,7 @@ namespace Project.Runtime.ECS.Systems.Attack
                     continue;
                 }
                 
-                ref readonly var projectileParams = ref entity.GetComponent<AttackProjectileData>();
+                ref readonly var projectileParams = ref entity.GetComponent<ProjectileData>();
                 ref readonly var attackCooldownRuntime = ref entity.GetComponent<AttackCooldownRuntime>().Value;
                 ref readonly var attackDamageRuntime = ref entity.GetComponent<AttackDamageRuntime>().Value;
                 var shootPoint = entity.GetComponent<ShootPoint>().Value.position;
@@ -102,6 +102,10 @@ namespace Project.Runtime.ECS.Systems.Attack
                         BouncesLeft = entity.GetComponent<TowerWithBouncingProjectileRuntime>().Bounces
                     });
                 }
+                if (entity.Has<HitVfx>())
+                {
+                    projectileEntity.SetComponent(entity.GetComponent<HitVfx>());
+                }
 
                 // Change target to prevent shooting to the same target
                 ref var ghostTargetHealth = ref attackTarget.GetComponent<HealthCurrent>().GhostValue;
@@ -114,15 +118,10 @@ namespace Project.Runtime.ECS.Systems.Attack
                     entity.RemoveComponent<AttackTarget>();
                 }
 
-                SpawnVfx(entity, shootPoint);
-            }
-        }
-
-        private void SpawnVfx(in Entity entity, in Vector3 shootPoint)
-        {
-            if (entity.Has<CannonTowerTag>())
-            {
-                VfxPool.Spawn(_vfxSetup.CannonShootImpactVfx, shootPoint);
+                if (entity.Has<ShootVfx>())
+                {
+                    VfxPool.Spawn(entity.GetComponent<ShootVfx>().Value, shootPoint);
+                }
             }
         }
 

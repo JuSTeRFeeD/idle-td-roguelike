@@ -24,6 +24,8 @@ namespace Project.Runtime.ECS.Systems.Projectile
 
         public void OnUpdate(float deltaTime)
         {
+            // Опускаем летающим мобов на землю
+            
             foreach (var entity in _filter)
             {
                 ref var hitEntity = ref entity.GetComponent<ProjectileHit>().HitEntity;

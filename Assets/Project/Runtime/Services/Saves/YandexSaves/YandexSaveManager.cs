@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using Project.Runtime.Core;
 using Project.Runtime.Core.Data;
-using Project.Runtime.Scriptable.Shop;
 using Project.Runtime.Services.PlayerProgress;
-using Project.Runtime.Services.Saves.YandexSaves.FileSavingSystem;
 using VContainer;
+using YG;
 
 namespace Project.Runtime.Services.Saves.YandexSaves
 {
@@ -12,41 +11,48 @@ namespace Project.Runtime.Services.Saves.YandexSaves
     {
         [Inject] private PersistentPlayerData _persistentPlayerData;
         [Inject] private ICoroutineRunner _coroutineRunner;
+
+        public YandexSaveManager()
+        {
+            YandexGame.GetDataEvent += Load;
+        }
+        
+        ~YandexSaveManager()
+        {
+            YandexGame.GetDataEvent -= Load;
+        }
         
         public void Save()
         {
+            var data = YandexGame.savesData.playerProgressData;
+            
             // Map
-            WebSaveSystem.PlayerProgressData.mapSave = _persistentPlayerData.MapData;
-            WebSaveSystem.PlayerProgressData.curMapPointIndex = _persistentPlayerData.CurMapPointIndex;
-            WebSaveSystem.PlayerProgressData.completedMapsCount = _persistentPlayerData.CompletedMapsCount;
+            data.mapSave = _persistentPlayerData.MapData;
+            data.curMapPointIndex = _persistentPlayerData.CurMapPointIndex;
+            data.completedMapsCount = _persistentPlayerData.CompletedMapsCount;
             
             // Gameplay
-            WebSaveSystem.PlayerProgressData.autoUpgradeTowersChecked = _persistentPlayerData.AutoUpgradeTowersChecked;
+            data.autoUpgradeTowersChecked = _persistentPlayerData.AutoUpgradeTowersChecked;
             
             // Balance
-            WebSaveSystem.PlayerProgressData.balanceByCurrencyId?.Clear();
+            data.balanceByCurrencyId?.Clear();
             var balanceDict = new Dictionary<string, int> ();
             foreach (var (key, value) in _persistentPlayerData.WalletByCurrency)
             {
                 balanceDict.Add(key.uniqueID, value.Balance);
             }
-            WebSaveSystem.PlayerProgressData.balanceByCurrencyId =
+            data.balanceByCurrencyId =
                 new DictionarySerializeContainer<string, int>(balanceDict);
             
             // Inventory
-            WebSaveSystem.PlayerProgressData.inventoryCards = _persistentPlayerData.InventoryCards;
+            data.inventoryCards = _persistentPlayerData.InventoryCards;
             
-            WebSaveSystem.SaveProfile();
-            
-            // TODO: save on server using ICoroutineRunner
+            YandexGame.SaveProgress();
         }
 
         public void Load()
         {
-            // TODO: load from server
-            
-            WebSaveSystem.Initialize();
-            var data = WebSaveSystem.PlayerProgressData;
+            var data = YandexGame.savesData.playerProgressData;
             
             // Map
             _persistentPlayerData.MapData = data.mapSave;

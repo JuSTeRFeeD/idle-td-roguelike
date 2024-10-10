@@ -18,23 +18,35 @@ namespace Project.Runtime.Scriptable.Buildings
     [CreateAssetMenu(menuName = "Game/Buildings/AttackTower")]
     public class AttackTowerBuildingConfig : UpgradableTowerConfig
     {
-        [Header("AttackTowerBuildingConfig")] 
+        [Title("AttackTowerBuildingConfig")] 
         [SerializeField] private EnemyType[] focusEnemyTypes;
+        
         [Space]
         [SerializeField] private AttackTowerType attackTowerType;
+        
+        [Title("Projectile")]
         [SerializeField] private EntityView projectileView;
-        [MinValue(2)]
-        [SerializeField] private float projectileSpeed = 8;
+        [SerializeField] private ParticleSystem shootVfx;
+        [SerializeField] private ParticleSystem hitVfx;
+        [SerializeField, MinValue(2)] private float projectileSpeed = 8;
+        
+        [Title("Stats")]
         [SerializeField] private MinMaxFloat damage;
         [SerializeField] private MinMaxFloat attackCooldown;
         [SerializeField] private MinMaxFloat attackRange;
 
         public EnemyType[] FocusEnemyTypes => focusEnemyTypes;
+        
         public AttackTowerType AttackTowerType => attackTowerType;
+        
         public EntityView ProjectileView => projectileView;
+        public ParticleSystem ShootVfx => shootVfx;
+        public ParticleSystem HitVfx => hitVfx;
+        public float ProjectileSpeed => projectileSpeed;
+        
+        
         public MinMaxFloat Damage => damage;
         public MinMaxFloat AttackCooldown => attackCooldown;
         public MinMaxFloat AttackRange => attackRange;
-        public float ProjectileSpeed => projectileSpeed;
     }
 }

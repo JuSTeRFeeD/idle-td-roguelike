@@ -11,6 +11,10 @@ namespace Project.Runtime.Core.Data
         public List<TKey> keys = new();
         public List<TValue> values = new();
 
+        public DictionarySerializeContainer()
+        {
+        }
+        
         public DictionarySerializeContainer(Dictionary<TKey, TValue> dictionary)
         {
             foreach (var pair in dictionary)

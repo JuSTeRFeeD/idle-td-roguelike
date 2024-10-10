@@ -385,7 +385,7 @@ namespace Project.Runtime.ECS.Systems.Building
                     // Projectile & shooting
                     if (attackTower.ProjectileView)
                     {
-                        buildingEntity.SetComponent(new AttackProjectileData
+                        buildingEntity.SetComponent(new ProjectileData
                         {
                             EntityView = attackTower.ProjectileView,
                             ProjectileSpeed = attackTower.ProjectileSpeed,
@@ -393,6 +393,20 @@ namespace Project.Runtime.ECS.Systems.Building
                         buildingEntity.SetComponent(new ShootPoint
                         {
                             Value = ((AttackTowerView)view).ShootPoint
+                        });
+                    }
+                    if (attackTower.ShootVfx)
+                    {
+                        buildingEntity.SetComponent(new ShootVfx
+                        {
+                            Value = attackTower.ShootVfx
+                        });
+                    }
+                    if (attackTower.HitVfx)
+                    {
+                        buildingEntity.SetComponent(new HitVfx
+                        {
+                            Value = attackTower.HitVfx
                         });
                     }
                     

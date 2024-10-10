@@ -34,6 +34,12 @@ namespace Project.Runtime.ECS.Extensions
         }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 ViewRealModelPosition(this Entity entity)
+        {
+            return entity.GetComponent<ViewEntity>().Value.RealModelPosition.position;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T InstantiateView<T>(this Entity forEntity, EntityView view, Vector3 position, Quaternion quaternion)
             where T : EntityView
         {

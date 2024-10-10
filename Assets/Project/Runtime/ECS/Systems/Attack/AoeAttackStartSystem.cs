@@ -54,7 +54,7 @@ namespace Project.Runtime.ECS.Systems.Attack
                     continue;
                 }
                 
-                ref readonly var projectileParams = ref entity.GetComponent<AttackProjectileData>();
+                ref readonly var projectileParams = ref entity.GetComponent<ProjectileData>();
                 ref readonly var attackCooldownRuntime = ref entity.GetComponent<AttackCooldownRuntime>().Value;
                 ref readonly var attackDamageRuntime = ref entity.GetComponent<AttackDamageRuntime>().Value;
                 var shootPoint = entity.GetComponent<ShootPoint>().Value.position;
@@ -107,16 +107,15 @@ namespace Project.Runtime.ECS.Systems.Attack
                         Value = entity.GetComponent<DelayToPerformAttack>().Value 
                     });
                 }
-
-                SpawnVfx(entity, shootPoint);
-            }
-        }
-
-        private void SpawnVfx(in Entity entity, in Vector3 shootPoint)
-        {
-            if (entity.Has<CannonTowerTag>())
-            {
-                VfxPool.Spawn(_vfxSetup.CannonShootImpactVfx, shootPoint);
+                
+                if (entity.Has<ShootVfx>())
+                {
+                    aoeCastEntity.SetComponent(entity.GetComponent<ShootVfx>());
+                }
+                if (entity.Has<HitVfx>())
+                {
+                    aoeCastEntity.SetComponent(entity.GetComponent<HitVfx>());
+                }
             }
         }
 

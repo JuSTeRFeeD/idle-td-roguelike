@@ -23,7 +23,7 @@ namespace Project.Runtime.ECS.Systems.Enemies
                 .With<AttackRangeRuntime>()
                 .With<AttackCooldownRuntime>()
                 .Without<IsAttackOnCooldown>()
-                .Without<AttackProjectileData>()
+                .Without<ProjectileData>()
                 .Build();
         }
 

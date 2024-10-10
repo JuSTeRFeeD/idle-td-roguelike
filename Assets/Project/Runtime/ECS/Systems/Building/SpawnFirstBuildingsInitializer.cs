@@ -82,8 +82,9 @@ namespace Project.Runtime.ECS.Systems.Building
                 .Where(i => 
                     i.Value is null && 
                     !_excludePoints.Contains(i.Key) &&
-                    // AStarPathfindingSystem.GetNeighbors(i.Key, _mapManager.MapSize, propConfig.Size).All(neightbor => neightbor != i.Key) && 
+                    !IsBorderPoint(i.Key) &&
                     BuildingCanBePlacedOnGridPos(i.Key, propConfig.Size)
+                    // AStarPathfindingSystem.GetNeighbors(i.Key, _mapManager.MapSize, propConfig.Size).All(neightbor => neightbor != i.Key) && 
                 )
                 .ToList();
             
@@ -105,6 +106,14 @@ namespace Project.Runtime.ECS.Systems.Building
             }
         }
 
+        private bool IsBorderPoint(Vector2Int point)
+        {
+            return point.x == _mapManager.MapSize - 1 || 
+                   point.x == 0 || 
+                   point.y == 0 ||
+                   point.y == _mapManager.MapSize - 1;
+        }
+        
         private void SpawnResources()
         {
             // Список возможных точек куда можно разместить ресурс
@@ -112,7 +121,8 @@ namespace Project.Runtime.ECS.Systems.Building
                 .Select(i => i)
                 .Where(i => 
                     i.Value is null && 
-                    !_excludePoints.Contains(i.Key) // &&
+                    !_excludePoints.Contains(i.Key) &&
+                    !IsBorderPoint(i.Key)
                     // AStarPathfindingSystem.GetNeighbors(i.Key, _mapManager.MapSize, 1).All(neightbor => neightbor != i.Key)
                 )
                 .ToList();

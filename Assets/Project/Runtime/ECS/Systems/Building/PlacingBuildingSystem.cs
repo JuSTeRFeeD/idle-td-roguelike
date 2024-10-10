@@ -100,10 +100,12 @@ namespace Project.Runtime.ECS.Systems.Building
                     _handsManager.SetIsCardDrag(false);
                     
                     TimeScale.SetNormalTimeScale();
+                    
                         
                     continue;
                 }
                     
+                _handsManager.PlayPutSound();
                 entity.SetComponent(new PlaceBuildingCardRequest());
             }
         }

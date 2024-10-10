@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Project.Runtime.Lobby.Missions.MissionsWithTimer;
 using Project.Runtime.Player;
 using Project.Runtime.Scriptable.Card;
 using Project.Runtime.Scriptable.Currency;
@@ -16,10 +17,13 @@ namespace Project.Runtime.Services.PlayerProgress
         public bool AutoUpgradeTowersChecked;
         
         public readonly Dictionary<CurrencyConfig, Wallet> WalletByCurrency = new();
+        public event Action<Wallet> OnChangeWalletBalance;
         
         public List<CardSaveData> InventoryCards = new();
 
-        public event Action<Wallet> OnChangeWalletBalance;
+        public PlayerStatistics PlayerStatistics = new();
+        public MissionsSave DailyMissions;
+        public MissionsSave WeeklyMissions;
 
         public PersistentPlayerData(IEnumerable<CurrencyConfig> gameCurrencies)
         {

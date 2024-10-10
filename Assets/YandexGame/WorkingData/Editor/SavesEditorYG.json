@@ -1,0 +1,88 @@
+{
+  "idSave": 11,
+  "isFirstSession": false,
+  "language": "ru",
+  "promptDone": false,
+  "playerProgressData": {
+    "mapSave": "1,0|1,1|1|0|1,1|1,2|1|0|1,2|1,3|0|0|1,3|1,4|0|0|1,4|n|0|1",
+    "curMapPointIndex": 1,
+    "completedMapsCount": 0,
+    "autoUpgradeTowersChecked": true,
+    "balanceByCurrencyId": {
+      "keys": [
+        "4b444df0-fd59-4356-83cc-f9abe5c087a7",
+        "a72d4062-97dc-4e1b-9766-ff58bd32e543",
+        "d452f464-e5e9-402f-9d07-457f63c63728",
+        "31cd51f4-302f-4639-942b-160ef3470346",
+        "aa05279a-010e-4fed-b014-6edd6f1b8e6f",
+        "6d53bd9a-fe18-4360-9d3b-e1844016b974",
+        "c0585564-6f04-483d-b905-8b08c4224902",
+        "6267273d-8c18-4776-bc9c-49e105cde9dd"
+      ],
+      "values": [
+        0,
+        3275,
+        725,
+        7,
+        8,
+        0,
+        1,
+        0
+      ]
+    },
+    "inventoryCards": [
+      {
+        "id": "130b1aea-2e2a-4b8e-99da-3a0335e10c1d",
+        "isOpen": true,
+        "equippedAtSlot": 0,
+        "level": 0,
+        "amount": 0
+      },
+      {
+        "id": "945d886f-5dae-4672-be90-1925bd6ec556",
+        "isOpen": true,
+        "equippedAtSlot": 1,
+        "level": 0,
+        "amount": 0
+      },
+      {
+        "id": "1709d3d1-49ca-4bf8-88fe-ce61606c64c5",
+        "isOpen": true,
+        "equippedAtSlot": 2,
+        "level": 0,
+        "amount": 0
+      },
+      {
+        "id": "7fd66f83-511c-46d5-98cb-7cd642b78154",
+        "isOpen": true,
+        "equippedAtSlot": 3,
+        "level": 0,
+        "amount": 0
+      },
+      {
+        "id": "977a4872-56c0-447d-9a22-85f46cdc3b9f",
+        "isOpen": true,
+        "equippedAtSlot": -1,
+        "level": 0,
+        "amount": 1
+      },
+      {
+        "id": "ef4d5bd8-82ed-427c-ad35-b533b536b36e",
+        "isOpen": true,
+        "equippedAtSlot": -1,
+        "level": 0,
+        "amount": 3
+      },
+      {
+        "id": "da32a0fd-8587-4a1b-bd9d-a8486e9592ee",
+        "isOpen": false,
+        "equippedAtSlot": -1,
+        "level": 0,
+        "amount": 0
+      }
+    ],
+    "globalStatistics": null,
+    "dailyMissions": null,
+    "weeklyMissions": null
+  }
+}

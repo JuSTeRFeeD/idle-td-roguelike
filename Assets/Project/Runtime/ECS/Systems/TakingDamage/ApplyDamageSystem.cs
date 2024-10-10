@@ -36,7 +36,7 @@ namespace Project.Runtime.ECS.Systems.TakingDamage
             {
                 ref var healthCurrent = ref _healthCurrentStash.Get(entity).Value;
                 ref var damageAccumulator = ref _damageAccumulatorStash.Get(entity).Value;
-                
+
                 healthCurrent -= damageAccumulator;
                 
                 // TODO: чисто ради эксперимента посмотреть что будет быстрее:

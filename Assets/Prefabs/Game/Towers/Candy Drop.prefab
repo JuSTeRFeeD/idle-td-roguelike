@@ -14580,6 +14580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 814329e0143146ba94f6140cb5b1b296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  realModelPosition: {fileID: 4149696397559677241}
 --- !u!135 &6210688977357896423
 SphereCollider:
   m_ObjectHideFlags: 0

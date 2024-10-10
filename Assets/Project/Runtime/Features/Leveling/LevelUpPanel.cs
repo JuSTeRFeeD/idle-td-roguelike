@@ -5,7 +5,6 @@ using DG.Tweening;
 using Project.Runtime.Features.GameplayMenus;
 using Project.Runtime.Features.Widgets;
 using Project.Runtime.Scriptable.Card;
-using TMPro;
 using UnityEngine;
 using VContainer;
 
@@ -15,6 +14,8 @@ namespace Project.Runtime.Features.Leveling
     {
         [Inject] private LevelUpCardsManager _levelUpCardsManager;
         
+        [SerializeField] private AudioSource audioSource;
+        [SerializeField] private AudioClip levelUpSound;
         [SerializeField] private List<CardWidget> cards = new();
 
         public event Action<CardConfig> OnCardSelect; 
@@ -56,6 +57,8 @@ namespace Project.Runtime.Features.Leveling
         
         public override void Show()
         {
+            audioSource.PlayOneShot(levelUpSound);
+            
             var idx = 0;
             var cardsToShow = _levelUpCardsManager.GetRandomCard();
             foreach (var card in cards)

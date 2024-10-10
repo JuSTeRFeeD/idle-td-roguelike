@@ -1,4 +1,5 @@
 using Project.Runtime.ECS.Components;
+using Project.Runtime.ECS.Extensions;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Helpers;
 
@@ -35,6 +36,11 @@ namespace Project.Runtime.ECS.Systems.Projectile
                 {
                     EstimateTime = 0.2f // to complete animations on this view (ex: trails)
                 });
+
+                if (entity.Has<HitVfx>())
+                {
+                    VfxPool.Spawn(entity.GetComponent<HitVfx>().Value, hitEntity.ViewRealModelPosition());
+                }
             }
         }
 
