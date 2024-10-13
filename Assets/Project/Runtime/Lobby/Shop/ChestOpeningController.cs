@@ -112,7 +112,7 @@ namespace Project.Runtime.Lobby.Shop
             foreach (var (currencyConfig, value) in amountByCurrency)
             {
                 // saving
-                _persistentPlayerData.WalletByCurrency[currencyConfig].Add(value);
+                _persistentPlayerData.WalletByCurrency[currencyConfig].Add((ulong)value);
                     
                 // preview set
                 _dropItems[_totalDroppedItemsCount].inventoryItemView.SetCurrencyData(currencyConfig, value);

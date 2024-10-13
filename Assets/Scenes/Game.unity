@@ -4492,7 +4492,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4721a02d13b204939a62463b27b33365, type: 3}
+  m_Sprite: {fileID: 21300000, guid: da5db72ec48e840799f4a20440277192, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7328,6 +7328,9 @@ MonoBehaviour:
   canvasGroup: {fileID: 1566200758}
   animator: {fileID: 1566200759}
   winLoseTitleText: {fileID: 743384429}
+  winLoseBackgroundImage: {fileID: 1038617268}
+  winSprite: {fileID: 21300000, guid: 4721a02d13b204939a62463b27b33365, type: 3}
+  loseSprite: {fileID: 21300000, guid: da5db72ec48e840799f4a20440277192, type: 3}
   itemsGridLayoutGroup: {fileID: 770995901}
   items:
   - {fileID: 1490380581141903778}

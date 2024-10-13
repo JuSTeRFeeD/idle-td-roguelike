@@ -40,13 +40,13 @@ namespace Project.Runtime.Lobby.Shop
             switch (shopItemConfig.GiveOnBuy)
             {
                 case ShopGiveOnBuy.CommonChest:
-                    _persistentPlayerData.WalletByCurrency[commonChestCurrencyConfig].Add(shopItemConfig.Amount);
+                    _persistentPlayerData.WalletByCurrency[commonChestCurrencyConfig].Add((ulong)shopItemConfig.Amount);
                     break;
                 case ShopGiveOnBuy.EpicChest:
-                    _persistentPlayerData.WalletByCurrency[epicChestCurrencyConfig].Add(shopItemConfig.Amount);
+                    _persistentPlayerData.WalletByCurrency[epicChestCurrencyConfig].Add((ulong)shopItemConfig.Amount);
                     break;
                 case ShopGiveOnBuy.HardCurrency:
-                    _persistentPlayerData.WalletByCurrency[hardCurrencyConfig].Add(shopItemConfig.Amount);
+                    _persistentPlayerData.WalletByCurrency[hardCurrencyConfig].Add((ulong)shopItemConfig.Amount);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

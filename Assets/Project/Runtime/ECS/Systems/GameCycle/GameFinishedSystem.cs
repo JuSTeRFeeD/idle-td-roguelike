@@ -115,7 +115,7 @@ namespace Project.Runtime.ECS.Systems.GameCycle
             currencyDrops = dropChancesConfig.GetRandomCurrencyDrops();
             foreach (var currencyDrop in currencyDrops)
             {
-                _persistentPlayerData.WalletByCurrency[currencyDrop.currencyConfig].Add(currencyDrop.amount);
+                _persistentPlayerData.WalletByCurrency[currencyDrop.currencyConfig].Add((ulong)currencyDrop.amount);
             }
             
             if (Random.Range(0, 1f) > 0.6f) // 40% chance to get tower at the end of game

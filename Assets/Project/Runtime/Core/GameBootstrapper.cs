@@ -31,8 +31,6 @@ namespace Project.Runtime.Core
                 yield return null;
             }
             
-            _saveManager.Load();
-            
             _playerDeck.InitializeAfterLoadSaves(_cardsDatabase);
             
             StartCoroutine(_sceneLoader.LoadSceneAsync("Lobby"));

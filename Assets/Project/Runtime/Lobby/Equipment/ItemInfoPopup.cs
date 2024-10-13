@@ -71,7 +71,7 @@ namespace Project.Runtime.Lobby.Equipment
             var amountToUpgrade = UpgradeConstants.GetAmountToUpgrade(_deckCard);
             var softCurrencyCost = UpgradeConstants.GetUpgradeCost(_deckCard);
             if (_deckCard.CardSaveData.amount >= amountToUpgrade &&
-                _persistentPlayerData.WalletByCurrency[useCurrencyConfigForUpgrade].Take(softCurrencyCost))
+                _persistentPlayerData.WalletByCurrency[useCurrencyConfigForUpgrade].Take((ulong)softCurrencyCost))
             {
                 _deckCard.CardSaveData.level++;
                 _deckCard.CardSaveData.amount -= amountToUpgrade;
@@ -111,7 +111,7 @@ namespace Project.Runtime.Lobby.Equipment
             amountText.SetText($"{deckCard.CardSaveData.amount}<size=80%>/{amountToUpgrade}");
             upgradeFrame.gameObject.SetActive(deckCard.CardSaveData.amount >= amountToUpgrade);
             softCurrencyUpgradeCostText.SetText($"{upgradeSoftCurrencyCost}");
-            upgradeButton.interactable = _persistentPlayerData.WalletByCurrency[useCurrencyConfigForUpgrade].Has(upgradeSoftCurrencyCost);
+            upgradeButton.interactable = _persistentPlayerData.WalletByCurrency[useCurrencyConfigForUpgrade].Has((ulong)upgradeSoftCurrencyCost);
             if (upgradeButton.interactable)
             {
                 _sequence = DOTween.Sequence()

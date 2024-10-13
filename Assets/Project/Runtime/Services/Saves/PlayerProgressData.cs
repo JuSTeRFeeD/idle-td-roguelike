@@ -16,7 +16,7 @@ namespace Project.Runtime.Services.Saves
 
         public bool autoUpgradeTowersChecked;
         
-        public DictionarySerializeContainer<string, int> balanceByCurrencyId = new();
+        public DictionarySerializeContainer<string, ulong> balanceByCurrencyId = new();
         
         public List<CardSaveData> inventoryCards = new();
 

@@ -48,13 +48,13 @@ namespace Project.Runtime.Lobby.Shop
             switch (chestType)
             {
                 case ChestType.Common:
-                    if (!_persistentPlayerData.GetWalletByCurrencyId(commonChestCurrencyConfig.uniqueID).Take(amount))
+                    if (!_persistentPlayerData.GetWalletByCurrencyId(commonChestCurrencyConfig.uniqueID).Take((ulong)amount))
                     {
                         return;
                     }
                     break;
                 case ChestType.Epic:
-                    if (!_persistentPlayerData.GetWalletByCurrencyId(epicChestCurrencyConfig.uniqueID).Take(amount))
+                    if (!_persistentPlayerData.GetWalletByCurrencyId(epicChestCurrencyConfig.uniqueID).Take((ulong)amount))
                     {
                         return;
                     }
@@ -71,7 +71,7 @@ namespace Project.Runtime.Lobby.Shop
 
         private void RefreshCurrency()
         {
-            var amount = 0;
+            ulong amount = 0;
             string title;
             switch (chestType)
             {

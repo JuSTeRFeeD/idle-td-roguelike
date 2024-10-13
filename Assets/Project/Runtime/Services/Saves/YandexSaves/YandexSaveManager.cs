@@ -3,6 +3,7 @@ using Project.Runtime.Core;
 using Project.Runtime.Core.Data;
 using Project.Runtime.Player;
 using Project.Runtime.Services.PlayerProgress;
+using UnityEngine;
 using VContainer;
 using YG;
 
@@ -25,6 +26,8 @@ namespace Project.Runtime.Services.Saves.YandexSaves
         
         public void Save()
         {
+            Debug.Log("SAVE");
+            
             var data = YandexGame.savesData.playerProgressData;
             
             // Map
@@ -37,13 +40,12 @@ namespace Project.Runtime.Services.Saves.YandexSaves
             
             // Balance
             data.balanceByCurrencyId?.Clear();
-            var balanceDict = new Dictionary<string, int> ();
+            var balanceDict = new Dictionary<string, ulong> ();
             foreach (var (key, value) in _persistentPlayerData.WalletByCurrency)
             {
                 balanceDict.Add(key.uniqueID, value.Balance);
             }
-            data.balanceByCurrencyId =
-                new DictionarySerializeContainer<string, int>(balanceDict);
+            data.balanceByCurrencyId = new DictionarySerializeContainer<string, ulong>(balanceDict);
             
             // Inventory
             data.inventoryCards = _persistentPlayerData.InventoryCards;
@@ -57,6 +59,8 @@ namespace Project.Runtime.Services.Saves.YandexSaves
 
         public void Load()
         {
+            Debug.Log("LOAD");
+            
             var data = YandexGame.savesData.playerProgressData;
             
             // Map

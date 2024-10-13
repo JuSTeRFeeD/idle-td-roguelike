@@ -4,6 +4,7 @@ namespace Project.Runtime.Features
     {
         public static string FormatValue(this int value) => ((double)value).FormatValue();
         public static string FormatValue(this float value) => ((double)value).FormatValue();
+        public static string FormatValue(this ulong value) => ((double)value).FormatValue();
         public static string FormatValue(this double value)
         {
             return value switch

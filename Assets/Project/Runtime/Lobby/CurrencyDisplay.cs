@@ -39,7 +39,7 @@ namespace Project.Runtime.Lobby
             if (_wallet != null) _wallet.OnChange -= OnChangeBalance;
         }
 
-        private void OnChangeBalance(int prevBalance, int newBalance)
+        private void OnChangeBalance(ulong prevBalance, ulong newBalance)
         {
             valueText.SetText(newBalance.FormatValue());
         }

@@ -23,6 +23,9 @@ namespace Project.Runtime.Features.GameplayMenus
         [SerializeField] private Animator animator;
         [Space]
         [SerializeField] private TextMeshProUGUI winLoseTitleText;
+        [SerializeField] private Image winLoseBackgroundImage;
+        [SerializeField] private Sprite winSprite;
+        [SerializeField] private Sprite loseSprite;
         [Title("Inv")] 
         [SerializeField] private GridLayoutGroup itemsGridLayoutGroup;
         [SerializeField] private List<InventoryItemView> items;
@@ -50,6 +53,7 @@ namespace Project.Runtime.Features.GameplayMenus
         {
             _isWin = isWin;
             winLoseTitleText.SetText(_isWin ? "Победа!" : "Поражение");
+            winLoseBackgroundImage.sprite = _isWin ? winSprite : loseSprite;
         }
         
         public override void Show()
@@ -61,6 +65,7 @@ namespace Project.Runtime.Features.GameplayMenus
             }
             
             base.Show();
+            nextButton.interactable = false;
             _animRoutine = StartCoroutine(Animate());
         }
 
@@ -72,11 +77,11 @@ namespace Project.Runtime.Features.GameplayMenus
                 .DOFade(1f, 0.35f)
                 .SetDelay(delay)
                 .SetLink(gameObject);
-
-            animator.SetTrigger(Play);
             
             yield return new WaitForSeconds(delay + 0.8f);
+            animator.SetTrigger(Play);
             
+            yield return new WaitForSeconds(2f);
             _itemsSequence = DOTween.Sequence().SetLink(gameObject);
             for (var index = 0; index < items.Count; index++)
             {
@@ -84,6 +89,9 @@ namespace Project.Runtime.Features.GameplayMenus
                 _itemsSequence.Join(inventoryItemView.transform.DOScale(1f, 0.15f).SetEase(Ease.OutBack));
                 _itemsSequence.AppendInterval(index * 0.02f);
             }
+
+            yield return new WaitForSeconds(1f);
+            nextButton.interactable = true;
         }
 
         private void ToTheLobby()
@@ -106,6 +114,7 @@ namespace Project.Runtime.Features.GameplayMenus
                 inventoryItemView.transform.localScale = Vector3.one;
             }
             animator.SetTrigger(Skip);
+            nextButton.interactable = true;
         }
 
         public void SetStatistics(int totalPlacedTowers, int totalDamageDealt, int totalKilledEnemies)

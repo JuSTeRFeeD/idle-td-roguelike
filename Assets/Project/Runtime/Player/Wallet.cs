@@ -5,10 +5,10 @@ namespace Project.Runtime.Player
 {
     public class Wallet
     {
-        public int Balance { get; private set; }
+        public ulong Balance { get; private set; } = 0;
         
         /// prev, new 
-        public event Action<int, int> OnChange;
+        public event Action<ulong, ulong> OnChange;
 
         public readonly CurrencyConfig CurrencyConfig;
 
@@ -17,18 +17,18 @@ namespace Project.Runtime.Player
             CurrencyConfig = currencyConfig;
         }
         
-        public void Add(int amount)
+        public void Add(ulong amount)
         {
             Balance += amount;
             OnChange?.Invoke(Balance - amount, Balance);
         }
 
-        public bool Has(int amount)
+        public bool Has(ulong amount)
         {
             return Balance >= amount;
         }
 
-        public bool Take(int amount)
+        public bool Take(ulong amount)
         {
             if (!Has(amount)) return false;
             Balance -= amount;
