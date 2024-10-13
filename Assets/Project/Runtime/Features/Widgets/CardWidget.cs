@@ -1,23 +1,21 @@
 using System;
-using DG.Tweening;
 using Project.Runtime.Scriptable.Card;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Project.Runtime.Features.Widgets
+namespace Runtime.Features.Widgets
 {
-    public class CardWidget : MonoBehaviour, IPointerClickHandler, IDragHandler, IBeginDragHandler
+    public class CardWidget : MonoBehaviour, IPointerClickHandler, IDragHandler, IBeginDragHandler, IPointerEnterHandler, IPointerExitHandler
     {
+        [SerializeField] private Image backgroundImage;
         [SerializeField] private Image iconImage;
         [SerializeField] private TextMeshProUGUI cardTitleText;
         [SerializeField] private TextMeshProUGUI descriptionText;
         [SerializeField] private TextMeshProUGUI shortInfoText;
         [Space]
         [SerializeField] private Image[] pointsImages;
-        [SerializeField] private Sprite emptyPointSprite;
-        [SerializeField] private Sprite filledPointSprite;
 
         public int Id { get; private set; }
         public CardConfig CardConfig { get; private set; }
@@ -58,8 +56,7 @@ namespace Project.Runtime.Features.Widgets
             var i = 0;
             for (; i < pointsImages.Length; i++)
             {
-                pointsImages[i].enabled = true;
-                pointsImages[i].sprite = points > i ? filledPointSprite : emptyPointSprite;
+                pointsImages[i].enabled = points > i;
             }
         }
 
@@ -76,6 +73,16 @@ namespace Project.Runtime.Features.Widgets
         public void OnBeginDrag(PointerEventData eventData)
         {
             OnDragCardStart?.Invoke(this, eventData);
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            backgroundImage.color = new Color(.8f, .8f, .8f, 1f);
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            backgroundImage.color = Color.white;
         }
     }
 }

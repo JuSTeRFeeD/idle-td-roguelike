@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ShowUniqueId>k__BackingField: 0
   uniqueID: 4b444df0-fd59-4356-83cc-f9abe5c087a7
-  iconSprite: {fileID: 21300000, guid: f0063658666024c428b885496313463e, type: 3}
+  iconSprite: {fileID: 21300000, guid: 0e6005f309cbb4bce838c4e164a2aab2, type: 3}
   currencyName: Hard
   initialBalance: 0
   rarity: 4

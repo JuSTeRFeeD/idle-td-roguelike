@@ -4,6 +4,7 @@ using Project.Runtime.Features.CameraControl;
 using Project.Runtime.Features.GameplayMenus;
 using Project.Runtime.Features.TimeManagement;
 using Project.Runtime.Lobby.Map;
+using Project.Runtime.Player;
 using Project.Runtime.Scriptable.Card;
 using Project.Runtime.Scriptable.Shop;
 using Project.Runtime.Services.PlayerProgress;
@@ -36,8 +37,12 @@ namespace Project.Runtime.ECS.Systems.GameCycle
             _gameFinishedFilter = World.Filter
                 .With<GameFinishedTag>()
                 .Build();
+            
             _statisticsFilter = World.Filter
                 .With<StatisticTag>()
+                .With<TotalPlacedTowersStatistic>()
+                .With<TotalDealtDamageStatistic>()
+                .With<TotalKilledEnemiesStatistic>()
                 .Build();
         }
 
@@ -56,18 +61,35 @@ namespace Project.Runtime.ECS.Systems.GameCycle
                 
                 // Drops
                 GenerateAndGiveDrops(isWin, out var randomCardDrop, out var currencyDrops);
-
+                
+                // Stats
+                var statisticsFilter = _statisticsFilter.First();
+                ref readonly var placedTowers = ref statisticsFilter.GetComponent<TotalPlacedTowersStatistic>().Value; 
+                ref readonly var dealtDamage = ref statisticsFilter.GetComponent<TotalDealtDamageStatistic>().Value; 
+                ref readonly var killedEnemies = ref statisticsFilter.GetComponent<TotalKilledEnemiesStatistic>().Value; 
+                
+                Debug.Log("Stats");
+                Debug.Log($"placedTowers {placedTowers}");
+                Debug.Log($"dealtDamage {dealtDamage}");
+                Debug.Log($"killedEnemies {killedEnemies}");
+                
+                if (isWin) _persistentPlayerData.PlayerStatistics.AddStatistics(GlobalStatisticsType.CompletedLevels);
+                _persistentPlayerData.PlayerStatistics.AddStatistics(GlobalStatisticsType.PlacedTowers, placedTowers);
+                _persistentPlayerData.PlayerStatistics.AddStatistics(GlobalStatisticsType.KilledUnits, killedEnemies);
+                _persistentPlayerData.PlayerStatistics.AddStatistics(GlobalStatisticsType.DealtDamage, dealtDamage);
+                
                 _saveManager.Save();
                 
-                var statisticsFilter = _statisticsFilter.First();
+                // Setup end game panel
                 _gameFinishedPanel.SetDrops(currencyDrops, randomCardDrop);
                 _gameFinishedPanel.SetStatistics(
-                    statisticsFilter.GetComponent<TotalPlacedTowersStatistic>().Value,
-                    statisticsFilter.GetComponent<TotalDealtDamageStatistic>().Value, 
-                    statisticsFilter.GetComponent<TotalKilledEnemiesStatistic>().Value);
+                    placedTowers,
+                    dealtDamage, 
+                    killedEnemies);
                 _gameFinishedPanel.SetIsWin(isWin);
                 _gameFinishedPanel.Show();
 
+                // Stop world
                 _cameraController.SetPosition(new Vector3(31, 0, 31));
                 World.UpdateByUnity = false;
                 TimeScale.OverrideNormalTimeScale(1f);
@@ -96,7 +118,7 @@ namespace Project.Runtime.ECS.Systems.GameCycle
                 _persistentPlayerData.WalletByCurrency[currencyDrop.currencyConfig].Add(currencyDrop.amount);
             }
             
-            if (Random.Range(0, 1f) > 0.65f) // 35% chance to get tower at the end of game
+            if (Random.Range(0, 1f) > 0.6f) // 40% chance to get tower at the end of game
             {
                 randomCardDrop = dropChancesConfig.GetRandomCard();
                 _persistentPlayerData.AddCardAmountToInventory(randomCardDrop);

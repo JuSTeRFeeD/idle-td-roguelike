@@ -5,6 +5,7 @@ using DG.Tweening;
 using Project.Runtime.Features.GameplayMenus;
 using Project.Runtime.Features.Widgets;
 using Project.Runtime.Scriptable.Card;
+using Runtime.Features.Widgets;
 using UnityEngine;
 using VContainer;
 

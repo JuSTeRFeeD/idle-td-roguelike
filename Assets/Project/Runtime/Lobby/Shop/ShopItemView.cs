@@ -11,6 +11,7 @@ namespace Project.Runtime.Lobby.Shop
     {
         [SerializeField] private ShopItemConfig shopItemConfig;
         [Space]
+        [SerializeField] private Image itemIcon;
         [SerializeField] private TextMeshProUGUI priceText;
         [SerializeField] private TextMeshProUGUI titleText;
         [SerializeField] private Image currencyImage;
@@ -26,6 +27,7 @@ namespace Project.Runtime.Lobby.Shop
         
         private void Start()
         {
+            // itemIcon.sprte = shopItemConfig.
             titleText.SetText($"{shopItemConfig.Title} x{shopItemConfig.Amount}");
             priceText.SetText($"{shopItemConfig.Price}");
             currencyImage.sprite = shopItemConfig.PriceType switch

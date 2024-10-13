@@ -77,6 +77,8 @@ namespace Project.Runtime.Lobby.Equipment
                 _deckCard.CardSaveData.amount -= amountToUpgrade;
                 SetDeckCard(_deckCard);
                 
+                _persistentPlayerData.PlayerStatistics.AddStatistics(GlobalStatisticsType.UpgradedTowers);
+                
                 _saveManager.Save();
 
                 levelText.transform.DOKill(true);

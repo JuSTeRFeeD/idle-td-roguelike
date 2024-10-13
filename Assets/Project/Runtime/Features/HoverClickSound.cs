@@ -18,7 +18,7 @@ namespace Project.Runtime.Features
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (pointerClick) _source.PlayOneShot(pointerClick);
+            if (pointerClick) _source.PlayOneShot(pointerClick, 0.5f);
         }
 
         public void OnPointerEnter(PointerEventData eventData)

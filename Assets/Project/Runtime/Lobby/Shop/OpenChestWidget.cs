@@ -87,7 +87,7 @@ namespace Project.Runtime.Lobby.Shop
                     throw new ArgumentOutOfRangeException();
             }
 
-            titleText.SetText($"{title} (Доступно {amount})");
+            titleText.SetText($"{title}\n(Доступно {amount})");
             openButton.interactable = amount > 0;
             openX5Button.gameObject.SetActive(amount >= 5);            
         }

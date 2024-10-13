@@ -61,7 +61,7 @@ namespace Project.Runtime.ECS.Systems.Player
         {
             var entity = World.CreateEntity();
             entity.AddComponent<StatisticTag>();
-            entity.AddComponent<TotalPlacedTowersStatistic>();
+            entity.SetComponent(new TotalPlacedTowersStatistic { Value = 0});
             entity.AddComponent<TotalDealtDamageStatistic>();
             entity.AddComponent<TotalKilledEnemiesStatistic>();
             entity.AddComponent<TotalKilledGroundEnemiesStatistic>();

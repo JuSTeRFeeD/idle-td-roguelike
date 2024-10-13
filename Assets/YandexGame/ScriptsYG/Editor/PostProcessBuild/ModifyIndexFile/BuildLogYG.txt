@@ -1,2 +1,2 @@
-Build path: D:/Projects/Unity/My/idler/Builds/WebGL/0.0.10td
-Build number: 1
+Build path: D:/Projects/Unity/My/idler/Builds/WebGL/0.0.11td
+Build number: 2

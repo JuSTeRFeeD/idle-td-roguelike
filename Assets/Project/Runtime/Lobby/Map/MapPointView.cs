@@ -1,16 +1,15 @@
 using System;
+using Project.Runtime.Lobby.Map;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Project.Runtime.Lobby.Map
+namespace Runtime.Lobby.Map
 {
     public class MapPointView : MonoBehaviour, IPointerClickHandler
     {
-        [SerializeField] private Image pointImage;
         [SerializeField] private Image selectedImage;
-        [SerializeField] private Sprite completedPointSprite;
-        [SerializeField] private Sprite defaultPointSprite;
+        [SerializeField] private Image completedImage;
         [Space] 
         [SerializeField] private Image iconImage;
         [SerializeField] private Sprite bossIconSprite;
@@ -46,7 +45,7 @@ namespace Project.Runtime.Lobby.Map
         
         public void SetCompleted(bool isCompleted)
         {
-            pointImage.sprite = isCompleted ? completedPointSprite : defaultPointSprite;
+            completedImage.enabled = isCompleted;
         }
 
         public void SetSelected(bool value)

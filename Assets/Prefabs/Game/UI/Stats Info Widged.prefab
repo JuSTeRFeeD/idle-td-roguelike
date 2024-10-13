@@ -64,14 +64,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.37304202, g: 0.4997622, b: 0.7830189, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ea3448efb8df3744a80eb6f319d12ffa, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8618db974c2d8471f8d4fbeec0f3697a, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -80,7 +80,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 2
 --- !u!114 &8813148548187273398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94,15 +94,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 16
-    m_Right: 16
-    m_Top: 22
-    m_Bottom: 16
+    m_Left: 6
+    m_Right: 6
+    m_Top: 12
+    m_Bottom: 6
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 319, y: 48}
-  m_Spacing: {x: 16, y: 16}
+  m_CellSize: {x: 181, y: 44}
+  m_Spacing: {x: 6, y: 6}
   m_Constraint: 0
   m_ConstraintCount: 2
 --- !u!114 &1233150420935287250
@@ -665,6 +665,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 3390806118df7cd4298031b750ae4b21,
         type: 2}
+    - target: {fileID: 1810569786958703972, guid: e3b6e37a19f349a47bdc94f665c267b3,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 1810569786958703972, guid: e3b6e37a19f349a47bdc94f665c267b3,
         type: 3}
       propertyPath: m_sharedMaterial

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Project.Runtime.Core;
 using Project.Runtime.Core.Data;
+using Project.Runtime.Player;
 using Project.Runtime.Services.PlayerProgress;
 using VContainer;
 using YG;
@@ -47,6 +48,10 @@ namespace Project.Runtime.Services.Saves.YandexSaves
             // Inventory
             data.inventoryCards = _persistentPlayerData.InventoryCards;
             
+            // Stats
+            data.globalStatistics = new DictionarySerializeContainer<GlobalStatisticsType, long>(
+                _persistentPlayerData.PlayerStatistics._globalStatistics);
+            
             YandexGame.SaveProgress();
         }
 
@@ -73,6 +78,12 @@ namespace Project.Runtime.Services.Saves.YandexSaves
 
             // Inventory
             _persistentPlayerData.InventoryCards = data.inventoryCards;
+            
+            // Stats
+            if (data.globalStatistics != null)
+            {
+                _persistentPlayerData.PlayerStatistics.Initialize(data.globalStatistics.ToDictionary());
+            }
         }
     }
 }

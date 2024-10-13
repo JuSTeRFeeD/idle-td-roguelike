@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Project.Runtime.Scriptable.Currency
@@ -5,6 +6,7 @@ namespace Project.Runtime.Scriptable.Currency
     [CreateAssetMenu(menuName = "Game/NewCurrency")]
     public class CurrencyConfig : UniqueConfig
     {
+        [PreviewField]
         [SerializeField] private Sprite iconSprite;
         [SerializeField] private string currencyName;
         [SerializeField] private int initialBalance;

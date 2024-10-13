@@ -19,7 +19,7 @@ namespace Project.Runtime.Lobby.Shop
         [SerializeField] private CurrencyConfig commonChestCurrencyConfig;
         [SerializeField] private CurrencyConfig epicChestCurrencyConfig;
         [SerializeField] private List<ShopItemView> shopItemViews;
-
+        
         private void Start()
         {
             foreach (var shopItemView in shopItemViews)

@@ -4,6 +4,7 @@ using Project.Runtime.ECS;
 using Project.Runtime.Scriptable.MapLevelConfigs;
 using Project.Runtime.Services.PlayerProgress;
 using Project.Runtime.Services.Saves;
+using Runtime.Lobby.Map;
 using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
@@ -35,8 +36,8 @@ namespace Project.Runtime.Lobby.Map
         {
             // Set enemies config for this run
             var selectedPoint = _sceneSharedData.MapPoints[_persistentPlayerData.CurMapPointIndex];
-            var height = _sceneSharedData.MapPoints[_persistentPlayerData.CurMapPointIndex].Position.y;
-            if (height == levelMapGenerator.Height)
+            var height = _sceneSharedData.MapPoints[_persistentPlayerData.CurMapPointIndex].Position.x;
+            if (height == levelMapGenerator.Width)
             {
                 _sceneSharedData.NightWavesConfig = _mapLevelConfig.GetBossConfig(_persistentPlayerData.CompletedMapsCount);
             }
@@ -63,20 +64,20 @@ namespace Project.Runtime.Lobby.Map
 
         private void InitMap()
         {
-            // cached
-            if (!_sceneSharedData.MapPoints.IsNullOrEmpty())
-            {
-                levelMapGenerator.LoadMap(_sceneSharedData.MapPoints);
-                InitSelectedPoint();
-                return;
-            }
-            // load
-            if (!string.IsNullOrEmpty(_persistentPlayerData.MapData))
-            {
-                levelMapGenerator.LoadMap(_persistentPlayerData.MapData);
-                InitSelectedPoint();
-                return;
-            }
+            // // cached
+            // if (!_sceneSharedData.MapPoints.IsNullOrEmpty())
+            // {
+            //     levelMapGenerator.LoadMap(_sceneSharedData.MapPoints);
+            //     InitSelectedPoint();
+            //     return;
+            // }
+            // // load
+            // if (!string.IsNullOrEmpty(_persistentPlayerData.MapData))
+            // {
+            //     levelMapGenerator.LoadMap(_persistentPlayerData.MapData);
+            //     InitSelectedPoint();
+            //     return;
+            // }
             GenerateNewMap();
         }
 

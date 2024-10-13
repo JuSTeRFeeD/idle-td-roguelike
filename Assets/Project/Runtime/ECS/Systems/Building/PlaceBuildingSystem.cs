@@ -95,8 +95,6 @@ namespace Project.Runtime.ECS.Systems.Building
                     var changeEvent = World.CreateEntity();
                     changeEvent.AddComponent<MapGridChangedOneFrame>();
                     changeEvent.AddComponent<GridPlacedTowerOneFrame>();
-
-                    _statisticsFilter.First().GetComponent<TotalPlacedTowersStatistic>().Value++;
                     
                     view = _mapManager.PutBuilding(
                         placingBuilding.BuildingConfig, 
@@ -114,6 +112,7 @@ namespace Project.Runtime.ECS.Systems.Building
 
                     if (!isSystemAction)
                     {
+                        _statisticsFilter.First().GetComponent<TotalPlacedTowersStatistic>().Value++;
                         VfxPool.Spawn(_vfxSetup.PutTowerVfx, view.transform.position);
                     }
                 }

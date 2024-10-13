@@ -5,7 +5,7 @@ namespace Project.Runtime.Services.PlayerProgress
 {
     public class PlayerStatistics
     {
-        private Dictionary<GlobalStatisticsType, long> _globalStatistics = new();
+        public Dictionary<GlobalStatisticsType, long> _globalStatistics = new();
 
         public void Initialize(Dictionary<GlobalStatisticsType, long> statistics)
         {
@@ -17,7 +17,7 @@ namespace Project.Runtime.Services.PlayerProgress
             return _globalStatistics.GetValueOrDefault(type, 0);
         }
         
-        public void AddStatistics(GlobalStatisticsType type, long amount)
+        public void AddStatistics(GlobalStatisticsType type, long amount = 1)
         {
             if (!_globalStatistics.TryAdd(type, amount))
             {

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Project.Runtime.ECS;
+using Runtime.Lobby.Map;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using VContainer;
@@ -11,14 +12,14 @@ namespace Project.Runtime.Lobby.Map
     public class LevelMapGenerator : MonoBehaviour
     {
         [Inject] private SceneSharedData _sceneSharedData;
-        
+
         [SerializeField] private GameObject pointPrefab;
         [SerializeField] private GameObject linePrefab;
         [SerializeField] private Transform gridParent;
         [SerializeField] private Transform lineParent;
         [Space]
-        [SerializeField] private int width = 3;
-        [SerializeField] private int height = 5;
+        [SerializeField] private int width = 5;
+        [SerializeField] private int height = 3;
         [SerializeField] private float cellSpace = 100f;
         [SerializeField] private float lineSize = 10f;
 
@@ -26,14 +27,14 @@ namespace Project.Runtime.Lobby.Map
         private float chanceToGenerateBranch = 0.6f;
 
         private MapPoint[,] _grid;
-        
+
         public readonly Dictionary<Vector2Int, MapPointView> _viewsByPosition = new();
 
-        private Vector2Int StartPos => new(width / 2, 0);
-        private Vector2Int EndPos => new(width / 2, height - 1);
+        private Vector2Int StartPos => new(0, height / 2);
+        private Vector2Int EndPos => new(width - 1, height / 2);
 
-        public int Height => height - 1;
-        
+        public int Width => width - 1;
+
         public void GenerateMap()
         {
             _sceneSharedData.MapPoints.Clear();
@@ -43,7 +44,7 @@ namespace Project.Runtime.Lobby.Map
             ConnectPointsWithLines();
         }
 
-        public void LoadMap(List<MapPoint> mapPoints) // from cache
+        public void LoadMap(List<MapPoint> mapPoints)
         {
             mapPoints[0].IsCanBeSelected = true;
             foreach (var mapPoint in mapPoints)
@@ -62,10 +63,10 @@ namespace Project.Runtime.Lobby.Map
             _grid = new MapPoint[width, height];
             ConnectPointsWithLines();
         }
-        
-        public void LoadMap(string data) // from save data
+
+        public void LoadMap(string data)
         {
-            _sceneSharedData.MapPoints.Clear();   
+            _sceneSharedData.MapPoints.Clear();
             _grid = new MapPoint[width, height];
             Deserialize(data);
             _sceneSharedData.MapPoints[0].IsCanBeSelected = true;
@@ -94,30 +95,31 @@ namespace Project.Runtime.Lobby.Map
             {
                 var possibleDirections = new List<Vector2Int>();
 
-                // Случайное направление если не верхняя линия
-                if (currentPosition.y < height - 1)
+                // Вправо (основное направление)
+                if (currentPosition.x < width - 1)
                 {
+                    possibleDirections.Add(Vector2Int.right);
+
+                    // Вверх по диагонали
+                    if (currentPosition.y < height - 1 && _grid[currentPosition.x + 1, currentPosition.y + 1] == null &&
+                        Random.Range(0, 1f) > 0.4f)
+                    {
+                        possibleDirections.Add(new Vector2Int(1, 1));
+                    }
+
+                    // Вниз по диагонали
+                    if (currentPosition.y > 0 && _grid[currentPosition.x + 1, currentPosition.y - 1] == null &&
+                        Random.Range(0, 1f) > 0.4f)
+                    {
+                        possibleDirections.Add(new Vector2Int(1, -1));
+                    }
+                }
+
+                // Дополнительные направления
+                if (currentPosition.y > 0 && _grid[currentPosition.x, currentPosition.y - 1] == null)
+                    possibleDirections.Add(Vector2Int.down);
+                if (currentPosition.y < height - 1 && _grid[currentPosition.x, currentPosition.y + 1] == null)
                     possibleDirections.Add(Vector2Int.up);
-
-                    // Влево
-                    if (currentPosition.x > 0 && _grid[currentPosition.x - 1, currentPosition.y] == null &&
-                        Random.Range(0, 1f) > 0.4f)
-                    {
-                        possibleDirections.Add(Vector2Int.left);
-                    }
-
-                    // Вправо
-                    if (currentPosition.x < width - 1 && _grid[currentPosition.x + 1, currentPosition.y] == null &&
-                        Random.Range(0, 1f) > 0.4f)
-                    {
-                        possibleDirections.Add(Vector2Int.right);
-                    }
-                }
-                else // Только в сторону end точки
-                {
-                    if (EndPos.x < currentPosition.x) possibleDirections.Add(Vector2Int.left); // Влево  
-                    if (EndPos.x > currentPosition.x) possibleDirections.Add(Vector2Int.right); // Вправо 
-                }
 
                 var chosenDirection = possibleDirections[Random.Range(0, possibleDirections.Count)];
                 currentPosition += chosenDirection;
@@ -128,21 +130,18 @@ namespace Project.Runtime.Lobby.Map
                 previousPoint = newPoint;
             }
         }
-        
-        // Генерация ответвлений
+
         private void GenerateBranches()
         {
             var newBranches = new List<MapPoint>();
 
-            // ReSharper disable once ForCanBeConvertedToForeach
             for (var i = 0; i < _sceneSharedData.MapPoints.Count; i++)
             {
                 var cell = _sceneSharedData.MapPoints[i];
 
-                // Не нужно генерировать ответвления на старте и конце
                 if (cell.Position == StartPos || cell.Position == EndPos) continue;
 
-                if (Random.value > 1f - chanceToGenerateBranch) // Шанс на создание ответвления
+                if (Random.value > 1f - chanceToGenerateBranch)
                 {
                     var possibleBranches = new List<Vector2Int>();
 
@@ -169,7 +168,6 @@ namespace Project.Runtime.Lobby.Map
             _sceneSharedData.MapPoints.AddRange(newBranches);
         }
 
-        // Создание объекта MapPoint и его отображения в UI
         private MapPoint CreateMapPoint(Vector2Int position, bool isBranch)
         {
             var type = GetPointMapPointType(position, isBranch);
@@ -193,14 +191,13 @@ namespace Project.Runtime.Lobby.Map
         {
             var pointObject = Instantiate(pointPrefab, gridParent);
             pointObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(
-                mapPoint.Position.x * cellSpace, 
+                mapPoint.Position.x * cellSpace,
                 mapPoint.Position.y * cellSpace);
             var pointView = pointObject.GetComponent<MapPointView>();
             _viewsByPosition.Add(mapPoint.Position, pointView);
             pointView.Link(mapPoint);
         }
 
-        // Соединение точек линиями
         private void ConnectPointsWithLines()
         {
             foreach (var point in _sceneSharedData.MapPoints)
@@ -212,7 +209,6 @@ namespace Project.Runtime.Lobby.Map
             }
         }
 
-        // Создание линии между двумя точками
         private void CreateLineBetweenPoints(MapPoint pointA, MapPoint pointB)
         {
             var startPosition = ((RectTransform)_viewsByPosition[pointA.Position].transform).anchoredPosition;
@@ -235,86 +231,69 @@ namespace Project.Runtime.Lobby.Map
             var sb = new StringBuilder();
             foreach (var point in mapPoints)
             {
-                sb.Append($"{point.Position.x},{point.Position.y}|"); // Сериализация позиции
-        
-                // Сериализуем соседей, если они есть
+                sb.Append($"{point.Position.x},{point.Position.y}|");
+
                 if (point.NeighborPositions.Count > 0)
                 {
                     sb.Append(string.Join(";", point.NeighborPositions.Select(np => $"{np.x},{np.y}")));
                 }
                 else
                 {
-                    sb.Append("n"); // 'n' укажет, что нет соседей
+                    sb.Append("n");
                 }
 
                 sb.Append("|");
-                sb.Append(point.IsCompleted ? "1" : "0"); // Статус завершенности
+                sb.Append(point.IsCompleted ? "1" : "0");
                 sb.Append("|");
-                sb.Append(point.PointType == MapPoint.MapPointType.Common ? "0" : "1"); // Main (0) / Bonus (1)
+                sb.Append(point.PointType == MapPoint.MapPointType.Common ? "0" : "1");
                 sb.Append("|");
             }
-            return sb.ToString().TrimEnd('|'); // Убираем последний символ |
+            return sb.ToString().TrimEnd('|');
         }
-
 
         private void Deserialize(string mapPointsString)
         {
             var mapPoints = new List<MapPoint>();
             var pointStrings = mapPointsString.Split('|');
-    
-            for (var i = 0; i < pointStrings.Length; i += 4) // Обрабатываем по 4 элемента на точку (позиция, соседи, завершение, тип)
-            {
-                // Позиция
-                var positionParts = pointStrings[i].Split(',');
-                var position = new Vector2Int(int.Parse(positionParts[0]), int.Parse(positionParts[1]));
 
-                // Соседи
-                var neighborPositions = new List<Vector2Int>();
-                if (pointStrings[i + 1] != "n")
+            for (var i = 0; i < pointStrings.Length; i += 4)
+            {
+                var positionData = pointStrings[i].Split(',');
+                var pointPosition = new Vector2Int(int.Parse(positionData[0]), int.Parse(positionData[1]));
+
+                var neighborsData = pointStrings[i + 1];
+                var isCompleted = pointStrings[i + 2] == "1";
+                var pointType = pointStrings[i + 3] == "0"
+                    ? MapPoint.MapPointType.Common
+                    : MapPoint.MapPointType.Boss;
+
+                var newPoint = new MapPoint(pointPosition, pointType) {IsCompleted = isCompleted};
+
+                if (neighborsData != "n")
                 {
-                    var neighbors = pointStrings[i + 1].Split(';');
+                    var neighbors = neighborsData.Split(';');
                     foreach (var neighbor in neighbors)
                     {
-                        var neighborParts = neighbor.Split(',');
-                        var neighborPosition = new Vector2Int(int.Parse(neighborParts[0]), int.Parse(neighborParts[1]));
-                        neighborPositions.Add(neighborPosition);
+                        var neighborData = neighbor.Split(',');
+                        var neighborPosition = new Vector2Int(int.Parse(neighborData[0]), int.Parse(neighborData[1]));
+                        newPoint.NeighborPositions.Add(neighborPosition);
                     }
                 }
 
-                // Статус завершенности
-                var isCompleted = pointStrings[i + 2] == "1";
-
-                // Тип точки (Common/Bonus/Boss)
-                var type = pointStrings[i + 3] switch
-                {
-                    "0" => MapPoint.MapPointType.Common,
-                    "1" => MapPoint.MapPointType.Bonus,
-                    "2" => MapPoint.MapPointType.Boss,
-                    _ => MapPoint.MapPointType.Common
-                };
-
-                // Создаем MapPoint
-                var mapPoint = CreateMapPoint(position, type == MapPoint.MapPointType.Bonus);
-                mapPoint.IsCompleted = isCompleted;
-                mapPoint.NeighborPositions.AddRange(neighborPositions);
-                _viewsByPosition[mapPoint.Position].SetCompleted(isCompleted);
-
-                mapPoints.Add(mapPoint);
+                mapPoints.Add(newPoint);
+                CreatePointView(newPoint);
             }
 
-            // Заполняем grid и настраиваем соседей
+            _sceneSharedData.MapPoints = mapPoints;
+
             foreach (var point in mapPoints)
             {
-                _grid[point.Position.x, point.Position.y] = point;
                 foreach (var neighborPosition in point.NeighborPositions)
                 {
-                    point.AddNeighbor(mapPoints.First(i => i.Position == neighborPosition));
+                    var neighbor = _sceneSharedData.MapPoints.Find(p => p.Position == neighborPosition);
+                    point.AddNeighbor(neighbor);
                 }
             }
-
-            _sceneSharedData.MapPoints.Clear();
-            _sceneSharedData.MapPoints.AddRange(mapPoints);
         }
-
     }
 }

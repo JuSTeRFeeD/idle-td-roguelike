@@ -7,6 +7,6 @@ namespace Project.Runtime.ECS
     public class SceneSharedData
     {
         public NightWavesConfig NightWavesConfig;
-        public readonly List<MapPoint> MapPoints = new();
+        public List<MapPoint> MapPoints = new();
     }
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using VContainer.Unity;
 
 namespace Project.Runtime.Core
@@ -11,7 +12,7 @@ namespace Project.Runtime.Core
     {
         private readonly LifetimeScope _currentScope;
         private readonly CanvasGroup _loadingCanvasGroup;
-        private const float FadeTime = 0.3f;
+        private const float FadeTime = 0.5f;
 
         public SceneLoader(LifetimeScope currentScope, CanvasGroup loadingCanvasGroup)
         {
