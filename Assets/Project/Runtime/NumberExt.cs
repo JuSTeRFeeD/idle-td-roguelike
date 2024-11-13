@@ -12,7 +12,7 @@ namespace Project.Runtime.Features
             {
                 >= 1000000 => (value / 1000000).ToString("#.#") + "М",
                 >= 1000 => (value / 1000).ToString("#.#") + "К",
-                _ => $"{(long)value}"
+                _ => $"{value:##.#}"
             };
         }
     }

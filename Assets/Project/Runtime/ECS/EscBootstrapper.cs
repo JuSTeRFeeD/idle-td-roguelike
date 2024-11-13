@@ -135,6 +135,7 @@ namespace Project.Runtime.ECS
             
             // Taking damage
             _commonSystemsGroup.AddSystem<MarkBuildingAsDamagedSystem>();
+            _commonSystemsGroup.AddSystem<ReturnOfReceivedDamageSystem>();
             _commonSystemsGroup.AddSystem<BombExplosionOnTakeDamageSystem>();
             _commonSystemsGroup.AddSystem<BaseTowerApplyDamageSystem>(); // will skip next system
             _commonSystemsGroup.AddSystem<DamagePopupSystem>();

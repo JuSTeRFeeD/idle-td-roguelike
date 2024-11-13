@@ -31,8 +31,8 @@ MonoBehaviour:
   - woodPrice: 21
     stonePrice: 22
   health:
-    min: 40
-    max: 110
+    min: 32
+    max: 128
   focusEnemyTypes: 0000000001000000
   attackTowerType: 4
   projectileView: {fileID: 221648314298367499, guid: 48c6e12c15568fb4cbf9917a3d9c79b5,
@@ -42,7 +42,7 @@ MonoBehaviour:
   hitVfx: {fileID: 0}
   projectileSpeed: 2
   damage:
-    min: 50
+    min: 80
     max: 550
   attackCooldown:
     min: 3

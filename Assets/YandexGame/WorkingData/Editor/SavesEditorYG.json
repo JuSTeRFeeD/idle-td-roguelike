@@ -1,11 +1,11 @@
 {
-  "idSave": 1265,
+  "idSave": 1485,
   "isFirstSession": false,
   "language": "ru",
   "promptDone": false,
   "playerProgressData": {
-    "mapSave": "0,1|0,0|1|0|0,0|1,0|0|0|1,0|2,1;1,1|0|0|2,1|3,2;2,2|0|0|3,2|4,2|0|0|4,2|4,1;5,2|0|0|4,1|5,0;4,0|0|0|5,0|5,1|0|0|5,1|n|0|2|1,1|n|0|1|2,2|n|0|1|5,2|n|0|1|4,0|n|0|1",
-    "curMapPointIndex": 1,
+    "mapSave": "0,1|0,0|1|0|0,0|1,0|1|0|1,0|2,1;1,1|0|0|2,1|3,2;2,2|0|0|3,2|4,2|0|0|4,2|4,1;5,2|0|0|4,1|5,0;4,0|0|0|5,0|5,1|0|0|5,1|n|0|2|1,1|n|0|1|2,2|n|0|1|5,2|n|0|1|4,0|n|0|1",
+    "curMapPointIndex": 2,
     "completedMapsCount": 0,
     "autoUpgradeTowersChecked": true,
     "balanceByCurrencyId": {
@@ -21,13 +21,13 @@
       ],
       "values": [
         0,
-        158,
+        277,
+        0,
+        1,
         0,
         0,
         0,
-        0,
-        0,
-        350
+        1000
       ]
     },
     "inventoryCards": [
@@ -57,7 +57,7 @@
         "isOpen": true,
         "equippedAtSlot": 3,
         "level": 0,
-        "amount": 0
+        "amount": 1
       },
       {
         "id": "977a4872-56c0-447d-9a22-85f46cdc3b9f",
@@ -71,7 +71,7 @@
         "isOpen": false,
         "equippedAtSlot": -1,
         "level": 0,
-        "amount": 0
+        "amount": 1
       },
       {
         "id": "da32a0fd-8587-4a1b-bd9d-a8486e9592ee",
@@ -91,22 +91,22 @@
         9
       ],
       "values": [
-        540,
-        1,
-        17,
-        832,
-        531813,
-        3
+        3006,
+        2,
+        44,
+        2403,
+        1725518,
+        6
       ]
     },
     "dailyMissions": {
       "startTime": 1731466641890,
       "missionIds": [
         "acd561f7-e260-41e5-b663-62206292546c",
+        "2f1d0b9e-8521-41b8-849b-8d17307250e2",
         "19cfdceb-3755-406f-86f2-d70ec2fb1a96",
         "388c780c-5f33-4f38-aff4-e335c87ebf0e",
         "824659a8-8307-4195-850f-e048fa27dabc",
-        "2f1d0b9e-8521-41b8-849b-8d17307250e2",
         "2ee4a9c3-6b01-4c0c-bc4d-de2d8ad78e42",
         "48e1bc4c-1629-415b-92aa-754a6c1b169b",
         "4e6024c4-8bea-41a6-a762-74aa1eb7f626"
@@ -124,9 +124,9 @@
       "completed": [
         false,
         false,
-        false,
-        false,
-        false,
+        true,
+        true,
+        true,
         true,
         true,
         true
@@ -134,9 +134,9 @@
       "rewarded": [
         false,
         false,
-        false,
-        false,
-        false,
+        true,
+        true,
+        true,
         true,
         true,
         true

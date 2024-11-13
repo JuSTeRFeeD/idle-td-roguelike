@@ -76,15 +76,19 @@ namespace Project.Runtime.ECS.Systems.Projectile
                     
                     // Spawn bounced projectile
                     var newProjectile = World.CreateEntity();
-                    newProjectile.InstantiateView(
-                    NightPool.GetPoolByClone(entity.GetComponent<ViewEntity>().Value).AttachedPrefab.GetComponent<EntityView>(), 
-                    projectilePos,
-                    Quaternion.identity);
+                    newProjectile.InstantiateView(NightPool.GetPoolByClone(entity.GetComponent<ViewEntity>().Value)
+                            .AttachedPrefab.GetComponent<EntityView>(), 
+                            projectilePos,
+                            Quaternion.identity
+                    );
                     newProjectile.AddComponent<ProjectileTag>();
                     newProjectile.SetComponent(entity.GetComponent<BouncingProjectile>());
                     newProjectile.SetComponent(entity.GetComponent<TrajectoryProjectile>());
                     newProjectile.SetComponent(entity.GetComponent<MoveSpeedRuntime>());
-                    newProjectile.SetComponent(entity.GetComponent<AttackDamageRuntime>());
+                    newProjectile.SetComponent(new AttackDamageRuntime
+                    {
+                        Value = entity.GetComponent<AttackDamageRuntime>().Value / 2
+                    });
                     newProjectile.SetComponent(new AttackTarget
                     {
                     Value = enemyEntity

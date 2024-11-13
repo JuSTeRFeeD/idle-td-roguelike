@@ -48,10 +48,12 @@ namespace Project.Runtime.ECS.Systems.Enemies
                 ref var damageAccum = ref attackTarget.AddOrGet<DamageAccumulator>();
                 damageAccum.Value += attackDamage;
                 damageAccum.DamagersAmount++;
+                damageAccum.Damagers ??= new Entity[UtilConstants.DamageAccumulatorDamagersCapacity];
+                damageAccum.Damagers[damageAccum.DamagersAmount] = entity;
                 
                 if (attackTarget.Has<BaseTowerTag>())
                 {
-                    // TODO: типо база ударила молнией этого энита
+                    // TODO[?]: типо база ударила молнией этого энита?
                     entity.SetComponent(new ToDestroyTag());
                 }
             }

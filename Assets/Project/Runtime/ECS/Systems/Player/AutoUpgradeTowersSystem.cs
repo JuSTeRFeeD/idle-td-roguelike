@@ -64,8 +64,9 @@ namespace Project.Runtime.ECS.Systems.Player
             foreach (var tower in _towersToUpgradeFilter)
             {
                 ref readonly var buildingTag = ref tower.GetComponent<BuildingTag>();
-                if (_buildingsDatabase.TryGetById(buildingTag.BuildingConfigId, out var buildingConfig)
-                    && buildingConfig is UpgradableTowerConfig upgradableTowerConfig)
+                if (_buildingsDatabase.TryGetById(buildingTag.BuildingConfigId, out var buildingConfig) &&
+                    buildingConfig is UpgradableTowerConfig upgradableTowerConfig &&
+                    buildingTag.Level < upgradableTowerConfig.UpgradePrices.Length)
                 {
                     var price = upgradableTowerConfig.UpgradePrices[buildingTag.Level];
                     if (price.stonePrice > stoneAmount || price.woodPrice >= woodAmount) continue;

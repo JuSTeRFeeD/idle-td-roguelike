@@ -72,16 +72,18 @@ namespace Project.Runtime.ECS.Systems.Building
                     if (building == null)
                     {
                         Debug.LogError("Нужно обработать если building null");
+                        return;
                     }
-                    
-                    // change view lvl
-                    view = building.Entity.GetComponent<ViewEntity>().Value;
                     
                     var mergedToBuildingTag = building.Entity.GetComponent<BuildingTag>();
                     building.Entity.AddComponent<BuildingUpgraded>();
-                        
+                    
+                    // Upgrade view visual level
+                    view = building.Entity.GetComponent<ViewEntity>().Value;
                     var towerView = (AttackTowerView)view; 
                     if (towerView.TowerViewUpgrades) towerView.TowerViewUpgrades.SetLevel(mergedToBuildingTag.Level);
+                    
+                    // Upgrade stats
                     UpgradeBuildingEntity(building.Entity, towerConfig, mergedToBuildingTag.Level);
                 
                     VfxPool.Spawn(_vfxSetup.TowerLevelUpVfx, towerView.transform.position);
@@ -442,6 +444,11 @@ namespace Project.Runtime.ECS.Systems.Building
                     {
                         case SupportBuildingConfig.SupportTowerType.Dummy:
                             buildingEntity.AddComponent<DummyTowerTag>();
+                            buildingEntity.SetComponent(new ReturnOfReceivedDamage
+                            {
+                                Percent = 2f,
+                                FixedReturnDamage = 10f,
+                            });
                             break;
                         case SupportBuildingConfig.SupportTowerType.Candy:
                             buildingEntity.AddComponent<CandyTowerTag>();

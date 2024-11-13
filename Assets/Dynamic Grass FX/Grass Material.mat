@@ -65,7 +65,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BaseStages: 20
+    - _BaseStages: 2
     - _BendRotationRandom: 0.01
     - _BladeCurve: 1
     - _BladeForward: 0.02
@@ -83,7 +83,7 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _MaxDistance: 64
-    - _MaxStages: 5
+    - _MaxStages: 50
     - _Metallic: 0
     - _MinRadius: 8
     - _MinStages: -0.5
@@ -98,7 +98,7 @@ Material:
     - _TessellationUniform: 1
     - _TranslucentGain: 1
     - _UVSec: 0
-    - _ViewLOD: 25
+    - _ViewLOD: 500
     - _ViewRadius: 7
     - _WindScale: 1
     - _WindStrength: 0.015

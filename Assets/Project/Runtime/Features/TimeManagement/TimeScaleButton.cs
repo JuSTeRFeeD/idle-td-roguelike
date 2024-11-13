@@ -45,7 +45,7 @@ namespace Project.Runtime.Features.TimeManagement
                     curTimeScaleText.SetText("x0.5");
                     break;
                 case TimeScaleVariant.Slow:
-                    _timeScaleVariant = TimeScaleVariant.Medium;
+                    _timeScaleVariant = TimeScaleVariant.Normal;
                     TimeScale.OverrideNormalTimeScale(1f);
                     curTimeScaleText.SetText("x1");
                     break;
