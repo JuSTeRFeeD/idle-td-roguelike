@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Project.Runtime.Player.Databases;
 using Project.Runtime.Scriptable.Card;
 using Project.Runtime.Services.PlayerProgress;
+using Project.Runtime.Services.Saves;
 using VContainer;
 
 namespace Project.Runtime.Player
@@ -16,21 +18,28 @@ namespace Project.Runtime.Player
     public class PlayerDeck
     {
         private readonly PersistentPlayerData _persistentPlayerData;
-        private readonly ActiveCardsListConfig _commonCards;
-        private readonly ActiveCardsListConfig _firstTimeCardsListConfig;
+        private readonly CardsDatabase _cardsDatabase;
+        private readonly ISaveManager _saveManager;
+
+        private ActiveCardsListConfig _commonCards;
+        private ActiveCardsListConfig _firstTimeCardsListConfig;
 
         private readonly List<DeckCard> _inventoryCards = new();
+        
+        public event Action OnChangeEquipment;
 
-        public PlayerDeck(PersistentPlayerData playerData, ActiveCardsListConfig commonCardsList,
-            ActiveCardsListConfig firstTimeCardsList)
+        [Inject]
+        public PlayerDeck(PersistentPlayerData playerData, CardsDatabase cardsDatabase, ISaveManager saveManager)
         {
             _persistentPlayerData = playerData;
-            _commonCards = commonCardsList;
-            _firstTimeCardsListConfig = firstTimeCardsList;
+            _cardsDatabase = cardsDatabase;
+            _saveManager = saveManager;
         }
 
-        public void InitializeAfterLoadSaves(CardsDatabase cardsDatabase)
+        public void InitializeAfterLoadSaves(ActiveCardsListConfig commonCardsList, ActiveCardsListConfig firstTimeCardsList)
         {
+            _commonCards = commonCardsList;
+            _firstTimeCardsListConfig = firstTimeCardsList;
             var addedIds = new HashSet<string>();
             
             // First time cards
@@ -61,7 +70,7 @@ namespace Project.Runtime.Player
                 }
 
                 // init other buildings
-                var allOtherBuildings = cardsDatabase.GetAllItems().Where(i => i.IsBuilding && !addedIds.Contains(i.uniqueID));
+                var allOtherBuildings = _cardsDatabase.GetAllItems().Where(i => i.IsBuilding && !addedIds.Contains(i.uniqueID));
                 foreach (var cardConfig in allOtherBuildings)
                 {
                     var cardSaveData = new CardSaveData
@@ -87,7 +96,7 @@ namespace Project.Runtime.Player
             // adding from saves
             foreach (var cardSaveData in _persistentPlayerData.InventoryCards)
             {
-                var cardConfig = cardsDatabase.GetById(cardSaveData.id);
+                var cardConfig = _cardsDatabase.GetById(cardSaveData.id);
                 _inventoryCards.Add(new DeckCard
                 {
                     CardConfig = cardConfig,
@@ -97,7 +106,7 @@ namespace Project.Runtime.Player
             }
             
             // добавление недостающих (новых после обнов)
-            var notSavedOtherBuildings = cardsDatabase.GetAllItems().Where(i => i.IsBuilding && !addedIds.Contains(i.uniqueID));
+            var notSavedOtherBuildings = _cardsDatabase.GetAllItems().Where(i => i.IsBuilding && !addedIds.Contains(i.uniqueID));
             foreach (var cardConfig in notSavedOtherBuildings)
             {
                 var cardSaveData = new CardSaveData
@@ -135,6 +144,15 @@ namespace Project.Runtime.Player
         public List<DeckCard> GetInventoryCards()
         {
             return _inventoryCards;
+        }
+
+        public void EquipCard(DeckCard deckCard, int toSlotIndex)
+        {
+            var equipped = _inventoryCards.Find(i => i.CardSaveData.equippedAtSlot == toSlotIndex);
+            equipped.CardSaveData.equippedAtSlot = -1;
+            deckCard.CardSaveData.equippedAtSlot = toSlotIndex;
+            _saveManager.Save();
+            OnChangeEquipment?.Invoke();
         }
     }
 }

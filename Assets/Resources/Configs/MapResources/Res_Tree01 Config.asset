@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f49689395466440f92c9bed0dca66da5, type: 3}
-  m_Name: Res_Stone Config
+  m_Name: Res_Tree01 Config
   m_EditorClassIdentifier: 
   <ShowUniqueId>k__BackingField: 0
-  uniqueID: 1c872514-bf38-4f40-b8e6-ca0e5b36f107
-  title: Stone
-  prefab: {fileID: 5196004631138786129, guid: 1620869a1f4ff46428a4d2fe0860030f, type: 3}
+  uniqueID: 1c02b028-2230-4110-9c94-b441cecd4984
+  title: Tree
+  prefab: {fileID: 4456358022413324638, guid: 308b84c43aa1f2d49a47dd1a5758fee6, type: 3}
   size: {x: 1, y: 1}
-  resourceType: 1
-  health: 8
+  resourceType: 0
+  health: 5

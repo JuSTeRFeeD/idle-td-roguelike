@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 716489d00b924c2291372a2cc3bd7669, type: 3}
-  m_Name: Login Mission
+  m_Name: Daily Deal Damage Mission 1000000
   m_EditorClassIdentifier: 
   <ShowUniqueId>k__BackingField: 0
-  uniqueID: 2ee4a9c3-6b01-4c0c-bc4d-de2d8ad78e42
+  uniqueID: 19cfdceb-3755-406f-86f2-d70ec2fb1a96
   missionType: 0
-  missionName: "\u0417\u0430\u0439\u0442\u0438 \u0432 \u0438\u0433\u0440\u0443"
-  valueToComplete: 0
+  missionName: "\u041D\u0430\u043D\u0435\u0441\u0442\u0438 \u0443\u0440\u043E\u043D"
+  valueToComplete: 1000000
   reward:
-    amount: 50
+    amount: 200
     currencyConfig: {fileID: 11400000, guid: 9854cbfbfddc2184090df872bbc5e6e1, type: 2}

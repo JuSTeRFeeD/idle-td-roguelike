@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 716489d00b924c2291372a2cc3bd7669, type: 3}
-  m_Name: Complete Levels Mission 3
+  m_Name: Daily Complete Levels Mission 3
   m_EditorClassIdentifier: 
   <ShowUniqueId>k__BackingField: 0
   uniqueID: acd561f7-e260-41e5-b663-62206292546c
-  missionType: 2
+  missionType: 3
   missionName: "\u041F\u0440\u043E\u0439\u0442\u0438 \u0443\u0440\u043E\u0432\u043D\u0438"
   valueToComplete: 3
   reward:

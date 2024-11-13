@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 716489d00b924c2291372a2cc3bd7669, type: 3}
-  m_Name: Upgrade Tower Card 1
+  m_Name: Daily Upgrade Tower Card 1
   m_EditorClassIdentifier: 
   <ShowUniqueId>k__BackingField: 0
   uniqueID: 2f1d0b9e-8521-41b8-849b-8d17307250e2
-  missionType: 3
+  missionType: 6
   missionName: "\u0423\u043B\u0443\u0447\u0448\u0438\u0442\u044C \u043A\u0430\u0440\u0442\u043E\u0447\u043A\u0443
     \u0441\u0442\u0440\u043E\u0435\u043D\u0438\u044F"
   valueToComplete: 1

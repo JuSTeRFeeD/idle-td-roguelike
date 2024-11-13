@@ -1,8 +1,8 @@
 using Project.Runtime.ECS;
 using Project.Runtime.Lobby.Missions;
+using Project.Runtime.Lobby.Missions.MissionsWithTimer;
 using Project.Runtime.Player;
 using Project.Runtime.Player.Databases;
-using Project.Runtime.Scriptable.Card;
 using Project.Runtime.Scriptable.Currency;
 using Project.Runtime.Scriptable.MapLevelConfigs;
 using Project.Runtime.Scriptable.Shop;
@@ -19,10 +19,6 @@ namespace Project.Runtime.Core
     {
         [SerializeField] private CanvasGroup loadingCanvasGroup;
         [SerializeField] private CoroutineRunner coroutineRunner;
-        
-        [Title("Cards list configs")]
-        [SerializeField] private ActiveCardsListConfig commonCardsList;
-        [SerializeField] private ActiveCardsListConfig firstTimeCardsList;
 
         [Title("Global setups")] 
         [SerializeField] private GlobalDifficultSettingsConfig globalDifficultSettingsConfig;
@@ -42,16 +38,19 @@ namespace Project.Runtime.Core
 
             builder.RegisterInstance(coroutineRunner).As<ICoroutineRunner>();
 
-            var playerData = new PersistentPlayerData(gameCurrencies);
-            builder.RegisterInstance<PersistentPlayerData>(playerData);
+            builder.Register<PersistentPlayerData>(Lifetime.Singleton).WithParameter<CurrencyConfig[]>(gameCurrencies);
             builder.Register<YandexSaveManager>(Lifetime.Singleton).As<ISaveManager>();
 
             builder.Register<BuildingsDatabase>(Lifetime.Singleton);
             builder.Register<CardsDatabase>(Lifetime.Singleton);
             builder.Register<MissionsDatabase>(Lifetime.Singleton);
 
-            builder.RegisterInstance<PlayerDeck>(new PlayerDeck(playerData, commonCardsList, firstTimeCardsList));
-        
+            builder.Register<PlayerDeck>(Lifetime.Singleton);
+
+            builder.Register<ServerTime>(Lifetime.Singleton);
+            builder.Register<MissionTimer>(Lifetime.Singleton);
+            builder.Register<MissionsManager>(Lifetime.Singleton);
+            
             builder.RegisterInstance(new SceneLoader(this, loadingCanvasGroup));
 
             builder.RegisterInstance<GlobalDifficultSettingsConfig>(globalDifficultSettingsConfig);

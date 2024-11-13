@@ -25,8 +25,8 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _ValleyIntensity: 0.3
-    - _ValleySharpness: 2
+    - _ValleyIntensity: 0
+    - _ValleySharpness: 0.1
     m_Colors:
     - _LightThresholds: {r: 0.2, g: 0.5, b: 0.8, a: 1}
     - _MainColor: {r: 1, g: 1, b: 1, a: 1}

@@ -444,7 +444,9 @@ namespace YG
         public static long ServerTime()
         {
 #if UNITY_EDITOR
-            return Instance.infoYG.playerInfoSimulation.serverTime;
+            var unixTimestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds();
+            return unixTimestamp;
+            // return Instance.infoYG.playerInfoSimulation.serverTime;
 #else
             IntPtr serverTimePtr = ServerTime_js();
             string serverTimeStr = Marshal.PtrToStringAuto(serverTimePtr);

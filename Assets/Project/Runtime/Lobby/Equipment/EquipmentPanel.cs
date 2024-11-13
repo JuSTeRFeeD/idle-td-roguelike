@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Project.Runtime.Features;
@@ -39,7 +40,14 @@ namespace Project.Runtime.Lobby.Equipment
             {
                 equipmentItemView.OnClick += OnEquipmentItemClick;
             }
+            
+            _playerDeck.OnChangeEquipment += RefreshEquippedViews;
             RefreshEquippedViews();
+        }
+
+        private void OnDestroy()
+        {
+            _playerDeck.OnChangeEquipment -= RefreshEquippedViews;
         }
 
         private void OnInventoryItemClick(InventoryItemView inventoryItemView)

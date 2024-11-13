@@ -34,8 +34,8 @@ namespace Project.Runtime.ECS
         [SerializeField] private WorldHealthBarView worldHealthBarView;
         [SerializeField] private WorldProgressBarView worldProgressBarView;
         [SerializeField] private WorkerUnitView workerUnitView;
-        [SerializeField] private BuildingConfig treeConfig;
-        [SerializeField] private BuildingConfig stoneConfig;
+        [SerializeField] private BuildingConfig[] treeConfig;
+        [SerializeField] private BuildingConfig[] stoneConfig;
 
         // Player And World
         public DayNightConfig DayNightConfig => dayNightConfig;
@@ -61,7 +61,7 @@ namespace Project.Runtime.ECS
         public WorldHealthBarView WorldHealthBarView => worldHealthBarView;
         public WorldProgressBarView WorldProgressBarView => worldProgressBarView;
         public WorkerUnitView WorkerUnitView => workerUnitView;
-        public BuildingConfig TreeConfig => treeConfig;
-        public BuildingConfig StoneConfig => stoneConfig;
+        public BuildingConfig[] TreeConfig => treeConfig;
+        public BuildingConfig[] StoneConfig => stoneConfig;
     }
 }

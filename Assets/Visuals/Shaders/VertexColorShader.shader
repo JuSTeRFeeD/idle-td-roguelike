@@ -50,6 +50,8 @@ Shader "Custom/VertexColorWithCavityValley"
 
             fixed4 frag(v2f i) : SV_Target
             {
+                return i.color * 1.2f;
+                
                 // Применение гамма-коррекции
                 fixed4 gammaCorrectedColor = pow(i.color, 1.1f); // Преобразование в линейное пространство
                 fixed4 finalColor = gammaCorrectedColor * 1.2f;

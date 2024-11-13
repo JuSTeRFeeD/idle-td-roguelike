@@ -15,6 +15,7 @@ namespace Runtime.Features.Widgets
         [SerializeField] private TextMeshProUGUI descriptionText;
         [SerializeField] private TextMeshProUGUI shortInfoText;
         [Space]
+        [SerializeField] private RectTransform pointsContainer;
         [SerializeField] private Image[] pointsImages;
 
         public int Id { get; private set; }
@@ -35,6 +36,7 @@ namespace Runtime.Features.Widgets
             iconImage.sprite = cardConfig.Icon;
             if (cardTitleText) cardTitleText.SetText(cardConfig.Title);
             if (shortInfoText) shortInfoText.SetText(cardConfig.ShortInfo);
+            if (pointsContainer) pointsContainer.gameObject.SetActive(!cardConfig.IsBuilding);
         }
 
         public void SetDescription(string text)

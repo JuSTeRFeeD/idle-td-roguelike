@@ -19,11 +19,11 @@ MonoBehaviour:
     authorized: 1
     isMobile: 0
     language: ru
-    name: Player this
+    name: Qiyas
     uniqueID: 000
     photo: https://justplaygames.ru/public/icon_player.png
     payingStatus: paying
-    serverTime: 1721201231000
+    serverTime: 1729490355
   AdWhenLoadingScene: 0
   showFirstAd: 0
   rewardedAfterClosing: 1

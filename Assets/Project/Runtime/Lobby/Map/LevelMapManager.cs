@@ -46,6 +46,7 @@ namespace Project.Runtime.Lobby.Map
                 {
                     MapPoint.MapPointType.Common => _mapLevelConfig.GetCommonConfig(_persistentPlayerData.CompletedMapsCount),
                     MapPoint.MapPointType.Bonus => _mapLevelConfig.GetBonusConfig(_persistentPlayerData.CompletedMapsCount),
+                    MapPoint.MapPointType.Boss => _mapLevelConfig.GetBossConfig(_persistentPlayerData.CompletedMapsCount),
                     _ => throw new ArgumentOutOfRangeException()
                 };
             }
@@ -64,20 +65,20 @@ namespace Project.Runtime.Lobby.Map
 
         private void InitMap()
         {
-            // // cached
-            // if (!_sceneSharedData.MapPoints.IsNullOrEmpty())
-            // {
-            //     levelMapGenerator.LoadMap(_sceneSharedData.MapPoints);
-            //     InitSelectedPoint();
-            //     return;
-            // }
-            // // load
-            // if (!string.IsNullOrEmpty(_persistentPlayerData.MapData))
-            // {
-            //     levelMapGenerator.LoadMap(_persistentPlayerData.MapData);
-            //     InitSelectedPoint();
-            //     return;
-            // }
+            // cached
+            if (!_sceneSharedData.MapPoints.IsNullOrEmpty())
+            {
+                levelMapGenerator.LoadMap(_sceneSharedData.MapPoints);
+                InitSelectedPoint();
+                return;
+            }
+            // load
+            if (!string.IsNullOrEmpty(_persistentPlayerData.MapData))
+            {
+                levelMapGenerator.LoadMap(_persistentPlayerData.MapData);
+                InitSelectedPoint();
+                return;
+            }
             GenerateNewMap();
         }
 
@@ -86,17 +87,16 @@ namespace Project.Runtime.Lobby.Map
             var point = _sceneSharedData.MapPoints[_persistentPlayerData.CurMapPointIndex];
             if (point.IsCompleted)
             {
-                var notCompletedIndex = _sceneSharedData.MapPoints.FindIndex(i => !i.IsCompleted);
-                if (notCompletedIndex == -1)
+                var toSelectIndex = _sceneSharedData.MapPoints.FindIndex(i => !i.IsCompleted);
+                if (toSelectIndex == -1)
                 {
-                    // TODO: Regenerate map with animation
-                    Debug.Log("TODO: Regenerate map");
+                    GenerateNewMap();
                     return;
                 }
-                _persistentPlayerData.CurMapPointIndex = notCompletedIndex;
+                _persistentPlayerData.CurMapPointIndex = toSelectIndex;
                 point = _sceneSharedData.MapPoints[_persistentPlayerData.CurMapPointIndex];
             }
-            OnClickPointView(levelMapGenerator._viewsByPosition[point.Position]);
+            OnClickPointView(levelMapGenerator.ViewsByPosition[point.Position]);
         }
 
         private void GenerateNewMap()
@@ -104,13 +104,13 @@ namespace Project.Runtime.Lobby.Map
             levelMapGenerator.GenerateMap();
             _persistentPlayerData.CurMapPointIndex = 0;
             var point = _sceneSharedData.MapPoints[0];
-            OnClickPointView(levelMapGenerator._viewsByPosition[point.Position]);
+            OnClickPointView(levelMapGenerator.ViewsByPosition[point.Position]);
             Save();
         }
 
         private void SubscribeToViews()
         {
-            foreach (var (_, value) in levelMapGenerator._viewsByPosition)
+            foreach (var (_, value) in levelMapGenerator.ViewsByPosition)
             {
                 value.OnClick += OnClickPointView;
             }

@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 716489d00b924c2291372a2cc3bd7669, type: 3}
-  m_Name: Kill Units Mission 1000
+  m_Name: Weekly Mission Config
   m_EditorClassIdentifier: 
   <ShowUniqueId>k__BackingField: 0
-  uniqueID: 388c780c-5f33-4f38-aff4-e335c87ebf0e
-  missionType: 0
-  missionName: "\u041F\u043E\u0432\u0435\u0440\u0436\u0435\u043D\u043E \u0432\u0440\u0430\u0433\u043E\u0432"
-  valueToComplete: 1000
+  uniqueID: fa170337-1560-4d63-952e-8103f48c893b
+  missionType: 2
+  missionName: "\u0417\u0430\u0432\u0435\u0440\u0448\u0438\u0442\u044C \u043C\u0438\u0441\u0441\u0438\u0438"
+  valueToComplete: 15
   reward:
-    amount: 200
-    currencyConfig: {fileID: 0}
+    amount: 500
+    currencyConfig: {fileID: 11400000, guid: 9854cbfbfddc2184090df872bbc5e6e1, type: 2}

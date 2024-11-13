@@ -548,6 +548,7 @@ MonoBehaviour:
   cardTitleText: {fileID: 7101247157646070656}
   descriptionText: {fileID: 6666423415830728893}
   shortInfoText: {fileID: 2645345388245190594}
+  pointsContainer: {fileID: 1694201973165901693}
   pointsImages:
   - {fileID: 2836481578586623419}
   - {fileID: 4566928588665902638}

@@ -21,11 +21,12 @@ namespace Project.Runtime.Services.PlayerProgress
         
         public List<CardSaveData> InventoryCards = new();
 
-        public PlayerStatistics PlayerStatistics = new();
+        public readonly PlayerStatistics PlayerStatistics = new();
         public MissionsSave DailyMissions;
         public MissionsSave WeeklyMissions;
+        public long LastLoginTime;
 
-        public PersistentPlayerData(IEnumerable<CurrencyConfig> gameCurrencies)
+        public PersistentPlayerData(CurrencyConfig[] gameCurrencies)
         {
             foreach (var currencyConfig in gameCurrencies)
             {
@@ -34,12 +35,12 @@ namespace Project.Runtime.Services.PlayerProgress
                 wallet.OnChange += (_, _) => OnChangeWalletBalance?.Invoke(wallet);
             }
         }
-
+        
         public Wallet GetWalletByCurrencyId(string currencyId)
         {
             return WalletByCurrency.FirstOrDefault(i => i.Key.uniqueID == currencyId).Value;
         }
-        
+
         public CardSaveData GetCardSaveDataByCardId(string id)
         {
             return InventoryCards.FirstOrDefault(i => i.id == id);

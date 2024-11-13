@@ -11,11 +11,14 @@ namespace Project.Runtime.Services.Saves.YandexSaves
 {
     public class YandexSaveManager : ISaveManager
     {
-        [Inject] private PersistentPlayerData _persistentPlayerData;
-        [Inject] private ICoroutineRunner _coroutineRunner;
+        private PersistentPlayerData _persistentPlayerData;
+        private ICoroutineRunner _coroutineRunner;
 
-        public YandexSaveManager()
+        [Inject]
+        public YandexSaveManager(PersistentPlayerData persistentPlayerData, ICoroutineRunner coroutineRunner)
         {
+            _persistentPlayerData = persistentPlayerData;
+            _coroutineRunner = coroutineRunner;
             YandexGame.GetDataEvent += Load;
         }
         
@@ -54,6 +57,10 @@ namespace Project.Runtime.Services.Saves.YandexSaves
             data.globalStatistics = new DictionarySerializeContainer<GlobalStatisticsType, long>(
                 _persistentPlayerData.PlayerStatistics._globalStatistics);
             
+            // Missions
+            data.dailyMissions = _persistentPlayerData.DailyMissions;
+            data.weeklyMissions = _persistentPlayerData.WeeklyMissions;
+            
             YandexGame.SaveProgress();
         }
 
@@ -88,6 +95,10 @@ namespace Project.Runtime.Services.Saves.YandexSaves
             {
                 _persistentPlayerData.PlayerStatistics.Initialize(data.globalStatistics.ToDictionary());
             }
+
+            // Missions
+            _persistentPlayerData.DailyMissions = data.dailyMissions;
+            _persistentPlayerData.WeeklyMissions = data.weeklyMissions;
         }
     }
 }

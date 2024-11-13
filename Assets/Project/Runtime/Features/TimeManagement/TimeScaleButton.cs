@@ -9,43 +9,43 @@ namespace Project.Runtime.Features.TimeManagement
     {
         [SerializeField] private TextMeshProUGUI curTimeScaleText;
 
-        private enum Variants
+        private enum TimeScaleVariant
         {
             Normal = 0,
-            TheChildCant = 1,
-            Faster = 2,
-            FlashBoy = 3
+            Medium = 1,
+            High = 2,
+            Slow = 3,
         }
 
-        private Variants _variant;
+        private TimeScaleVariant _timeScaleVariant;
         
         private void Start()
         {
-            _variant = Variants.Normal;
+            _timeScaleVariant = TimeScaleVariant.Normal;
             curTimeScaleText.SetText("x1");
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            switch (_variant)
+            switch (_timeScaleVariant)
             {
-                case Variants.Normal:
-                    _variant = Variants.TheChildCant;
-                    TimeScale.OverrideNormalTimeScale(0.5f);
-                    curTimeScaleText.SetText("x0.5");
-                    break;
-                case Variants.TheChildCant:
-                    _variant = Variants.Faster;
+                case TimeScaleVariant.Normal:
+                    _timeScaleVariant = TimeScaleVariant.Medium;
                     TimeScale.OverrideNormalTimeScale(1.5f);
                     curTimeScaleText.SetText("x1.5");
                     break;
-                case Variants.Faster:
-                    _variant = Variants.FlashBoy;
+                case TimeScaleVariant.Medium:
+                    _timeScaleVariant = TimeScaleVariant.High;
                     TimeScale.OverrideNormalTimeScale(2f);
                     curTimeScaleText.SetText("x2");
                     break;
-                case Variants.FlashBoy:
-                    _variant = Variants.Normal;
+                case TimeScaleVariant.High:
+                    _timeScaleVariant = TimeScaleVariant.Slow;
+                    TimeScale.OverrideNormalTimeScale(.5f);
+                    curTimeScaleText.SetText("x0.5");
+                    break;
+                case TimeScaleVariant.Slow:
+                    _timeScaleVariant = TimeScaleVariant.Medium;
                     TimeScale.OverrideNormalTimeScale(1f);
                     curTimeScaleText.SetText("x1");
                     break;

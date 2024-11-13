@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using Project.Runtime.Lobby.Map;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -15,6 +16,8 @@ namespace Runtime.Lobby.Map
         [SerializeField] private Sprite bossIconSprite;
         [SerializeField] private Sprite bonusIconSprite;
         [SerializeField] private Sprite commonIconSprite;
+        [Space]
+        [SerializeField] private Image impactImage;
 
         public event Action<MapPointView> OnClick;
 
@@ -58,6 +61,19 @@ namespace Runtime.Lobby.Map
             Debug.Log(MapPoint.IsCanBeSelected);
             if (!MapPoint.IsCanBeSelected) return;
             OnClick?.Invoke(this);
+        }
+
+        public void Impact()
+        {
+            if (!MapPoint.IsCanBeSelected) return;
+            impactImage.transform.DOKill(true);
+            impactImage.transform.localScale = Vector3.one;
+            impactImage.color = Color.white;
+            DOTween.Sequence()
+                .Append(impactImage.transform.DOScale(8, 1.25f).SetEase(Ease.Linear))
+                .Join(impactImage.DOFade(0, 1.25f).SetEase(Ease.Linear))
+                .SetLink(impactImage.gameObject)
+                .SetDelay(0.5f);
         }
     }
 }

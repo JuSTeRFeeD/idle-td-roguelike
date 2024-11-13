@@ -11,46 +11,26 @@ namespace Project.Runtime.ECS.Systems.FindTarget
     {
         public World World { get; set; }
 
-        private Filter _buildingsGroundFocusFilter;
-        private Filter _buildingsFlyingFocusFilter;
-        
-        private Filter _groundEnemiesFilter;
-        private Filter _flyingEnemiesFilter;
+        private Filter _attackBuildingsFilter;
+        private Filter _enemiesFilter;
         
         private Stash<AttackRangeRuntime> _attackRangeRuntimeStash;
         private Stash<ViewEntity> _viewEntityStash;
         
         public void OnAwake()
         {
-            _buildingsGroundFocusFilter = World.Filter
+            _attackBuildingsFilter = World.Filter
                 .With<BuildingTag>()
                 .With<ViewEntity>()
                 .With<AttackRangeRuntime>()
-                .With<FocusGroundEnemiesTag>()
-                .Without<AttackTarget>()
-                .Without<ToDestroyTag>()
-                .Without<DestroyedTag>()
-                .Build();
-            _buildingsFlyingFocusFilter = World.Filter
-                .With<BuildingTag>()
-                .With<ViewEntity>()
-                .With<AttackRangeRuntime>()
-                .With<FocusFlyingEnemiesTag>()
                 .Without<AttackTarget>()
                 .Without<ToDestroyTag>()
                 .Without<DestroyedTag>()
                 .Build();
 
-            _groundEnemiesFilter = World.Filter
+            _enemiesFilter = World.Filter
                 .With<EnemyTag>()
                 .With<ViewEntity>()
-                .With<GroundEnemyTag>()
-                .Without<WillDeadAtNextTickTag>()
-                .Build();
-            _flyingEnemiesFilter = World.Filter
-                .With<EnemyTag>()
-                .With<ViewEntity>()
-                .With<FlyingEnemyTag>()
                 .Without<WillDeadAtNextTickTag>()
                 .Build();
             
@@ -60,14 +40,9 @@ namespace Project.Runtime.ECS.Systems.FindTarget
 
         public void OnUpdate(float deltaTime)
         {
-            foreach (var entity in _buildingsFlyingFocusFilter)
+            foreach (var entity in _attackBuildingsFilter)
             {
-                FindByAttackRangeExt.FindTargetWithFilter(entity, _flyingEnemiesFilter, _attackRangeRuntimeStash, _viewEntityStash);
-            }
-            World.Commit();
-            foreach (var entity in _buildingsGroundFocusFilter)
-            {
-                FindByAttackRangeExt.FindTargetWithFilter(entity, _groundEnemiesFilter, _attackRangeRuntimeStash, _viewEntityStash);
+                FindByAttackRangeExt.FindTargetWithFilter(entity, _enemiesFilter, _attackRangeRuntimeStash, _viewEntityStash);
             }
         }
 

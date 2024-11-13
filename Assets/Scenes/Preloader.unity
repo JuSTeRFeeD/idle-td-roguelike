@@ -387,6 +387,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe1880daed3a44858cc9a92ac2adcb83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  commonCardsList: {fileID: 11400000, guid: 4e786577e366b2f4fa33ffe0eb0b5cfc, type: 2}
+  firstTimeCardsList: {fileID: 11400000, guid: aca7d9d88e2d10343aec1ca5260fd41c, type: 2}
 --- !u!4 &2008580024
 Transform:
   m_ObjectHideFlags: 0

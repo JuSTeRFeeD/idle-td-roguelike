@@ -28,20 +28,37 @@ namespace Project.Runtime.Lobby.Map
 
         private MapPoint[,] _grid;
 
-        public readonly Dictionary<Vector2Int, MapPointView> _viewsByPosition = new();
+        public readonly Dictionary<Vector2Int, MapPointView> ViewsByPosition = new();
+        private readonly List<GameObject> _lines = new();
 
         private Vector2Int StartPos => new(0, height / 2);
         private Vector2Int EndPos => new(width - 1, height / 2);
 
         public int Width => width - 1;
-
+        
         public void GenerateMap()
         {
+            foreach (var mapPointView in ViewsByPosition)
+            {
+                Destroy(mapPointView.Value.gameObject);
+            }
+            ViewsByPosition.Clear();
+            foreach (var line in _lines)
+            {
+                Destroy(line);
+            }
+            _lines.Clear();
+            
             _sceneSharedData.MapPoints.Clear();
             _grid = new MapPoint[width, height];
             GenerateMainPath();
             GenerateBranches();
             ConnectPointsWithLines();
+            
+            foreach (var mapPointView in ViewsByPosition.Values)
+            {
+                mapPointView.Impact();
+            }
         }
 
         public void LoadMap(List<MapPoint> mapPoints)
@@ -50,7 +67,7 @@ namespace Project.Runtime.Lobby.Map
             foreach (var mapPoint in mapPoints)
             {
                 CreatePointView(mapPoint);
-                _viewsByPosition[mapPoint.Position].SetCompleted(mapPoint.IsCompleted);
+                ViewsByPosition[mapPoint.Position].SetCompleted(mapPoint.IsCompleted);
                 if (mapPoint.IsCompleted)
                 {
                     mapPoint.IsCanBeSelected = true;
@@ -72,7 +89,7 @@ namespace Project.Runtime.Lobby.Map
             _sceneSharedData.MapPoints[0].IsCanBeSelected = true;
             foreach (var mapPoint in _sceneSharedData.MapPoints)
             {
-                _viewsByPosition[mapPoint.Position].SetCompleted(mapPoint.IsCompleted);
+                ViewsByPosition[mapPoint.Position].SetCompleted(mapPoint.IsCompleted);
                 if (!mapPoint.IsCompleted) continue;
                 mapPoint.IsCanBeSelected = true;
                 foreach (var mapPointNeighbor in mapPoint.Neighbors)
@@ -139,7 +156,7 @@ namespace Project.Runtime.Lobby.Map
             {
                 var cell = _sceneSharedData.MapPoints[i];
 
-                if (cell.Position == StartPos || cell.Position == EndPos) continue;
+                if (cell.Position == StartPos || cell.Position.x == EndPos.x) continue;
 
                 if (Random.value > 1f - chanceToGenerateBranch)
                 {
@@ -194,7 +211,7 @@ namespace Project.Runtime.Lobby.Map
                 mapPoint.Position.x * cellSpace,
                 mapPoint.Position.y * cellSpace);
             var pointView = pointObject.GetComponent<MapPointView>();
-            _viewsByPosition.Add(mapPoint.Position, pointView);
+            ViewsByPosition.Add(mapPoint.Position, pointView);
             pointView.Link(mapPoint);
         }
 
@@ -211,8 +228,8 @@ namespace Project.Runtime.Lobby.Map
 
         private void CreateLineBetweenPoints(MapPoint pointA, MapPoint pointB)
         {
-            var startPosition = ((RectTransform)_viewsByPosition[pointA.Position].transform).anchoredPosition;
-            var endPosition = ((RectTransform)_viewsByPosition[pointB.Position].transform).anchoredPosition;
+            var startPosition = ((RectTransform)ViewsByPosition[pointA.Position].transform).anchoredPosition;
+            var endPosition = ((RectTransform)ViewsByPosition[pointB.Position].transform).anchoredPosition;
 
             var line = Instantiate(linePrefab, lineParent);
             var lineRect = line.GetComponent<RectTransform>();
@@ -224,6 +241,8 @@ namespace Project.Runtime.Lobby.Map
             lineRect.sizeDelta = new Vector2(distance, lineSize);
             var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             lineRect.rotation = Quaternion.Euler(0, 0, angle);
+            
+            _lines.Add(line);
         }
 
         public static string Serialize(List<MapPoint> mapPoints)
@@ -245,7 +264,7 @@ namespace Project.Runtime.Lobby.Map
                 sb.Append("|");
                 sb.Append(point.IsCompleted ? "1" : "0");
                 sb.Append("|");
-                sb.Append(point.PointType == MapPoint.MapPointType.Common ? "0" : "1");
+                sb.Append(((byte)point.PointType).ToString());
                 sb.Append("|");
             }
             return sb.ToString().TrimEnd('|');
@@ -263,9 +282,20 @@ namespace Project.Runtime.Lobby.Map
 
                 var neighborsData = pointStrings[i + 1];
                 var isCompleted = pointStrings[i + 2] == "1";
-                var pointType = pointStrings[i + 3] == "0"
-                    ? MapPoint.MapPointType.Common
-                    : MapPoint.MapPointType.Boss;
+                
+                var pointType = MapPoint.MapPointType.Common;
+                switch (pointStrings[i + 3])
+                {
+                    case "0":
+                        pointType = MapPoint.MapPointType.Common;
+                        break;
+                    case "1":
+                        pointType = MapPoint.MapPointType.Bonus;
+                        break;
+                    case "2":
+                        pointType = MapPoint.MapPointType.Boss;
+                        break;
+                }
 
                 var newPoint = new MapPoint(pointPosition, pointType) {IsCompleted = isCompleted};
 

@@ -117,6 +117,50 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!1 &1193681855219183540
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7785405453717758061}
+  - component: {fileID: 1787146645368143099}
+  m_Layer: 0
+  m_Name: Playtime Statistic
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7785405453717758061
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1193681855219183540}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5239126345200472779}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1787146645368143099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1193681855219183540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aa6cc366fef441e81ccf4a303f893d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3777442163413741316
 GameObject:
   m_ObjectHideFlags: 0
@@ -662,6 +706,7 @@ Transform:
   - {fileID: 7735876450027183153}
   - {fileID: 6792822716113500297}
   - {fileID: 3067069401238388665}
+  - {fileID: 7785405453717758061}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3492406343764276475
@@ -679,11 +724,10 @@ MonoBehaviour:
   parentReference:
     TypeName: 
   autoRun: 1
-  autoInjectGameObjects: []
+  autoInjectGameObjects:
+  - {fileID: 1193681855219183540}
   loadingCanvasGroup: {fileID: 6451477376378453218}
   coroutineRunner: {fileID: 3949802664423000513}
-  commonCardsList: {fileID: 11400000, guid: 4e786577e366b2f4fa33ffe0eb0b5cfc, type: 2}
-  firstTimeCardsList: {fileID: 11400000, guid: aca7d9d88e2d10343aec1ca5260fd41c, type: 2}
   globalDifficultSettingsConfig: {fileID: 11400000, guid: 20ddd1d10768f4f42ba729bf37460fd1,
     type: 2}
   globalMapLevelConfig: {fileID: 11400000, guid: 28b7d1cfe4acd894599b1a47cff9e65e,

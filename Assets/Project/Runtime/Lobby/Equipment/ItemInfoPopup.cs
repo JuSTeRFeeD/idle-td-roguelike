@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using Project.Runtime.Features.GameplayMenus;
 using Project.Runtime.Player;
@@ -18,6 +19,7 @@ namespace Project.Runtime.Lobby.Equipment
     {
         [Inject] private PersistentPlayerData _persistentPlayerData;
         [Inject] private ISaveManager _saveManager;
+        [Inject] private PlayerDeck _playerDeck;
         
         [SerializeField] private CurrencyConfig useCurrencyConfigForUpgrade;
         [SerializeField] private SelectSlotToEquipPopup selectSlotToEquipPopup;
@@ -64,6 +66,13 @@ namespace Project.Runtime.Lobby.Equipment
             closeButton.onClick.AddListener(Hide);
             blackoutCloseButton.onClick.AddListener(Hide);
             upgradeButton.onClick.AddListener(Upgrade);
+
+            _playerDeck.OnChangeEquipment += Hide;
+        }
+
+        private void OnDestroy()
+        {
+            _playerDeck.OnChangeEquipment -= Hide;
         }
 
         private void Upgrade()
@@ -150,7 +159,7 @@ namespace Project.Runtime.Lobby.Equipment
 
         private void OnClickEquip()
         {
-            selectSlotToEquipPopup.Show();
+            selectSlotToEquipPopup.Show(_deckCard);
         }
     }
 }

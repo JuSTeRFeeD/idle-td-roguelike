@@ -1566,8 +1566,8 @@ Camera:
   near clip plane: 0.3
   far clip plane: 200
   field of view: 42
-  orthographic: 0
-  orthographic size: 10
+  orthographic: 1
+  orthographic size: 15
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1956,10 +1956,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1566200753}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 3291.302, y: 1333.9}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &412343312
 MonoBehaviour:
@@ -1981,7 +1981,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: d7aa3c9df793eac4a87402c2d4d6f780, type: 3}
+  m_Sprite: {fileID: 21300000, guid: aa96b0fe49f9b414ba505f8e7fd8babb, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3183,7 +3183,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: d2fd9835a21ec22419e560d436baa6e2,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3832,7 +3832,7 @@ MonoBehaviour:
   m_Follow: {fileID: 1761015020}
   m_Lens:
     FieldOfView: 42
-    OrthographicSize: 10
+    OrthographicSize: 15
     NearClipPlane: 0.3
     FarClipPlane: 200
     Dutch: 0
@@ -3974,7 +3974,7 @@ MonoBehaviour:
   m_ChildAlignment: 1
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 380, y: 120}
+  m_CellSize: {x: 550, y: 120}
   m_Spacing: {x: 0, y: 16}
   m_Constraint: 1
   m_ConstraintCount: 1
@@ -5470,7 +5470,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: -12}
-  m_SizeDelta: {x: 400, y: 350}
+  m_SizeDelta: {x: 600, y: 350}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1240357849
 MonoBehaviour:
@@ -5926,7 +5926,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 91da48be0ceb6d642bd054f66f9fc78b,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6694,8 +6694,13 @@ MonoBehaviour:
     type: 3}
   workerUnitView: {fileID: 4706738192559519961, guid: b17afd347b1893142b43d523390f6307,
     type: 3}
-  treeConfig: {fileID: 11400000, guid: 05492a1d900410a458ad51aee679e6d0, type: 2}
-  stoneConfig: {fileID: 11400000, guid: 4e5158e70dda4054a8e1b0e6b9623b4d, type: 2}
+  treeConfig:
+  - {fileID: 11400000, guid: 05492a1d900410a458ad51aee679e6d0, type: 2}
+  - {fileID: 11400000, guid: 86ac5199712929d4a99faaed60da0cad, type: 2}
+  - {fileID: 11400000, guid: 13227dc138338df418b300f006e3cc72, type: 2}
+  stoneConfig:
+  - {fileID: 11400000, guid: 4e5158e70dda4054a8e1b0e6b9623b4d, type: 2}
+  - {fileID: 11400000, guid: bea7e0b5788efaa4997a82081c772c60, type: 2}
 --- !u!4 &1460001915
 Transform:
   m_ObjectHideFlags: 0
@@ -6989,8 +6994,8 @@ Camera:
   near clip plane: 0.3
   far clip plane: 200
   field of view: 40
-  orthographic: 0
-  orthographic size: 5
+  orthographic: 1
+  orthographic size: 15
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -7296,7 +7301,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1566200752}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}

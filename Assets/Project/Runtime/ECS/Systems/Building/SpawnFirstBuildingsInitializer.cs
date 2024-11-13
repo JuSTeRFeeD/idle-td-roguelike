@@ -137,7 +137,7 @@ namespace Project.Runtime.ECS.Systems.Building
                 request.SetComponent(new SystemActionTag());
                 request.SetComponent(new PlacingBuildingCard
                 {
-                    BuildingConfig = _worldSetup.TreeConfig,
+                    BuildingConfig = _worldSetup.TreeConfig[Random.Range(0, _worldSetup.TreeConfig.Length)],
                     CurrentPosition = GridUtils.ConvertGridToWorldPos(cellPos)
                 });
                 request.SetComponent(new PlaceBuildingCardRequest());
@@ -153,7 +153,7 @@ namespace Project.Runtime.ECS.Systems.Building
                 request.SetComponent(new SystemActionTag());
                 request.SetComponent(new PlacingBuildingCard
                 {
-                    BuildingConfig = _worldSetup.StoneConfig,
+                    BuildingConfig = _worldSetup.StoneConfig[Random.Range(0, _worldSetup.StoneConfig.Length)],
                     CurrentPosition = GridUtils.ConvertGridToWorldPos(cellPos)
                 });
                 request.SetComponent(new PlaceBuildingCardRequest());

@@ -31,5 +31,5 @@ Material:
     - _LineWidth: 0.05
     - _TransparencyStart: 0.2
     m_Colors:
-    - _GridColor: {r: 0.56194824, g: 0.990566, b: 0.21026169, a: 1}
+    - _GridColor: {r: 0.36767536, g: 0.6698113, b: 0.12322002, a: 1}
   m_BuildTextureStacks: []

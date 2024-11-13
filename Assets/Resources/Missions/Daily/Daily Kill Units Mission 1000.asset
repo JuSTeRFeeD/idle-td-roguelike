@@ -10,14 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 716489d00b924c2291372a2cc3bd7669, type: 3}
-  m_Name: Play Time Mission 20m
+  m_Name: Daily Kill Units Mission 1000
   m_EditorClassIdentifier: 
   <ShowUniqueId>k__BackingField: 0
-  uniqueID: 824659a8-8307-4195-850f-e048fa27dabc
-  missionType: 1
-  missionName: "\u041E\u0441\u0442\u0430\u0432\u0430\u0442\u044C\u0441\u044F \u0432
-    \u0438\u0433\u0440\u0435 20\u043C"
-  valueToComplete: 20
+  uniqueID: 388c780c-5f33-4f38-aff4-e335c87ebf0e
+  missionType: 2
+  missionName: "\u041F\u043E\u0431\u0435\u0434\u0438\u0442\u0435 \u0432\u0440\u0430\u0433\u043E\u0432"
+  valueToComplete: 1000
   reward:
-    amount: 250
+    amount: 200
     currencyConfig: {fileID: 11400000, guid: 9854cbfbfddc2184090df872bbc5e6e1, type: 2}

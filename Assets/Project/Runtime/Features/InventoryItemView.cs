@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using Project.Runtime.Player;
 using Project.Runtime.Scriptable;
 using Project.Runtime.Scriptable.Currency;
@@ -9,16 +10,24 @@ using UnityEngine.UI;
 
 namespace Project.Runtime.Features
 {
-    public class InventoryItemView : MonoBehaviour, IPointerClickHandler
+    public class InventoryItemView : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
     {
         [SerializeField] private Image iconImage;
         [SerializeField] private Image towerIconImage;
         [SerializeField] private Image rarityImage;
         [SerializeField] private TextMeshProUGUI amountText;
 
+        private Vector3 _initIconScale;
+        private Vector3 _initIconTowerScale;
         public event Action<InventoryItemView> OnClick;
 
         public DeckCard DeckCard { get; private set; }
+
+        private void Start()
+        {
+            _initIconScale = iconImage.transform.localScale;
+            _initIconTowerScale = towerIconImage.transform.localScale;
+        }
 
         public void SetCurrencyData(CurrencyConfig currencyConfig, int amount)
         {
@@ -62,6 +71,22 @@ namespace Project.Runtime.Features
         public void OnPointerClick(PointerEventData eventData)
         {
             OnClick?.Invoke(this);
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            iconImage.transform.DOKill(true);
+            towerIconImage.transform.DOKill(true);
+            iconImage.transform.DOScale(_initIconScale * 1.2f, 0.1f).SetLink(iconImage.gameObject);
+            towerIconImage.transform.DOScale(_initIconTowerScale * 1.2f, 0.1f).SetLink(iconImage.gameObject);
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            iconImage.transform.DOKill(true);
+            towerIconImage.transform.DOKill(true);
+            iconImage.transform.DOScale(_initIconScale, 0.1f).SetLink(iconImage.gameObject);
+            towerIconImage.transform.DOScale(_initIconTowerScale, 0.1f).SetLink(iconImage.gameObject);
         }
     }
 }
