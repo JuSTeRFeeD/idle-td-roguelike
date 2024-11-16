@@ -46,7 +46,7 @@ MonoBehaviour:
     max: 550
   attackCooldown:
     min: 3
-    max: 2
+    max: 1.8
   attackRange:
     min: 4
-    max: 5
+    max: 6

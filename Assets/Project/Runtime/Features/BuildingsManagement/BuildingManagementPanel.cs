@@ -82,13 +82,13 @@ namespace Project.Runtime.Features.BuildingsManagement
             _storageInfoWidget = null;
             _statsWidgets[0] = null;
             _statsWidgets[1] = null;
-            
+            panelTitleText.SetText(string.Empty);
             base.Hide();
         }
 
         public void SetTitleAndLevel(string title, int level, float upgradeProgress)
         {
-            if (!_towerWidget) return;
+            // if (!_towerWidget) return;
             
             if (upgradeProgress >= 1f)
             {

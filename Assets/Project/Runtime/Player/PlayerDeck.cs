@@ -97,6 +97,7 @@ namespace Project.Runtime.Player
             foreach (var cardSaveData in _persistentPlayerData.InventoryCards)
             {
                 var cardConfig = _cardsDatabase.GetById(cardSaveData.id);
+                if (!cardConfig) continue;
                 _inventoryCards.Add(new DeckCard
                 {
                     CardConfig = cardConfig,

@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f012b761064a4b95b2cce77fb901a3f2, type: 3}
+  m_Name: Tower_Attack Snowman Guilding Config
+  m_EditorClassIdentifier: 
+  <ShowUniqueId>k__BackingField: 0
+  uniqueID: 4203a930-d09c-483d-970b-00e8eed08f8d
+  title: "\u0421\u043D\u0435\u0433\u043E\u0432\u0438\u043A"
+  description: "\u041F\u043E\u0438\u0433\u0440\u0430\u0435\u043C \u0432 \u0441\u043D\u0435\u0436\u043A\u0438?"
+  prefab: {fileID: 4739183505443703371, guid: 97753c7880b360445bbdb5431f1ce7c7, type: 3}
+  size: 2
+  upgradePrices:
+  - woodPrice: 2
+    stonePrice: 2
+  - woodPrice: 4
+    stonePrice: 4
+  - woodPrice: 6
+    stonePrice: 6
+  - woodPrice: 10
+    stonePrice: 10
+  - woodPrice: 20
+    stonePrice: 20
+  health:
+    min: 18
+    max: 65
+  focusEnemyTypes: 0000000001000000
+  attackTowerType: 5
+  projectileView: {fileID: 1479536283174257539, guid: b3332d0dfebfb684c8ae4621d4497e79,
+    type: 3}
+  shootVfx: {fileID: 0}
+  hitVfx: {fileID: 0}
+  projectileSpeed: 12
+  damage:
+    min: 15
+    max: 25
+  attackCooldown:
+    min: 0.5
+    max: 0.1
+  attackRange:
+    min: 4
+    max: 8

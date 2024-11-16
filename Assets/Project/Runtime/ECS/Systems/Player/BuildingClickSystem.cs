@@ -122,7 +122,8 @@ namespace Project.Runtime.ECS.Systems.Player
                     _buildingManagementPanel.SetTitleAndLevel(
                         config.Title,
                         buildingTag.Level, 
-                        (float)buildingTag.Level  / upgradableTowerConfig.UpgradePrices.Length);
+                        (float)buildingTag.Level / upgradableTowerConfig.UpgradePrices.Length);
+                    Debug.Log($"Click upgradable building {buildingTag.Level} / {upgradableTowerConfig.UpgradePrices.Length}");
                 }
                 else
                 {
@@ -151,7 +152,7 @@ namespace Project.Runtime.ECS.Systems.Player
             // Attack towers stats
             if (entity.Has<AttackDamageRuntime>() && 
                 entity.Has<AttackCooldownRuntime>() && 
-                entity.Has<AttackRangeRuntime>() &&
+                entity.Has<AttackRangeRuntime>() ||
                 entity.Has<HealthDefault>())
             {
                 _buildingManagementPanel.AddStatsWidget();
@@ -180,6 +181,7 @@ namespace Project.Runtime.ECS.Systems.Player
             
             if (_selectedEntity.Has<BuildingUpgraded>())
             {
+                Debug.Log("[BuildingClickSystem] Building upgraded event handled");
                 ref readonly var buildingTag = ref _selectedEntity.GetComponent<BuildingTag>();
                 var buildingId = buildingTag.BuildingConfigId;
                 if (_buildingsDatabase.TryGetById(buildingId, out var config) &&
@@ -254,6 +256,12 @@ namespace Project.Runtime.ECS.Systems.Player
                 }
                 _buildingManagementPanel.SetStatsWidgetText(list);
             }
+            else if (_selectedEntity.Has<HealthDefault>())
+            {
+                var list = new List<string> { $"Здоровье {_selectedEntity.GetComponent<HealthDefault>().Value:#0.#}" };
+                _buildingManagementPanel.SetStatsWidgetText(list);
+            }
+            
             if (_selectedEntity.Has<CriticalChanceRuntime>() && 
                 _selectedEntity.Has<CriticalDamageRuntime>())
             {

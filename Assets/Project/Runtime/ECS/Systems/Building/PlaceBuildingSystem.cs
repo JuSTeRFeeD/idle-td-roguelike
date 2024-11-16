@@ -65,6 +65,8 @@ namespace Project.Runtime.ECS.Systems.Building
                     if (placingBuilding.BuildingConfig is not UpgradableTowerConfig towerConfig)
                     {
                         Debug.LogError("[MapManager] Lol its not upgradable tower");
+                        placingBuilding.CellEntity?.Dispose();
+                        entity.Dispose();
                         return;
                     }
 
@@ -72,6 +74,8 @@ namespace Project.Runtime.ECS.Systems.Building
                     if (building == null)
                     {
                         Debug.LogError("Нужно обработать если building null");
+                        placingBuilding.CellEntity?.Dispose();
+                        entity.Dispose();
                         return;
                     }
                     
@@ -316,6 +320,12 @@ namespace Project.Runtime.ECS.Systems.Building
                             {
                                 Value = 0.1f
                             });
+                            break;
+                        case AttackTowerType.Snowman:
+                            buildingEntity.AddComponent<SnowmanTowerTag>();
+                            break;
+                        case AttackTowerType.Pumpkin:
+                            buildingEntity.AddComponent<PumpkinTowerTag>();
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();

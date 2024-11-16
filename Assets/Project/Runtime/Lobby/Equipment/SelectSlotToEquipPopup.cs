@@ -23,11 +23,12 @@ namespace Project.Runtime.Lobby.Equipment
             var idx = 0;
             foreach (var inventoryItemView in equipmentViews)
             {
-                var slotIndex = idx++;
+                var slotIndex = idx;
                 inventoryItemView.OnClick += (_) =>
                 {
                     OnSelectSlot(slotIndex);
                 };
+                idx++;
             }
 
             blackoutCloseButton.onClick.AddListener(Hide);

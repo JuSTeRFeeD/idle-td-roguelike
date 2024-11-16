@@ -13,6 +13,8 @@ namespace Project.Runtime.Scriptable.Buildings
         Crystal = 2,
         Bomb = 3,
         Tomb = 4,
+        Snowman = 5,
+        Pumpkin = 6,
     }
     
     [CreateAssetMenu(menuName = "Game/Buildings/AttackTower")]

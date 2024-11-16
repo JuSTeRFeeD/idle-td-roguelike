@@ -1,5 +1,5 @@
 {
-  "idSave": 1485,
+  "idSave": 1683,
   "isFirstSession": false,
   "language": "ru",
   "promptDone": false,
@@ -20,13 +20,13 @@
         "6267273d-8c18-4776-bc9c-49e105cde9dd"
       ],
       "values": [
-        0,
-        277,
-        0,
-        1,
-        0,
-        0,
-        0,
+        5534,
+        518,
+        2391,
+        18,
+        8,
+        17,
+        43,
         1000
       ]
     },
@@ -36,28 +36,28 @@
         "isOpen": true,
         "equippedAtSlot": 0,
         "level": 0,
-        "amount": 1
+        "amount": 2
       },
       {
         "id": "945d886f-5dae-4672-be90-1925bd6ec556",
         "isOpen": true,
         "equippedAtSlot": 1,
         "level": 0,
-        "amount": 0
+        "amount": 4
       },
       {
         "id": "1709d3d1-49ca-4bf8-88fe-ce61606c64c5",
         "isOpen": true,
         "equippedAtSlot": 2,
         "level": 0,
-        "amount": 0
+        "amount": 2
       },
       {
         "id": "7fd66f83-511c-46d5-98cb-7cd642b78154",
         "isOpen": true,
         "equippedAtSlot": 3,
         "level": 0,
-        "amount": 1
+        "amount": 0
       },
       {
         "id": "977a4872-56c0-447d-9a22-85f46cdc3b9f",
@@ -68,10 +68,10 @@
       },
       {
         "id": "ef4d5bd8-82ed-427c-ad35-b533b536b36e",
-        "isOpen": false,
+        "isOpen": true,
         "equippedAtSlot": -1,
         "level": 0,
-        "amount": 1
+        "amount": 6
       },
       {
         "id": "da32a0fd-8587-4a1b-bd9d-a8486e9592ee",
@@ -79,6 +79,20 @@
         "equippedAtSlot": -1,
         "level": 0,
         "amount": 0
+      },
+      {
+        "id": "b5e420d8-dde4-4f27-887b-30345c0c2d58",
+        "isOpen": false,
+        "equippedAtSlot": -1,
+        "level": 0,
+        "amount": 0
+      },
+      {
+        "id": "e56ac3bd-dc3c-4813-b0aa-6a91cd3802b2",
+        "isOpen": true,
+        "equippedAtSlot": -1,
+        "level": 0,
+        "amount": 1
       }
     ],
     "globalStatistics": {
@@ -91,11 +105,11 @@
         9
       ],
       "values": [
-        3006,
+        4650,
         2,
-        44,
-        2403,
-        1725518,
+        72,
+        2529,
+        1772776,
         6
       ]
     },

@@ -9,10 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11932d4c54714042aa8172fbd76a43b2, type: 3}
-  m_Name: Perk_Exp Gain Multiplier
+  m_Script: {fileID: 11500000, guid: 084c11aa69c94e6893a492b611a25625, type: 3}
+  m_Name: Perk_Give Snowman Tower
   m_EditorClassIdentifier: 
-  multipliers:
-  - 1.12
-  - 1.18
-  - 1.25
+  buildingConfig: {fileID: 11400000, guid: e198a3a09378b6d4f9b46c6c5ee99182, type: 2}
