@@ -2,7 +2,6 @@ using Project.Runtime.ECS.Components;
 using Project.Runtime.ECS.Components.Enemies;
 using Project.Runtime.ECS.Systems.FindTarget;
 using Scellecs.Morpeh;
-using VContainer;
 
 namespace Project.Runtime.ECS.Systems.Projectile
 {

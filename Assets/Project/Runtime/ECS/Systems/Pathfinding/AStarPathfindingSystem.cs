@@ -43,7 +43,7 @@ namespace Project.Runtime.ECS.Systems.Pathfinding
             // When map changed we need to recalculate cached path
             if (_mapChangedFilter.IsNotEmpty())
             {
-                UnityEngine.Debug.Log("MAP CHANGED -> RESET CACHE FOR ASTAR");
+                // UnityEngine.Debug.Log("MAP CHANGED -> RESET CACHE FOR ASTAR");
                 _pathCache.Clear();
             }
             

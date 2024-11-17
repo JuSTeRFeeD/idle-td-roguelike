@@ -326,6 +326,14 @@ namespace Project.Runtime.ECS.Systems.Building
                             break;
                         case AttackTowerType.Pumpkin:
                             buildingEntity.AddComponent<PumpkinTowerTag>();
+                            if (!attackTower.HitVfx) Debug.LogError("Pumpkin doesn't have hit vfx for poison!");
+                            buildingEntity.SetComponent(new SpawnPoisonDustOnHit
+                            {
+                                PoisonVFX = attackTower.HitVfx,
+                                Damage = 50,
+                                Lifetime = 3.01f,
+                                TimeBetweenAttack = 0.25f
+                            });
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();

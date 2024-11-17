@@ -37,14 +37,14 @@ MonoBehaviour:
   projectileView: {fileID: 1479536283174257539, guid: b3332d0dfebfb684c8ae4621d4497e79,
     type: 3}
   shootVfx: {fileID: 0}
-  hitVfx: {fileID: 0}
+  hitVfx: {fileID: 619631710302983636, guid: fa6f76bcdf93c664489950992237a2e0, type: 3}
   projectileSpeed: 8
   damage:
     min: 50
     max: 300
   attackCooldown:
     min: 3
-    max: 1
+    max: 2
   attackRange:
     min: 4.5
     max: 6

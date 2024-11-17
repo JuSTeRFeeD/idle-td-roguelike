@@ -123,12 +123,15 @@ namespace Project.Runtime.ECS
             _postTickSystems.AddSystem<RemoveBombDestroyedOnCooldownEndSystem>();
             
             _commonSystemsGroup.AddSystem<UpdateDelayToPerformAttackSystem>();
-            _commonSystemsGroup.AddSystem<AoeAttackStartSystem>();
+            _commonSystemsGroup.AddSystem<AoeTowerAttackStartSystem>();
+            _commonSystemsGroup.AddSystem<PoisonDustAttackSystem>();
             _commonSystemsGroup.AddSystem<ShootToAttackTargetSystem>();
             
             _commonSystemsGroup.AddSystem<TrajectoryProjectileMoveSystem>();
+            _commonSystemsGroup.AddSystem<SpawnPoisonDustOnHitSystem>();
             _commonSystemsGroup.AddSystem<BounceProjectileSystem>();
             _commonSystemsGroup.AddSystem<SplashDamageSystem>();
+            _commonSystemsGroup.AddSystem<DestroyPoisonDustProjectileSystem>(); // need to dispose poisonDustProjectile after SplashDamageSystem 
             _commonSystemsGroup.AddSystem<PerformAoeAttackCastSystem>();
             _commonSystemsGroup.AddSystem<ProjectileHitLandToTheGroundEnemySystem>();
             _commonSystemsGroup.AddSystem<ProjectileHitDealDamageSystem>();

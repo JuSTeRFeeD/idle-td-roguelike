@@ -90,6 +90,11 @@ namespace Project.Runtime.ECS.Systems.Attack
                     Value = attackTarget
                 });
 
+                if (entity.Has<SpawnPoisonDustOnHit>())
+                {
+                    projectileEntity.SetComponent(entity.GetComponent<SpawnPoisonDustOnHit>());
+                }
+
                 if (entity.Has<SplashDamageRuntime>())
                 {
                     projectileEntity.SetComponent(entity.GetComponent<SplashDamageRuntime>());

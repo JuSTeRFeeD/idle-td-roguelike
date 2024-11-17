@@ -9,7 +9,7 @@ namespace Project.Runtime.ECS.Systems.Attack
     [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.NullChecks, false)]
     [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.ArrayBoundsChecks, false)]
     [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.DivideByZeroChecks, false)]
-    public class AoeAttackStartSystem : ISystem
+    public class AoeTowerAttackStartSystem : ISystem
     {
         [Inject] private VfxSetup _vfxSetup;
         

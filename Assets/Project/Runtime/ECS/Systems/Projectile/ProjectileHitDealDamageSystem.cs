@@ -20,6 +20,7 @@ namespace Project.Runtime.ECS.Systems.Projectile
                 .With<ProjectileTag>()
                 .With<ProjectileHit>()
                 .With<AttackDamageRuntime>()
+                .Without<PoisonDustProjectileTag>()
                 .Build();
         }
 

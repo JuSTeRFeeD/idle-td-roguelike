@@ -32,7 +32,7 @@ namespace Project.Runtime.ECS.Systems.Enemies
 
             foreach (var entity in _enemiesFilter)
             {
-                UnityEngine.Debug.Log("Refresh path for unit");
+                // UnityEngine.Debug.Log("Refresh path for unit");
                 entity.SafeRemove<AStarPath>();
                 entity.SafeRemove<AttackTarget>();
                 entity.SafeRemove<AStarCalculatePathRequest>();

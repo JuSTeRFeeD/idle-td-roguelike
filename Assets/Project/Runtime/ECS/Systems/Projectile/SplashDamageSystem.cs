@@ -1,6 +1,5 @@
 using Project.Runtime.ECS.Components;
 using Project.Runtime.ECS.Components.Enemies;
-using Project.Runtime.ECS.Extensions;
 using Project.Runtime.ECS.Systems.FindTarget;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Helpers;
@@ -35,6 +34,7 @@ namespace Project.Runtime.ECS.Systems.Projectile
                 .With<EnemyTag>()
                 .With<ViewEntity>()
                 .Without<ToDestroyTag>()
+                .Without<DestroyOverTime>()
                 .Build();
 
             _viewEntityStash = World.GetStash<ViewEntity>();
@@ -46,10 +46,15 @@ namespace Project.Runtime.ECS.Systems.Projectile
             foreach (var entity in _filter)
             {
                 ref readonly var hitEntity = ref entity.GetComponent<ProjectileHit>().HitEntity;
+                if (hitEntity.IsNullOrDisposed()) continue;
+                
                 ref readonly var damage = ref entity.GetComponent<AttackDamageRuntime>().Value;
                 ref readonly var splashDamage = ref entity.GetComponent<SplashDamageRuntime>();
 
                 var count = FindByAttackRangeExt.GetInRangeFilterNoAlloc(hitEntity, _enemiesFilter, splashDamage.Radius, _viewEntityStash, ref _hits);
+                
+                Debug.Log($"Splash attack from{entity.ID.ToString()}");
+                
                 for (var i = 0; i < count; i++)
                 {
                     var hitTo = _hits[i];

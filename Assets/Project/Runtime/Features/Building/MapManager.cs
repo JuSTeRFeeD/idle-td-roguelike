@@ -96,7 +96,7 @@ namespace Project.Runtime.Features.Building
                 building.Entity.AddComponent<MaxLevelReachedTag>();
             }
             
-            Debug.Log($"[MapManager] Merged, new lvl {buildingTag.Level}");
+            // Debug.Log($"[MapManager] Merged, new lvl {buildingTag.Level}");
             return building;
         }
 

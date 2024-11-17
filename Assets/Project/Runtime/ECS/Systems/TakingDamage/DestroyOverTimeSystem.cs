@@ -1,5 +1,6 @@
 using Project.Runtime.ECS.Components;
 using Scellecs.Morpeh;
+using UnityEngine;
 
 namespace Project.Runtime.ECS.Systems.TakingDamage
 {
@@ -29,6 +30,15 @@ namespace Project.Runtime.ECS.Systems.TakingDamage
                 ref var time = ref _destroyOverTimeStash.Get(entity);
                 time.EstimateTime -= deltaTime;
                 if (time.EstimateTime > 0) continue;
+
+                if (entity.Has<PoisonDustTag>())
+                {
+                    Debug.Log($"Destroyed {entity.ID.ToString()} PoisonDustTag");
+                }
+                if (entity.Has<PoisonDustProjectileTag>())
+                {
+                    Debug.Log($"Destroyed {entity.ID.ToString()} PoisonDustTag");
+                }
                 
                 entity.Dispose();
             }
