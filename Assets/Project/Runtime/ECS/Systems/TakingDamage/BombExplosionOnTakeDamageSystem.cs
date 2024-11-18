@@ -44,7 +44,6 @@ namespace Project.Runtime.ECS.Systems.TakingDamage
                 
                 var bombSplashDamageEntity = World.CreateEntity();
                 bombSplashDamageEntity.InstantiateView(_worldSetup.NullView, entity.ViewPosition(), Quaternion.identity);
-                bombSplashDamageEntity.SetComponent(entity.GetComponent<AttackDamageRuntime>());
                 bombSplashDamageEntity.SetComponent(new ProjectileTag());
                 bombSplashDamageEntity.SetComponent(new ProjectileHit
                 {
@@ -55,13 +54,31 @@ namespace Project.Runtime.ECS.Systems.TakingDamage
                     Radius = entity.GetComponent<AttackRangeRuntime>().Value,
                     PercentFromDamage = 1f
                 });
+                ref readonly var damageRuntime = ref entity.GetComponent<AttackDamageRuntime>().Value;
+                var damage = damageRuntime;
+                var isCritical = false;
+                if (entity.Has<CriticalChanceRuntime>() && entity.Has<CriticalDamageRuntime>())
+                {
+                    ref readonly var criticalChanceRuntime = ref entity.GetComponent<CriticalChanceRuntime>().Value;
+                    if (Random.Range(0f, 1f) < 1f - criticalChanceRuntime)
+                    {
+                        ref readonly var criticalDamageRuntime = ref entity.GetComponent<CriticalDamageRuntime>().Value;
+                        damage += damageRuntime * criticalDamageRuntime;
+                        isCritical = true;
+                    }
+                }
+                bombSplashDamageEntity.SetComponent(new PerformingDamage
+                {
+                    Value = damage,
+                    IsCritical = isCritical
+                });
 
                 if (_bombPerkFilter.IsNotEmpty())
                 {
                     ref readonly var chance = ref _bombPerkFilter.First().GetComponent<DontDestroyBombTowerPerk>()
                         .ChanceToDontDestroy;
 
-                    if (Random.Range(0, 1f) > chance) return;
+                    if (Random.Range(0f, 1f) > chance) return;
                     
                     // prevent bomb death & go to cooldown
                     entity.RemoveComponent<DamageAccumulator>(); 

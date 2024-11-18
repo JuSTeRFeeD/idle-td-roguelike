@@ -21,7 +21,6 @@ namespace Project.Runtime.ECS.Systems.Projectile
                 .With<TrajectoryProjectile>()
                 .With<ProjectileMoveData>()
                 .With<MoveSpeedRuntime>()
-                .With<AttackDamageRuntime>()
                 .With<ViewEntity>()
                 .With<AttackTarget>()
                 .Build();

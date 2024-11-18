@@ -75,13 +75,28 @@ namespace Project.Runtime.ECS.Systems.Attack
                 aoeCastEntity.InstantiateView(projectileParams.EntityView, shootPoint, Quaternion.identity);
                 aoeCastEntity.AddComponent<AoeCastTag>();
                 aoeCastEntity.AddComponent<ProjectileTag>();
-                aoeCastEntity.SetComponent(new AttackDamageRuntime
-                {
-                    Value = attackDamageRuntime
-                });
                 aoeCastEntity.SetComponent(new AttackRangeRuntime
                 {
                     Value = attackRangeRuntime
+                });
+                
+                // Critical chance or flat damage
+                var damage = attackDamageRuntime;
+                var isCritical = false;
+                if (entity.Has<CriticalChanceRuntime>() && entity.Has<CriticalDamageRuntime>())
+                {
+                    ref readonly var criticalChanceRuntime = ref entity.GetComponent<CriticalChanceRuntime>().Value;
+                    if (Random.Range(0f, 1f) < 1f - criticalChanceRuntime)
+                    {
+                        ref readonly var criticalDamageRuntime = ref entity.GetComponent<CriticalDamageRuntime>().Value;
+                        damage += attackDamageRuntime * criticalDamageRuntime;
+                        isCritical = true;
+                    }
+                }
+                aoeCastEntity.SetComponent(new PerformingDamage
+                {
+                    Value = damage,
+                    IsCritical = isCritical
                 });
                 
                 // Land

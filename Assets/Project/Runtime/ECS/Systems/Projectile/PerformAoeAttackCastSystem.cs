@@ -2,6 +2,7 @@ using Project.Runtime.ECS.Components;
 using Project.Runtime.ECS.Components.Enemies;
 using Project.Runtime.ECS.Systems.FindTarget;
 using Scellecs.Morpeh;
+using UnityEngine;
 
 namespace Project.Runtime.ECS.Systems.Projectile
 {
@@ -19,7 +20,7 @@ namespace Project.Runtime.ECS.Systems.Projectile
         private Filter _groundedEnemiesFilter;
         private Filter _flyEnemiesFilter;
 
-        private Stash<AttackDamageRuntime> _attackDamageRuntimeStash;
+        private Stash<PerformingDamage> _performingDamageStash;
         private Stash<AttackRangeRuntime> _attackRangeRuntimeStash;
         private Stash<ViewEntity> _viewEntityStash;
 
@@ -27,14 +28,14 @@ namespace Project.Runtime.ECS.Systems.Projectile
         
         public void OnAwake()
         {
-            _attackDamageRuntimeStash = World.GetStash<AttackDamageRuntime>();
+            _performingDamageStash = World.GetStash<PerformingDamage>();
             _attackRangeRuntimeStash = World.GetStash<AttackRangeRuntime>();
             _viewEntityStash = World.GetStash<ViewEntity>();
             
             _aoeFilter = World.Filter
                 .With<AoeCastTag>()
                 .With<ProjectileTag>()
-                .With<AttackDamageRuntime>()
+                .With<PerformingDamage>()
                 .With<AttackRangeRuntime>()
                 .With<ViewEntity>()
                 .Without<IsOnDelayToPerformAttack>()
@@ -42,7 +43,7 @@ namespace Project.Runtime.ECS.Systems.Projectile
             _aoeToGroundedFilter = World.Filter
                 .With<AoeCastTag>()
                 .With<ProjectileTag>()
-                .With<AttackDamageRuntime>()
+                .With<PerformingDamage>()
                 .With<AttackRangeRuntime>()
                 .With<ViewEntity>()
                 .With<FocusGroundEnemiesTag>()
@@ -99,19 +100,16 @@ namespace Project.Runtime.ECS.Systems.Projectile
         
         private void DealDamageInRange(Entity entity, in Filter filter)
         {
-            var damage = _attackDamageRuntimeStash.Get(entity).Value;
+            var attackDamageRuntime= _performingDamageStash.Get(entity).Value;
             var count = FindByAttackRangeExt.GetInRangeFilterNoAlloc(entity, filter, _attackRangeRuntimeStash.Get(entity).Value, _viewEntityStash, ref _hits);
             for (var i = 0; i < count; i++)
             {
                 var hitTo = _hits[i];
                 
-                // creating hit event
+                // Creating hit event
                 var aoeHitEntity = World.CreateEntity();
                 aoeHitEntity.AddComponent<ProjectileTag>();
-                aoeHitEntity.SetComponent(new AttackDamageRuntime
-                {
-                    Value = damage
-                });
+                aoeHitEntity.SetComponent<PerformingDamage>(_performingDamageStash.Get(entity));
                 aoeHitEntity.SetComponent(new ProjectileHit
                 {
                     HitEntity = hitTo

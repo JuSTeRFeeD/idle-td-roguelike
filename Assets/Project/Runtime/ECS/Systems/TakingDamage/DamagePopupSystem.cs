@@ -41,6 +41,7 @@ namespace Project.Runtime.ECS.Systems.TakingDamage
                 var popupEntity = World.CreateEntity();
                 var view = popupEntity.InstantiateView<PopupTextView>(_worldSetup.PopupTextView, pos, Quaternion.identity);
                 view.SetValue(damageAccumulator.Value);
+                view.SetIsCritical(damageAccumulator.IsCritical);
                 popupEntity.SetComponent(new DestroyOverTime
                 {
                     EstimateTime = 1.1f

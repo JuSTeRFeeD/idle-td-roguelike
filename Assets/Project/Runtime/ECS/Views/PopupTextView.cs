@@ -8,7 +8,6 @@ namespace Project.Runtime.ECS.Views
     public class PopupTextView : EntityView
     {
         [SerializeField] private TextMeshProUGUI valueText;
-        [SerializeField] private TextMeshProUGUI valueBlackText;
 
         private const float AnimationDuration = 1f; 
         
@@ -16,7 +15,6 @@ namespace Project.Runtime.ECS.Views
         {
             var formattedValue = value.FormatValue();
             valueText.SetText(formattedValue);
-            valueBlackText.SetText(formattedValue);
 
             var endPosition = transform.position + new Vector3(Random.Range(-1, 1f), .75f, Random.Range(-1, 1f));
             transform.DOKill(true);
@@ -25,6 +23,11 @@ namespace Project.Runtime.ECS.Views
                 .Join(transform.DOScale(Vector3.one * 1.1f, AnimationDuration).SetEase(Ease.Linear))
                 .Join(transform.DOScale(Vector3.zero / 2f, AnimationDuration).SetEase(Ease.InQuart))
                 .SetLink(gameObject);
+        }
+
+        public void SetIsCritical(bool damageAccumulatorIsCritical)
+        {
+            valueText.color = damageAccumulatorIsCritical ? Color.red : Color.white;
         }
     }
 }

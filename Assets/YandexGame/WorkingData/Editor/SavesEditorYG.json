@@ -1,5 +1,5 @@
 {
-  "idSave": 1763,
+  "idSave": 1938,
   "isFirstSession": false,
   "language": "ru",
   "promptDone": false,
@@ -21,10 +21,10 @@
       ],
       "values": [
         5548,
-        833,
+        1118,
         2804,
-        19,
-        9,
+        20,
+        10,
         18,
         38,
         1150
@@ -36,12 +36,12 @@
         "isOpen": true,
         "equippedAtSlot": 0,
         "level": 0,
-        "amount": 3
+        "amount": 4
       },
       {
         "id": "945d886f-5dae-4672-be90-1925bd6ec556",
         "isOpen": true,
-        "equippedAtSlot": 1,
+        "equippedAtSlot": -1,
         "level": 0,
         "amount": 4
       },
@@ -69,9 +69,9 @@
       {
         "id": "ef4d5bd8-82ed-427c-ad35-b533b536b36e",
         "isOpen": true,
-        "equippedAtSlot": -1,
+        "equippedAtSlot": 1,
         "level": 0,
-        "amount": 6
+        "amount": 7
       },
       {
         "id": "da32a0fd-8587-4a1b-bd9d-a8486e9592ee",
@@ -105,11 +105,11 @@
         9
       ],
       "values": [
-        5754,
+        7932,
         3,
-        100,
-        3671,
-        2813510,
+        132,
+        4646,
+        3505020,
         7
       ]
     },

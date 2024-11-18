@@ -40,11 +40,11 @@ MonoBehaviour:
   hitVfx: {fileID: 619631710302983636, guid: fa6f76bcdf93c664489950992237a2e0, type: 3}
   projectileSpeed: 8
   damage:
-    min: 50
-    max: 300
+    min: 0
+    max: 0
   attackCooldown:
-    min: 3
-    max: 2
+    min: 4
+    max: 2.5
   attackRange:
-    min: 4.5
-    max: 6
+    min: 5
+    max: 8

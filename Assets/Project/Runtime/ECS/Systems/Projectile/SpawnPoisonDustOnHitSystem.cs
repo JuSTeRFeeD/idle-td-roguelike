@@ -28,6 +28,8 @@ namespace Project.Runtime.ECS.Systems.Projectile
                 .Build();
         }
 
+        // Когда projectile попадает во врага и имеет компонент SpawnPoisonDustOnHit - Спавнит облако
+        
         public void OnUpdate(float deltaTime)
         {
             foreach (var entity in _filter)
@@ -47,7 +49,7 @@ namespace Project.Runtime.ECS.Systems.Projectile
                 {
                     Value = poisonData.TimeBetweenAttack
                 });
-                poisonDust.SetComponent(new AttackDamageRuntime
+                poisonDust.SetComponent(new PerformingDamage
                 {
                     Value = poisonData.Damage
                 });

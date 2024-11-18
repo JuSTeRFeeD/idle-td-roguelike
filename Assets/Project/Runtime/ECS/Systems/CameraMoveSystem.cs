@@ -62,6 +62,8 @@ namespace Project.Runtime.ECS.Systems
                 }
             }
 
+            var dt = Time.unscaledDeltaTime;
+            
             var difference = Vector3.zero;
             if (_isDrag && Input.GetMouseButton(0))
             {
@@ -79,17 +81,17 @@ namespace Project.Runtime.ECS.Systems
                 _targetVelocity = move.normalized * DragSpeed * additionalSpeedByDist;
 
                 // Плавная интерполяция текущей скорости к целевой во время зажатия мыши
-                _currentVelocity = Vector3.Lerp(_currentVelocity, _targetVelocity, SmoothTime / deltaTime);
+                _currentVelocity = Vector3.Lerp(_currentVelocity, _targetVelocity, SmoothTime / dt);
             }
 
             // Плавное замедление после отпускания мыши
             if (!_isDrag && _currentVelocity != Vector3.zero)
             {
-                _currentVelocity = Vector3.Lerp(_currentVelocity, Vector3.zero, InertiaDamping * deltaTime);
+                _currentVelocity = Vector3.Lerp(_currentVelocity, Vector3.zero, InertiaDamping * dt);
             }
 
             // Обновление позиции камеры
-            var newPos = _cameraController.OriginTargetPosition + _currentVelocity * deltaTime;
+            var newPos = _cameraController.OriginTargetPosition + _currentVelocity * dt;
             _cameraController.SetPosition(newPos);
         }
 

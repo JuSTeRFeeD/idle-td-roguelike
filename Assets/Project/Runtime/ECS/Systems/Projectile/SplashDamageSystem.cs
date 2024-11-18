@@ -48,7 +48,7 @@ namespace Project.Runtime.ECS.Systems.Projectile
                 ref readonly var hitEntity = ref entity.GetComponent<ProjectileHit>().HitEntity;
                 if (hitEntity.IsNullOrDisposed()) continue;
                 
-                ref readonly var damage = ref entity.GetComponent<AttackDamageRuntime>().Value;
+                ref readonly var performingDamage = ref entity.GetComponent<PerformingDamage>();
                 ref readonly var splashDamage = ref entity.GetComponent<SplashDamageRuntime>();
 
                 var count = FindByAttackRangeExt.GetInRangeFilterNoAlloc(hitEntity, _enemiesFilter, splashDamage.Radius, _viewEntityStash, ref _hits);
@@ -58,7 +58,9 @@ namespace Project.Runtime.ECS.Systems.Projectile
                 for (var i = 0; i < count; i++)
                 {
                     var hitTo = _hits[i];
-                    _damageAccumulatorStash.AddOrGet(hitTo).Value += damage * splashDamage.PercentFromDamage;
+                    ref var damageAccumulator = ref _damageAccumulatorStash.AddOrGet(hitTo);
+                    damageAccumulator.Value += performingDamage.Value * splashDamage.PercentFromDamage;
+                    damageAccumulator.IsCritical = damageAccumulator.IsCritical || performingDamage.IsCritical;
                 }
             }
         }

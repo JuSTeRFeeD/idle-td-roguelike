@@ -85,9 +85,11 @@ namespace Project.Runtime.ECS.Systems.Projectile
                     newProjectile.SetComponent(entity.GetComponent<BouncingProjectile>());
                     newProjectile.SetComponent(entity.GetComponent<TrajectoryProjectile>());
                     newProjectile.SetComponent(entity.GetComponent<MoveSpeedRuntime>());
-                    newProjectile.SetComponent(new AttackDamageRuntime
+                    ref readonly var performingDamage = ref entity.GetComponent<PerformingDamage>();
+                    newProjectile.SetComponent(new PerformingDamage
                     {
-                        Value = entity.GetComponent<AttackDamageRuntime>().Value / 2
+                        Value = performingDamage.Value / 2,
+                        IsCritical = performingDamage.IsCritical
                     });
                     newProjectile.SetComponent(new AttackTarget
                     {

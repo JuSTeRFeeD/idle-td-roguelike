@@ -19,7 +19,7 @@ namespace Project.Runtime.ECS.Systems.Projectile
             _filter = World.Filter
                 .With<ProjectileTag>()
                 .With<ProjectileHit>()
-                .With<AttackDamageRuntime>()
+                .With<PerformingDamage>()
                 .Without<PoisonDustProjectileTag>()
                 .Build();
         }
@@ -29,8 +29,11 @@ namespace Project.Runtime.ECS.Systems.Projectile
             foreach (var entity in _filter)
             {
                 ref readonly var hitEntity = ref entity.GetComponent<ProjectileHit>().HitEntity;
-                ref readonly var damage = ref entity.GetComponent<AttackDamageRuntime>().Value;
-                hitEntity.AddOrGet<DamageAccumulator>().Value += damage;
+                ref readonly var performingDamage = ref entity.GetComponent<PerformingDamage>();
+                
+                ref var damageAccumulator = ref hitEntity.AddOrGet<DamageAccumulator>();
+                damageAccumulator.Value += performingDamage.Value;
+                damageAccumulator.IsCritical = damageAccumulator.IsCritical || performingDamage.IsCritical;
 
                 entity.RemoveComponent<ProjectileTag>();
                 entity.SetComponent(new DestroyOverTime

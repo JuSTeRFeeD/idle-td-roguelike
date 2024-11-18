@@ -84,7 +84,7 @@ namespace Project.Runtime.Features.Building
             ref var buildingTag = ref building.Entity.GetComponent<BuildingTag>();
             
             // Cant upgrade cuz lvl max
-            if (buildingTag.Level >= buildingConfig.UpgradePrices.Length)
+            if (buildingTag.Level >= buildingConfig.UpgradePrices.Length - 1)
             {
                 Debug.LogWarning($"[MapManager] MaxLevel {buildingTag.Level} >= {buildingConfig.UpgradePrices.Length} | gridPos {gridPos}");
                 return null;

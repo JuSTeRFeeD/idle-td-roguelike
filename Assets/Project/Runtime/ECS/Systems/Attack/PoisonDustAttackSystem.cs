@@ -41,8 +41,15 @@ namespace Project.Runtime.ECS.Systems.Attack
                     HitEntity = entity
                 });
                 poisonSplashDamage.SetComponent(entity.GetComponent<SplashDamageRuntime>());
-                poisonSplashDamage.SetComponent(entity.GetComponent<AttackDamageRuntime>());
                 poisonSplashDamage.SetComponent(new ToDestroyTag());
+                
+                // Critical chance or flat damage
+                ref readonly var attackDamageRuntime = ref entity.GetComponent<PerformingDamage>().Value;
+                poisonSplashDamage.SetComponent(new PerformingDamage
+                {
+                    Value = attackDamageRuntime,
+                    IsCritical = false
+                });
                 
                 entity.SetComponent(new IsAttackOnCooldown
                 {

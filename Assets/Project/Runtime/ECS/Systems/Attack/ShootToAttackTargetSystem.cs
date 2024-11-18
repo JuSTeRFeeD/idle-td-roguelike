@@ -81,13 +81,28 @@ namespace Project.Runtime.ECS.Systems.Attack
                 {
                     Value = projectileParams.ProjectileSpeed
                 });
-                projectileEntity.SetComponent(new AttackDamageRuntime
-                {
-                    Value = attackDamageRuntime
-                });
                 projectileEntity.SetComponent(new AttackTarget
                 {
                     Value = attackTarget
+                });
+
+                // Critical chance or flat damage
+                var damage = attackDamageRuntime;
+                var isCritical = false;
+                if (entity.Has<CriticalChanceRuntime>() && entity.Has<CriticalDamageRuntime>())
+                {
+                    ref readonly var criticalChanceRuntime = ref entity.GetComponent<CriticalChanceRuntime>().Value;
+                    if (Random.Range(0f, 1f) < 1f - criticalChanceRuntime)
+                    {
+                        ref readonly var criticalDamageRuntime = ref entity.GetComponent<CriticalDamageRuntime>().Value;
+                        damage += attackDamageRuntime * criticalDamageRuntime;
+                        isCritical = true;
+                    }
+                }
+                projectileEntity.SetComponent(new PerformingDamage
+                {
+                    Value = damage,
+                    IsCritical = isCritical
                 });
 
                 if (entity.Has<SpawnPoisonDustOnHit>())
