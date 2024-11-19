@@ -62,8 +62,8 @@ namespace Project.Runtime.ECS.Systems.Stats
                 .With<PoisonDustDamageUpgrade>()
                 .Build();
             
-            _snowmanTowerPerksUpgradesFilter = World.Filter.With<SnowmanTowerTag>().Build();
-            _snowmanTowerFilter = World.Filter
+            _snowmanTowerFilter = World.Filter.With<SnowmanTowerTag>().Build();
+            _snowmanTowerPerksUpgradesFilter = World.Filter
                 .With<SnowmanTowerUpgradesTag>()
                 .With<TowerAttackUpgrades>()
                 .Build();
