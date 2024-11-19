@@ -1,11 +1,11 @@
 {
-  "idSave": 2087,
+  "idSave": 2296,
   "isFirstSession": false,
   "language": "ru",
   "promptDone": false,
   "playerProgressData": {
-    "mapSave": "0,1|0,0|1|0|0,0|1,0|1|0|1,0|2,1;1,1|1|0|2,1|3,2;2,2|0|0|3,2|4,2|0|0|4,2|4,1;5,2|0|0|4,1|5,0;4,0|0|0|5,0|5,1|0|0|5,1|n|0|2|1,1|n|0|1|2,2|n|0|1|5,2|n|0|1|4,0|n|0|1",
-    "curMapPointIndex": 3,
+    "mapSave": "0,1|0,0|1|0|0,0|1,0|1|0|1,0|2,1;1,1|1|0|2,1|3,2;2,2|1|0|3,2|4,2|0|0|4,2|4,1;5,2|0|0|4,1|5,0;4,0|0|0|5,0|5,1|0|0|5,1|n|0|2|1,1|n|0|1|2,2|n|0|1|5,2|n|0|1|4,0|n|0|1",
+    "curMapPointIndex": 4,
     "completedMapsCount": 0,
     "autoUpgradeTowersChecked": true,
     "balanceByCurrencyId": {
@@ -20,13 +20,13 @@
         "6267273d-8c18-4776-bc9c-49e105cde9dd"
       ],
       "values": [
-        5579,
-        5,
-        6948,
-        32,
-        18,
-        32,
-        22,
+        5617,
+        133,
+        10136,
+        9,
+        1,
+        0,
+        1,
         1150
       ]
     },
@@ -36,28 +36,28 @@
         "isOpen": true,
         "equippedAtSlot": 0,
         "level": 1,
-        "amount": 3
+        "amount": 6
       },
       {
         "id": "945d886f-5dae-4672-be90-1925bd6ec556",
         "isOpen": true,
         "equippedAtSlot": 1,
         "level": 2,
-        "amount": 5
+        "amount": 15
       },
       {
         "id": "1709d3d1-49ca-4bf8-88fe-ce61606c64c5",
         "isOpen": true,
-        "equippedAtSlot": 2,
+        "equippedAtSlot": -1,
         "level": 2,
-        "amount": 3
+        "amount": 18
       },
       {
         "id": "7fd66f83-511c-46d5-98cb-7cd642b78154",
         "isOpen": true,
         "equippedAtSlot": 3,
         "level": 2,
-        "amount": 0
+        "amount": 12
       },
       {
         "id": "977a4872-56c0-447d-9a22-85f46cdc3b9f",
@@ -71,28 +71,28 @@
         "isOpen": true,
         "equippedAtSlot": -1,
         "level": 1,
-        "amount": 14
+        "amount": 35
       },
       {
         "id": "da32a0fd-8587-4a1b-bd9d-a8486e9592ee",
         "isOpen": true,
         "equippedAtSlot": -1,
         "level": 0,
-        "amount": 14
+        "amount": 32
       },
       {
         "id": "b5e420d8-dde4-4f27-887b-30345c0c2d58",
         "isOpen": true,
         "equippedAtSlot": -1,
         "level": 0,
-        "amount": 5
+        "amount": 6
       },
       {
         "id": "e56ac3bd-dc3c-4813-b0aa-6a91cd3802b2",
         "isOpen": true,
-        "equippedAtSlot": -1,
+        "equippedAtSlot": 2,
         "level": 1,
-        "amount": 12
+        "amount": 26
       }
     ],
     "globalStatistics": {
@@ -106,11 +106,11 @@
         5
       ],
       "values": [
-        8673,
-        3,
-        147,
-        5005,
-        3685831,
+        9321,
+        4,
+        152,
+        5064,
+        3706257,
         7,
         9
       ]

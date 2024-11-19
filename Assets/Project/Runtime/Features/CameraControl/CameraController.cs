@@ -46,7 +46,7 @@ namespace Project.Runtime.Features.CameraControl
 
         private void ClickHandle()
         {
-            if (!Input.GetMouseButtonDown(0)) return;
+            if (!Input.GetMouseButtonDown(0) || !EventSystem.current) return;
             if (EventSystem.current.IsPointerOverGameObject())
             {
                 return;

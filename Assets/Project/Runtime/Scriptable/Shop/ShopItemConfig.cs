@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Project.Runtime.Scriptable.Shop
@@ -7,6 +8,8 @@ namespace Project.Runtime.Scriptable.Shop
     {
         [SerializeField] private string title;
         [SerializeField] private int amount;
+        [PreviewField]
+        [SerializeField] private Sprite icon;
         [Space]
         [SerializeField] private int discountPercent;
         [SerializeField] private int price;
@@ -16,6 +19,7 @@ namespace Project.Runtime.Scriptable.Shop
 
         public ShopGiveOnBuy GiveOnBuy => giveOnBuy;
         public int Price => price;
+        public Sprite Icon => icon;
         public int DiscountPercent => discountPercent;
         public ShopPriceType PriceType => priceType;
         public string Title => title;

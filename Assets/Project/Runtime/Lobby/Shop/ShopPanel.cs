@@ -5,8 +5,10 @@ using Project.Runtime.Scriptable.Currency;
 using Project.Runtime.Scriptable.Shop;
 using Project.Runtime.Services.PlayerProgress;
 using Project.Runtime.Services.Saves;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using VContainer;
+using YG;
 
 namespace Project.Runtime.Lobby.Shop
 {
@@ -19,12 +21,33 @@ namespace Project.Runtime.Lobby.Shop
         [SerializeField] private CurrencyConfig commonChestCurrencyConfig;
         [SerializeField] private CurrencyConfig epicChestCurrencyConfig;
         [SerializeField] private List<ShopItemView> shopItemViews;
+
+        [Title("Purchases")]
+        [SerializeField] private ShopItemView shopItemView;
+        [SerializeField] private RectTransform crystalsContainer;
+
+        [Title("Purchases icons")] 
+        [SerializeField] private Sprite crystalsIcon;
         
         private void Start()
         {
             foreach (var shopItemView in shopItemViews)
             {
                 shopItemView.OnClick += OnClickShopItem;
+            }
+
+            InstantiatePurchases();
+        }
+
+        private void InstantiatePurchases()
+        {
+            foreach (var purchase in YandexGame.purchases)
+            {
+                if (purchase.id.Contains("crystals"))
+                {
+                    var item = Instantiate(shopItemView, crystalsContainer);
+                    item.Setup(purchase.title, purchase.priceValue, ShopPriceType.RealCurrency, crystalsIcon);
+                }
             }
         }
 

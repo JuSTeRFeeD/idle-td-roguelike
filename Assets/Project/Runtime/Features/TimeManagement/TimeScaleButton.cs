@@ -1,13 +1,19 @@
 using System;
+using Ads;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using VContainer;
+using YG;
 
 namespace Project.Runtime.Features.TimeManagement
 {
     public class TimeScaleButton : MonoBehaviour, IPointerClickHandler
     {
+        [Inject] private SoundVolume soundVolume;
+        
         [SerializeField] private TextMeshProUGUI curTimeScaleText;
+        [SerializeField] private GameObject rewardedWrapper;
 
         private enum TimeScaleVariant
         {
@@ -18,15 +24,43 @@ namespace Project.Runtime.Features.TimeManagement
         }
 
         private TimeScaleVariant _timeScaleVariant;
+        private bool IsAdWatched = false;
         
         private void Start()
         {
             _timeScaleVariant = TimeScaleVariant.Normal;
             curTimeScaleText.SetText("x1");
+
+            YandexGame.RewardVideoEvent += RewardedWatched;
+            YandexGame.ErrorVideoEvent += CancelledRewardedAd;
+        }
+
+        private void CancelledRewardedAd()
+        {
+            soundVolume.Silence(false);
+            TimeScale.OverrideNormalTimeScale(1);
+        }
+
+        private void RewardedWatched(int rewardId)
+        {
+            if (rewardId == (int)RewardedAdIds.TimeScaleButton)
+            {
+                IsAdWatched = true;
+                rewardedWrapper.gameObject.SetActive(false);
+                CancelledRewardedAd();
+            }
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
+            if (!IsAdWatched)
+            {
+                TimeScale.OverrideNormalTimeScale(0);
+                soundVolume.Silence(true);
+                YandexGame.RewVideoShow((int)RewardedAdIds.TimeScaleButton);
+                return;
+            }
+            
             switch (_timeScaleVariant)
             {
                 case TimeScaleVariant.Normal:

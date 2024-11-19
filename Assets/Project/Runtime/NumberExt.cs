@@ -8,6 +8,7 @@ namespace Project.Runtime.Features
         public static string FormatValue(this ulong value) => ((double)value).FormatValue();
         public static string FormatValue(this double value)
         {
+            if (value == 0) return "0";
             return value switch
             {
                 >= 1000000 => (value / 1000000).ToString("#.#") + "М",

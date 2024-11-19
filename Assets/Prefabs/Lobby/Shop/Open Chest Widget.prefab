@@ -92,11 +92,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cac43424226041b5bb35a1d54b5fb350, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  commonChestCurrencyConfig: {fileID: 11400000, guid: d9d266e8ca790744486282d1c9a07b79,
-    type: 2}
-  epicChestCurrencyConfig: {fileID: 11400000, guid: ad58935cca89f1046b8d634e72615c22,
-    type: 2}
   chestType: 0
+  chestKeysCurrencyConfig: {fileID: 11400000, guid: 64bdb7cde98f71541a953366381b8ecd,
+    type: 2}
+  chestCurrencyConfig: {fileID: 11400000, guid: d9d266e8ca790744486282d1c9a07b79,
+    type: 2}
   dropChancesConfig: {fileID: 11400000, guid: ed2cbf2bb4bac7b4ebcd8c23bcc06477, type: 2}
   titleText: {fileID: 6298101444524854604}
   openButton: {fileID: 4297343404606149154}

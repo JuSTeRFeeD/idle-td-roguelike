@@ -27,15 +27,15 @@ RectTransform:
   m_GameObject: {fileID: 856427490929080319}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: -1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1621331966725960909}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000022888184, y: 4.6}
-  m_SizeDelta: {x: 52.6184, y: 20.073599}
+  m_AnchoredPosition: {x: 0, y: 2.8999996}
+  m_SizeDelta: {x: 48.522, y: 20.0736}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9039020449168164459
 CanvasRenderer:
@@ -228,7 +228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shopItemConfig: {fileID: 0}
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 8006630958008575916}
   priceText: {fileID: 6979773766219048275}
   titleText: {fileID: 2899283940285381687}
   currencyImage: {fileID: 2673277104650284696}
@@ -271,8 +271,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 42}
+  m_AnchoredPosition: {x: 0, y: -13.339905}
+  m_SizeDelta: {x: 0, y: 28.6601}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &5106905098655499815
 CanvasRenderer:
@@ -302,7 +302,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439 \u0441\u0443\u043D\u0434\u0443\u043A"
+  m_text: "\u041E\u0431\u044B\u0447\u043D\u044B\u0439 \u0441\u0443\u043D\u0434\u0443\u043A
+    \u0441\u0443\u043D\u0434\u0443\u043A \u0441\u0443\u043D\u0434\u0443\u043A"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 20616b666e0916541967288678cecc22, type: 2}
   m_sharedMaterial: {fileID: -558026808112566761, guid: 20616b666e0916541967288678cecc22,
@@ -399,17 +400,17 @@ RectTransform:
   m_GameObject: {fileID: 5080651603443298319}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: -1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5132114663419379135}
   m_Father: {fileID: 7105764091230474904}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -18.4, y: 32.6}
-  m_SizeDelta: {x: 52.6184, y: 34.2856}
-  m_Pivot: {x: 1, y: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 18.2, y: 87.4}
+  m_SizeDelta: {x: 48, y: 29}
+  m_Pivot: {x: 0, y: 0}
 --- !u!222 &1895379038783086731
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -431,15 +432,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0.8365736, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b43181d58752e46b48702ff5bab91825, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: bff42edc39658440d8917bf23dbc171e, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -558,7 +559,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 5, y: -26.1}
+  m_AnchoredPosition: {x: 5, y: -48}
   m_SizeDelta: {x: 125.4734, y: 125.4734}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &5632480310734457765
@@ -611,7 +612,7 @@ GameObject:
   - component: {fileID: 3078431259457554353}
   - component: {fileID: 2673277104650284696}
   m_Layer: 0
-  m_Name: icon
+  m_Name: Currency icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -711,7 +712,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 16, y: 0}
   m_SizeDelta: {x: 0, y: 30.0144}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2217917708318031305
@@ -742,7 +743,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 12345
+  m_text: 12312 YAN
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3390806118df7cd4298031b750ae4b21, type: 2}
   m_sharedMaterial: {fileID: -8274804629624535027, guid: 3390806118df7cd4298031b750ae4b21,

@@ -29,7 +29,7 @@ MonoBehaviour:
   rewardedAfterClosing: 1
   adDisplayCalls: 0
   fullscreenAdInterval: 60
-  durationOfAdSimulation: 0.5
+  durationOfAdSimulation: 2
   loadAdWithDelaySimulation: 0
   testErrorOfRewardedAdsInEditor: 0
   saveCloud: 1
@@ -275,33 +275,33 @@ MonoBehaviour:
     de: 
     hi: 
   purshasesSimulation:
-  - id: gun
-    title: Gun
-    description: Product - Gun
+  - id: crystals_300
+    title: "\u041A\u0440\u0438\u0441\u0442\u0430\u043B\u043B\u044B 300"
+    description: 
     imageURI: https://justplaygames.ru/public/Paymant1.png
-    price: 5 YAN
-    priceValue: 5
+    price: 45 YAN
+    priceValue: 45
     priceCurrencyCode: YAN
     currencyImageURL: https://yastatic.net/s3/games-static/static-data/images/payments/sdk/currency-icon-s@2x.png
-    consumed: 1
-  - id: armor
-    title: Armor
-    description: Product - Armor
+    consumed: 0
+  - id: crystals_1600
+    title: "\u041A\u0440\u0438\u0441\u0442\u0430\u043B\u043B\u044B 1600"
+    description: 
     imageURI: https://justplaygames.ru/public/Paymant2.png
-    price: 10 YAN
-    priceValue: 10
+    price: 275 YAN
+    priceValue: 275
     priceCurrencyCode: YAN
     currencyImageURL: https://yastatic.net/s3/games-static/static-data/images/payments/sdk/currency-icon-s@2x.png
-    consumed: 1
-  - id: grenade
-    title: Grenade
-    description: Product - Grenade
+    consumed: 0
+  - id: crystals_5500
+    title: "\u041A\u0440\u0438\u0441\u0442\u0430\u043B\u043B\u044B 5000"
+    description: 
     imageURI: https://justplaygames.ru/public/Paymant3.png
-    price: 30 YAN
-    priceValue: 30
+    price: 675 YAN
+    priceValue: 675
     priceCurrencyCode: YAN
     currencyImageURL: https://yastatic.net/s3/games-static/static-data/images/payments/sdk/currency-icon-s@2x.png
-    consumed: 1
+    consumed: 0
   metricaEnable: 0
   metricaCounterID: 0
   debug: 1

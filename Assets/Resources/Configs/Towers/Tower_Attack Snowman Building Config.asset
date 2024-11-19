@@ -46,5 +46,5 @@ MonoBehaviour:
     min: 0.5
     max: 0.1
   attackRange:
-    min: 4
-    max: 8
+    min: 6
+    max: 10

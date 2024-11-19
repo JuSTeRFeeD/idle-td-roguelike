@@ -27,20 +27,36 @@ namespace Project.Runtime.Lobby.Shop
         
         private void Start()
         {
-            // itemIcon.sprte = shopItemConfig.
-            titleText.SetText($"{shopItemConfig.Title} x{shopItemConfig.Amount}");
+            if (!shopItemConfig) return;
+            itemIcon.sprite = shopItemConfig.Icon;
+            titleText.SetText($"{shopItemConfig.Title} {shopItemConfig.Amount}");
             priceText.SetText($"{shopItemConfig.Price}");
-            currencyImage.sprite = shopItemConfig.PriceType switch
+            SetCurrencyIcon(shopItemConfig.PriceType);
+
+            discountText.SetText($"-{shopItemConfig.DiscountPercent}%");
+            discountText.enabled = shopItemConfig.DiscountPercent != 0;
+            discountImage.enabled = shopItemConfig.DiscountPercent != 0;
+        }
+
+        public void Setup(string title, string price, ShopPriceType priceType, Sprite icon)
+        {
+            itemIcon.sprite = icon;
+            titleText.SetText(title);
+            priceText.SetText(price);
+            SetCurrencyIcon(priceType);
+            
+            discountText.enabled = discountImage.enabled = false;
+        }
+
+        private void SetCurrencyIcon(ShopPriceType priceType)
+        {
+            currencyImage.sprite = priceType switch
             {
                 ShopPriceType.HardCurrency => hardCurrencySprite,
                 ShopPriceType.SoftCurrency => softCurrencySprite,
                 ShopPriceType.RealCurrency => realCurrencySprite,
                 _ => throw new ArgumentOutOfRangeException()
             };
-
-            discountText.SetText($"-{shopItemConfig.DiscountPercent}%");
-            discountText.enabled = shopItemConfig.DiscountPercent != 0;
-            discountImage.enabled = shopItemConfig.DiscountPercent != 0;
         }
 
         public void OnPointerClick(PointerEventData eventData)

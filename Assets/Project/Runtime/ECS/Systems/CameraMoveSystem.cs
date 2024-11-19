@@ -55,7 +55,7 @@ namespace Project.Runtime.ECS.Systems
 
             if (!_isDrag)
             {
-                if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
+                if (Input.GetMouseButtonDown(0) && EventSystem.current && !EventSystem.current.IsPointerOverGameObject())
                 {
                     _dragOrigin = Input.mousePosition;
                     _isDrag = true;
@@ -92,7 +92,15 @@ namespace Project.Runtime.ECS.Systems
 
             // Обновление позиции камеры
             var newPos = _cameraController.OriginTargetPosition + _currentVelocity * dt;
-            _cameraController.SetPosition(newPos);
+            _cameraController.SetPosition(ClampToWorld(newPos));
+        }
+
+        private readonly RectInt _bounds = new(-5, -5, 65, 65);
+        private Vector3 ClampToWorld(Vector3 position)
+        {
+            position.x = Mathf.Clamp(position.x, _bounds.xMin, _bounds.xMax);
+            position.z = Mathf.Clamp(position.z, _bounds.yMin, _bounds.yMax);
+            return position;
         }
 
         public void Dispose()

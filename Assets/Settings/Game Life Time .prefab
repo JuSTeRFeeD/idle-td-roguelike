@@ -332,6 +332,50 @@ MonoBehaviour:
   _checkClonesForNull: 0
   _checkForPrefab: 1
   _clearEventsOnDestroy: 0
+--- !u!1 &4913346906672924553
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8770833816181521827}
+  - component: {fileID: 8068348950869181702}
+  m_Layer: 0
+  m_Name: Sound Volume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8770833816181521827
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4913346906672924553}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5239126345200472779}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8068348950869181702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4913346906672924553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da597a5a457a48668313dabfbc714205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5261275469381983975
 GameObject:
   m_ObjectHideFlags: 0
@@ -707,6 +751,7 @@ Transform:
   - {fileID: 6792822716113500297}
   - {fileID: 3067069401238388665}
   - {fileID: 7785405453717758061}
+  - {fileID: 8770833816181521827}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3492406343764276475
@@ -744,6 +789,7 @@ MonoBehaviour:
   winConfig: {fileID: 11400000, guid: 7b768d2e496c3c1459279fa907d07475, type: 2}
   loseConfig: {fileID: 11400000, guid: 7b768d2e496c3c1459279fa907d07475, type: 2}
   bonusWinConfig: {fileID: 11400000, guid: 7b768d2e496c3c1459279fa907d07475, type: 2}
+  soundVolume: {fileID: 8068348950869181702}
 --- !u!1 &8356955290170967884
 GameObject:
   m_ObjectHideFlags: 0

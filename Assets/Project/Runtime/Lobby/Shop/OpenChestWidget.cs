@@ -19,10 +19,9 @@ namespace Project.Runtime.Lobby.Shop
         [Inject] private ChestOpeningController _chestOpeningController;
 
         [Title("Setup")]
-        [SerializeField] private CurrencyConfig commonChestCurrencyConfig;
-        [SerializeField] private CurrencyConfig epicChestCurrencyConfig;
-        [Space]
         [SerializeField] private ChestType chestType;
+        [SerializeField] private CurrencyConfig chestKeysCurrencyConfig;
+        [SerializeField] private CurrencyConfig chestCurrencyConfig;
         [SerializeField] private DropChancesConfig dropChancesConfig;
         [Space]
         [SerializeField] private TextMeshProUGUI titleText;
@@ -42,45 +41,45 @@ namespace Project.Runtime.Lobby.Shop
             _persistentPlayerData.OnChangeWalletBalance -= OnChangeWalletsBalance;
         }
 
-        private void Open(int amount)
+        private void Open(ulong amount)
         {
-            // Taking currency
-            switch (chestType)
+            var chestWallet = _persistentPlayerData.GetWalletByCurrencyId(chestCurrencyConfig.uniqueID);
+            var keysWallet = _persistentPlayerData.GetWalletByCurrencyId(chestKeysCurrencyConfig.uniqueID);
+
+            if (chestWallet.Balance + keysWallet.Balance < amount) return;
+
+            var estimate = amount;
+            if (!chestWallet.Has(estimate))
             {
-                case ChestType.Common:
-                    if (!_persistentPlayerData.GetWalletByCurrencyId(commonChestCurrencyConfig.uniqueID).Take((ulong)amount))
-                    {
-                        return;
-                    }
-                    break;
-                case ChestType.Epic:
-                    if (!_persistentPlayerData.GetWalletByCurrencyId(epicChestCurrencyConfig.uniqueID).Take((ulong)amount))
-                    {
-                        return;
-                    }
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                if (chestWallet.Take(chestWallet.Balance))
+                {
+                    estimate -= chestWallet.Balance;
+                    keysWallet.Take(estimate);
+                } else return;
+            }
+            else
+            {
+                chestWallet.Take(chestWallet.Balance);
             }
             
             // Open chest
-            _chestOpeningController.OpenChest(chestType, dropChancesConfig, amount);
+            _chestOpeningController.OpenChest(chestType, dropChancesConfig, (int)amount);
         }
 
         private void OnChangeWalletsBalance(Wallet _) => RefreshCurrency();
 
         private void RefreshCurrency()
         {
-            ulong amount = 0;
+            var chestsAmount = _persistentPlayerData.GetWalletByCurrencyId(chestCurrencyConfig.uniqueID).Balance;
+            var keysAmount = _persistentPlayerData.GetWalletByCurrencyId(chestKeysCurrencyConfig.uniqueID).Balance;
+            var amount = chestsAmount + keysAmount;
             string title;
             switch (chestType)
             {
                 case ChestType.Common:
-                    amount = _persistentPlayerData.GetWalletByCurrencyId(commonChestCurrencyConfig.uniqueID).Balance;
                     title = "Обычный сундук";
                     break;
                 case ChestType.Epic:
-                    amount = _persistentPlayerData.GetWalletByCurrencyId(epicChestCurrencyConfig.uniqueID).Balance;
                     title = "Эпический сундук";
                     break;
                 default:

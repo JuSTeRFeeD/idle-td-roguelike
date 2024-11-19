@@ -1,3 +1,4 @@
+using Ads;
 using Project.Runtime.ECS;
 using Project.Runtime.Lobby.Missions;
 using Project.Runtime.Lobby.Missions.MissionsWithTimer;
@@ -32,12 +33,17 @@ namespace Project.Runtime.Core
         [SerializeField] private DropChancesConfig loseConfig;
         [SerializeField] private DropChancesConfig bonusWinConfig;
         
+        [Title("Other")]
+        [SerializeField] private SoundVolume soundVolume;
+        
         protected override void Configure(IContainerBuilder builder)
         {
             DontDestroyOnLoad(gameObject);
 
             builder.RegisterInstance(coroutineRunner).As<ICoroutineRunner>();
 
+            builder.RegisterInstance<SoundVolume>(soundVolume);
+            
             builder.Register<PersistentPlayerData>(Lifetime.Singleton).WithParameter<CurrencyConfig[]>(gameCurrencies);
             builder.Register<YandexSaveManager>(Lifetime.Singleton).As<ISaveManager>();
 

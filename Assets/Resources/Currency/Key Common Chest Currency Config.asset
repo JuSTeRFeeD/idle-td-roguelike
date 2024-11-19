@@ -17,3 +17,4 @@ MonoBehaviour:
   iconSprite: {fileID: 21300000, guid: a58ee50f0c95fd1409cca754b26af8da, type: 3}
   currencyName: Common chest key
   initialBalance: 0
+  rarity: 0

@@ -50,7 +50,7 @@ MonoBehaviour:
     min: 4
     max: 3
   attackRange:
-    min: 5
+    min: 6
     max: 8
   poisonDamage:
     min: 80
