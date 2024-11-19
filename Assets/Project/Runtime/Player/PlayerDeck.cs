@@ -78,7 +78,8 @@ namespace Project.Runtime.Player
                         id = cardConfig.uniqueID,
                         level = 0,
                         amount = 0,
-                        isOpen = false
+                        isOpen = false,
+                        equippedAtSlot = -1
                     };
                     
                     var deckCard = new DeckCard
@@ -115,7 +116,8 @@ namespace Project.Runtime.Player
                     id = cardConfig.uniqueID,
                     level = 0,
                     amount = 0,
-                    isOpen = false
+                    isOpen = false,
+                    equippedAtSlot = -1
                 };
                     
                 var deckCard = new DeckCard
