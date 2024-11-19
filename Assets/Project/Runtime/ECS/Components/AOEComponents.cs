@@ -24,8 +24,27 @@ namespace Project.Runtime.ECS.Components
     public struct SpawnPoisonDustOnHit : IComponent
     {
         public ParticleSystem PoisonVFX;
+    }
+    
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct PoisonDustData : IComponent
+    {
         public float Damage;
         public float TimeBetweenAttack;
         public float Lifetime;
+        public float Radius;
+    }
+    
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct PoisonDustDataRuntime : IComponent
+    {
+        public float Damage;
+        public float TimeBetweenAttack;
+        public float Lifetime;
+        public float Radius;
     }
 }

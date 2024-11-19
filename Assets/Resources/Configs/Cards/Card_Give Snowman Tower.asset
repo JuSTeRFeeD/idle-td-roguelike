@@ -1,5 +1,29 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9067664619569025397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a61cc5d96e7e46e9a9c735f24bdf02a4, type: 3}
+  m_Name: Damage Multiplier Perk
+  m_EditorClassIdentifier: 
+  <ShowUniqueId>k__BackingField: 0
+  uniqueID: 945ab005-cb05-4e7a-85fc-468c8499c47f
+  rarity: 0
+  icon: {fileID: 21300000, guid: e27e4770d41d4db4da0d75a9353088b4, type: 3}
+  title: "\u0423\u0440\u043E\u043D"
+  shortInfo: 
+  isBuilding: 0
+  maxPerGame: 3
+  perks:
+  - {fileID: 11400000, guid: bffe5de9d69a3be4c849ccd86d3bf83f, type: 2}
+  subCardConfigs: []
+  __SetNameToSubActive: 
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22,5 +46,6 @@ MonoBehaviour:
   maxPerGame: 12
   perks:
   - {fileID: 11400000, guid: e65b654448be2514aafcf2857c59cbcc, type: 2}
-  subCardConfigs: []
+  subCardConfigs:
+  - {fileID: -9067664619569025397}
   __SetNameToSubActive: 

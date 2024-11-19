@@ -88,7 +88,7 @@ namespace Project.Runtime.ECS.Systems.Building
                     if (towerView.TowerViewUpgrades) towerView.TowerViewUpgrades.SetLevel(mergedToBuildingTag.Level);
                     
                     // Upgrade stats
-                    UpgradeBuildingEntity(building.Entity, towerConfig, mergedToBuildingTag.Level);
+                    UpgradeBuildingEntity(building.Entity, towerConfig, placingBuilding.CardConfigId, mergedToBuildingTag.Level);
                 
                     VfxPool.Spawn(_vfxSetup.TowerLevelUpVfx, towerView.transform.position);
                 }
@@ -152,8 +152,13 @@ namespace Project.Runtime.ECS.Systems.Building
             }
         }
 
-        private void UpgradeBuildingEntity(Entity buildingEntity, UpgradableTowerConfig buildingConfig, int level)
+        private void UpgradeBuildingEntity(Entity buildingEntity, UpgradableTowerConfig buildingConfig,
+            string placingBuildingCardConfigId, int level)
         {
+            var cardSaveData = _persistentPlayerData.GetCardSaveDataByCardId(placingBuildingCardConfigId);
+            var addHealthPercentByLvl = ExtStatsByCardLevel.GetAddHealthPercentByCardLvl(cardSaveData);
+            var addDamagePercentByLvl = ExtStatsByCardLevel.GetAddDamagePercentByCardLvl(cardSaveData);
+            
             var maxLevel = buildingConfig.UpgradePrices.Length;
             
             // HP
@@ -161,32 +166,32 @@ namespace Project.Runtime.ECS.Systems.Building
             ref var defaultHealth = ref buildingEntity.GetComponent<HealthDefault>().Value;
             var prevHealthPercent = currentHealth / defaultHealth;
             defaultHealth = buildingConfig.Health.Evaluate(level, maxLevel);
+            defaultHealth += addHealthPercentByLvl * defaultHealth;
             currentHealth = defaultHealth * prevHealthPercent;
-            
-            switch (buildingConfig)
+
+            if (buildingConfig is AttackTowerBuildingConfig attackTower)
             {
-                case AttackTowerBuildingConfig attackTower:
-                {
-                    // Attack stats
-                    buildingEntity.GetComponent<AttackDamage>().Value = attackTower.Damage.Evaluate(level, maxLevel);
-                    buildingEntity.GetComponent<AttackCooldown>().Value = attackTower.AttackCooldown.Evaluate(level, maxLevel);
-                    buildingEntity.GetComponent<AttackRange>().Value = attackTower.AttackRange.Evaluate(level, maxLevel);
-                    break;
-                }
+                // Attack stats
+                var damage = attackTower.Damage.Evaluate(level, maxLevel);
+                buildingEntity.GetComponent<AttackDamage>().Value = damage + addDamagePercentByLvl * damage;
+                buildingEntity.GetComponent<AttackCooldown>().Value = attackTower.AttackCooldown.Evaluate(level, maxLevel);
+                buildingEntity.GetComponent<AttackRange>().Value = attackTower.AttackRange.Evaluate(level, maxLevel);
+            }
+            if (buildingConfig is PoisonAttackTowerBuildingConfig poisonAttackTower)
+            {
+                // Attack stats
+                var poisonDamage = poisonAttackTower.PoisonDamage.Evaluate(level, maxLevel);
+                buildingEntity.GetComponent<PoisonDustData>().Damage = poisonDamage + addDamagePercentByLvl * poisonDamage;
             }
         }
 
+        
         private void SetupEntity(in Entity buildingEntity, in BuildingConfig buildingConfig,
             string placingBuildingCardConfigId, in EntityView view)
         {
             var cardSaveData = _persistentPlayerData.GetCardSaveDataByCardId(placingBuildingCardConfigId);
-            var addHealthPercentByLvl = 0f;
-            var addDamagePercentByLvl = 0f;
-            if (cardSaveData != null)
-            {
-                addHealthPercentByLvl = 0.1f * cardSaveData.level;
-                addDamagePercentByLvl = 0.15f * cardSaveData.level;
-            }
+            var addHealthPercentByLvl = ExtStatsByCardLevel.GetAddHealthPercentByCardLvl(cardSaveData);
+            var addDamagePercentByLvl = ExtStatsByCardLevel.GetAddDamagePercentByCardLvl(cardSaveData);
 
             // Link Animator
             if (view is AttackTowerView attackTowerView && attackTowerView.Animator)
@@ -315,24 +320,36 @@ namespace Project.Runtime.ECS.Systems.Building
                         case AttackTowerType.Tomb:
                             buildingEntity.AddComponent<TombTowerTag>();
                             buildingEntity.AddComponent<AoeAttackingTowerTag>();
-                            buildingEntity.AddComponent<TowerAttackLandsToTheGroundEnemy>(); // TODO: это в прокачку тавера вынести
                             buildingEntity.SetComponent(new DelayToPerformAttack
                             {
                                 Value = 0.1f
                             });
+                            // опускает врагов на землю
+                            buildingEntity.AddComponent<TowerAttackLandsToTheGroundEnemy>(); // TODO: это в прокачку тавера вынести можно будет
                             break;
                         case AttackTowerType.Snowman:
                             buildingEntity.AddComponent<SnowmanTowerTag>();
                             break;
                         case AttackTowerType.Pumpkin:
+                            var poisonTower = attackTower as PoisonAttackTowerBuildingConfig;
+                            if (!poisonTower)
+                            {
+                                Debug.LogError("Pumpkin tower config is not PoisonAttackTowerBuildingConfig!");
+                                return;
+                            }
                             buildingEntity.AddComponent<PumpkinTowerTag>();
-                            if (!attackTower.HitVfx) Debug.LogError("Pumpkin doesn't have hit vfx for poison!");
+                            buildingEntity.AddComponent<PoisonDustDataRuntime>();
                             buildingEntity.SetComponent(new SpawnPoisonDustOnHit
                             {
-                                PoisonVFX = attackTower.HitVfx,
-                                Damage = 50,
-                                Lifetime = 3.01f,
-                                TimeBetweenAttack = 0.25f
+                                PoisonVFX = poisonTower.PoisonDustVfx,
+                            });
+                            var poisonInitDmg = poisonTower.PoisonDamage.min + addDamagePercentByLvl * poisonTower.PoisonDamage.min;
+                            buildingEntity.SetComponent(new PoisonDustData
+                            {
+                                Damage = poisonInitDmg,
+                                Lifetime = poisonTower.PoisonDustLifetime,
+                                TimeBetweenAttack = poisonTower.PoisonDamageEachTime,
+                                Radius = poisonTower.PoisonRadius
                             });
                             break;
                         default:

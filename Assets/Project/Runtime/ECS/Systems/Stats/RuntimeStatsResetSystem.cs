@@ -40,6 +40,10 @@ namespace Project.Runtime.ECS.Systems.Stats
         private Stash<SplashDamage> _splashDamageStash;
         private Stash<SplashDamageRuntime> _splashDamageRuntime;
 
+        private Filter _poisonDustFilter;
+        private Stash<PoisonDustData> _poisonDustStash;
+        private Stash<PoisonDustDataRuntime> _poisonDustRuntimeStash;
+
         public void OnAwake()
         {
             _moveSpeedFilter = World.Filter.With<MoveSpeed>().With<MoveSpeedRuntime>().Build();
@@ -77,6 +81,10 @@ namespace Project.Runtime.ECS.Systems.Stats
             _splashDamageFilter = World.Filter.With<SplashDamage>().With<SplashDamageRuntime>().Build();
             _splashDamageStash = World.GetStash<SplashDamage>();
             _splashDamageRuntime = World.GetStash<SplashDamageRuntime>();
+
+            _poisonDustFilter = World.Filter.With<PoisonDustData>().With<PoisonDustDataRuntime>().Build();
+            _poisonDustStash = World.GetStash<PoisonDustData>();
+            _poisonDustRuntimeStash = World.GetStash<PoisonDustDataRuntime>();
         }
 
         public void OnUpdate(float deltaTime)
@@ -126,6 +134,17 @@ namespace Project.Runtime.ECS.Systems.Stats
                 ref var splashDamageRuntime = ref _splashDamageRuntime.Get(entity);
                 splashDamageRuntime.PercentFromDamage = splashDamage.PercentFromDamage;
                 splashDamageRuntime.Radius = splashDamage.Radius;
+            }
+            
+            // Reset PoisonDustData
+            foreach (var entity in _poisonDustFilter)
+            {
+                ref readonly var poisonDustData = ref _poisonDustStash.Get(entity);
+                ref var poisonDustDataRuntime = ref _poisonDustRuntimeStash.Get(entity);
+                poisonDustDataRuntime.Damage = poisonDustData.Damage;
+                poisonDustDataRuntime.Lifetime = poisonDustData.Lifetime;
+                poisonDustDataRuntime.TimeBetweenAttack = poisonDustData.TimeBetweenAttack;
+                poisonDustDataRuntime.Radius = poisonDustData.Radius;
             }
         }
 

@@ -127,6 +127,35 @@ namespace Project.Runtime.ECS.Systems.Player
                 CriticalChance = criticalChance,
                 CriticalDamage = criticalDamage
             });
+            
+            // Snowman
+            var snowmanUpgradesEntity = World.CreateEntity();
+            snowmanUpgradesEntity.AddComponent<SnowmanTowerUpgradesTag>();
+            snowmanUpgradesEntity.SetComponent(new TowerAttackUpgrades
+            {
+                AttackDamageMultiplier = 1,
+                AttackSpeedMultiplier = 1,
+                CriticalChance = criticalChance,
+                CriticalDamage = criticalDamage
+            });
+            
+            // Pumpkin
+            var pumpkinUpgradesEntity = World.CreateEntity();
+            pumpkinUpgradesEntity.AddComponent<PumpkinTowerUpgradesTag>();
+            pumpkinUpgradesEntity.SetComponent(new PoisonDustDamageUpgrade
+            {
+                DustDamageMultiplier = 1,
+                DustLifetimeMultiplier = 1,
+                DustRadiusMultiplier = 1,
+                TimeBetweenDustAttackMultiplier = 1
+            });
+            pumpkinUpgradesEntity.SetComponent(new TowerAttackUpgrades
+            {
+                AttackDamageMultiplier = 1,
+                AttackSpeedMultiplier = 1,
+                CriticalChance = criticalChance,
+                CriticalDamage = criticalDamage
+            });
         }
 
         public void Dispose()

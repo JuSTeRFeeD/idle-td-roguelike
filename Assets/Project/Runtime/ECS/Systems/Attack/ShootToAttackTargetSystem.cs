@@ -109,6 +109,10 @@ namespace Project.Runtime.ECS.Systems.Attack
                 {
                     projectileEntity.SetComponent(entity.GetComponent<SpawnPoisonDustOnHit>());
                 }
+                if (entity.Has<PoisonDustDataRuntime>())
+                {
+                    projectileEntity.SetComponent(entity.GetComponent<PoisonDustDataRuntime>());
+                }
 
                 if (entity.Has<SplashDamageRuntime>())
                 {

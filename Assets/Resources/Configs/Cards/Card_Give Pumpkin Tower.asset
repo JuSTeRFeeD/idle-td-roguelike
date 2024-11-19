@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ShowUniqueId>k__BackingField: 0
   uniqueID: b5e420d8-dde4-4f27-887b-30345c0c2d58
-  rarity: 1
+  rarity: 2
   icon: {fileID: 21300000, guid: 3943f51f832298d48a9808ad42052c02, type: 3}
   title: "\u0422\u044B\u043A\u0432\u0430"
   shortInfo: "\u0421\u0442\u0440\u043E\u0435\u043D\u0438\u0435"
@@ -22,5 +22,30 @@ MonoBehaviour:
   maxPerGame: 12
   perks:
   - {fileID: 11400000, guid: 0dd9139a894867349be2b94b6e6347ee, type: 2}
+  subCardConfigs:
+  - {fileID: 721804854825218259}
+  __SetNameToSubActive: Poison Dust Damage
+--- !u!114 &721804854825218259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a61cc5d96e7e46e9a9c735f24bdf02a4, type: 3}
+  m_Name: Poison Dust Damage
+  m_EditorClassIdentifier: 
+  <ShowUniqueId>k__BackingField: 0
+  uniqueID: b845e3da-44b5-4505-a0c1-cd2738e01973
+  rarity: 0
+  icon: {fileID: 21300000, guid: 3943f51f832298d48a9808ad42052c02, type: 3}
+  title: "\u0423\u0440\u043E\u043D \u044F\u0434\u0430"
+  shortInfo: 
+  isBuilding: 0
+  maxPerGame: 3
+  perks:
+  - {fileID: 11400000, guid: f94c37f9aea587649b62a6f4bc45bf45, type: 2}
   subCardConfigs: []
   __SetNameToSubActive: 

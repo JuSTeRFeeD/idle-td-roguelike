@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f012b761064a4b95b2cce77fb901a3f2, type: 3}
-  m_Name: Tower_Attack Snowman Guilding Config
+  m_Name: Tower_Attack Snowman Building Config
   m_EditorClassIdentifier: 
   <ShowUniqueId>k__BackingField: 0
   uniqueID: 4203a930-d09c-483d-970b-00e8eed08f8d
@@ -40,8 +40,8 @@ MonoBehaviour:
   hitVfx: {fileID: 0}
   projectileSpeed: 12
   damage:
-    min: 15
-    max: 25
+    min: 20
+    max: 80
   attackCooldown:
     min: 0.5
     max: 0.1

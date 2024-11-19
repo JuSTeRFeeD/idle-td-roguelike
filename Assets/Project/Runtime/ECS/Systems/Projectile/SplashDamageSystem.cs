@@ -28,6 +28,7 @@ namespace Project.Runtime.ECS.Systems.Projectile
                 .With<ProjectileTag>()
                 .With<ProjectileHit>()
                 .With<SplashDamageRuntime>()
+                .With<PerformingDamage>()
                 .Build();
             
             _enemiesFilter = World.Filter
@@ -53,7 +54,7 @@ namespace Project.Runtime.ECS.Systems.Projectile
 
                 var count = FindByAttackRangeExt.GetInRangeFilterNoAlloc(hitEntity, _enemiesFilter, splashDamage.Radius, _viewEntityStash, ref _hits);
                 
-                Debug.Log($"Splash attack from{entity.ID.ToString()}");
+                Debug.Log($"Splash attack from{entity.ID.ToString()} | dmg {performingDamage.Value} radius {splashDamage.Radius} percentFromDamage {splashDamage.PercentFromDamage}");
                 
                 for (var i = 0; i < count; i++)
                 {

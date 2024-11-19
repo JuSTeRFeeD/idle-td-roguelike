@@ -19,6 +19,12 @@ namespace Project.Runtime.ECS.Systems.Stats
         
         private Filter _crystalTowerPerkUpgradesFilter;
         private Filter _crystalTowerFilter;
+
+        private Filter _pumpkinTowerPerksUpgradesFilter;
+        private Filter _pumpkinTowerFilter;
+        
+        private Filter _snowmanTowerPerksUpgradesFilter;
+        private Filter _snowmanTowerFilter;
         
         private Stash<AttackDamageRuntime> _attackDamageRuntimeStash;
         private Stash<AttackCooldownRuntime> _attackCooldownRuntimeStash;
@@ -48,6 +54,19 @@ namespace Project.Runtime.ECS.Systems.Stats
                 .With<TowerAttackUpgrades>()
                 .With<TowerWithBouncesUpgrade>()
                 .Build();
+            
+            _pumpkinTowerFilter = World.Filter.With<PumpkinTowerTag>().Build();
+            _pumpkinTowerPerksUpgradesFilter = World.Filter
+                .With<PumpkinTowerUpgradesTag>()
+                .With<TowerAttackUpgrades>()
+                .With<PoisonDustDamageUpgrade>()
+                .Build();
+            
+            _snowmanTowerPerksUpgradesFilter = World.Filter.With<SnowmanTowerTag>().Build();
+            _snowmanTowerFilter = World.Filter
+                .With<SnowmanTowerUpgradesTag>()
+                .With<TowerAttackUpgrades>()
+                .Build();
 
             _attackDamageRuntimeStash = World.GetStash<AttackDamageRuntime>();
             _attackCooldownRuntimeStash = World.GetStash<AttackCooldownRuntime>();
@@ -60,8 +79,11 @@ namespace Project.Runtime.ECS.Systems.Stats
             ApplyAttackUpgrades(_cannonTowerFilter, _cannonTowerPerkUpgradesFilter);
             ApplyAttackUpgrades(_crossbowTowerFilter, _crossbowTowerPerkUpgradesFilter);
             ApplyAttackUpgrades(_crystalTowerFilter, _crystalTowerPerkUpgradesFilter);
+            ApplyAttackUpgrades(_pumpkinTowerFilter, _pumpkinTowerPerksUpgradesFilter);
+            ApplyAttackUpgrades(_snowmanTowerFilter, _snowmanTowerPerksUpgradesFilter);
             
             // -- Custom upgrades for towers --
+            
             // Crystal bounces
             foreach (var entity in _crystalTowerPerkUpgradesFilter)
             {
@@ -71,6 +93,7 @@ namespace Project.Runtime.ECS.Systems.Stats
                     towerEntity.GetComponent<TowerWithBouncingProjectileRuntime>().Bounces += additionalBounces;
                 }
             }
+            
             // Cannon splash 
             foreach (var entity in _cannonTowerPerkUpgradesFilter)
             {
@@ -80,6 +103,20 @@ namespace Project.Runtime.ECS.Systems.Stats
                     ref var splash = ref towerEntity.GetComponent<SplashDamageRuntime>();
                     splash.Radius += splashUpgrades.AdditionalSplashRadius;
                     splash.PercentFromDamage += splashUpgrades.AdditionalSplashDamagePercent;
+                }
+            }
+            
+            // Poison Dust
+            foreach (var entity in _pumpkinTowerPerksUpgradesFilter)
+            {
+                ref readonly var poisonDustUpgrades = ref entity.GetComponent<PoisonDustDamageUpgrade>();
+                foreach (var towerEntity in _pumpkinTowerFilter)
+                {
+                    ref var poisonDustRuntime = ref towerEntity.GetComponent<PoisonDustDataRuntime>();
+                    poisonDustRuntime.Damage *= poisonDustUpgrades.DustDamageMultiplier;
+                    poisonDustRuntime.TimeBetweenAttack *= poisonDustUpgrades.TimeBetweenDustAttackMultiplier;
+                    poisonDustRuntime.Lifetime *= poisonDustUpgrades.DustLifetimeMultiplier;
+                    poisonDustRuntime.Radius *= poisonDustUpgrades.DustRadiusMultiplier;
                 }
             }
         }

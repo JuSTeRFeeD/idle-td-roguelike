@@ -9,7 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 084c11aa69c94e6893a492b611a25625, type: 3}
-  m_Name: Perk_Give Pumpkin Perk
+  m_Script: {fileID: 11500000, guid: 40608100022b49fb8095b490937a31a7, type: 3}
+  m_Name: Perk_Snowman Damage Multiplier
   m_EditorClassIdentifier: 
-  buildingConfig: {fileID: 11400000, guid: 3736709fc6d07774aa652d984b63efcc, type: 2}
+  attackDamageMultipliers:
+  - 1.2
+  - 1.5
+  - 1.8

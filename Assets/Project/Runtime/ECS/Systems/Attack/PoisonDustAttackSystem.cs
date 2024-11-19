@@ -21,6 +21,7 @@ namespace Project.Runtime.ECS.Systems.Attack
         {
             _filter = World.Filter
                 .With<PoisonDustTag>()
+                .With<PerformingDamage>()
                 .With<SplashDamageRuntime>()
                 .With<AttackCooldownRuntime>()
                 .Without<IsAttackOnCooldown>()
@@ -43,7 +44,6 @@ namespace Project.Runtime.ECS.Systems.Attack
                 poisonSplashDamage.SetComponent(entity.GetComponent<SplashDamageRuntime>());
                 poisonSplashDamage.SetComponent(new ToDestroyTag());
                 
-                // Critical chance or flat damage
                 ref readonly var attackDamageRuntime = ref entity.GetComponent<PerformingDamage>().Value;
                 poisonSplashDamage.SetComponent(new PerformingDamage
                 {
@@ -56,6 +56,7 @@ namespace Project.Runtime.ECS.Systems.Attack
                     EstimateTime = entity.GetComponent<AttackCooldownRuntime>().Value
                 });
 
+                Debug.Log($"poison damage {attackDamageRuntime}");
                 Debug.Log($"Dust attack from {entity.ID.ToString()} | ProjectileId: {poisonSplashDamage.ID.ToString()} | cd {entity.GetComponent<AttackCooldownRuntime>().Value}");
             }
         }

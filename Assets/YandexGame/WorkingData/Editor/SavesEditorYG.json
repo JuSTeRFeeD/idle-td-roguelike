@@ -1,5 +1,5 @@
 {
-  "idSave": 1938,
+  "idSave": 1980,
   "isFirstSession": false,
   "language": "ru",
   "promptDone": false,
@@ -21,9 +21,9 @@
       ],
       "values": [
         5548,
-        1118,
-        2804,
-        20,
+        1280,
+        3531,
+        21,
         10,
         18,
         38,
@@ -57,7 +57,7 @@
         "isOpen": true,
         "equippedAtSlot": 3,
         "level": 0,
-        "amount": 2
+        "amount": 3
       },
       {
         "id": "977a4872-56c0-447d-9a22-85f46cdc3b9f",
@@ -105,11 +105,11 @@
         9
       ],
       "values": [
-        7932,
+        8301,
         3,
-        132,
-        4646,
-        3505020,
+        147,
+        5005,
+        3685831,
         7
       ]
     },

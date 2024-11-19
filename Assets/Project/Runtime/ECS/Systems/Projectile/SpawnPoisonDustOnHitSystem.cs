@@ -23,6 +23,7 @@ namespace Project.Runtime.ECS.Systems.Projectile
                 .With<ProjectileTag>()
                 .With<ProjectileHit>()
                 .With<SpawnPoisonDustOnHit>()
+                .With<PoisonDustDataRuntime>()
                 .Without<ToDestroyTag>()
                 .Without<DestroyOverTime>()
                 .Build();
@@ -34,28 +35,29 @@ namespace Project.Runtime.ECS.Systems.Projectile
         {
             foreach (var entity in _filter)
             {
-                ref readonly var poisonData = ref entity.GetComponent<SpawnPoisonDustOnHit>();
+                ref readonly var poisonVfx = ref entity.GetComponent<SpawnPoisonDustOnHit>().PoisonVFX;
+                ref readonly var poison = ref entity.GetComponent<PoisonDustDataRuntime>();
                 
-                VfxPool.Spawn(poisonData.PoisonVFX, entity.ViewPosition());
+                VfxPool.Spawn(poisonVfx, entity.ViewPosition());
                 
                 var poisonDust = World.CreateEntity();
                 poisonDust.InstantiateView(_worldSetup.NullView, entity.ViewPosition(), Quaternion.identity);
                 poisonDust.AddComponent<PoisonDustTag>();
                 poisonDust.SetComponent(new DestroyOverTime
                 {
-                    EstimateTime = poisonData.Lifetime
+                    EstimateTime = poison.Lifetime
                 });
                 poisonDust.SetComponent(new AttackCooldownRuntime
                 {
-                    Value = poisonData.TimeBetweenAttack
+                    Value = poison.TimeBetweenAttack
                 });
                 poisonDust.SetComponent(new PerformingDamage
                 {
-                    Value = poisonData.Damage
+                    Value = poison.Damage
                 });
                 poisonDust.SetComponent(new SplashDamageRuntime
                 {
-                    Radius = 3f,
+                    Radius = poison.Radius,
                     PercentFromDamage = 1f
                 });
                 Debug.Log($"Created poison {entity.ID.ToString()}");

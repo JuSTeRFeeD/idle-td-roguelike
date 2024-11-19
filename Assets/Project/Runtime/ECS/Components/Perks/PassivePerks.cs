@@ -26,9 +26,7 @@ namespace Project.Runtime.ECS.Components.Perks
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct CannonTowerUpgradesTag : IComponent
-    {
-    }
+    public struct CannonTowerUpgradesTag : IComponent { }
     
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
@@ -42,23 +40,27 @@ namespace Project.Runtime.ECS.Components.Perks
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct CrossbowTowerUpgradesTag : IComponent
-    {
-    }
+    public struct CrossbowTowerUpgradesTag : IComponent { }
     
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct CrystalTowerUpgradesTag : IComponent
-    {
-    }
+    public struct CrystalTowerUpgradesTag : IComponent { }
     
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct TombTowerUpgradesTag : IComponent
-    {
-    }
+    public struct TombTowerUpgradesTag : IComponent { }
+    
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct PumpkinTowerUpgradesTag : IComponent { }
+    
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct SnowmanTowerUpgradesTag : IComponent { }
     
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
@@ -66,6 +68,17 @@ namespace Project.Runtime.ECS.Components.Perks
     public struct TowerWithBouncesUpgrade : IComponent
     {
         public int AdditionalBounces;
+    }
+
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    public struct PoisonDustDamageUpgrade : IComponent
+    {
+        public float DustDamageMultiplier;
+        public float TimeBetweenDustAttackMultiplier;
+        public float DustLifetimeMultiplier;
+        public float DustRadiusMultiplier;
     }
 
     [Il2CppSetOption(Option.NullChecks, false)]

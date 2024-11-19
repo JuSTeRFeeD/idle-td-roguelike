@@ -13,7 +13,6 @@ namespace Project.Runtime.Features.TimeManagement
             if (timeScale > 2f) timeScale = 2f;
             
             Time.timeScale = timeScale;
-            Debug.Log($"[TimeScale] SetTimeScale {timeScale}");
         }
 
         public static void SetNormalTimeScale()
