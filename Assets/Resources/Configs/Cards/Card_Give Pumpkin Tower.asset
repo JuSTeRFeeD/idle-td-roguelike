@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ShowUniqueId>k__BackingField: 0
   uniqueID: b5e420d8-dde4-4f27-887b-30345c0c2d58
-  rarity: 2
+  rarity: 3
   icon: {fileID: 21300000, guid: 3943f51f832298d48a9808ad42052c02, type: 3}
   title: "\u0422\u044B\u043A\u0432\u0430"
   shortInfo: "\u0421\u0442\u0440\u043E\u0435\u043D\u0438\u0435"

@@ -204,7 +204,7 @@ namespace Project.Runtime.Lobby.Shop
                 _showItemsSequence.Join(
                     item.inventoryItemView.transform.DOScale(1f, 0.35f)
                         .SetEase(Ease.OutBack)
-                        .SetDelay(0.1f * i)
+                        .SetDelay(0.01f * i)
                 )
                 .SetLink(item.inventoryItemView.gameObject);
             }

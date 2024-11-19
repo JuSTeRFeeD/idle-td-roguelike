@@ -21,7 +21,8 @@ namespace Project.Runtime.Lobby.Equipment
         [Inject] private ISaveManager _saveManager;
         [Inject] private PlayerDeck _playerDeck;
         
-        [SerializeField] private CurrencyConfig useCurrencyConfigForUpgrade;
+        [SerializeField] private CurrencyConfig softCurrency;
+        [SerializeField] private CurrencyConfig hexCurrency;
         [SerializeField] private SelectSlotToEquipPopup selectSlotToEquipPopup;
         
         [Title("Common")] 
@@ -34,10 +35,13 @@ namespace Project.Runtime.Lobby.Equipment
         [SerializeField] private TextMeshProUGUI levelText;
         [SerializeField] private Slider amountSlider;
         [SerializeField] private TextMeshProUGUI amountText;
-        [Space]
+        [Title("Upgrade")]
         [SerializeField] private RectTransform upgradeFrame;
         [SerializeField] private Button upgradeButton;
         [SerializeField] private TextMeshProUGUI softCurrencyUpgradeCostText;
+        [SerializeField] private TextMeshProUGUI hexCurrencyUpgradeCostText;
+        [SerializeField] private AudioClip upgradeSound;
+        [SerializeField] private AudioSource audioSource;
         [Title("Stats")]
         [SerializeField] private TextMeshProUGUI healthText;
         [SerializeField] private TextMeshProUGUI damageText;
@@ -77,10 +81,10 @@ namespace Project.Runtime.Lobby.Equipment
 
         private void Upgrade()
         {
-            var amountToUpgrade = UpgradeConstants.GetAmountToUpgrade(_deckCard);
-            var softCurrencyCost = UpgradeConstants.GetUpgradeCost(_deckCard);
+            var amountToUpgrade = UpgradeConstants.GetCardAmountToUpgrade(_deckCard);
+            var softCurrencyCost = UpgradeConstants.GetUpgradeCostSoftCurrency(_deckCard);
             if (_deckCard.CardSaveData.amount >= amountToUpgrade &&
-                _persistentPlayerData.WalletByCurrency[useCurrencyConfigForUpgrade].Take((ulong)softCurrencyCost))
+                _persistentPlayerData.WalletByCurrency[softCurrency].Take((ulong)softCurrencyCost))
             {
                 _deckCard.CardSaveData.level++;
                 _deckCard.CardSaveData.amount -= amountToUpgrade;
@@ -91,7 +95,9 @@ namespace Project.Runtime.Lobby.Equipment
                 _saveManager.Save();
 
                 levelText.transform.DOKill(true);
-                levelText.transform.DOPunchScale(Vector3.one * 1.2f, 0.4f, 1).SetLink(levelText.gameObject);
+                levelText.transform.DOPunchScale(Vector3.one * 1.2f, 1f, 1).SetLink(levelText.gameObject);
+
+                audioSource.PlayOneShot(upgradeSound);
             }
         }
 
@@ -114,21 +120,7 @@ namespace Project.Runtime.Lobby.Equipment
             // Level & Upgrade & Level
             levelText.SetText($"{deckCard.CardSaveData.level + 1}");
             
-            var upgradeSoftCurrencyCost = UpgradeConstants.GetUpgradeCost(_deckCard);
-            var amountToUpgrade = UpgradeConstants.GetAmountToUpgrade(deckCard);
-            amountSlider.value = (float)deckCard.CardSaveData.amount / amountToUpgrade;
-            amountText.SetText($"{deckCard.CardSaveData.amount}<size=80%>/{amountToUpgrade}");
-            upgradeFrame.gameObject.SetActive(deckCard.CardSaveData.amount >= amountToUpgrade);
-            softCurrencyUpgradeCostText.SetText($"{upgradeSoftCurrencyCost}");
-            upgradeButton.interactable = _persistentPlayerData.WalletByCurrency[useCurrencyConfigForUpgrade].Has((ulong)upgradeSoftCurrencyCost);
-            if (upgradeButton.interactable)
-            {
-                _sequence = DOTween.Sequence()
-                    .Append(upgradeButton.transform.DOScale(1.05f, 1f).SetEase(Ease.Linear))
-                    .Append(upgradeButton.transform.DOScale(1f, 1f).SetEase(Ease.Linear))
-                    .SetLink(upgradeButton.gameObject)
-                    .SetLoops(-1, LoopType.Restart);
-            } else _sequence?.Kill();
+            InitUpgrade(deckCard);
 
             // Stats
             healthText.SetText("Здоровье -");
@@ -155,6 +147,23 @@ namespace Project.Runtime.Lobby.Equipment
             upgrade2Description.SetText("<todo put text in ItemInfoPopup.cs>");
             
             equipButton.gameObject.SetActive(deckCard.CardSaveData.isOpen && deckCard.CardSaveData.equippedAtSlot < 0);
+        }
+
+        private void InitUpgrade(DeckCard deckCard)
+        {
+            var upgradeSoftCurrencyCost = UpgradeConstants.GetUpgradeCostSoftCurrency(_deckCard);
+            var upgradeHexCurrencyCost = UpgradeConstants.GetUpgradeCostHexCurrency(_deckCard);
+            var amountToUpgrade = UpgradeConstants.GetCardAmountToUpgrade(deckCard);
+            
+            amountSlider.value = (float)deckCard.CardSaveData.amount / amountToUpgrade;
+            amountText.SetText($"{deckCard.CardSaveData.amount}<size=80%>/{amountToUpgrade}");
+            upgradeFrame.gameObject.SetActive(deckCard.CardSaveData.amount >= amountToUpgrade);
+            upgradeButton.gameObject.SetActive(deckCard.CardSaveData.amount >= amountToUpgrade);
+            
+            softCurrencyUpgradeCostText.SetText($"{upgradeSoftCurrencyCost}");
+            hexCurrencyUpgradeCostText.SetText($"{upgradeHexCurrencyCost}");
+            upgradeButton.interactable = _persistentPlayerData.WalletByCurrency[softCurrency].Has((ulong)upgradeSoftCurrencyCost) && 
+                                         _persistentPlayerData.WalletByCurrency[hexCurrency].Has((ulong)upgradeHexCurrencyCost);
         }
 
         private void OnClickEquip()
