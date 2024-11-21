@@ -61,7 +61,7 @@ namespace Project.Runtime.Services.Saves.YandexSaves
             data.dailyMissions = _persistentPlayerData.DailyMissions;
             data.weeklyMissions = _persistentPlayerData.WeeklyMissions;
             
-            // YandexGame.SaveProgress();
+            YG2.SaveProgress();
         }
 
         public void Load()

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Authorization:
     scopes: 1
-    playerPhotoSize: 1
+    playerPhotoSize: 0
     authorized: 1
     playerName: Player current
     uniqueID: 000

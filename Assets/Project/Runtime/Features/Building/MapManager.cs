@@ -156,7 +156,7 @@ namespace Project.Runtime.Features.Building
             if (posX < 0 || posX > mapSize ||
                 posX + width > mapSize ||
                 posZ < 0 || posZ > mapSize ||
-                posZ + height > mapSize) return false;
+                posZ + height > mapSize) return true;
 
             for (var x = 0; x < width; x++)
             {

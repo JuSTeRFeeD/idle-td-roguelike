@@ -40,10 +40,12 @@ namespace Project.Runtime.Core
             {
                 yield return null;
             }
+            YG2.GameReadyAPI();
 
             _playerDeck.InitializeAfterLoadSaves(commonCardsList, firstTimeCardsList);
             _serverTime.Refresh();
             _missionsManager.Initialize();
+            
             
             StartCoroutine(_sceneLoader.LoadSceneAsync("Lobby"));
         }
