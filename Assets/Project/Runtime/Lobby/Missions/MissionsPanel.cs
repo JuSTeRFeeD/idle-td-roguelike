@@ -6,6 +6,7 @@ using Project.Runtime.Features.GameplayMenus;
 using Project.Runtime.Lobby.Missions.MissionsWithTimer;
 using Project.Runtime.Scriptable.Missions;
 using Project.Runtime.Services.PlayerProgress;
+using Runtime.UI;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
@@ -29,6 +30,8 @@ namespace Project.Runtime.Lobby.Missions
         [Space]
         [SerializeField] private MissionItemView missionItemViewPrefab;
         [SerializeField] private RectTransform container;
+
+        [Title("Notifications")] [SerializeField] private NotificationDot notificationDot;
 
         private readonly List<MissionItemView> _items = new();
 

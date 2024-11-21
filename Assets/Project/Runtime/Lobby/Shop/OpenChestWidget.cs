@@ -4,6 +4,7 @@ using Project.Runtime.Scriptable.Currency;
 using Project.Runtime.Scriptable.Shop;
 using Project.Runtime.Services.PlayerProgress;
 using Project.Runtime.Services.Saves;
+using Runtime.UI;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
@@ -27,6 +28,7 @@ namespace Project.Runtime.Lobby.Shop
         [SerializeField] private TextMeshProUGUI titleText;
         [SerializeField] private Button openButton;
         [SerializeField] private Button openX5Button;
+        [SerializeField] private NotificationDot notificationDot;
 
         private void Start()
         {
@@ -88,7 +90,9 @@ namespace Project.Runtime.Lobby.Shop
 
             titleText.SetText($"{title}\n(Доступно {amount})");
             openButton.interactable = amount > 0;
-            openX5Button.gameObject.SetActive(amount >= 5);            
+            openX5Button.gameObject.SetActive(amount >= 5);  
+            
+            notificationDot.SetActive(amount > 0);
         }
     }
 }

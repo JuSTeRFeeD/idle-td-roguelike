@@ -1,3 +1,3 @@
-Build path: D:/Projects/Unity/My/idler/Builds/WebGL/0.0.28td
-Build number: 14
+Build path: D:/Projects/Unity/My/idler/Builds/WebGL/0.0.29td
+Build number: 15
 PluginYG version: 2.0

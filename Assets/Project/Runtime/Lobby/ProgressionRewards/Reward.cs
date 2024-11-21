@@ -8,6 +8,8 @@ namespace Project.Runtime.Lobby.ProgressionRewards
     [Serializable]
     public struct Reward
     {
+        public float progressSliderValue;
+        
         [Title("Requirement")]
         public RewardRequirement requirement;
         

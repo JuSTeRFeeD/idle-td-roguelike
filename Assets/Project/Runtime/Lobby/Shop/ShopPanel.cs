@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Project.Runtime.Features.GameplayMenus;
+using Project.Runtime.Player;
 using Project.Runtime.Scriptable.Currency;
 using Project.Runtime.Scriptable.Shop;
 using Project.Runtime.Services.PlayerProgress;
 using Project.Runtime.Services.Saves;
+using Runtime.UI;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using VContainer;
@@ -17,6 +20,7 @@ namespace Project.Runtime.Lobby.Shop
         [Inject] private PersistentPlayerData _persistentPlayerData;
         [Inject] private ISaveManager _saveManager;
 
+        [SerializeField] private CurrencyConfig[] keysCurrencyConfigs;
         [SerializeField] private CurrencyConfig hardCurrencyConfig;
         [SerializeField] private CurrencyConfig commonChestCurrencyConfig;
         [SerializeField] private CurrencyConfig epicChestCurrencyConfig;
@@ -29,6 +33,9 @@ namespace Project.Runtime.Lobby.Shop
         [Title("Purchases icons")] 
         [SerializeField] private Sprite crystalsIcon;
         
+        [Title("Notifications")]
+        [SerializeField] private NotificationDot notificationDot;
+        
         private void Start()
         {
             foreach (var shopItemView in shopItemViews)
@@ -37,6 +44,25 @@ namespace Project.Runtime.Lobby.Shop
             }
 
             InstantiatePurchases();
+            
+            _persistentPlayerData.OnChangeWalletBalance += OnChangeWalletBalance;
+        }
+
+        private void OnDestroy()
+        {
+            _persistentPlayerData.OnChangeWalletBalance -= OnChangeWalletBalance;
+        }
+
+        private void OnChangeWalletBalance(Wallet wallet)
+        {
+            if (keysCurrencyConfigs.Any(key => _persistentPlayerData.WalletByCurrency[key].Balance > 0) ||
+                _persistentPlayerData.WalletByCurrency[commonChestCurrencyConfig].Balance > 0 || 
+                _persistentPlayerData.WalletByCurrency[epicChestCurrencyConfig].Balance > 0)
+            {
+                notificationDot.SetActive(true);
+                return;
+            }
+            notificationDot.SetActive(false);
         }
 
         private void InstantiatePurchases()

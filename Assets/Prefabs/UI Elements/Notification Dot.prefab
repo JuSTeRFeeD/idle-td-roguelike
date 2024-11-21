@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5429436472483700736}
+  - component: {fileID: 1374555212967640981}
   m_Layer: 0
   m_Name: Notification Dot
   m_TagString: Untagged
@@ -36,6 +37,19 @@ RectTransform:
   m_AnchoredPosition: {x: 131.34113, y: -3.801569}
   m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0, y: 0.5}
+--- !u!114 &1374555212967640981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2340907654659907572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d423140177cd544284253f4bf5b2c52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dot: {fileID: 3045697593527699836}
 --- !u!1 &6111487285471996063
 GameObject:
   m_ObjectHideFlags: 0
