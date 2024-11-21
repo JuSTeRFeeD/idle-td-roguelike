@@ -31,8 +31,8 @@ namespace Project.Runtime.Features.TimeManagement
             _timeScaleVariant = TimeScaleVariant.Normal;
             curTimeScaleText.SetText("x1");
 
-            YandexGame.RewardVideoEvent += RewardedWatched;
-            YandexGame.ErrorVideoEvent += CancelledRewardedAd;
+            YG2.onRewardAdv += RewardedWatched;
+            YG2.onErrorRewardedAdv += CancelledRewardedAd;
         }
 
         private void CancelledRewardedAd()
@@ -41,14 +41,14 @@ namespace Project.Runtime.Features.TimeManagement
             TimeScale.OverrideNormalTimeScale(1);
         }
 
-        private void RewardedWatched(int rewardId)
+        private void RewardedWatched(string rewardId)
         {
-            if (rewardId == (int)RewardedAdIds.TimeScaleButton)
+            if (rewardId == RewardedAdIds.TimeScaleButton.ToString())
             {
                 IsAdWatched = true;
                 rewardedWrapper.gameObject.SetActive(false);
-                CancelledRewardedAd();
             }
+            CancelledRewardedAd();
         }
 
         public void OnPointerClick(PointerEventData eventData)
@@ -57,7 +57,7 @@ namespace Project.Runtime.Features.TimeManagement
             {
                 TimeScale.OverrideNormalTimeScale(0);
                 soundVolume.Silence(true);
-                YandexGame.RewVideoShow((int)RewardedAdIds.TimeScaleButton);
+                YG2.RewardedAdvShow(RewardedAdIds.TimeScaleButton.ToString());
                 return;
             }
             

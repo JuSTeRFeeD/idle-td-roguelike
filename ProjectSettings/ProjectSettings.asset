@@ -44,8 +44,8 @@ PlayerSettings:
   m_HolographicTrackingLossScreen: {fileID: 0}
   defaultScreenWidth: 1024
   defaultScreenHeight: 768
-  defaultScreenWidthWeb: 720
-  defaultScreenHeightWeb: 1280
+  defaultScreenWidthWeb: 1280
+  defaultScreenHeightWeb: 720
   m_StereoRenderingPath: 0
   m_ActiveColorSpace: 0
   unsupportedMSAAFallback: 0
@@ -79,7 +79,7 @@ PlayerSettings:
   androidAutoRotationBehavior: 1
   defaultIsNativeResolution: 1
   macRetinaSupport: 1
-  runInBackground: 1
+  runInBackground: 0
   captureSingleScreen: 0
   muteOtherAudioSources: 0
   Prepare IOS For Recording: 0
@@ -139,7 +139,7 @@ PlayerSettings:
   loadStoreDebugModeEnabled: 0
   visionOSBundleVersion: 1.0
   tvOSBundleVersion: 1.0
-  bundleVersion: 0.0.12
+  bundleVersion: 0.0.27
   preloadedAssets:
   - {fileID: 11400000, guid: 5d43e66ed583d594490e53ae9165f5c8, type: 2}
   metroInputSource: 0
@@ -797,17 +797,17 @@ PlayerSettings:
   blurSplashScreenBackground: 1
   spritePackerPolicy: 
   webGLMemorySize: 32
-  webGLExceptionSupport: 1
+  webGLExceptionSupport: 3
   webGLNameFilesAsHashes: 0
   webGLShowDiagnostics: 0
   webGLDataCaching: 1
   webGLDebugSymbols: 0
   webGLEmscriptenArgs: 
   webGLModulesDirectory: 
-  webGLTemplate: PROJECT:PluginYG
+  webGLTemplate: PROJECT:YandexGames
   webGLAnalyzeBuildSize: 0
   webGLUseEmbeddedResources: 0
-  webGLCompressionFormat: 1
+  webGLCompressionFormat: 0
   webGLWasmArithmeticExceptions: 0
   webGLLinkerTarget: 1
   webGLThreadsSupport: 0
@@ -832,7 +832,7 @@ PlayerSettings:
     Stadia: DOTWEEN;UNITY_POST_PROCESSING_STACK_V2
     Standalone: MORPEH;ODIN_INSPECTOR;ODIN_INSPECTOR_3;ODIN_INSPECTOR_3_1;DOTWEEN;UNITY_POST_PROCESSING_STACK_V2
     VisionOS: DOTWEEN;UNITY_POST_PROCESSING_STACK_V2
-    WebGL: DOTWEEN;MORPEH;ODIN_INSPECTOR_3;ODIN_INSPECTOR_3_1;UNITY_POST_PROCESSING_STACK_V2;YG_PLUGIN_YANDEX_GAME;YG_NEWTONSOFT_FOR_SAVES;ODIN_INSPECTOR
+    WebGL: DOTWEEN;MORPEH;ODIN_INSPECTOR_3;ODIN_INSPECTOR_3_1;UNITY_POST_PROCESSING_STACK_V2;YG_PLUGIN_YANDEX_GAME;YG_NEWTONSOFT_FOR_SAVES;ODIN_INSPECTOR;PLUGIN_YG_2;YandexGamesPlatform_yg;TMP_YG2;NJSON_YG2;RU_YG2;RewardedAdv_yg;InterstitialAdv_yg;Authorization_yg;AutoTranslateLangs_yg;Clipboard_yg;EnvirData_yg;Flags_yg;Fullscreen_yg;GameLabel_yg;Leaderboards_yg;Localization_yg;Metrica_yg;OpenURL_yg;Payments_yg;PlayerStats_yg;QuitGameEvent_yg;RedefinePlayerPrefs_yg;Review_yg;ServerTime_yg;StickyAdv_yg;Storage_yg;TV_yg
     Windows Store Apps: DOTWEEN
     XboxOne: DOTWEEN;UNITY_POST_PROCESSING_STACK_V2
     iPhone: DOTWEEN
@@ -842,8 +842,9 @@ PlayerSettings:
   scriptingBackend:
     Android: 1
   il2cppCompilerConfiguration:
-    WebGL: 2
-  il2cppCodeGeneration: {}
+    WebGL: 0
+  il2cppCodeGeneration:
+    WebGL: 1
   managedStrippingLevel:
     EmbeddedLinux: 1
     GameCoreScarlett: 1

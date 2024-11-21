@@ -2,6 +2,7 @@ using System;
 using Project.Runtime.Lobby.Missions.MissionsWithTimer;
 using Project.Runtime.Services.PlayerProgress;
 using Project.Runtime.Services.Saves;
+using UnityEngine;
 using VContainer;
 
 namespace Project.Runtime.Lobby.Missions
@@ -36,13 +37,18 @@ namespace Project.Runtime.Lobby.Missions
                 TimedMissionsType.Daily, _persistentPlayerData, _missionsDatabase);
             WeeklyMissionsManager = new TimedMissionsManager(_serverTime, _missionTimer, 
                 TimedMissionsType.Weekly, _persistentPlayerData, _missionsDatabase);
+
             _saveManager.Save();
         }
 
         public void Refresh()
         {
+            Debug.Log($"MissionsManager: DailyMissionsManager is null {DailyMissionsManager == null}");
+            Debug.Log($"MissionsManager: WeeklyMissionsManager is null {WeeklyMissionsManager == null}");
+            Debug.Log($"MissionsManager: _saveManager is null {_saveManager == null}");
+            
             DailyMissionsManager.Refresh();
-            WeeklyMissionsManager.Refresh();
+            // WeeklyMissionsManager.Refresh(); // disabled for now
             _saveManager.Save();
             OnRefreshed?.Invoke();
         }

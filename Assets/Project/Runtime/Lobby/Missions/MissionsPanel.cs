@@ -36,6 +36,7 @@ namespace Project.Runtime.Lobby.Missions
         
         private void Start()
         {
+            Debug.Log($"MissionsPanel is missionsManager null: {_missionsManager == null}");
             _missionsManager.OnRefreshed += Refreshed;
             _missionsManager.Refresh();
             

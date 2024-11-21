@@ -19,19 +19,19 @@ namespace Project.Runtime.Services.Saves.YandexSaves
         {
             _persistentPlayerData = persistentPlayerData;
             _coroutineRunner = coroutineRunner;
-            YandexGame.GetDataEvent += Load;
+            YG2.onGetSDKData += Load;
         }
         
         ~YandexSaveManager()
         {
-            YandexGame.GetDataEvent -= Load;
+            YG2.onGetSDKData -= Load;
         }
         
         public void Save()
         {
             Debug.Log("SAVE");
-            
-            var data = YandexGame.savesData.playerProgressData;
+
+            var data = YG2.saves.playerProgressData; 
             
             // Map
             data.mapSave = _persistentPlayerData.MapData;
@@ -61,14 +61,15 @@ namespace Project.Runtime.Services.Saves.YandexSaves
             data.dailyMissions = _persistentPlayerData.DailyMissions;
             data.weeklyMissions = _persistentPlayerData.WeeklyMissions;
             
-            YandexGame.SaveProgress();
+            // YandexGame.SaveProgress();
         }
 
         public void Load()
         {
             Debug.Log("LOAD");
-            
-            var data = YandexGame.savesData.playerProgressData;
+
+            YG2.saves.playerProgressData ??= new PlayerProgressData();
+            var data = YG2.saves.playerProgressData;
             
             // Map
             _persistentPlayerData.MapData = data.mapSave;

@@ -41,7 +41,7 @@ namespace Project.Runtime.Lobby.Shop
 
         private void InstantiatePurchases()
         {
-            foreach (var purchase in YandexGame.purchases)
+            foreach (var purchase in YG2.purchases)
             {
                 if (purchase.id.Contains("crystals"))
                 {

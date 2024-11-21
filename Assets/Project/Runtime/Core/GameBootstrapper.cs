@@ -35,7 +35,8 @@ namespace Project.Runtime.Core
             Application.targetFrameRate = 60;
             Time.timeScale = 1f;
 
-            while (!YandexGame.SDKEnabled)
+            YG2.GameReadyAPI();
+            while (!YG2.isSDKEnabled)
             {
                 yield return null;
             }

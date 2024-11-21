@@ -13,14 +13,15 @@ namespace Project.Runtime.Lobby.Profile
 
         private void Start()
         {
-            if (YandexGame.auth)
-            {
-                usernameText.SetText(YandexGame.playerName);
-            }
-            else
-            {
-                usernameText.SetText("Неизвестный путешественник");
-            }
+            // TODO: fix
+            // if (YG2.au)
+            // {
+                // usernameText.SetText(YandexGame.playerName);
+            // }
+            // else
+            // {
+                usernameText.SetText("Гость");
+            // }
         }
     }
 }

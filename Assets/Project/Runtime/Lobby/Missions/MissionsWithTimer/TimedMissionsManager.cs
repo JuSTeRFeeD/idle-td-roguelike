@@ -27,7 +27,7 @@ namespace Project.Runtime.Lobby.Missions.MissionsWithTimer
             _persistentPlayerData = persistentPlayerData;
             _playerStatistics = persistentPlayerData.PlayerStatistics;
 
-            if (GetSave() == null)
+            if (GetSave() == null || GetSave().missionIds == null)
             {
                 GenerateNewMissions();
             }
@@ -120,27 +120,25 @@ namespace Project.Runtime.Lobby.Missions.MissionsWithTimer
         {
             var save = GetSave();
             
-            Debug.Log($"is save null {save == null} | mt {_missionTimer == null}");
-            
             // Check time to update missions
             var currentServerTime = _serverTime.GetServerTimeLong();
 
             if (_timedMissionsType is TimedMissionsType.Daily && 
-                currentServerTime > _missionTimer.GetNextDailyMissionUpdateUnixTime(save.startTime))
+                currentServerTime > _missionTimer.GetNextDailyMissionUpdateUnixTime(save.startTime) || save.missionIds == null)
             {
-                Debug.Log("Refresh mission");
+                Debug.Log($"{_timedMissionsType} Refresh mission");
                 GenerateNewMissions();
                 return;
             } 
             if (_timedMissionsType is TimedMissionsType.Weekly && 
-                  currentServerTime > _missionTimer.GetNextWeeklyMissionUpdateUnixTime(save.startTime))
+                  currentServerTime > _missionTimer.GetNextWeeklyMissionUpdateUnixTime(save.startTime) || save.missionIds == null)
             {
-                Debug.Log("Refresh mission");
+                Debug.Log($"{_timedMissionsType} Refresh mission");
                 GenerateNewMissions();
                 return;
             }
             
-            Debug.Log($"len {save.missionIds.Length}");
+            Debug.Log($"{_timedMissionsType} save.missionIds len {save.missionIds.Length}");
             
             // Mark Completed and Sort
             for (var i = 0; i < save.valueAtStart.Length; i++)

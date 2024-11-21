@@ -15,7 +15,7 @@ namespace Project.Runtime.Lobby.Missions
 
         public void Refresh()
         {
-            _serverTime = YandexGame.ServerTime();
+            _serverTime = YG2.ServerTime();
             _clientStartTime = Time.time;
             _persistentPlayerData.LastLoginTime = _serverTime;
         }

@@ -1,2 +1,0 @@
-Build path: D:/Projects/Unity/My/idler/Builds/WebGL/0.0.12td
-Build number: 3
