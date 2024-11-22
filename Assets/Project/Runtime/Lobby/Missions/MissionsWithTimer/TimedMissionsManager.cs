@@ -4,6 +4,7 @@ using System.Linq;
 using Project.Runtime.Player;
 using Project.Runtime.Scriptable.Missions;
 using Project.Runtime.Services.PlayerProgress;
+using Project.Runtime.Services.Saves;
 using UnityEngine;
 
 namespace Project.Runtime.Lobby.Missions.MissionsWithTimer
@@ -16,10 +17,13 @@ namespace Project.Runtime.Lobby.Missions.MissionsWithTimer
         private readonly ServerTime _serverTime;
         private readonly MissionTimer _missionTimer;
         private readonly PlayerStatistics _playerStatistics;
+        private readonly ISaveManager _saveManager;
         
-        public TimedMissionsManager(ServerTime serverTime, MissionTimer missionTimer, TimedMissionsType timedMissionsType, PersistentPlayerData persistentPlayerData, 
-            MissionsDatabase missionsDatabase)
+        public TimedMissionsManager(ServerTime serverTime, MissionTimer missionTimer, 
+            TimedMissionsType timedMissionsType, PersistentPlayerData persistentPlayerData, 
+            MissionsDatabase missionsDatabase, ISaveManager saveManager)
         {
+            _saveManager = saveManager;
             _serverTime = serverTime;
             _missionTimer = missionTimer;
             _timedMissionsType = timedMissionsType;
@@ -66,6 +70,9 @@ namespace Project.Runtime.Lobby.Missions.MissionsWithTimer
         private void GenerateNewMissions()
         {
             Debug.Log("Generate new missions");
+
+            var missionCurrency = _persistentPlayerData.GetWalletByCurrencyId("6267273d-8c18-4776-bc9c-49e105cde9dd");
+            missionCurrency.Take(missionCurrency.Balance);
             
             var missionConfigs = _timedMissionsType switch
             {
@@ -73,6 +80,18 @@ namespace Project.Runtime.Lobby.Missions.MissionsWithTimer
                 TimedMissionsType.Weekly => _missionsDatabase.GetAllWeeklyItems().ToList(),
                 _ => throw new ArgumentOutOfRangeException()
             };
+
+            switch (_timedMissionsType)
+            {
+                case TimedMissionsType.Daily:
+                    _persistentPlayerData.DailyRewardProgressCollected = new bool[4];
+                    break;
+                case TimedMissionsType.Weekly:
+                    _persistentPlayerData.WeeklyRewardProgressCollected = new bool[4];
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
 
             var save = new MissionsSave
             {
@@ -114,6 +133,8 @@ namespace Project.Runtime.Lobby.Missions.MissionsWithTimer
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+            
+            _saveManager.Save();
         }
         
         public void Refresh()
@@ -129,14 +150,15 @@ namespace Project.Runtime.Lobby.Missions.MissionsWithTimer
                 Debug.Log($"{_timedMissionsType} Refresh mission");
                 GenerateNewMissions();
                 return;
-            } 
-            if (_timedMissionsType is TimedMissionsType.Weekly && 
-                  currentServerTime > _missionTimer.GetNextWeeklyMissionUpdateUnixTime(save.startTime) || save.missionIds == null)
-            {
-                Debug.Log($"{_timedMissionsType} Refresh mission");
-                GenerateNewMissions();
-                return;
             }
+            // todo: fix when daily adds
+            // if (_timedMissionsType is TimedMissionsType.Weekly && 
+            //       currentServerTime > _missionTimer.GetNextWeeklyMissionUpdateUnixTime(save.startTime) || save.missionIds == null)
+            // {
+            //     Debug.Log($"{_timedMissionsType} Refresh mission");
+            //     GenerateNewMissions();
+            //     return;
+            // }
             
             Debug.Log($"{_timedMissionsType} save.missionIds len {save.missionIds.Length}");
             

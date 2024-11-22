@@ -87,18 +87,24 @@ namespace Project.Runtime.Lobby.Missions
         {
             if (_showMissionsType is TimedMissionsType.Daily)
             {
-                var curDate = _serverTime.GetServerDateTime();
-                var nextUpdateDate = ServerTime.UnixTimeStampToDateTime(_missionTimer.GetNextDailyMissionUpdateUnixTime(_missionsManager.DailyMissionsManager.GetSave().startTime));
-                var remaining = nextUpdateDate - curDate;
-                updateInText.SetText($"Обновятся через: {remaining.FormatTimeRemaining()} \nCurTime: {_serverTime.GetServerDateTime()}");
+                var curTime = _serverTime.GetServerDateTime();
+                var missionStartTime = _missionsManager.DailyMissionsManager.GetSave().startTime;
+                var updateTime = ServerTime.UnixTimeStampToDateTime(_missionTimer.GetNextDailyMissionUpdateUnixTime(missionStartTime));
+                var remaining = updateTime - curTime;
+                if (curTime > updateTime)
+                {
+                    _missionsManager.Refresh();
+                }
+                updateInText.SetText($"Обновятся через: {remaining.FormatTimeRemaining()}");
             }
-            else
-            {
-                var curDate = _serverTime.GetServerDateTime();
-                var nextUpdateDate = ServerTime.UnixTimeStampToDateTime(_missionTimer.GetNextWeeklyMissionUpdateUnixTime(_missionsManager.WeeklyMissionsManager.GetSave().startTime));
-                var remaining = nextUpdateDate - curDate;
-                updateInText.SetText($"Обновятся через: {remaining.FormatTimeRemaining()} \nCurTime: {_serverTime.GetServerDateTime()}");
-            }
+            // todo: fix when add weekly missions
+            // else
+            // {
+            //     var curDate = _serverTime.GetServerDateTime();
+            //     var nextUpdateDate = ServerTime.UnixTimeStampToDateTime(_missionTimer.GetNextWeeklyMissionUpdateUnixTime(_missionsManager.WeeklyMissionsManager.GetSave().startTime));
+            //     var remaining = nextUpdateDate - curDate;
+            //     updateInText.SetText($"Обновятся через: {remaining.FormatTimeRemaining()} \nCurTime: {_serverTime.GetServerDateTime()}");
+            // }
         }
         
         private void Refreshed()

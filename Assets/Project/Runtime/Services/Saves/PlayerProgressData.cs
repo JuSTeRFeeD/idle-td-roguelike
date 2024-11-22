@@ -23,5 +23,8 @@ namespace Project.Runtime.Services.Saves
         public DictionarySerializeContainer<GlobalStatisticsType, long> globalStatistics;
         public MissionsSave dailyMissions;
         public MissionsSave weeklyMissions;
+        
+        public bool[] dailyRewardProgressCollected;
+        public bool[] weeklyRewardProgressCollected;
     }
 }

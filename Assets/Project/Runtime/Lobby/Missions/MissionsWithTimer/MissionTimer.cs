@@ -16,9 +16,9 @@ namespace Project.Runtime.Lobby.Missions.MissionsWithTimer
         // Получить Unix timestamp для следующего обновления ежедневных миссий
         public long GetNextDailyMissionUpdateUnixTime(long missionStartTime)
         {
-            DateTime currentServerTime = _serverTime.GetServerDateTime();
-            DateTime nextDailyUpdate = GetNextDailyUpdateTime(currentServerTime);
-            return DateTimeToUnixTimeStamp(nextDailyUpdate);
+            var startDate = ServerTime.UnixTimeStampToDateTime(missionStartTime);
+            var nextUpdateDailyDate = startDate.AddHours(18);
+            return DateTimeToUnixTimeStamp(nextUpdateDailyDate);
         }
 
         // Получить Unix timestamp для следующего обновления еженедельных миссий

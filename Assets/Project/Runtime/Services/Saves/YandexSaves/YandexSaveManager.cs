@@ -60,6 +60,8 @@ namespace Project.Runtime.Services.Saves.YandexSaves
             // Missions
             data.dailyMissions = _persistentPlayerData.DailyMissions;
             data.weeklyMissions = _persistentPlayerData.WeeklyMissions;
+            data.dailyRewardProgressCollected = _persistentPlayerData.DailyRewardProgressCollected;
+            data.weeklyRewardProgressCollected = _persistentPlayerData.WeeklyRewardProgressCollected;
             
             YG2.SaveProgress();
         }
@@ -100,6 +102,8 @@ namespace Project.Runtime.Services.Saves.YandexSaves
             // Missions
             _persistentPlayerData.DailyMissions = data.dailyMissions;
             _persistentPlayerData.WeeklyMissions = data.weeklyMissions;
+            _persistentPlayerData.DailyRewardProgressCollected = data.dailyRewardProgressCollected;
+            _persistentPlayerData.WeeklyRewardProgressCollected = data.weeklyRewardProgressCollected;
         }
     }
 }

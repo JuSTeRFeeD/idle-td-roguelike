@@ -34,19 +34,15 @@ namespace Project.Runtime.Lobby.Missions
         public void Initialize()
         {
             DailyMissionsManager = new TimedMissionsManager(_serverTime,  _missionTimer, 
-                TimedMissionsType.Daily, _persistentPlayerData, _missionsDatabase);
+                TimedMissionsType.Daily, _persistentPlayerData, _missionsDatabase, _saveManager);
             WeeklyMissionsManager = new TimedMissionsManager(_serverTime, _missionTimer, 
-                TimedMissionsType.Weekly, _persistentPlayerData, _missionsDatabase);
+                TimedMissionsType.Weekly, _persistentPlayerData, _missionsDatabase, _saveManager);
 
             _saveManager.Save();
         }
 
         public void Refresh()
         {
-            Debug.Log($"MissionsManager: DailyMissionsManager is null {DailyMissionsManager == null}");
-            Debug.Log($"MissionsManager: WeeklyMissionsManager is null {WeeklyMissionsManager == null}");
-            Debug.Log($"MissionsManager: _saveManager is null {_saveManager == null}");
-            
             DailyMissionsManager.Refresh();
             // WeeklyMissionsManager.Refresh(); // disabled for now
             _saveManager.Save();

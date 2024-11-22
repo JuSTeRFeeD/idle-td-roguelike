@@ -1,10 +1,12 @@
+using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Project.Runtime.Lobby.ProgressionRewards
 {
-    public class RewardItemView : MonoBehaviour
+    public class RewardItemView : MonoBehaviour, IPointerClickHandler
     {
         [SerializeField] private Image itemIcon;
         [SerializeField] private TextMeshProUGUI amountText;
@@ -14,6 +16,8 @@ namespace Project.Runtime.Lobby.ProgressionRewards
         [SerializeField] private TextMeshProUGUI requirementCurrencyText;
         [SerializeField] private Image requirementCurrencyIcon;
 
+        public event Action OnClick;
+        
         public void Setup(Reward reward)
         {
             canBeCollectedImage.enabled = false;
@@ -35,6 +39,21 @@ namespace Project.Runtime.Lobby.ProgressionRewards
                 amountText.SetText(reward.currencyTuple.amount.ToString());
                 itemIcon.sprite = reward.currencyTuple.currencyConfig.Icon;
             }
+        }
+
+        public void SetCanBeCollected(bool canBeCollected)
+        {
+            canBeCollectedImage.enabled = canBeCollected;
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            OnClick?.Invoke();
+        }
+
+        public void SetCollected(bool collected)
+        {
+            collectedImage.enabled = collected;
         }
     }
 }

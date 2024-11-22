@@ -25,6 +25,8 @@ namespace Project.Runtime.Services.PlayerProgress
         public MissionsSave DailyMissions;
         public MissionsSave WeeklyMissions;
         public long LastLoginTime;
+        public bool[] DailyRewardProgressCollected;
+        public bool[] WeeklyRewardProgressCollected;
 
         public PersistentPlayerData(CurrencyConfig[] gameCurrencies)
         {
@@ -35,7 +37,8 @@ namespace Project.Runtime.Services.PlayerProgress
                 wallet.OnChange += (_, _) => OnChangeWalletBalance?.Invoke(wallet);
             }
         }
-        
+
+
         public Wallet GetWalletByCurrencyId(string currencyId)
         {
             return WalletByCurrency.FirstOrDefault(i => i.Key.uniqueID == currencyId).Value;

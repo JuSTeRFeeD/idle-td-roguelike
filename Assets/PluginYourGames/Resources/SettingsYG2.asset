@@ -334,10 +334,10 @@ MonoBehaviour:
   Payments:
     testBuyFail: 0
     purshases:
-    - id: gun
-      title: Gun
-      description: Product - Gun
-      imageURI: demo image
+    - id: crystals_300
+      title: "\u041A\u0440\u0438\u0441\u0442\u0430\u043B\u043B\u044B 300"
+      description: 
+      imageURI: 
       price: 5 YAN
       priceValue: 5
       priceCurrencyCode: YAN
