@@ -16,6 +16,7 @@ MonoBehaviour:
   amount: 1
   icon: {fileID: 21300000, guid: 3db9111554d6cd64485900284f04bb25, type: 3}
   discountPercent: 0
-  price: 275
-  priceType: 0
+  priceTuple:
+    amount: 45
+    currencyConfig: {fileID: 11400000, guid: 22efdc6310b1c614aaf229c5969e6bf7, type: 2}
   giveOnBuy: 1

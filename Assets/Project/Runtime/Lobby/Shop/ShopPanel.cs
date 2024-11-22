@@ -71,17 +71,23 @@ namespace Project.Runtime.Lobby.Shop
             {
                 if (purchase.id.Contains("crystals"))
                 {
+                    var giveAmount = int.Parse(purchase.id.Split("_")[1]);
                     var item = Instantiate(shopItemView, crystalsContainer);
-                    item.Setup(purchase.title, purchase.priceValue, ShopPriceType.RealCurrency, crystalsIcon);
+                    item.Setup(purchase.title, purchase.price, null, crystalsIcon, giveAmount);
                 }
             }
         }
 
-        private void OnClickShopItem(ShopItemConfig shopItemConfig)
+        private void OnClickShopItem(ShopItemView shopItemView)
         {
-#if UNITY_EDITOR
+            if (!shopItemView.ShopItemConfig) return;
+            var shopItemConfig = shopItemView.ShopItemConfig;
+            var wallet = _persistentPlayerData.WalletByCurrency[shopItemConfig.PriceTuple.currencyConfig];
+            if (!wallet.Take((uint)shopItemConfig.PriceTuple.amount))
+            {
+                return;
+            }
             OnSuccessBuy(shopItemConfig);
-#endif
         }
 
         private void OnSuccessBuy(ShopItemConfig shopItemConfig)

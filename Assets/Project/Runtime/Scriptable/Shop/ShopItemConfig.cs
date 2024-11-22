@@ -12,25 +12,16 @@ namespace Project.Runtime.Scriptable.Shop
         [SerializeField] private Sprite icon;
         [Space]
         [SerializeField] private int discountPercent;
-        [SerializeField] private int price;
-        [SerializeField] private ShopPriceType priceType;
+        [SerializeField] private CurrencyTuple priceTuple;
         [Space]
         [SerializeField] private ShopGiveOnBuy giveOnBuy;
 
         public ShopGiveOnBuy GiveOnBuy => giveOnBuy;
-        public int Price => price;
         public Sprite Icon => icon;
         public int DiscountPercent => discountPercent;
-        public ShopPriceType PriceType => priceType;
         public string Title => title;
         public int Amount => amount;
-    }
-
-    public enum ShopPriceType
-    {
-        HardCurrency,
-        SoftCurrency,
-        RealCurrency
+        public CurrencyTuple PriceTuple => priceTuple;
     }
 
     public enum ShopGiveOnBuy

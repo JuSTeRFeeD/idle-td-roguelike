@@ -334,30 +334,39 @@ MonoBehaviour:
   Payments:
     testBuyFail: 0
     purshases:
-    - id: crystals_300
-      title: "\u041A\u0440\u0438\u0441\u0442\u0430\u043B\u043B\u044B 300"
+    - id: crystals_60
+      title: "\u041A\u0440\u0438\u0441\u0442\u0430\u043B\u043B\u044B 60"
       description: 
       imageURI: 
-      price: 5 YAN
-      priceValue: 5
+      price: 75 YAN
+      priceValue: 75
       priceCurrencyCode: YAN
       currencyImageURL: https://yastatic.net/s3/games-static/static-data/images/payments/sdk/currency-icon-s@2x.png
       consumed: 1
-    - id: armor
-      title: Armor
-      description: Product - Armor
-      imageURI: demo image
-      price: 10 YAN
-      priceValue: 10
+    - id: crystals_320
+      title: "\u041A\u0440\u0438\u0441\u0442\u0430\u043B\u043B\u044B 320"
+      description: 
+      imageURI: 
+      price: 390 YAN
+      priceValue: 390
       priceCurrencyCode: YAN
       currencyImageURL: https://yastatic.net/s3/games-static/static-data/images/payments/sdk/currency-icon-s@2x.png
       consumed: 1
-    - id: grenade
-      title: Grenade
-      description: Product - Grenade
-      imageURI: demo image
-      price: 30 YAN
-      priceValue: 30
+    - id: crystals_550
+      title: "\u041A\u0440\u0438\u0441\u0442\u0430\u043B\u043B\u044B 550"
+      description: 
+      imageURI: 
+      price: 650 YAN
+      priceValue: 650
+      priceCurrencyCode: YAN
+      currencyImageURL: https://yastatic.net/s3/games-static/static-data/images/payments/sdk/currency-icon-s@2x.png
+      consumed: 1
+    - id: crystals_1250
+      title: "\u041A\u0440\u0438\u0441\u0442\u0430\u043B\u043B\u044B 1250"
+      description: 
+      imageURI: 
+      price: 1350 YAN
+      priceValue: 1350
       priceCurrencyCode: YAN
       currencyImageURL: https://yastatic.net/s3/games-static/static-data/images/payments/sdk/currency-icon-s@2x.png
       consumed: 1

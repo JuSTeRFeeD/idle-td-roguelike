@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Epic Chest X10
   m_EditorClassIdentifier: 
   title: "\u042D\u043F\u0438\u0447\u0435\u0441\u043A\u0438\u0439 \u0441\u0443\u043D\u0434\u0443\u043A"
-  amount: 15
+  amount: 10
   icon: {fileID: 21300000, guid: 3db9111554d6cd64485900284f04bb25, type: 3}
   discountPercent: 0
-  price: 2750
-  priceType: 0
+  priceTuple:
+    amount: 450
+    currencyConfig: {fileID: 11400000, guid: 22efdc6310b1c614aaf229c5969e6bf7, type: 2}
   giveOnBuy: 1
