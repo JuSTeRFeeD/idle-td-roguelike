@@ -1,5 +1,6 @@
 using System;
 using Project.Runtime.Services.PlayerProgress;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using VContainer;
@@ -14,7 +15,7 @@ namespace Runtime.Features.Tutorial
         [SerializeField] private GameObject[] steps;
 
         public int CurrentStep { get; private set; }
-        public event Action StepClicked; 
+        public event Action StepClicked;
         
         private void Awake()
         {
@@ -32,9 +33,11 @@ namespace Runtime.Features.Tutorial
 
         public void ShowStep(int stepIndex)
         {
+            ClearStep();
             CurrentStep = stepIndex;
             steps[stepIndex].SetActive(true);
             showContinue.SetActive(CurrentStep is 0 or 2 or 3);
+            Debug.Log("Show step " + CurrentStep);
         }
 
         void IPointerClickHandler.OnPointerClick(PointerEventData eventData)

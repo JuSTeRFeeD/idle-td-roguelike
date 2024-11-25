@@ -27,7 +27,7 @@ namespace Project.Runtime.ECS.Systems.Units
                 .With<SpawnUnitRequest>()
                 .Build();
             
-            _tutorialPreventSpawnFilter = World.Filter.With<TutorialPreventChangeDayTime>().Build();
+            _tutorialPreventSpawnFilter = World.Filter.With<TutorialPreventSpawnUnits>().Build();
         }
 
         public void OnUpdate(float deltaTime)

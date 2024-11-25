@@ -52,7 +52,7 @@ namespace Project.Runtime.ECS.Systems.GameCycle
             {
                 var isWin = entity.Has<GameWinTag>();
 
-                if (isWin)
+                if (isWin && _persistentPlayerData.IsInGameTutorialCompleted)
                 {
                     // Save point as completed
                     _sceneSharedData.MapPoints[_persistentPlayerData.CurMapPointIndex].IsCompleted = true;
@@ -73,10 +73,9 @@ namespace Project.Runtime.ECS.Systems.GameCycle
                 Debug.Log($"dealtDamage {dealtDamage}");
                 Debug.Log($"killedEnemies {killedEnemies}");
                 
-                if (isWin) _persistentPlayerData.PlayerStatistics.AddStatistics(GlobalStatisticsType.CompletedLevels);
-                _persistentPlayerData.PlayerStatistics.AddStatistics(GlobalStatisticsType.PlacedTowers, placedTowers);
-                _persistentPlayerData.PlayerStatistics.AddStatistics(GlobalStatisticsType.KilledUnits, killedEnemies);
-                _persistentPlayerData.PlayerStatistics.AddStatistics(GlobalStatisticsType.DealtDamage, dealtDamage);
+                AddStatistics(isWin, placedTowers, killedEnemies, dealtDamage);
+
+                MarkTutorialCompleted();
                 
                 _saveManager.Save();
                 
@@ -97,12 +96,25 @@ namespace Project.Runtime.ECS.Systems.GameCycle
             }
         }
 
+        private void AddStatistics(bool isWin, int placedTowers, int killedEnemies, int dealtDamage)
+        {
+            if (isWin) _persistentPlayerData.PlayerStatistics.AddStatistics(GlobalStatisticsType.CompletedLevels);
+            _persistentPlayerData.PlayerStatistics.AddStatistics(GlobalStatisticsType.PlacedTowers, placedTowers);
+            _persistentPlayerData.PlayerStatistics.AddStatistics(GlobalStatisticsType.KilledUnits, killedEnemies);
+            _persistentPlayerData.PlayerStatistics.AddStatistics(GlobalStatisticsType.DealtDamage, dealtDamage);
+        }
+
+        private void MarkTutorialCompleted()
+        {
+            _persistentPlayerData.IsInGameTutorialCompleted = true;
+        }
+
         private void GenerateAndGiveDrops(bool isWin, 
             out CardConfig randomCardDrop,
             out List<CurrencyTuple> currencyDrops)
         {
             DropChancesConfig dropChancesConfig;
-            if (isWin)
+            if (isWin && _persistentPlayerData.IsInGameTutorialCompleted)
             {
                 dropChancesConfig = _sceneSharedData.MapPoints[_persistentPlayerData.CurMapPointIndex].PointType switch
                 {

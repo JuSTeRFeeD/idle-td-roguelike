@@ -46,7 +46,7 @@ namespace Project.Runtime.ECS.Systems
         {
             if (_isBuildingFilter.IsNotEmpty() || // Нет необходимости двигать камеру во время постройки
                 _lvlUpFilter.IsNotEmpty() || // Сброс движения во время лвл апа
-                _preventWhileTutorial.IsNotEmpty() // [Tutorial] Не нужно двигать чтобы установить в необходимое место
+                _preventWhileTutorial.IsNotEmpty() // [Tutorial] Не нужно двигать пока не поставили первый тавер
                 ) 
             {
                 _isDrag = false;

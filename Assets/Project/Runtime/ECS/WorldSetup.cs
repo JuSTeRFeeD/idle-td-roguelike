@@ -16,6 +16,7 @@ namespace Project.Runtime.ECS
         [SerializeField] private PlayerLevelsConfig playerLevelsConfig;
         
         [Header("Waves & Enemies")]
+        [SerializeField] private NightWavesConfig tutorialNightWavesConfig;
         [SerializeField] private Transform[] enemySpawnPoints;
 
         [Header("Building")] 
@@ -42,7 +43,8 @@ namespace Project.Runtime.ECS
         public PlayerLevelsConfig PlayerLevelsConfig => playerLevelsConfig;
 
         // Waves & Enemies
-        public NightWavesConfig NightWavesConfig => _sceneSharedData.NightWavesConfig;
+        public NightWavesConfig NightWavesConfig => 
+            _sceneSharedData.NightWavesConfig ? _sceneSharedData.NightWavesConfig : tutorialNightWavesConfig;
         public Transform[] EnemySpawnPoints => enemySpawnPoints;
         
         // Building

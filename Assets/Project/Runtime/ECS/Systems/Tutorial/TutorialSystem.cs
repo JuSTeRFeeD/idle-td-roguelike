@@ -6,12 +6,14 @@ using Project.Runtime.Scriptable.Card;
 using Project.Runtime.Services.PlayerProgress;
 using Runtime.Features.Tutorial;
 using Scellecs.Morpeh;
+using UnityEngine;
 using VContainer;
 
 namespace Project.Runtime.ECS.Systems.Tutorial
 {
     public struct TutorialPreventLevelUp : IComponent {}
     public struct TutorialPreventChangeDayTime : IComponent {}
+    public struct TutorialPreventSpawnUnits : IComponent {}
     
     public class TutorialSystem : ISystem
     {
@@ -25,12 +27,19 @@ namespace Project.Runtime.ECS.Systems.Tutorial
         private Filter _preventLevelUpFilter;
         private Filter _preventChangeDayTimeFilter;
         private Filter _tutorialWaitFirstPlaceTowerFilter;
+        private Filter _preventSpawnUnitsFilter;
+        private Filter _upgradeTowerFilter;
         
         public void OnAwake()
         {
             if (_persistentPlayerData.IsInGameTutorialCompleted) return;
+
+            _upgradeTowerFilter = World.Filter.With<UpgradeBuildingRequest>().Build();
             
             _tutorialPanel.StepClicked += OnStepConfirmClicked;
+            
+            World.CreateEntity().SetComponent(new TutorialPreventSpawnUnits());
+            _preventSpawnUnitsFilter = World.Filter.With<TutorialPreventSpawnUnits>().Build();
             
             World.CreateEntity().SetComponent(new TutorialPreventChangeDayTime());
             _preventChangeDayTimeFilter = World.Filter.With<TutorialPreventChangeDayTime>().Build();
@@ -48,6 +57,7 @@ namespace Project.Runtime.ECS.Systems.Tutorial
         {
             _levelUpPanel.OnCardSelect -= OnSelectCardFirstTime;
             
+            Debug.Log("first time card select");
             _tutorialPanel.ShowStep(1);
             
             var pauseEntity = World.CreateEntity();
@@ -73,25 +83,34 @@ namespace Project.Runtime.ECS.Systems.Tutorial
                 foreach (var entity in _preventLevelUpFilter)
                     entity.Dispose();
             }
-            
-            if (_tutorialPanel.CurrentStep == 2)
+            else if (_tutorialPanel.CurrentStep == 2)
             {
                 World.CreateEntity().SetComponent(new TutorialPreventLevelUp());
                 TimeScale.SetTimeScale(0f);
                 _tutorialPanel.ShowStep(3);
-            }
-
-            if (_tutorialPanel.CurrentStep == 3)
+            } 
+            else if (_tutorialPanel.CurrentStep == 3)
             {
                 TimeScale.SetTimeScale(1f);
-                foreach (var entity in _preventChangeDayTimeFilter)
-                    entity.Dispose();
                 foreach (var entity in _preventLevelUpFilter)
                     entity.Dispose();
+                foreach (var entity in _preventSpawnUnitsFilter)
+                    entity.Dispose();
+                foreach (var entity in _preventChangeDayTimeFilter)
+                    entity.Dispose();
+                Debug.Log("3");
+                
+                _tutorialPanel.ShowStep(4);
             }
         }
 
-        public void OnUpdate(float deltaTime) { }
+        public void OnUpdate(float deltaTime)
+        {
+            if (_tutorialPanel.CurrentStep == 4 && _upgradeTowerFilter.IsNotEmpty())
+            {
+                _tutorialPanel.ClearStep();
+            }
+        }
 
         public void Dispose() { }
     }
