@@ -6,7 +6,9 @@ using Project.Runtime.Features.CameraControl;
 using Project.Runtime.Features.GameplayMenus;
 using Project.Runtime.Features.Inventory;
 using Project.Runtime.Features.Leveling;
+using Runtime.Features.Tutorial;
 using Scellecs.Morpeh;
+using Sirenix.OdinInspector.Editor.GettingStarted;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -33,6 +35,9 @@ namespace Project.Runtime.Core
         
         [Header("Effects")]
         [SerializeField] private DayNightCycleEffects dayNightCycleEffects;
+
+        [Header("Tutorial")]
+        [SerializeField] private TutorialPanel tutorialPanel;
         
         protected override void Configure(IContainerBuilder builder)
         {
@@ -53,6 +58,7 @@ namespace Project.Runtime.Core
             builder.RegisterInstance<CameraController>(cameraController);
             builder.RegisterInstance<MapManager>(mapManager);
             
+            builder.RegisterInstance<TutorialPanel>(tutorialPanel);
             
             // Initialize ecs
             if (World.Default == null) World.Create("Main");

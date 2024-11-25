@@ -13,6 +13,7 @@ using Project.Runtime.ECS.Systems.Player;
 using Project.Runtime.ECS.Systems.Projectile;
 using Project.Runtime.ECS.Systems.Stats;
 using Project.Runtime.ECS.Systems.TakingDamage;
+using Project.Runtime.ECS.Systems.Tutorial;
 using Project.Runtime.ECS.Systems.Units;
 using Project.Runtime.ECS.Systems.Units.RepairBuildings;
 using Scellecs.Morpeh;
@@ -146,8 +147,9 @@ namespace Project.Runtime.ECS
             _commonSystemsGroup.AddSystem<ApplyDamageSystem>();
             _commonSystemsGroup.AddSystem<DeathSystem>();
             
-            
             _commonSystemsGroup.AddSystem<DestroyOverTimeSystem>();
+            
+            _commonSystemsGroup.AddSystem<TutorialSystem>();
             
             _world.AddSystemsGroup(0, _commonSystemsGroup);
         }

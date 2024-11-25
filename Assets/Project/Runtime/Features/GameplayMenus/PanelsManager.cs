@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Project.Runtime.ECS.Components;
-using Project.Runtime.Scriptable.Buildings;
 using UnityEngine;
 
 namespace Project.Runtime.Features.GameplayMenus

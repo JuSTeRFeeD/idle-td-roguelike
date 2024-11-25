@@ -10,6 +10,8 @@ namespace Project.Runtime.Services.PlayerProgress
 {
     public class PersistentPlayerData
     {
+        public bool IsInGameTutorialCompleted;
+        
         public string MapData; // LevelMapGenerator.cs Serialization
         public int CurMapPointIndex;
         public int CompletedMapsCount;

@@ -31,7 +31,9 @@ namespace Project.Runtime.Services.Saves.YandexSaves
         {
             Debug.Log("SAVE");
 
-            var data = YG2.saves.playerProgressData; 
+            var data = YG2.saves.playerProgressData;
+            
+            data.isInGameTutorialCompleted = _persistentPlayerData.IsInGameTutorialCompleted;
             
             // Map
             data.mapSave = _persistentPlayerData.MapData;
@@ -72,6 +74,8 @@ namespace Project.Runtime.Services.Saves.YandexSaves
 
             YG2.saves.playerProgressData ??= new PlayerProgressData();
             var data = YG2.saves.playerProgressData;
+
+            _persistentPlayerData.IsInGameTutorialCompleted = data.isInGameTutorialCompleted; 
             
             // Map
             _persistentPlayerData.MapData = data.mapSave;

@@ -1,4 +1,5 @@
 using Project.Runtime.ECS.Components;
+using Project.Runtime.ECS.Systems.Tutorial;
 using Project.Runtime.Features;
 using Project.Runtime.Features.GameplayMenus;
 using Scellecs.Morpeh;
@@ -22,6 +23,8 @@ namespace Project.Runtime.ECS.Systems.GameCycle
         private Filter _filter;
         private Stash<DayNight> _dayNightStash;
         private Stash<IsDayTimeTag> _isDayTimeTagStash;
+
+        private Filter _preventChangeDayTimeFilter;
         
         public void OnAwake()
         {
@@ -32,10 +35,14 @@ namespace Project.Runtime.ECS.Systems.GameCycle
             
             _dayNightStash = World.GetStash<DayNight>();
             _isDayTimeTagStash = World.GetStash<IsDayTimeTag>();
+            
+            _preventChangeDayTimeFilter = World.Filter.With<TutorialPreventChangeDayTime>().Build();
         }
 
         public void OnUpdate(float deltaTime)
         {
+            if (_preventChangeDayTimeFilter.IsNotEmpty()) return;
+            
             // как только убиваем всех врагов -> ставится таймер на 3с и возвращается день
             
             foreach (var entity in _filter)

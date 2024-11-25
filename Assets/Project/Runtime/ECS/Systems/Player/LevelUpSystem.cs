@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Project.Runtime.ECS.Components;
+using Project.Runtime.ECS.Systems.Tutorial;
 using Project.Runtime.Features.Inventory;
 using Project.Runtime.Features.Leveling;
 using Project.Runtime.Features.TimeManagement;
@@ -26,6 +27,7 @@ namespace Project.Runtime.ECS.Systems.Player
         private Filter _levelUpFilter;
         private Filter _choosingCardFilter;
         private Filter _placingCardFilter;
+        private Filter _tutorialPreventLevelUpFilter;
         
         public void OnAwake()
         {
@@ -43,6 +45,8 @@ namespace Project.Runtime.ECS.Systems.Player
                 .With<PlacingBuildingCard>()
                 .With<ViewEntity>()
                 .Build();
+
+            _tutorialPreventLevelUpFilter = World.Filter.With<TutorialPreventLevelUp>().Build();
 
             _levelUpPanel.OnCardSelect += OnCardSelect;
         }
@@ -81,6 +85,8 @@ namespace Project.Runtime.ECS.Systems.Player
 
         public void OnUpdate(float deltaTime)
         {
+            if (_tutorialPreventLevelUpFilter.IsNotEmpty()) return;
+            
             foreach (var entity in _levelUpFilter)
             {
                 // Cancelling placing card on level up

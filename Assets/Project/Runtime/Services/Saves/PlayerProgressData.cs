@@ -10,6 +10,8 @@ namespace Project.Runtime.Services.Saves
     [Serializable]
     public class PlayerProgressData
     {
+        public bool isInGameTutorialCompleted;
+        
         public string mapSave;
         public int curMapPointIndex;
         public int completedMapsCount;

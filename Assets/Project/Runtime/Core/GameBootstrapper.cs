@@ -45,9 +45,21 @@ namespace Project.Runtime.Core
             _playerDeck.InitializeAfterLoadSaves(commonCardsList, firstTimeCardsList);
             _serverTime.Refresh();
             _missionsManager.Initialize();
-            
+
+            if (FirstSessionTutorial()) yield break;
             
             StartCoroutine(_sceneLoader.LoadSceneAsync("Lobby"));
+        }
+
+        private bool FirstSessionTutorial()
+        {
+            if (!YG2.saves.playerProgressData.isInGameTutorialCompleted)
+            {
+                StartCoroutine(_sceneLoader.LoadSceneAsync("Game"));
+                return true;
+            }
+
+            return false;
         }
     }
 }

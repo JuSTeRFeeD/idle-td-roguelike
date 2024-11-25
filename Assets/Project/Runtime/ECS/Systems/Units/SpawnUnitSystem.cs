@@ -1,5 +1,6 @@
 using Project.Runtime.ECS.Components;
 using Project.Runtime.ECS.Extensions;
+using Project.Runtime.ECS.Systems.Tutorial;
 using Scellecs.Morpeh;
 using UnityEngine;
 using VContainer;
@@ -18,15 +19,21 @@ namespace Project.Runtime.ECS.Systems.Units
 
         private Filter _filter;
         
+        private Filter _tutorialPreventSpawnFilter;
+        
         public void OnAwake()
         {
             _filter = World.Filter
                 .With<SpawnUnitRequest>()
                 .Build();
+            
+            _tutorialPreventSpawnFilter = World.Filter.With<TutorialPreventChangeDayTime>().Build();
         }
 
         public void OnUpdate(float deltaTime)
         {
+            if (_tutorialPreventSpawnFilter.IsNotEmpty()) return;
+            
             foreach (var entity in _filter)
             {
                 var request = entity.GetComponent<SpawnUnitRequest>();

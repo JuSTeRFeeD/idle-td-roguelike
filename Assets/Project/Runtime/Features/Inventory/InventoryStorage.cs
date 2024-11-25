@@ -9,6 +9,7 @@ namespace Project.Runtime.Features.Inventory
         private readonly List<CardConfig> _cards = new();
 
         public event Action OnCardsChange; 
+        public event Action OnRemoveCard; 
         
         public List<CardConfig> GetBuildingsList() => new(_cards);
         
@@ -23,6 +24,7 @@ namespace Project.Runtime.Features.Inventory
             var idx = _cards.FindIndex(i => i.uniqueID == cardConfigId);
             if (idx == -1) return;
             _cards.RemoveAt(idx);
+            OnRemoveCard?.Invoke();
             OnCardsChange?.Invoke();
         }
 

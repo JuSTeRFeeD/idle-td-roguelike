@@ -1,4 +1,5 @@
 using Project.Runtime.ECS.Components;
+using Project.Runtime.ECS.Systems.Tutorial;
 using Project.Runtime.Features.CameraControl;
 using Scellecs.Morpeh;
 using UnityEngine;
@@ -17,11 +18,13 @@ namespace Project.Runtime.ECS.Systems
         private Filter _isBuildingFilter;
         private Filter _lvlUpFilter;
 
+        private Filter _preventWhileTutorial;
+
         private Vector3 _dragOrigin;
         private Vector3 _currentVelocity;
         private Vector3 _targetVelocity;
         private bool _isDrag;
-        private const float DragSpeed = 5f;
+        private const float DragSpeed = 10f;
         private const float InertiaDamping = 4f; // Коэффициент демпфирования инерции
         private const float SmoothTime = 0.1f; // Время для сглаживания движения при зажатой мыши
 
@@ -35,12 +38,16 @@ namespace Project.Runtime.ECS.Systems
             _lvlUpFilter = World.Filter
                 .With<LevelUp>()
                 .Build();
+
+            _preventWhileTutorial = World.Filter.With<TutorialPreventChangeDayTime>().Build();
         }
 
         public void OnUpdate(float deltaTime)
         {
             if (_isBuildingFilter.IsNotEmpty() || // Нет необходимости двигать камеру во время постройки
-                _lvlUpFilter.IsNotEmpty()) // Сброс движения во время лвл апа
+                _lvlUpFilter.IsNotEmpty() || // Сброс движения во время лвл апа
+                _preventWhileTutorial.IsNotEmpty() // [Tutorial] Не нужно двигать чтобы установить в необходимое место
+                ) 
             {
                 _isDrag = false;
                 _currentVelocity = Vector3.zero;
