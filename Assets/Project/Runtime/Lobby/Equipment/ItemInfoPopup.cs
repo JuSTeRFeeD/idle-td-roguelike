@@ -145,8 +145,8 @@ namespace Project.Runtime.Lobby.Equipment
             upgrade1Description.SetText("<todo put text in ItemInfoPopup.cs>");
             upgrade2Level.SetText("0");
             upgrade2Description.SetText("<todo put text in ItemInfoPopup.cs>");
-            
-            equipButton.gameObject.SetActive(deckCard.CardSaveData.isOpen && deckCard.CardSaveData.equippedAtSlot < 0);
+
+            equipButton.interactable = deckCard.CardSaveData.isOpen && deckCard.CardSaveData.equippedAtSlot < 0;
         }
 
         private void InitUpgrade(DeckCard deckCard)
@@ -158,7 +158,8 @@ namespace Project.Runtime.Lobby.Equipment
             amountSlider.value = (float)deckCard.CardSaveData.amount / amountToUpgrade;
             amountText.SetText($"{deckCard.CardSaveData.amount}<size=80%>/{amountToUpgrade}");
             upgradeFrame.gameObject.SetActive(deckCard.CardSaveData.amount >= amountToUpgrade);
-            upgradeButton.gameObject.SetActive(deckCard.CardSaveData.amount >= amountToUpgrade);
+            
+            upgradeButton.interactable = deckCard.CardSaveData.amount >= amountToUpgrade;
             
             softCurrencyUpgradeCostText.SetText($"{upgradeSoftCurrencyCost}");
             hexCurrencyUpgradeCostText.SetText($"{upgradeHexCurrencyCost}");

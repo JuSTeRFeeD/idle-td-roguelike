@@ -8,13 +8,13 @@
     "modules": [
         {
             "name": "PluginYG2",
-            "version": "2.0",
+            "version": "2.001",
             "download": "https://max-games.ru/public/pluginYG2/other/PluginYG2.unitypackage",
             "doc": "https://max-games.ru/plugin-yg/doc/"
         },
         {
             "name": "YandexGames",
-            "version": "1.0",
+            "version": "1.001",
             "download": "https://max-games.ru/public/pluginYG2/platforms/YandexGames.unitypackage",
             "doc": "https://max-games.ru/plugin-yg/doc/",
             "platform": true
@@ -41,7 +41,7 @@
         },
         {
             "name": "EnvirData",
-            "version": "1.0",
+            "version": "1.001",
             "download": "https://max-games.ru/public/pluginYG2/modules/EnvirData.unitypackage",
             "doc": "https://max-games.ru/plugin-yg/doc/envir/"
         },
@@ -59,7 +59,7 @@
         },
         {
             "name": "PlayerStats",
-            "version": "1.0",
+            "version": "1.001",
             "download": "https://max-games.ru/public/pluginYG2/modules/PlayerStats.unitypackage",
             "doc": "https://max-games.ru/plugin-yg/doc/storage/",
             "dependencies": "Authorization"
@@ -98,9 +98,9 @@
         },
         {
             "name": "Metrica",
-            "version": "1.0",
+            "version": "1.001",
             "download": "https://max-games.ru/public/pluginYG2/modules/Metrica.unitypackage",
-            "doc": ""
+            "doc": "https://max-games.ru/plugin-yg/doc/metrica/"
         },
         {
             "name": "Review",
@@ -134,7 +134,7 @@
         },
         {
             "name": "OpenURL",
-            "version": "1.0",
+            "version": "1.001",
             "download": "https://max-games.ru/public/pluginYG2/modules/OpenURL.unitypackage",
             "doc": "",
             "dependencies": "EnvirData"
