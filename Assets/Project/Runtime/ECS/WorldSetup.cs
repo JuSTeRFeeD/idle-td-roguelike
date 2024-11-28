@@ -2,6 +2,7 @@ using Project.Runtime.ECS.Views;
 using Project.Runtime.Scriptable;
 using Project.Runtime.Scriptable.Buildings;
 using Project.Runtime.Scriptable.Enemies;
+using Runtime.ECS.Views;
 using UnityEngine;
 using VContainer;
 
@@ -34,6 +35,7 @@ namespace Project.Runtime.ECS
         [SerializeField] private PopupTextView popupTextView;
         [SerializeField] private WorldHealthBarView worldHealthBarView;
         [SerializeField] private WorldProgressBarView worldProgressBarView;
+        [SerializeField] private WorldMarkView worldMarkView;
         [SerializeField] private WorkerUnitView workerUnitView;
         [SerializeField] private BuildingConfig[] treeConfig;
         [SerializeField] private BuildingConfig[] stoneConfig;
@@ -62,6 +64,7 @@ namespace Project.Runtime.ECS
         public PopupTextView PopupTextView => popupTextView;
         public WorldHealthBarView WorldHealthBarView => worldHealthBarView;
         public WorldProgressBarView WorldProgressBarView => worldProgressBarView;
+        public WorldMarkView WorldMarkView => worldMarkView;
         public WorkerUnitView WorkerUnitView => workerUnitView;
         public BuildingConfig[] TreeConfig => treeConfig;
         public BuildingConfig[] StoneConfig => stoneConfig;

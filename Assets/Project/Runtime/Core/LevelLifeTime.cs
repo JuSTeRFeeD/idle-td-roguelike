@@ -8,7 +8,6 @@ using Project.Runtime.Features.Inventory;
 using Project.Runtime.Features.Leveling;
 using Runtime.Features.Tutorial;
 using Scellecs.Morpeh;
-using Sirenix.OdinInspector.Editor.GettingStarted;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;

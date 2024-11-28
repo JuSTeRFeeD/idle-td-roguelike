@@ -10,6 +10,7 @@ using Project.Runtime.Scriptable.Shop;
 using Project.Runtime.Services.PlayerProgress;
 using Project.Runtime.Services.Saves;
 using Project.Runtime.Services.Saves.YandexSaves;
+using Runtime.Services.Purchases;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using VContainer;
@@ -46,6 +47,7 @@ namespace Project.Runtime.Core
             
             builder.Register<PersistentPlayerData>(Lifetime.Singleton).WithParameter<CurrencyConfig[]>(gameCurrencies);
             builder.Register<YandexSaveManager>(Lifetime.Singleton).As<ISaveManager>();
+            builder.Register<PurchaseHandler>(Lifetime.Singleton);
 
             builder.Register<BuildingsDatabase>(Lifetime.Singleton);
             builder.Register<CardsDatabase>(Lifetime.Singleton);

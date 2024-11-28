@@ -27,6 +27,7 @@ namespace Project.Runtime.Lobby.Shop
 
         public ShopItemConfig ShopItemConfig => shopItemConfig;
         public int GiveHardAmount { get; private set; }
+        public string PurchaseId { get; private set; }
         
         private void Start()
         {
@@ -43,8 +44,9 @@ namespace Project.Runtime.Lobby.Shop
             buyButton.onClick.AddListener(() => OnClick?.Invoke(this));
         }
 
-        public void Setup(string title, string price, Sprite currencyIcon, Sprite icon, int giveAmount)
+        public void Setup(string title, string price, Sprite currencyIcon, Sprite icon, int giveAmount, string purchaseId)
         {
+            PurchaseId = purchaseId;
             GiveHardAmount = giveAmount;
             itemIcon.sprite = icon;
             titleText.SetText(title);

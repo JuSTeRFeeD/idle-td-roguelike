@@ -5,6 +5,7 @@ using Project.Runtime.Player.Databases;
 using Project.Runtime.Scriptable.Card;
 using Project.Runtime.Services.PlayerProgress;
 using Project.Runtime.Services.Saves;
+using Runtime.Services.Purchases;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using VContainer;
@@ -25,6 +26,7 @@ namespace Project.Runtime.Core
         [Inject] private CardsDatabase _cardsDatabase;
         [Inject] private MissionsDatabase _missionsDatabase;
         [Inject] private MissionsManager _missionsManager;
+        [Inject] private PurchaseHandler _purchaseHandler;
         
         [Title("Cards list configs")]
         [SerializeField] private ActiveCardsListConfig commonCardsList;

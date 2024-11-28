@@ -6906,7 +6906,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 769703889}
   m_HandleRect: {fileID: 769703888}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -8488,6 +8488,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Slider_BasicType_01_Demo
+      objectReference: {fileID: 0}
+    - target: {fileID: 5949598279856750483, guid: 43dae86875de248058d7fda61f4307ba,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5949598279856750510, guid: 43dae86875de248058d7fda61f4307ba,
         type: 3}
@@ -10692,7 +10697,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1233912805
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16991,7 +16996,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1378882114}
   m_HandleRect: {fileID: 1378882113}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

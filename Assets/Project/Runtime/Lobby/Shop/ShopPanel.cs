@@ -38,9 +38,9 @@ namespace Project.Runtime.Lobby.Shop
         
         private void Start()
         {
-            foreach (var shopItemView in shopItemViews)
+            foreach (var itemView in shopItemViews)
             {
-                shopItemView.OnClick += OnClickShopItem;
+                itemView.OnClick += OnClickShopItem;
             }
 
             InstantiatePurchases();
@@ -73,15 +73,24 @@ namespace Project.Runtime.Lobby.Shop
                 {
                     var giveAmount = int.Parse(purchase.id.Split("_")[1]);
                     var item = Instantiate(shopItemView, crystalsContainer);
-                    item.Setup(purchase.title, purchase.price, null, crystalsIcon, giveAmount);
+                    item.Setup(purchase.title, purchase.price, null, crystalsIcon, giveAmount, purchase.id);
+                    item.OnClick += OnClickPurchase;
                 }
             }
         }
 
-        private void OnClickShopItem(ShopItemView shopItemView)
+        private void OnClickPurchase(ShopItemView item)
         {
-            if (!shopItemView.ShopItemConfig) return;
-            var shopItemConfig = shopItemView.ShopItemConfig;
+            Debug.Log("ha");
+            if (string.IsNullOrEmpty(item.PurchaseId)) return;
+            Debug.Log("Click purchase " + item.PurchaseId);
+            YG2.BuyPayments(item.PurchaseId);
+        }
+
+        private void OnClickShopItem(ShopItemView item)
+        {
+            if (!item.ShopItemConfig) return;
+            var shopItemConfig = item.ShopItemConfig;
             var wallet = _persistentPlayerData.WalletByCurrency[shopItemConfig.PriceTuple.currencyConfig];
             if (!wallet.Take((uint)shopItemConfig.PriceTuple.amount))
             {

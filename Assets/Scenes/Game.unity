@@ -8671,6 +8671,8 @@ MonoBehaviour:
     type: 3}
   worldProgressBarView: {fileID: 4875237117630062129, guid: 80eb95164b034974f8179763edacdacd,
     type: 3}
+  worldMarkView: {fileID: 7348840295261198368, guid: 24049afd527dc084a94fb38bdde6f880,
+    type: 3}
   workerUnitView: {fileID: 4706738192559519961, guid: b17afd347b1893142b43d523390f6307,
     type: 3}
   treeConfig:

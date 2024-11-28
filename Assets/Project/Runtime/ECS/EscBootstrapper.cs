@@ -82,6 +82,10 @@ namespace Project.Runtime.ECS
             _commonSystemsGroup.AddSystem<PlacingBuildingSystem>();
             _commonSystemsGroup.AddSystem<PlaceBuildingSystem>();
             
+            // Markers above buildings
+            _commonSystemsGroup.AddSystem<BuildingUnMarkSystem>();
+            _commonSystemsGroup.AddSystem<BuildingMarkSystem>();
+            
             // --- Pathfinding ---
             _commonSystemsGroup.AddSystem<AStarPathfindingSystem>();
             _commonSystemsGroup.AddSystem<AStarMoveSystem>();
