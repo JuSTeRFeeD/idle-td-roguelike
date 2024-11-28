@@ -43,9 +43,10 @@ namespace Project.Runtime.Lobby.Missions
 
         public void Refresh()
         {
-            DailyMissionsManager.Refresh();
-            // WeeklyMissionsManager.Refresh(); // disabled for now
-            _saveManager.Save();
+            var needToSave = false;
+            needToSave = DailyMissionsManager.Refresh();
+            // needToSave = needToSave || WeeklyMissionsManager.Refresh(); // disabled for now
+            if (needToSave) _saveManager.Save();
             OnRefreshed?.Invoke();
         }
 

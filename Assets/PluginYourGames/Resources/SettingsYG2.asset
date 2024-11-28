@@ -342,7 +342,7 @@ MonoBehaviour:
       priceValue: 75
       priceCurrencyCode: YAN
       currencyImageURL: https://yastatic.net/s3/games-static/static-data/images/payments/sdk/currency-icon-s@2x.png
-      consumed: 1
+      consumed: 0
     - id: crystals_320
       title: "\u041A\u0440\u0438\u0441\u0442\u0430\u043B\u043B\u044B 320"
       description: 
@@ -351,7 +351,7 @@ MonoBehaviour:
       priceValue: 390
       priceCurrencyCode: YAN
       currencyImageURL: https://yastatic.net/s3/games-static/static-data/images/payments/sdk/currency-icon-s@2x.png
-      consumed: 1
+      consumed: 0
     - id: crystals_550
       title: "\u041A\u0440\u0438\u0441\u0442\u0430\u043B\u043B\u044B 550"
       description: 
@@ -360,7 +360,7 @@ MonoBehaviour:
       priceValue: 650
       priceCurrencyCode: YAN
       currencyImageURL: https://yastatic.net/s3/games-static/static-data/images/payments/sdk/currency-icon-s@2x.png
-      consumed: 1
+      consumed: 0
     - id: crystals_1250
       title: "\u041A\u0440\u0438\u0441\u0442\u0430\u043B\u043B\u044B 1250"
       description: 
@@ -369,7 +369,7 @@ MonoBehaviour:
       priceValue: 1350
       priceCurrencyCode: YAN
       currencyImageURL: https://yastatic.net/s3/games-static/static-data/images/payments/sdk/currency-icon-s@2x.png
-      consumed: 1
+      consumed: 0
   QuitGameEvent:
     enable: 0
     objectName: NameYourObject
@@ -399,7 +399,7 @@ MonoBehaviour:
     device: 0
     language: ru
     advIntervalSimulation: 60
-    durationAdv: 2
+    durationAdv: 0.5
     loadAdv: 0
     testFailAds: 0
   Templates:

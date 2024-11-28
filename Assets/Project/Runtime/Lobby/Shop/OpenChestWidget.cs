@@ -61,7 +61,7 @@ namespace Project.Runtime.Lobby.Shop
             }
             else
             {
-                chestWallet.Take(chestWallet.Balance);
+                chestWallet.Take(amount);
             }
             
             // Open chest

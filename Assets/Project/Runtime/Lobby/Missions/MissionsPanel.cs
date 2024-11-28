@@ -111,6 +111,7 @@ namespace Project.Runtime.Lobby.Missions
         {
             Clear();
 
+            var canCollectAny = false;
             List<MissionConfig> configs;
             MissionsSave save;
             switch (_showMissionsType)
@@ -137,8 +138,11 @@ namespace Project.Runtime.Lobby.Missions
                     save.completed[i], 
                     save.rewarded[i]);
                 item.OnClickCollect += OnClickCollect;
+                canCollectAny = canCollectAny || save.completed[i] && !save.rewarded[i];
                 _items.Add(item);
             }
+            
+            notificationDot.SetActive(canCollectAny);
         }
 
         private void Clear()

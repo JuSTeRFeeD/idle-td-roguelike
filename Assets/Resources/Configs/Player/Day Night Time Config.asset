@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Day Night Time Config
   m_EditorClassIdentifier: 
   dayTime: 15
-  nightTime: 999
+  nightTime: 9999

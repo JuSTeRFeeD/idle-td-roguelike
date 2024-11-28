@@ -1,5 +1,6 @@
 using Project.Runtime.Services.PlayerProgress;
 using Project.Runtime.Services.Saves;
+using UnityEngine;
 using YG;
 
 namespace Runtime.Services.Purchases
@@ -16,10 +17,12 @@ namespace Runtime.Services.Purchases
             _persistentPlayerData = persistentPlayerData;
             _saveManager = saveManager;
             YG2.onPurchaseSuccess += OnPurchaseSuccess;
+            YG2.onGetSDKData += YG2.ConsumePurchases; 
         }
 
         private void OnPurchaseSuccess(string purchaseId)
         {
+            Debug.Log("Success purchase " + purchaseId);
             if (purchaseId.Contains("crystals"))
             {
                 var giveAmount = uint.Parse(purchaseId.Split("_")[1]);

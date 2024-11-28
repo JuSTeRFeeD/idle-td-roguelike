@@ -137,8 +137,10 @@ namespace Project.Runtime.Lobby.Missions.MissionsWithTimer
             _saveManager.Save();
         }
         
-        public void Refresh()
+        /// <returns>True - need to save</returns>
+        public bool Refresh()
         {
+            var needToSave = false;
             var save = GetSave();
             
             // Check time to update missions
@@ -149,7 +151,7 @@ namespace Project.Runtime.Lobby.Missions.MissionsWithTimer
             {
                 Debug.Log($"{_timedMissionsType} Refresh mission");
                 GenerateNewMissions();
-                return;
+                return true;
             }
             // todo: fix when daily adds
             // if (_timedMissionsType is TimedMissionsType.Weekly && 
@@ -178,9 +180,12 @@ namespace Project.Runtime.Lobby.Missions.MissionsWithTimer
                 if (currentValue >= targetValue)
                 {
                     save.completed[i] = true;
+                    needToSave = true;
                 }
             }
             save.SortByCompletionAndRewardStatus();
+
+            return needToSave;
         }
 
         public bool Collect(string id)

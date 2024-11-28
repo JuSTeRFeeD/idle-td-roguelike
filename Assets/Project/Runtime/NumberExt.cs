@@ -11,8 +11,8 @@ namespace Project.Runtime.Features
             if (value == 0) return "0";
             return value switch
             {
-                >= 1000000 => (value / 1000000).ToString("#.#") + "М",
-                >= 1000 => (value / 1000).ToString("#.#") + "К",
+                >= 1000000 => (value / 1000000).ToString("##.##") + "М",
+                >= 1000 => (value / 1000).ToString("##.##") + "К",
                 _ => $"{value:##.#}"
             };
         }

@@ -3,6 +3,7 @@ using DG.Tweening;
 using Project.Runtime.Player;
 using Project.Runtime.Scriptable;
 using Project.Runtime.Scriptable.Currency;
+using Runtime.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -16,7 +17,9 @@ namespace Project.Runtime.Features
         [SerializeField] private Image towerIconImage;
         [SerializeField] private Image rarityImage;
         [SerializeField] private TextMeshProUGUI amountText;
-
+        [Space] 
+        public NotificationDot notificationDot;
+        
         private Vector3 _initIconScale;
         private Vector3 _initIconTowerScale;
         public event Action<InventoryItemView> OnClick;

@@ -7,11 +7,11 @@
         false,
         false
     ],
-    "idSave": 1082,
+    "idSave": 1230,
     "playerProgressData": {
         "isInGameTutorialCompleted": true,
-        "mapSave": "0,1|0,2|0|0|0,2|1,1;1,2|0|0|1,1|2,1|0|0|2,1|2,2|0|0|2,2|3,1;3,2|0|0|3,1|4,0|0|0|4,0|5,0|0|0|5,0|5,1|0|0|5,1|n|0|2|1,2|n|0|1|3,2|n|0|1",
-        "curMapPointIndex": 0,
+        "mapSave": "0,1|0,2|1|0|0,2|1,1;1,2|0|0|1,1|2,1|0|0|2,1|2,2|0|0|2,2|3,1;3,2|0|0|3,1|4,0|0|0|4,0|5,0|0|0|5,0|5,1|0|0|5,1|n|0|2|1,2|n|0|1|3,2|n|0|1",
+        "curMapPointIndex": 1,
         "completedMapsCount": 0,
         "autoUpgradeTowersChecked": true,
         "balanceByCurrencyId": {
@@ -26,14 +26,14 @@
                 "6267273d-8c18-4776-bc9c-49e105cde9dd"
             ],
             "values": [
-                0,
-                135,
-                0,
-                0,
-                0,
-                0,
-                0,
-                50
+                563,
+                25,
+                1889,
+                3,
+                4,
+                8,
+                26,
+                550
             ]
         },
         "inventoryCards": [
@@ -41,57 +41,57 @@
                 "id": "e56ac3bd-dc3c-4813-b0aa-6a91cd3802b2",
                 "isOpen": true,
                 "equippedAtSlot": 0,
-                "level": 0,
-                "amount": 1
+                "level": 1,
+                "amount": 17
             },
             {
                 "id": "945d886f-5dae-4672-be90-1925bd6ec556",
                 "isOpen": true,
                 "equippedAtSlot": 1,
-                "level": 0,
-                "amount": 0
+                "level": 2,
+                "amount": 10
             },
             {
                 "id": "1709d3d1-49ca-4bf8-88fe-ce61606c64c5",
                 "isOpen": true,
                 "equippedAtSlot": 2,
-                "level": 0,
-                "amount": 0
+                "level": 1,
+                "amount": 22
             },
             {
                 "id": "ef4d5bd8-82ed-427c-ad35-b533b536b36e",
                 "isOpen": true,
                 "equippedAtSlot": 3,
-                "level": 0,
-                "amount": 0
+                "level": 1,
+                "amount": 30
             },
             {
                 "id": "da32a0fd-8587-4a1b-bd9d-a8486e9592ee",
-                "isOpen": false,
+                "isOpen": true,
                 "equippedAtSlot": -1,
-                "level": 0,
-                "amount": 0
+                "level": 1,
+                "amount": 17
             },
             {
                 "id": "130b1aea-2e2a-4b8e-99da-3a0335e10c1d",
-                "isOpen": false,
+                "isOpen": true,
                 "equippedAtSlot": -1,
                 "level": 0,
-                "amount": 0
+                "amount": 1
             },
             {
                 "id": "b5e420d8-dde4-4f27-887b-30345c0c2d58",
-                "isOpen": false,
+                "isOpen": true,
                 "equippedAtSlot": -1,
-                "level": 0,
-                "amount": 0
+                "level": 1,
+                "amount": 2
             },
             {
                 "id": "7fd66f83-511c-46d5-98cb-7cd642b78154",
-                "isOpen": false,
+                "isOpen": true,
                 "equippedAtSlot": -1,
-                "level": 0,
-                "amount": 0
+                "level": 1,
+                "amount": 12
             }
         ],
         "globalStatistics": {
@@ -101,27 +101,29 @@
                 1,
                 2,
                 0,
-                3
+                3,
+                5
             ],
             "values": [
-                340,
-                1,
-                9,
-                35,
-                6481,
-                1
+                1210,
+                4,
+                25,
+                828,
+                1160929,
+                2,
+                8
             ]
         },
         "dailyMissions": {
             "startTime": 1721201231000,
             "missionIds": [
-                "acd561f7-e260-41e5-b663-62206292546c",
-                "19cfdceb-3755-406f-86f2-d70ec2fb1a96",
-                "48e1bc4c-1629-415b-92aa-754a6c1b169b",
-                "388c780c-5f33-4f38-aff4-e335c87ebf0e",
-                "4e6024c4-8bea-41a6-a762-74aa1eb7f626",
                 "824659a8-8307-4195-850f-e048fa27dabc",
+                "acd561f7-e260-41e5-b663-62206292546c",
+                "388c780c-5f33-4f38-aff4-e335c87ebf0e",
                 "2f1d0b9e-8521-41b8-849b-8d17307250e2",
+                "4e6024c4-8bea-41a6-a762-74aa1eb7f626",
+                "48e1bc4c-1629-415b-92aa-754a6c1b169b",
+                "19cfdceb-3755-406f-86f2-d70ec2fb1a96",
                 "2ee4a9c3-6b01-4c0c-bc4d-de2d8ad78e42"
             ],
             "valueAtStart": [
@@ -135,13 +137,13 @@
                 0
             ],
             "completed": [
+                true,
                 false,
                 false,
                 false,
-                false,
-                false,
-                false,
-                false,
+                true,
+                true,
+                true,
                 true
             ],
             "rewarded": [
@@ -149,9 +151,9 @@
                 false,
                 false,
                 false,
-                false,
-                false,
-                false,
+                true,
+                true,
+                true,
                 true
             ]
         },
@@ -171,8 +173,8 @@
             ]
         },
         "dailyRewardProgressCollected": [
-            false,
-            false,
+            true,
+            true,
             false,
             false
         ],

@@ -2093,6 +2093,18 @@ MeshFilter:
     type: 3}
   m_PrefabInstance: {fileID: 537246109}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &239289612 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 193393317812012618, guid: a4c5adf365c07cb4c9a172210446bc62,
+    type: 3}
+  m_PrefabInstance: {fileID: 2804422460317363206}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d423140177cd544284253f4bf5b2c52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &246224862
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14222,9 +14234,12 @@ MonoBehaviour:
   - {fileID: 2001074949}
   - {fileID: 2087492930}
   - {fileID: 1865725039}
-  equipmentItemViewPrefab: {fileID: 8501432982325276126, guid: cbc4d74f566ef3a4ea3931f5fccff87e,
+  equipmentItemViewPrefab: {fileID: 2230553601762079191, guid: e78d7c14762af284180e03222da00ee7,
     type: 3}
   towersContainer: {fileID: 78708179}
+  navNotificationDot: {fileID: 239289612}
+  softCurrencyConfig: {fileID: 11400000, guid: 15ab76a3ea1556640afa30151c77c94d, type: 2}
+  hexCurrencyConfig: {fileID: 11400000, guid: 960c984dc155703438f2e53a1af6346a, type: 2}
 --- !u!1 &1665318200
 GameObject:
   m_ObjectHideFlags: 0
@@ -16996,7 +17011,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1378882114}
   m_HandleRect: {fileID: 1378882113}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

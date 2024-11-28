@@ -388,12 +388,12 @@ namespace Project.Runtime.ECS.Systems.Building
                     buildingEntity.AddComponent<CriticalChanceRuntime>();
                     buildingEntity.SetComponent(new CriticalChance
                     {
-                        Value = 0.5f
+                        Value = 0.1f
                     });
                     buildingEntity.AddComponent<CriticalDamageRuntime>();
                     buildingEntity.SetComponent(new CriticalDamage
                     {
-                        Value = 1f
+                        Value = .5f
                     });
                     
                     // Attack

@@ -83,9 +83,11 @@ namespace Project.Runtime.Lobby.Equipment
         {
             var amountToUpgrade = UpgradeConstants.GetCardAmountToUpgrade(_deckCard);
             var softCurrencyCost = UpgradeConstants.GetUpgradeCostSoftCurrency(_deckCard);
+            var hexCurrencyCost = UpgradeConstants.GetUpgradeCostHexCurrency(_deckCard);
             if (_deckCard.CardSaveData.amount >= amountToUpgrade &&
-                _persistentPlayerData.WalletByCurrency[softCurrency].Take((ulong)softCurrencyCost))
-            {
+                _persistentPlayerData.WalletByCurrency[softCurrency].Take((ulong)softCurrencyCost) &&
+                _persistentPlayerData.WalletByCurrency[hexCurrency].Take((ulong)hexCurrencyCost)
+            ) {
                 _deckCard.CardSaveData.level++;
                 _deckCard.CardSaveData.amount -= amountToUpgrade;
                 SetDeckCard(_deckCard);

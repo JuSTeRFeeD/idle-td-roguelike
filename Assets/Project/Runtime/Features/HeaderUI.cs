@@ -30,11 +30,18 @@ namespace Project.Runtime.Features
 
         public void SetDayNight(DayNight dayNight, bool isDay)
         {
-            var dayOrNight = isDay ? "День" : "Ночь";
+            var dayOrNight = isDay ? "День" : "Обороняйтесь";
             var time = dayNight.EstimateTime > 5f 
                 ? $"{(int)dayNight.EstimateTime}" 
                 : $"{dayNight.EstimateTime:#.0}";
-            dayNightText.SetText($"{dayOrNight} {time} сек\n<size=80%>День {dayNight.DayNumber}");
+            if (isDay)
+            {
+                dayNightText.SetText($"{dayOrNight} {time} сек\n<size=80%>День {dayNight.DayNumber}");
+            }
+            else
+            {
+                dayNightText.SetText($"{dayOrNight}\n<size=80%>День {dayNight.DayNumber}");
+            }
         }
 
         public void SetLevelExp(float current, float target)

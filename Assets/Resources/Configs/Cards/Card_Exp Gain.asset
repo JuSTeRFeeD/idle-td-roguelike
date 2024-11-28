@@ -15,7 +15,7 @@ MonoBehaviour:
   <ShowUniqueId>k__BackingField: 0
   uniqueID: 03ea85be-55f9-41af-af95-82b80d46f2a9
   rarity: 0
-  icon: {fileID: 21300000, guid: 0479538cb4f6f874cb531bd557261742, type: 3}
+  icon: {fileID: 21300000, guid: 11e9a5e0117094c52a7185c16174059b, type: 3}
   title: "\u041C\u043D\u043E\u0436\u0438\u0442\u0435\u043B\u044C \u043E\u043F\u044B\u0442\u0430"
   shortInfo: "\u041E\u043F\u044B\u0442"
   isBuilding: 0

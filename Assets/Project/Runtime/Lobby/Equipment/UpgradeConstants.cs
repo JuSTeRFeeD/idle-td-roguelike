@@ -6,8 +6,8 @@ namespace Project.Runtime.Lobby.Equipment
     {
         public const int FirstUpgradeCostSoft = 110;
         public const int AddCostToUpgradePerLevelSoft = 625;
-        public const int FirstUpgradeCostHex = 820;
-        public const int AddCostToUpgradePerLevelHex = 2200;
+        public const int FirstUpgradeCostHex = 420;
+        public const int AddCostToUpgradePerLevelHex = 925;
         
         public const int FirstUpgradeAmount = 3;
         public const int AddAmountToUpgradePerLevel = 2;

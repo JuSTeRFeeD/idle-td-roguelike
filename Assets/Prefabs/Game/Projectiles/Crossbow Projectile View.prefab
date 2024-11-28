@@ -223,6 +223,22 @@ PrefabInstance:
       propertyPath: InitialModule.startRotationY.minMaxState
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 19901398, guid: 985812ee18738f5498883b84d92bd41b, type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 19901398, guid: 985812ee18738f5498883b84d92bd41b, type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 19901398, guid: 985812ee18738f5498883b84d92bd41b, type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 19901398, guid: 985812ee18738f5498883b84d92bd41b, type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8226984, guid: 985812ee18738f5498883b84d92bd41b, type: 3}
     m_RemovedGameObjects: []

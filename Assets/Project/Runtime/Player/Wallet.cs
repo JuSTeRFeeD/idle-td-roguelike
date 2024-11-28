@@ -1,5 +1,6 @@
 using System;
 using Project.Runtime.Scriptable.Currency;
+using UnityEngine;
 
 namespace Project.Runtime.Player
 {
@@ -21,6 +22,7 @@ namespace Project.Runtime.Player
         {
             Balance += amount;
             OnChange?.Invoke(Balance - amount, Balance);
+            Debug.Log($"{{{CurrencyConfig.CurrencyName}}} Add {amount} | Balance {Balance}");
         }
 
         public bool Has(ulong amount)
@@ -33,6 +35,8 @@ namespace Project.Runtime.Player
             if (!Has(amount)) return false;
             Balance -= amount;
             OnChange?.Invoke(Balance + amount, Balance);
+            
+            Debug.Log($"{{{CurrencyConfig.CurrencyName}}} Take {amount} | Balance {Balance}");
             return true;
         }
     }

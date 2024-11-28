@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a71f8655bc9b4aadb7276e75f39791a6, type: 3}
+  m_Name: _Win Game Drop Chances Config
+  m_EditorClassIdentifier: 
+  legendaryCardChance: 0.005
+  epicCardChance: 0.01
+  rareCardChance: 0.1
+  uncommonCardChance: 0.2
+  commonCardChance: 0.4
+  cardsListConfig: {fileID: 11400000, guid: 264c7eb7fb5335742a4c4d8a5020a1cb, type: 2}
+  currencyDrops:
+  - chanceToGiveSomeAmount: 1
+    minMaxDropAmount: {x: 120, y: 300}
+    currency: {fileID: 11400000, guid: 960c984dc155703438f2e53a1af6346a, type: 2}
+  - chanceToGiveSomeAmount: 0.1
+    minMaxDropAmount: {x: 1, y: 2}
+    currency: {fileID: 11400000, guid: 64bdb7cde98f71541a953366381b8ecd, type: 2}
+  - chanceToGiveSomeAmount: 0.05
+    minMaxDropAmount: {x: 1, y: 1}
+    currency: {fileID: 11400000, guid: cf1b82712fce5fe4e80fa1fb6f8a19a8, type: 2}
+  - chanceToGiveSomeAmount: 1
+    minMaxDropAmount: {x: 25, y: 100}
+    currency: {fileID: 11400000, guid: 15ab76a3ea1556640afa30151c77c94d, type: 2}

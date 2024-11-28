@@ -62,6 +62,8 @@ namespace Project.Runtime.Lobby.Shop
             }
             
             discountText.enabled = discountImage.enabled = false;
+            
+            buyButton.onClick.AddListener(() => OnClick?.Invoke(this));
         }
     }
 }

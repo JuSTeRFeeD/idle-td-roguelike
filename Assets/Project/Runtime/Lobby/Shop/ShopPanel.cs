@@ -46,6 +46,7 @@ namespace Project.Runtime.Lobby.Shop
             InstantiatePurchases();
             
             _persistentPlayerData.OnChangeWalletBalance += OnChangeWalletBalance;
+            DisplayDot();
         }
 
         private void OnDestroy()
@@ -53,7 +54,9 @@ namespace Project.Runtime.Lobby.Shop
             _persistentPlayerData.OnChangeWalletBalance -= OnChangeWalletBalance;
         }
 
-        private void OnChangeWalletBalance(Wallet wallet)
+        private void OnChangeWalletBalance(Wallet _) => DisplayDot();
+
+        private void DisplayDot()
         {
             if (keysCurrencyConfigs.Any(key => _persistentPlayerData.WalletByCurrency[key].Balance > 0) ||
                 _persistentPlayerData.WalletByCurrency[commonChestCurrencyConfig].Balance > 0 || 
