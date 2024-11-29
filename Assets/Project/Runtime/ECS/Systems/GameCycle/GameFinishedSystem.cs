@@ -12,6 +12,7 @@ using Project.Runtime.Services.Saves;
 using Scellecs.Morpeh;
 using UnityEngine;
 using VContainer;
+using YG;
 
 namespace Project.Runtime.ECS.Systems.GameCycle
 {
@@ -58,9 +59,12 @@ namespace Project.Runtime.ECS.Systems.GameCycle
                     _sceneSharedData.MapPoints[_persistentPlayerData.CurMapPointIndex].IsCompleted = true;
                     _persistentPlayerData.MapData = LevelMapGenerator.Serialize(_sceneSharedData.MapPoints);
                 }
-                
+
+                SendWinLoseMetrics(isWin);
+
                 // Drops
                 GenerateAndGiveDrops(isWin, out var randomCardDrop, out var currencyDrops);
+                GiveCommonChestAtFirstGameEnd(currencyDrops);
                 
                 // Stats
                 var statisticsFilter = _statisticsFilter.First();
@@ -68,14 +72,9 @@ namespace Project.Runtime.ECS.Systems.GameCycle
                 ref readonly var dealtDamage = ref statisticsFilter.GetComponent<TotalDealtDamageStatistic>().Value; 
                 ref readonly var killedEnemies = ref statisticsFilter.GetComponent<TotalKilledEnemiesStatistic>().Value; 
                 
-                Debug.Log("Stats");
-                Debug.Log($"placedTowers {placedTowers}");
-                Debug.Log($"dealtDamage {dealtDamage}");
-                Debug.Log($"killedEnemies {killedEnemies}");
-                
                 AddStatistics(isWin, placedTowers, killedEnemies, dealtDamage);
 
-                MarkTutorialCompleted();
+                TutorialComplete();
                 
                 _saveManager.Save();
                 
@@ -86,6 +85,7 @@ namespace Project.Runtime.ECS.Systems.GameCycle
                     dealtDamage, 
                     killedEnemies);
                 _gameFinishedPanel.SetIsWin(isWin);
+                _gameFinishedPanel.gameObject.SetActive(true);
                 _gameFinishedPanel.Show();
 
                 // Stop world
@@ -96,6 +96,30 @@ namespace Project.Runtime.ECS.Systems.GameCycle
             }
         }
 
+        private void GiveCommonChestAtFirstGameEnd(List<CurrencyTuple> currencyDrops)
+        {
+            if (!_persistentPlayerData.IsInGameTutorialCompleted)
+            {
+                currencyDrops.Add(new CurrencyTuple
+                {
+                    amount = 1,
+                    currencyConfig = _persistentPlayerData.GetWalletByCurrencyId("6d53bd9a-fe18-4360-9d3b-e1844016b974").CurrencyConfig
+                });
+            }
+        }
+
+        private void SendWinLoseMetrics(bool isWin)
+        {
+            var completedLevels = _persistentPlayerData.PlayerStatistics.GetStatistic(GlobalStatisticsType.CompletedLevels);
+            var completedMaps = _persistentPlayerData.PlayerStatistics.GetStatistic(GlobalStatisticsType.CompletedMaps);
+            var eventData = new Dictionary<string, string>
+            {
+                { "map", $"{completedMaps}" },
+                { "completedLevels", $"{completedLevels}" }
+            };
+            YG2.MetricaSend(isWin ? "level_win" : "level_lose", eventData);
+        }
+
         private void AddStatistics(bool isWin, int placedTowers, int killedEnemies, int dealtDamage)
         {
             if (isWin) _persistentPlayerData.PlayerStatistics.AddStatistics(GlobalStatisticsType.CompletedLevels);
@@ -104,8 +128,9 @@ namespace Project.Runtime.ECS.Systems.GameCycle
             _persistentPlayerData.PlayerStatistics.AddStatistics(GlobalStatisticsType.DealtDamage, dealtDamage);
         }
 
-        private void MarkTutorialCompleted()
+        private void TutorialComplete()
         {
+            YG2.MetricaSend("tutorial_completed");
             _persistentPlayerData.IsInGameTutorialCompleted = true;
         }
 

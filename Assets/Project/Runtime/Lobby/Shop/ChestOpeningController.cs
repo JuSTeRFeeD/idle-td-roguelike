@@ -227,6 +227,8 @@ namespace Project.Runtime.Lobby.Shop
             _state = State.None;
 
             HideItems();
+            
+            _lobbyPanelsManager.SetPanel(LobbyPanelType.Shop);
         }
     }
 }

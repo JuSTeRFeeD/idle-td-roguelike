@@ -16,6 +16,7 @@ namespace Project.Runtime.Lobby
 
         [SerializeField] private PanelBase navigationPanel;
         [SerializeField] private PanelBase headerPanel;
+        [SerializeField] private Canvas headerCurrencyPanel;
         [Space]
         [SerializeField] private List<LobbyPanelSetup> panels;
         private readonly Dictionary<LobbyPanelType, LobbyPanelSetup> _panelsByType = new();
@@ -33,6 +34,7 @@ namespace Project.Runtime.Lobby
 
             navigationPanel.gameObject.SetActive(true);
             headerPanel.gameObject.SetActive(true);
+            headerCurrencyPanel.gameObject.SetActive(true);
             
             SetPanel(LobbyPanelType.Map);
         }
@@ -55,11 +57,13 @@ namespace Project.Runtime.Lobby
             {
                 navigationPanel.Hide();
                 headerPanel.Hide();
+                headerCurrencyPanel.enabled = false;
             }
             else
             {
                 navigationPanel.Show();
                 headerPanel.Show();
+                headerCurrencyPanel.enabled = true;
             }
         }
     }

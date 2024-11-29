@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Project.Runtime.Features.GameplayMenus;
 using Project.Runtime.Player;
 using Project.Runtime.Scriptable;
@@ -90,8 +91,11 @@ namespace Project.Runtime.Lobby.Equipment
                 SetDeckCard(_deckCard);
                 _persistentPlayerData.PlayerStatistics.AddStatistics(GlobalStatisticsType.UpgradedTowers);
                 _saveManager.Save();
+                
+                levelText.transform.DOKill(true);
+                levelText.transform.DOPunchScale(Vector3.one * 1.2f, 1f, 1).SetLink(levelText.gameObject);
 
-                audioSource.PlayOneShot(upgradeSound);
+                audioSource.PlayOneShot(upgradeSound, 0.7f);
             }
         }
 
@@ -153,7 +157,7 @@ namespace Project.Runtime.Lobby.Equipment
             amountText.SetText($"{deckCard.CardSaveData.amount}<size=80%>/{amountToUpgrade}");
             upgradeFrame.gameObject.SetActive(deckCard.CardSaveData.amount >= amountToUpgrade);
             
-            upgradeButton.interactable = deckCard.CardSaveData.amount >= amountToUpgrade;
+            upgradeButton.gameObject.SetActive(deckCard.CardSaveData.amount >= amountToUpgrade);
             
             softCurrencyUpgradeCostText.SetText($"{upgradeSoftCurrencyCost}");
             hexCurrencyUpgradeCostText.SetText($"{upgradeHexCurrencyCost}");

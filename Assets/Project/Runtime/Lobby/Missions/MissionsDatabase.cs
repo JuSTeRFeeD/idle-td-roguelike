@@ -17,14 +17,12 @@ namespace Project.Runtime.Lobby.Missions
             {
                 ItemsById.Add(missionConfig.uniqueID, missionConfig);
             }
-            Debug.Log($"[MissionsDatabase] Configs: {items.Length}");
             
             var weeklyItems = Resources.LoadAll<MissionConfig>("Missions/Weekly");
             foreach (var missionConfig in weeklyItems)
             {
                 _weeklyItemsById.Add(missionConfig.uniqueID, missionConfig);
             }
-            Debug.Log($"[MissionsDatabase] Configs: {items.Length}");
         }
 
         public IEnumerable<MissionConfig> GetAllWeeklyItems()

@@ -12,7 +12,6 @@ namespace Project.Runtime.Player.Databases
             {
                 ItemsById.Add(buildingConfig.uniqueID, buildingConfig);
             }
-            Debug.Log($"[BuildingsDatabase] Configs: {items.Length}");
         }
     }
 }

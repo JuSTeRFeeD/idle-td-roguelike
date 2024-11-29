@@ -29,8 +29,6 @@ namespace Project.Runtime.Services.Saves.YandexSaves
         
         public void Save()
         {
-            Debug.Log("SAVE");
-
             var data = YG2.saves.playerProgressData;
             
             data.isInGameTutorialCompleted = _persistentPlayerData.IsInGameTutorialCompleted;

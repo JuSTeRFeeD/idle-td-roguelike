@@ -36,6 +36,12 @@ namespace Project.Runtime.Features.GameplayMenus
         [Title("Buttons")]
         [SerializeField] private Button nextButton;
 
+        [Title("Sounds")]
+        [SerializeField] private AudioClip winSound;
+        [SerializeField] private AudioClip loseSound;
+        [SerializeField] private AudioClip clickSound;
+        [SerializeField] private AudioSource audioSource;
+        
         private bool _isWin;
 
         private Coroutine _animRoutine;
@@ -67,6 +73,10 @@ namespace Project.Runtime.Features.GameplayMenus
             base.Show();
             nextButton.interactable = false;
             _animRoutine = StartCoroutine(Animate());
+            
+            
+            if (_isWin) audioSource.PlayOneShot(winSound);
+            else audioSource.PlayOneShot(loseSound);
         }
 
         private IEnumerator Animate()
@@ -86,7 +96,16 @@ namespace Project.Runtime.Features.GameplayMenus
             for (var index = 0; index < items.Count; index++)
             {
                 var inventoryItemView = items[index];
-                _itemsSequence.Join(inventoryItemView.transform.DOScale(1f, 0.15f).SetEase(Ease.OutBack));
+                _itemsSequence.Join(
+                    inventoryItemView.transform.DOScale(1f, 0.15f)
+                    .SetEase(Ease.OutBack)
+                    .OnComplete(() =>
+                    {
+                        if (inventoryItemView.gameObject.activeSelf)
+                        {
+                            audioSource.PlayOneShot(clickSound);
+                        }
+                    }));
                 _itemsSequence.AppendInterval(index * 0.02f);
             }
 

@@ -302,8 +302,8 @@ MonoBehaviour:
   Localization:
     setLanguageMod: 1
   Metrica:
-    enable: 0
-    metricaCounterID: 0
+    enable: 1
+    metricaCounterID: 99076444
     log: 1
   OpenURL:
     developerURL: https://yandex.ru/games/developer/25834
@@ -404,7 +404,7 @@ MonoBehaviour:
     testFailAds: 0
   Templates:
     logoImageFormat: 0
-    backgroundImgFormat: 0
+    backgroundImgFormat: 2
     gradientBackgroundByLoadGame:
       radial: 0
       angleInclination: 140

@@ -162,8 +162,6 @@ namespace Project.Runtime.Lobby.Missions.MissionsWithTimer
             //     return;
             // }
             
-            Debug.Log($"{_timedMissionsType} save.missionIds len {save.missionIds.Length}");
-            
             // Mark Completed and Sort
             for (var i = 0; i < save.valueAtStart.Length; i++)
             {
@@ -176,7 +174,6 @@ namespace Project.Runtime.Lobby.Missions.MissionsWithTimer
                 };
                 var targetValue = save.valueAtStart[i] + missionConfig.ValueToComplete;
                 var currentValue = _persistentPlayerData.PlayerStatistics.GetStatistic(missionConfig.MissionType);
-                Debug.Log($"{missionConfig.MissionName} {currentValue} / {targetValue}");
                 if (currentValue >= targetValue)
                 {
                     save.completed[i] = true;

@@ -8,6 +8,7 @@ using Runtime.Features.Tutorial;
 using Scellecs.Morpeh;
 using UnityEngine;
 using VContainer;
+using YG;
 
 namespace Project.Runtime.ECS.Systems.Tutorial
 {
@@ -69,6 +70,7 @@ namespace Project.Runtime.ECS.Systems.Tutorial
             _inventoryStorage.OnRemoveCard -= PlacedCardFirstTime;
             _tutorialPanel.ClearStep();
             _tutorialPanel.ShowStep(2);
+            YG2.MetricaSend("tutorial_place_first_tower");
         }
 
         private void OnStepConfirmClicked()
@@ -109,6 +111,7 @@ namespace Project.Runtime.ECS.Systems.Tutorial
             if (_tutorialPanel.CurrentStep == 4 && _upgradeTowerFilter.IsNotEmpty())
             {
                 _tutorialPanel.ClearStep();
+                YG2.MetricaSend("tutorial_upgrade_tower");
             }
         }
 
