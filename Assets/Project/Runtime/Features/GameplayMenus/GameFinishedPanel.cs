@@ -162,9 +162,11 @@ namespace Project.Runtime.Features.GameplayMenus
                     CardConfig = randomCardDrop,
                     CardSaveData = new CardSaveData
                     {
-                        amount = 1
+                        amount = 1,
+                        isOpen = true
                     }
                 });
+                idx++;
             }
 
             while (idx < items.Count)

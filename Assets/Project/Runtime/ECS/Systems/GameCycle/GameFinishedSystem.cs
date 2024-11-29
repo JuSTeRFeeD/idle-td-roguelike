@@ -139,7 +139,7 @@ namespace Project.Runtime.ECS.Systems.GameCycle
             out List<CurrencyTuple> currencyDrops)
         {
             DropChancesConfig dropChancesConfig;
-            if (isWin && _persistentPlayerData.IsInGameTutorialCompleted)
+            if (isWin || _persistentPlayerData.IsInGameTutorialCompleted)
             {
                 dropChancesConfig = _sceneSharedData.MapPoints[_persistentPlayerData.CurMapPointIndex].PointType switch
                 {
@@ -155,7 +155,7 @@ namespace Project.Runtime.ECS.Systems.GameCycle
                 _persistentPlayerData.WalletByCurrency[currencyDrop.currencyConfig].Add((ulong)currencyDrop.amount);
             }
             
-            if (Random.Range(0, 1f) > 0.6f) // 40% chance to get tower at the end of game
+            if (Random.Range(0, 1f) <= 0.5f) // 50% chance to try get tower at the end of game
             {
                 randomCardDrop = dropChancesConfig.GetRandomCard();
                 _persistentPlayerData.AddCardAmountToInventory(randomCardDrop);

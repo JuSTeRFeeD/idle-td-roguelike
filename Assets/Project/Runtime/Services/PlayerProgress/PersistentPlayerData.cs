@@ -53,6 +53,7 @@ namespace Project.Runtime.Services.PlayerProgress
 
         public void AddCardAmountToInventory(CardConfig cardConfig, int amount = 1)
         {
+            if (cardConfig == null) return;
             var data = GetCardSaveDataByCardId(cardConfig.uniqueID);
             data.amount += amount;
         }
