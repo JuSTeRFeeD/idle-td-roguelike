@@ -7,7 +7,7 @@
         false,
         false
     ],
-    "idSave": 1230,
+    "idSave": 1243,
     "playerProgressData": {
         "isInGameTutorialCompleted": true,
         "mapSave": "0,1|0,2|1|0|0,2|1,1;1,2|0|0|1,1|2,1|0|0|2,1|2,2|0|0|2,2|3,1;3,2|0|0|3,1|4,0|0|0|4,0|5,0|0|0|5,0|5,1|0|0|5,1|n|0|2|1,2|n|0|1|3,2|n|0|1",
@@ -27,13 +27,13 @@
             ],
             "values": [
                 563,
-                25,
-                1889,
-                3,
+                190,
+                544,
                 4,
+                5,
                 8,
                 26,
-                550
+                800
             ]
         },
         "inventoryCards": [
@@ -41,13 +41,13 @@
                 "id": "e56ac3bd-dc3c-4813-b0aa-6a91cd3802b2",
                 "isOpen": true,
                 "equippedAtSlot": 0,
-                "level": 1,
-                "amount": 17
+                "level": 2,
+                "amount": 13
             },
             {
                 "id": "945d886f-5dae-4672-be90-1925bd6ec556",
                 "isOpen": true,
-                "equippedAtSlot": 1,
+                "equippedAtSlot": -1,
                 "level": 2,
                 "amount": 10
             },
@@ -82,7 +82,7 @@
             {
                 "id": "b5e420d8-dde4-4f27-887b-30345c0c2d58",
                 "isOpen": true,
-                "equippedAtSlot": -1,
+                "equippedAtSlot": 1,
                 "level": 1,
                 "amount": 2
             },
@@ -105,22 +105,22 @@
                 5
             ],
             "values": [
-                1210,
-                4,
+                1267,
+                5,
                 25,
                 828,
                 1160929,
                 2,
-                8
+                9
             ]
         },
         "dailyMissions": {
             "startTime": 1721201231000,
             "missionIds": [
-                "824659a8-8307-4195-850f-e048fa27dabc",
                 "acd561f7-e260-41e5-b663-62206292546c",
                 "388c780c-5f33-4f38-aff4-e335c87ebf0e",
                 "2f1d0b9e-8521-41b8-849b-8d17307250e2",
+                "824659a8-8307-4195-850f-e048fa27dabc",
                 "4e6024c4-8bea-41a6-a762-74aa1eb7f626",
                 "48e1bc4c-1629-415b-92aa-754a6c1b169b",
                 "19cfdceb-3755-406f-86f2-d70ec2fb1a96",
@@ -137,10 +137,10 @@
                 0
             ],
             "completed": [
+                false,
+                false,
+                false,
                 true,
-                false,
-                false,
-                false,
                 true,
                 true,
                 true,
@@ -150,7 +150,7 @@
                 false,
                 false,
                 false,
-                false,
+                true,
                 true,
                 true,
                 true,
@@ -175,8 +175,8 @@
         "dailyRewardProgressCollected": [
             true,
             true,
-            false,
-            false
+            true,
+            true
         ],
         "weeklyRewardProgressCollected": [
             false,

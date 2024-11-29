@@ -13,6 +13,7 @@ namespace Project.Runtime.Lobby.Equipment
         [Inject] private PlayerDeck _playerDeck;
 
         [SerializeField] private Button blackoutCloseButton;
+        [SerializeField] private Button closeButton;
         [SerializeField] private List<InventoryItemView> equipmentViews;
 
         private DeckCard _deckCard;
@@ -31,6 +32,7 @@ namespace Project.Runtime.Lobby.Equipment
             }
 
             blackoutCloseButton.onClick.AddListener(Hide);
+            closeButton.onClick.AddListener(Hide);
         }
 
         private void OnSelectSlot(int slotIndex)

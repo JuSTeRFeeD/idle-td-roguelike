@@ -1,5 +1,3 @@
-using System;
-using DG.Tweening;
 using Project.Runtime.Features.GameplayMenus;
 using Project.Runtime.Player;
 using Project.Runtime.Scriptable;
@@ -60,7 +58,6 @@ namespace Project.Runtime.Lobby.Equipment
         [SerializeField] private Button blackoutCloseButton;
 
         private DeckCard _deckCard;
-        private Sequence _sequence;
         
         private void Start()
         {
@@ -91,13 +88,8 @@ namespace Project.Runtime.Lobby.Equipment
                 _deckCard.CardSaveData.level++;
                 _deckCard.CardSaveData.amount -= amountToUpgrade;
                 SetDeckCard(_deckCard);
-                
                 _persistentPlayerData.PlayerStatistics.AddStatistics(GlobalStatisticsType.UpgradedTowers);
-                
                 _saveManager.Save();
-
-                levelText.transform.DOKill(true);
-                levelText.transform.DOPunchScale(Vector3.one * 1.2f, 1f, 1).SetLink(levelText.gameObject);
 
                 audioSource.PlayOneShot(upgradeSound);
             }
@@ -155,8 +147,8 @@ namespace Project.Runtime.Lobby.Equipment
         {
             var upgradeSoftCurrencyCost = UpgradeConstants.GetUpgradeCostSoftCurrency(_deckCard);
             var upgradeHexCurrencyCost = UpgradeConstants.GetUpgradeCostHexCurrency(_deckCard);
-            var amountToUpgrade = UpgradeConstants.GetCardAmountToUpgrade(deckCard);
             
+            var amountToUpgrade = UpgradeConstants.GetCardAmountToUpgrade(deckCard);
             amountSlider.value = (float)deckCard.CardSaveData.amount / amountToUpgrade;
             amountText.SetText($"{deckCard.CardSaveData.amount}<size=80%>/{amountToUpgrade}");
             upgradeFrame.gameObject.SetActive(deckCard.CardSaveData.amount >= amountToUpgrade);

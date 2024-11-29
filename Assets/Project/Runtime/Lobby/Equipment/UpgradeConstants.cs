@@ -6,11 +6,12 @@ namespace Project.Runtime.Lobby.Equipment
     {
         public const int FirstUpgradeCostSoft = 110;
         public const int AddCostToUpgradePerLevelSoft = 625;
+        
         public const int FirstUpgradeCostHex = 420;
         public const int AddCostToUpgradePerLevelHex = 925;
         
         public const int FirstUpgradeAmount = 3;
-        public const int AddAmountToUpgradePerLevel = 2;
+        public const int AddAmountToUpgradePerLevel = 1;
         
         public static int GetCardAmountToUpgrade(DeckCard deckCard)
         {
