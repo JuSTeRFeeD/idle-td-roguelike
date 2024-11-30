@@ -12,6 +12,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using VContainer;
+using YG;
 
 namespace Project.Runtime.Features.GameplayMenus
 {
@@ -116,6 +117,7 @@ namespace Project.Runtime.Features.GameplayMenus
         private void ToTheLobby()
         {
             StartCoroutine(_sceneLoader.LoadSceneAsync("Lobby"));
+            YG2.InterstitialAdvShow();
         }
 
         public void OnPointerClick(PointerEventData eventData)
