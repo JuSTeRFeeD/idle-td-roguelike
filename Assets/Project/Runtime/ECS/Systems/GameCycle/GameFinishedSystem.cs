@@ -139,7 +139,7 @@ namespace Project.Runtime.ECS.Systems.GameCycle
             out List<CurrencyTuple> currencyDrops)
         {
             DropChancesConfig dropChancesConfig;
-            if (isWin || _persistentPlayerData.IsInGameTutorialCompleted)
+            if (isWin && _persistentPlayerData.IsInGameTutorialCompleted)
             {
                 dropChancesConfig = _sceneSharedData.MapPoints[_persistentPlayerData.CurMapPointIndex].PointType switch
                 {
