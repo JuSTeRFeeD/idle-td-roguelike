@@ -6,14 +6,32 @@ namespace YG.Insides
     [CreateAssetMenu(fileName = "NewPlatformYG", menuName = "YG2/New Platform")]
     public partial class PlatformSettings : ScriptableObject
     {
-        public string nameDefining = "NewPlatform";
-
-        public string nameBase { get => nameDefining.Replace("Platform", string.Empty); }
+        public string nameFull = "Error";
+        public static string currentPlatformFullName
+        {
+            get
+            {
+                if (InfoYG.instance && InfoYG.instance.Basic.platform)
+                {
+                    return InfoYG.instance.Basic.platform.nameFull;
+                }
+                return "NullPlatform";
+            }
+        }
+        public static string currentPlatformBaseName
+        {
+            get
+            {
+                if (InfoYG.instance && InfoYG.instance.Basic.platform)
+                {
+                    return InfoYG.instance.Basic.platform.nameFull.Replace("Platform", string.Empty);
+                }
+                return "Null";
+            }
+        }
 
         public ProjectSettings projectSettings = new ProjectSettings();
 #if UNITY_EDITOR
-        public bool applySettingsBySwitchPlatform = true;
-
         public void ApplyProjectSettings()
         {
             projectSettings.ApplySettings();
@@ -22,7 +40,7 @@ namespace YG.Insides
 
             if (YG2.infoYG.platformToggles.selectWebGLTemplate && projectSettings.selectWebGLTemplate)
             {
-                string templateName = nameBase;
+                string templateName = currentPlatformBaseName;
                 string templatePath = $"Assets/WebGLTemplates/{templateName}";
 
                 if (AssetDatabase.IsValidFolder(templatePath))

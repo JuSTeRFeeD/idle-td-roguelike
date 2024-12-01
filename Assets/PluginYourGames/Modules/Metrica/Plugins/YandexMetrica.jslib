@@ -1,26 +1,18 @@
-const library = {
-  
-  // Class definition.
-
-  $yandexMetrica: {
-    yandexMetricaSend: function (eventName, eventData) {
-      const eventDataJson = eventData === '' ? undefined : JSON.parse(eventData);
-      ym(window.yandexMetricaCounterId, 'reachGoal', eventName, eventDataJson);
+mergeInto(LibraryManager.library, {
+    YandexMetricaSend_js: function(eventName) {
+        try {
+            ym(window.yandexMetricaCounterId, 'reachGoal', UTF8ToString(eventName));
+        } catch (e) {
+            console.error("Error sending data to Yandex Metrica:", e);
+        }
     },
-  },
 
-  // External C# calls.
-
-  YandexMetricaSend_js: function (eventNamePtr, eventDataPtr) {
-    const eventName = UTF8ToString(eventNamePtr);
-    const eventData = UTF8ToString(eventDataPtr);
-    try {
-      yandexMetrica.yandexMetricaSend(eventName, eventData);
-    } catch (e) {
-      console.error('Yandex Metrica send evnet error: ', e.message);
+    YandexMetricaSend2_js: function(eventName, eventDataJson) {
+        try {
+            var data = JSON.parse(UTF8ToString(eventDataJson));
+            ym(window.yandexMetricaCounterId, 'reachGoal', UTF8ToString(eventName), data);
+        } catch (e) {
+            console.error("Error sending data to Yandex Metrica:", e);
+        }
     }
-  },
-}
-
-autoAddDeps(library, '$yandexMetrica');
-mergeInto(LibraryManager.library, library);
+});

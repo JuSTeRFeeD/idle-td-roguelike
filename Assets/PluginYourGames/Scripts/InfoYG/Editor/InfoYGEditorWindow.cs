@@ -41,7 +41,7 @@ namespace YG.EditorScr
             ExampleScenes.LoadSceneList();
 
             if (scr != null && scr.Basic.platform != null)
-                lastPlatform = scr.Basic.platform.nameDefining;
+                lastPlatform = PlatformSettings.currentPlatformFullName;
 
             Serialize();
             ServerInfo.onLoadServerInfo += OnLoadServerInfo;
@@ -277,53 +277,26 @@ namespace YG.EditorScr
                 }
             }
 
-            string currentPlatform = scr.Basic.platform != null ? scr.Basic.platform.nameDefining : string.Empty;
+            string currentPlatform = PlatformSettings.currentPlatformFullName;
 
             if (lastPlatform != currentPlatform)
             {
-                string[] platfFolders = Directory.GetDirectories(InfoYG.PATCH_PC_PLATFORMS);
+                InfoYG.CleanPlatforms(currentPlatform);
 
-                for (int i = 0; i < platfFolders.Length; i++)
+                if (currentPlatform == "NullPlatform")
                 {
-                    platfFolders[i] = platfFolders[i].Replace("\\", "/");
-                    string folder = platfFolders[i] + "/SDK";
-
-                    if (!Directory.Exists(folder))
-                        continue;
-
-                    string[] files = Directory.GetFiles(folder);
-                    IEnumerable<string> asmdefFiles = files.Where(file => Path.GetExtension(file).Equals(".asmdef", StringComparison.OrdinalIgnoreCase));
-                    List<string> asmdefList = asmdefFiles.ToList();
-
-                    for (int a = 0; a < asmdefList.Count; a++)
-                        FileYG.Delete(asmdefList[a]);
-
-                    string platformName = Path.GetFileName(platfFolders[i]) + "Platform";
-
-                    if (platformName != currentPlatform)
-                    {
-                        string content = File.ReadAllText($"{InfoYG.PATCH_PC_YG2}/Scripts/Platform/Editor/AsmdefPlatformCreate.txt");
-                        content = content.Replace("___PLATFORM_NAME___", platformName);
-                        File.WriteAllText($"{folder}/{platformName}.asmdef", content);
-                    }
-                }
-
-                if (currentPlatform == string.Empty)
-                {
-                    DefineSymbols.RemoveDefine(lastPlatform);
-                    InfoYG.SetDefaultPlatform();
+                    YG2.infoYG.Basic.platform = null;
                 }
                 else
                 {
                     if (scr.Basic.autoApplySettings)
                         scr.Basic.platform.ApplyProjectSettings();
 
-                    DefineSymbols.RemoveDefine(lastPlatform);
-                    DefineSymbols.AddDefine(currentPlatform + "_yg");
-
                     PlatformSettings.SelectPlatform();
                 }
+                AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
+                UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation();
             }
             lastPlatform = currentPlatform;
 
@@ -356,17 +329,17 @@ namespace YG.EditorScr
                 if (EditorUtility.DisplayDialog(Langs.resetInfoSettings, Langs.resetInfoSettings_dialog, "Ok", Langs.cancel))
                 {
                     Undo.RecordObject(scr, "Set default settings PluginYG2");
+                    PlatformSettings platformSave = YG2.infoYG.Basic.platform;
 
                     InfoYG tempInfoYG = ScriptableObject.CreateInstance<InfoYG>();
+                    tempInfoYG.Basic.platform = platformSave;
+
                     string tempPath = "Assets/SettingsYG2.asset";
                     AssetDatabase.CreateAsset(tempInfoYG, tempPath);
                     AssetDatabase.SaveAssets();
 
                     EditorUtility.CopySerialized(tempInfoYG, InfoYG.instance);
-
                     AssetDatabase.DeleteAsset(tempPath);
-
-                    InfoYG.SetDefaultPlatform();
 
                     EditorUtility.SetDirty(InfoYG.Inst());
                     AssetDatabase.Refresh();

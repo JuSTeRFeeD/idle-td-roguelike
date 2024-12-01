@@ -1,11 +1,16 @@
-﻿using System.IO;
-using UnityEditor;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.IO;
 using UnityEngine;
 using YG.Insides;
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditor.Compilation;
+#endif
 
 namespace YG
 {
-    //[CreateAssetMenu(fileName = "SettingsYG2", menuName = "ToolsYG2/Create SettingsYG2")]
     public partial class InfoYG : ScriptableObject
     {
         public static InfoYG instance;
@@ -30,14 +35,34 @@ namespace YG
                     infoRes = Resources.Load<InfoYG>(NAME_INFOYG_FILE);
 
                     instance = infoRes;
-
-                    bool autoApplySettings = EditorUtility.DisplayDialog($"Оптимальные настройки",
-                        "Установить оптимальные настройки проекта для платформы по умолчанию «Яндекс Игры»? (Рекомендуется)\n\nShould I set the optimal project settings for the default Yandex Games platform? (Recommended)",
+#if PLATFORM_WEBGL
+                    if (EditorUtility.DisplayDialog($"Optimal settings",
+                        "Установить оптимальные настройки проекта плагина для платформы по умолчанию «Яндекс Игры»? (Рекомендуется)\n\nShould I set the optimal project end plugin settings for the default Yandex Games platform? (Recommended)",
                         "Yes",
-                        "No");
-                    instance.Basic.autoApplySettings = autoApplySettings;
+                        "No"))
+                    {
+                        instance.Basic.autoApplySettings = true;
+                        SetDefaultPlatform();
+                    }
+                    else
+                    {
+                        NullPlatform();
+                    }
+#else
+                    EditorUtility.DisplayDialog($"Optimal settings",
+                        "В настройках билда не выбрана платформа WebGL. Оптимальные настройки для стандартной платформы «Яндекс Игры» не будут установлены.\nЧтобы их установить: смените платформу на WebGL, в настройках плагина включите опцию Auto Apply Settings и переключите платформу в поле Platforms.\n\nThe WebGL platform is not selected in the build settings. The optimal settings for the standard Yandex Games platform will not be set.\nTo install them: change the platform to WebGL, enable the Auto Apply Settings option in the plugin settings and switch the platform in the Platforms field.",
+                        "Ok");
 
-                    SetDefaultPlatform();
+                    NullPlatform();
+#endif
+                    void NullPlatform()
+                    {
+                        instance.Basic.platform = null;
+                        instance.Basic.autoApplySettings = false;
+                        instance.Basic.archivingBuild = false;
+                        CleanPlatforms();
+                        CompilationPipeline.RequestScriptCompilation();
+                    }
                 }
 #else
                 if (infoRes == null)
@@ -50,15 +75,6 @@ namespace YG
         }
 
         public ProjectSettings platformOptions { get => Basic.platform.projectSettings; }
-
-        public static string CurrentPlatformOrigName()
-        {
-            PlatformSettings platform = Inst().Basic.platform;
-            if (platform != null)
-                return platform.nameBase;
-            return string.Empty;
-        }
-
 #if UNITY_EDITOR
         public static void SetDefaultPlatform()
         {
@@ -69,11 +85,44 @@ namespace YG
             {
                 instance.Basic.platform = standartPlatformSettings;
 
+                EditorUtility.SetDirty(instance);
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+
                 if (YG2.infoYG.Basic.autoApplySettings)
                     instance.Basic.platform.ApplyProjectSettings();
 
-                EditorUtility.SetDirty(instance);
-                AssetDatabase.SaveAssets();
+                EditorScr.DefineSymbols.PlatformDefineSymbols();
+            }
+        }
+
+        public static void CleanPlatforms(string ignorePlatform = null)
+        {
+            string[] platfFolders = Directory.GetDirectories(PATCH_PC_PLATFORMS);
+
+            for (int i = 0; i < platfFolders.Length; i++)
+            {
+                platfFolders[i] = platfFolders[i].Replace("\\", "/");
+                string folder = platfFolders[i] + "/SDK";
+
+                if (!Directory.Exists(folder))
+                    continue;
+
+                string[] files = Directory.GetFiles(folder);
+                IEnumerable<string> asmdefFiles = files.Where(file => Path.GetExtension(file).Equals(".asmdef", StringComparison.OrdinalIgnoreCase));
+                List<string> asmdefList = asmdefFiles.ToList();
+
+                for (int a = 0; a < asmdefList.Count; a++)
+                    EditorScr.FileYG.Delete(asmdefList[a]);
+
+                string platformName = Path.GetFileName(platfFolders[i]) + "Platform";
+
+                if (!string.IsNullOrEmpty(ignorePlatform) && platformName != ignorePlatform)
+                {
+                    string content = File.ReadAllText($"{PATCH_PC_YG2}/Scripts/Platform/Editor/AsmdefPlatformCreate.txt");
+                    content = content.Replace("___PLATFORM_NAME___", platformName);
+                    File.WriteAllText($"{folder}/{platformName}.asmdef", content);
+                }
             }
         }
 #endif

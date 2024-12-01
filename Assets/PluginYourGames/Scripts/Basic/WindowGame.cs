@@ -20,7 +20,8 @@ namespace YG
             {
                 visibilityWindowGame = true;
 #if !UNITY_EDITOR
-                PauseGame(false);
+                if (!nowAdsShow)
+                    PauseGame(false);
 #endif
                 onFocusWindowGame?.Invoke(true);
                 onShowWindowGame?.Invoke();
@@ -28,7 +29,8 @@ namespace YG
             else
             {
 #if !UNITY_EDITOR
-                PauseGame(true);
+                if (!nowAdsShow)
+                    PauseGame(true);
 #endif
                 visibilityWindowGame = false;
 

@@ -6,6 +6,7 @@ using System.Diagnostics;
 using Debug = UnityEngine.Debug;
 using UnityEditor;
 using UnityEngine;
+using YG.Insides;
 
 namespace YG.EditorScr.BuildModify
 {
@@ -63,7 +64,7 @@ namespace YG.EditorScr.BuildModify
 #endif
             EditorApplication.delayCall += () =>
             {
-                Debug.Log($"<color=#00FF00>{InfoYG.NAME_PLUGIN} - Build complete!  Platform - {InfoYG.Inst().Basic.platform.nameBase}.  Build number: {buildNum}</color>");
+                Debug.Log($"<color=#00FF00>{InfoYG.NAME_PLUGIN} - Build complete!  Platform - {PlatformSettings.currentPlatformBaseName}.  Build number: {buildNum}</color>");
             };
         }
 

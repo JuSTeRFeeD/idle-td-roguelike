@@ -16,7 +16,7 @@ namespace YG.EditorScr.BuildModify
                 buildNumInt += 1;
                 string buildNum = buildNumInt.ToString();
 
-                html = html.Replace("___TEXT_LABEL___", $"test build: {buildNum}");
+                html = html.Replace("___TEXT_LABEL___", $"Test build: {buildNum}");
                 AddIndexCode(html, CodeType.Body);
 
                 string js = ManualFileTextCopy($"{InfoYG.CORE_FOLDER_YG2}/Platforms/YandexGames/Scripts/Editor/TestLabel/TestLabel.js");

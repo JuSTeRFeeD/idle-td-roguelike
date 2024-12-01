@@ -1,104 +1,54 @@
 ﻿using System.Collections.Generic;
-using System.Globalization;
 using UnityEngine;
 
 namespace YG.Example
 {
     public class YandexMetricaExample : MonoBehaviour
     {
-        public void TestSend1(string someEvent)
+        public static void TestSend()
         {
-            YG2.MetricaSend(someEvent);
-        }
+            YG2.MetricaSend("target");
 
-        public void TestSend1()
-        {
-            TestSend1("SomeEvent1");
-        }
 
-        public void TestSend2()
-        {
-            var eventParams2 = new Dictionary<string, string>
+            YG2.MetricaSend("levelTest", "level", "5");
+
+
+            var eventData = new Dictionary<string, object>
             {
-                { "Complete", "1" },
-                { "Money", "1500" }
+                { "stars", 3 },
+                { "time", 10 }
             };
+            YG2.MetricaSend("levelsFinish", "1", eventData);
 
-            YG2.MetricaSend("SomeEvent2", eventParams2);
-        }
 
-        public void TestSend3()
-        {
-            var eventParams3 = new Dictionary<string, string>
+            eventData = new Dictionary<string, object>
             {
-                { "is_string", "RUB" },
-                { "is_int", 1.ToString() },
-                { "is_true", true.ToString() },
-                { "is_false", false.ToString() }
+                { "stars", 2 },
+                { "time", 5 }
             };
+            YG2.MetricaSend("levelsFinish", "1", eventData);
 
-            YG2.MetricaSend("SomeEvent3", eventParams3);
-        }
 
-        public void TestSend4()
-        {
-            var eventParams3 = new Dictionary<string, string>
+            var eventData1 = new Dictionary<string, string>
             {
-                { "is_string", "RUB" },
-                { "is_int", 1.ToString() },
-                { "is_float", 2.5f.ToString(CultureInfo.InvariantCulture) },
-                { "is_true", true.ToString() },
-                { "is_false", false.ToString() },
-                { "null_value", null },  // Проигнорируется и не будет отправленно 
-                { string.Empty, null }   // Проигнорируется и не будет отправленно 
+                { "action", "click" },
+                { "element", "button" }
             };
+            YG2.MetricaSend("test2", eventData1);
 
-            YG2.MetricaSend("SomeEvent4", eventParams3);
-        }
 
-        public void TestSend5()
-        {
-            var eventParams3 = new Dictionary<string, string>
+            var eventData2 = new Dictionary<string, object>
             {
-                { "null_value", null }
+                { "action", "click" },
+                { "element", "button" },
+                { "user", new Dictionary<string, object>
+                    {
+                        { "level", 5 },
+                        { "experience", 1020 }
+                    }
+                }
             };
-
-            // Отправится как просто евент без параметров
-            YG2.MetricaSend("SomeEvent5", eventParams3);
-        }
-
-        public void TestSend6_AddLevel(string someEvent, string param, string value)
-        {
-            var inParams = new Dictionary<string, string>
-            {
-                { someEvent, value }
-            };
-            var stringInParams = JsonUtility.ToJson(inParams);
-
-            var eventParams = new Dictionary<string, string>
-            {
-                { param, stringInParams }
-            };
-
-            YG2.MetricaSend(someEvent, eventParams);
-        }
-
-        // Пример с вложением третьего уровня
-        // Будто отправляем ивент указывая параметр вошёл игрок в тригер или вышел из него 
-        public void TriggerEnteredSend(string nameTrigger, bool enter)
-        {
-            var inParams = new Dictionary<string, string>
-                {
-                    { name, enter.ToString() }
-                };
-            var stringInParams = JsonUtility.ToJson(inParams);
-
-            var eventParams = new Dictionary<string, string>
-                {
-                    { "triggers", stringInParams }
-                };
-
-            YG2.MetricaSend("triggers", eventParams);
+            YG2.MetricaSend("test3", eventData2);
         }
     }
 }

@@ -549,10 +549,9 @@ GameObject:
   m_Component:
   - component: {fileID: 142800012390872136}
   - component: {fileID: 6359917871923383528}
-  - component: {fileID: 8005214469256453498}
   - component: {fileID: 4172798451209967692}
   m_Layer: 0
-  m_Name: Game Version (TMP) (1)
+  m_Name: Mail (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -585,19 +584,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9015403991383552211}
   m_CullTransparentMesh: 1
---- !u!114 &8005214469256453498
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9015403991383552211}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 363ab7fbcd3383f49abebc3bdd324c88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text: {fileID: 4172798451209967692}
 --- !u!114 &4172798451209967692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -628,7 +614,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 2164260863
-  m_fontColor: {r: 1, g: 1, b: 1, a: 0.5019608}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 0.2509804}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

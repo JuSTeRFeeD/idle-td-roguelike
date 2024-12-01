@@ -65,7 +65,7 @@ body {
     height: 24px;
     margin: 10px 20px 20px 10px;
     text-align: left;
-    border: 1px solid rgb(52, 162, 246);
+    border: 1px solid white;
     padding: 2px;
 }
 
@@ -100,7 +100,7 @@ body {
     border-bottom: 1.1em solid rgba(255, 255, 255, 0.2);
     border-left: 1.1em solid #ffffff;
     transform: translateZ(0);
-    animation: spinner-spin 1.5s infinite linear;
+    animation: spinner-spin 1.1s infinite linear;
 }
 
 @keyframes spinner-spin {

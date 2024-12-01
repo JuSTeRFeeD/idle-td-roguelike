@@ -13,12 +13,11 @@ namespace YG.Example
 
             textDataOutput.text = string.Empty;
 
-            if (YG2.flags.Length > 0)
+            if (YG2.flagsDictionary.Count > 0)
             {
-                for (int i = 0; i < YG2.flags.Length; i++)
+                foreach (var flag in YG2.flagsDictionary)
                 {
-                    textDataOutput.text += YG2.flags[i].name + ": ";
-                    textDataOutput.text += YG2.flags[i].value + "\n";
+                    textDataOutput.text += $"{flag.Key}: {flag.Value}\n";
                 }
             }
             else
@@ -51,6 +50,30 @@ namespace YG.Example
                 // Значение флага не определено, установите дефолтное значение.
                 // Если значение не определено, метод GetFlag вернёт null.
                 //Debug.Log("Difficulty: middle");
+            }
+
+
+            // Пример получения флага, если такой флаг существует
+
+            if (YG2.TryGetFlag("difficult", out string difficult))
+            {
+                // Флаг существует, пользуемся им!
+                Debug.Log(difficult);
+            }
+
+            if (YG2.TryGetFlagAsInt("intType", out int intType))
+            {
+                // Флаг существует и преобразован в тип int
+            }
+
+            if (YG2.TryGetFlagAsFloat("floatType", out float floatType))
+            {
+                // Флаг существует и преобразован в тип float
+            }
+
+            if (YG2.TryGetFlagAsBool("boolType", out bool boolType))
+            {
+                // Флаг существует и преобразован в тип bool
             }
         }
     }

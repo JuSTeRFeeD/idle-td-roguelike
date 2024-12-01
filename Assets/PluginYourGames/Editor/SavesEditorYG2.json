@@ -1,4 +1,10 @@
 {
+    "stringKeys": [],
+    "stringValues": [],
+    "floatKeys": [],
+    "floatValues": [],
+    "intKeys": [],
+    "intValues": [],
     "intExample": 5,
     "strExample": "Hello!",
     "boolExample": [
@@ -7,13 +13,13 @@
         false,
         false
     ],
-    "idSave": 1539,
+    "idSave": 1551,
     "playerProgressData": {
         "isInGameTutorialCompleted": true,
-        "mapSave": "0,1|1,1|0|0|1,1|2,2|0|0|2,2|2,1|0|0|2,1|2,0|0|0|2,0|3,0;1,0|0|0|3,0|4,1;3,1|0|0|4,1|4,0;4,2|0|0|4,0|5,1|0|0|5,1|n|0|2|1,0|n|0|1|3,1|n|0|1|4,2|n|0|1",
-        "curMapPointIndex": 0,
+        "mapSave": "0,1|1,1|1|0|1,1|2,2|1|0|2,2|2,1|0|0|2,1|2,0|0|0|2,0|3,0;1,0|0|0|3,0|4,1;3,1|0|0|4,1|4,0;4,2|0|0|4,0|5,1|0|0|5,1|n|0|2|1,0|n|0|1|3,1|n|0|1|4,2|n|0|1",
+        "curMapPointIndex": 1,
         "completedMapsCount": 0,
-        "autoUpgradeTowersChecked": false,
+        "autoUpgradeTowersChecked": true,
         "balanceByCurrencyId": {
             "keys": [
                 "4b444df0-fd59-4356-83cc-f9abe5c087a7",
@@ -27,9 +33,9 @@
             ],
             "values": [
                 1075,
-                54,
-                1133,
-                2,
+                262,
+                1792,
+                3,
                 1,
                 1,
                 5,
@@ -43,7 +49,7 @@
                 "equippedAtSlot": 0,
                 "isEquipped": true,
                 "level": 0,
-                "amount": 4
+                "amount": 5
             },
             {
                 "id": "945d886f-5dae-4672-be90-1925bd6ec556",
@@ -59,7 +65,7 @@
                 "equippedAtSlot": 2,
                 "isEquipped": true,
                 "level": 0,
-                "amount": 3
+                "amount": 4
             },
             {
                 "id": "ef4d5bd8-82ed-427c-ad35-b533b536b36e",
@@ -107,24 +113,26 @@
                 8,
                 1,
                 2,
-                0
+                0,
+                3
             ],
             "values": [
-                80,
-                2,
-                1,
-                30
+                829,
+                27,
+                735,
+                589923,
+                2
             ]
         },
         "dailyMissions": {
             "startTime": 1721201231000,
             "missionIds": [
                 "2ee4a9c3-6b01-4c0c-bc4d-de2d8ad78e42",
+                "48e1bc4c-1629-415b-92aa-754a6c1b169b",
+                "4e6024c4-8bea-41a6-a762-74aa1eb7f626",
                 "acd561f7-e260-41e5-b663-62206292546c",
                 "19cfdceb-3755-406f-86f2-d70ec2fb1a96",
-                "48e1bc4c-1629-415b-92aa-754a6c1b169b",
                 "388c780c-5f33-4f38-aff4-e335c87ebf0e",
-                "4e6024c4-8bea-41a6-a762-74aa1eb7f626",
                 "824659a8-8307-4195-850f-e048fa27dabc",
                 "2f1d0b9e-8521-41b8-849b-8d17307250e2"
             ],
@@ -140,8 +148,8 @@
             ],
             "completed": [
                 true,
-                false,
-                false,
+                true,
+                true,
                 false,
                 false,
                 false,

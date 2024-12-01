@@ -24,8 +24,11 @@ namespace YG.EditorScr
             string folderPath = Path.GetDirectoryName(path);
             string modulName = Path.GetFileName(folderPath);
 
-            scr.nameDefining = modulName + "Platform";
+            scr.nameFull = modulName + "Platform";
+
+            EditorUtility.SetDirty(scr);
             AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
 
             string iconPath = $"{InfoYG.PATCH_PC_WEBGLTEMPLATES}/{modulName}/thumbnail.png";
 
@@ -58,7 +61,7 @@ namespace YG.EditorScr
             if (!iconPlatform)
                 styleNamePlatform.alignment = TextAnchor.MiddleCenter;
 
-            EditorGUILayout.LabelField(new GUIContent(scr.nameBase), styleNamePlatform);
+            EditorGUILayout.LabelField(new GUIContent(PlatformSettings.currentPlatformBaseName), styleNamePlatform);
 
             styleNamePlatform = TextStyles.LabelStyleColor(Color.gray);
             styleNamePlatform.fontSize = 12;
@@ -66,7 +69,7 @@ namespace YG.EditorScr
             if (!iconPlatform)
                 styleNamePlatform.alignment = TextAnchor.MiddleCenter;
 
-            GUIContent tooltip = new GUIContent(scr.nameDefining + "_yg", Langs.t_nameDefining);
+            GUIContent tooltip = new GUIContent(scr.nameFull + "_yg", Langs.t_nameDefining);
             EditorGUILayout.LabelField(tooltip, styleNamePlatform);
 
             GUILayout.EndVertical();
@@ -116,10 +119,9 @@ namespace YG.EditorScr
                         bool newToggleValue = EditorGUILayout.Toggle(toggleValue, GUILayout.Width(20));
                         toggle.SetValue(toggleScrObject, newToggleValue);
 
-                        // Отображение поля с длинным названием и компактным значением
                         EditorGUI.BeginDisabledGroup(!newToggleValue);
-                        EditorGUILayout.LabelField(ObjectNames.NicifyVariableName(field.Name), GUILayout.Width(180)); // Длинное название
-                        GUILayout.FlexibleSpace(); // Гибкое пространство для сдвига значения вправо
+                        EditorGUILayout.LabelField(ObjectNames.NicifyVariableName(field.Name), GUILayout.Width(180));
+                        GUILayout.FlexibleSpace();
                         DrawField(field, scrObject);
                         EditorGUI.EndDisabledGroup();
 
@@ -133,8 +135,8 @@ namespace YG.EditorScr
                 if (!isToggle)
                 {
                     EditorGUILayout.BeginHorizontal(YGEditorStyles.selectable);
-                    EditorGUILayout.LabelField(ObjectNames.NicifyVariableName(field.Name), GUILayout.Width(200)); // Длинное название
-                    GUILayout.FlexibleSpace(); // Сдвигает значение вправо
+                    EditorGUILayout.LabelField(ObjectNames.NicifyVariableName(field.Name), GUILayout.Width(200));
+                    GUILayout.FlexibleSpace();
                     DrawField(field, scrObject);
                     EditorGUILayout.EndHorizontal();
                 }
@@ -145,7 +147,6 @@ namespace YG.EditorScr
         {
             object value = field.GetValue(target);
 
-            // Для более компактного отображения значений можно задать фиксированную ширину
             GUILayoutOption valueWidth = GUILayout.Width(120);
 
             if (field.FieldType == typeof(bool))

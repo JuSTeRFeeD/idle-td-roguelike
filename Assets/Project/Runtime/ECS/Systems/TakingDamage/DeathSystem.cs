@@ -81,7 +81,7 @@ namespace Project.Runtime.ECS.Systems.TakingDamage
                 var addExp = World.CreateEntity();
                 addExp.SetComponent(new PlayerAddExp
                 {
-                    Value = 4.5f
+                    Value = 5.5f
                 });
                 
                 DisposeHealthbar(entity);

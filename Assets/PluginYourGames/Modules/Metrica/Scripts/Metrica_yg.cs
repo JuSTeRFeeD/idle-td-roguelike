@@ -5,55 +5,113 @@ namespace YG
 {
     public static partial class YG2
     {
+        /// <summary>
+        /// Отправить событие в Метрику.
+        /// </summary>
+        /// <param name="eventName">Имя события.</param>
         public static void MetricaSend(string eventName)
         {
-            if (!infoYG.Metrica.enable)
-                return;
-
-            MetricaMessage(eventName, string.Empty);
+            Log(eventName, null);
 #if !UNITY_EDITOR
-            iPlatform.MetricaSend(eventName, string.Empty);
+            iPlatform.MetricaSend(eventName);
 #endif
         }
 
-        public static void MetricaSend(string eventName, IDictionary<string, string> eventParams)
+        /// <summary>
+        /// Отправить событие в Метрику с параметрами Dictionary<string, object>.
+        /// </summary>
+        /// <param name="eventName">Имя события.</param>
+        /// <param name="eventData">Данные события в формате ключ-значение (object).</param>
+        public static void MetricaSend(string eventName, Dictionary<string, object> eventData)
         {
-            if (!infoYG.Metrica.enable)
-                return;
-
-            if (eventParams == null || eventParams.Count == 0)
+            string jsonData = "{}";
+            if (eventData != null)
             {
-                MetricaSend(eventName);
-                return;
+                jsonData = JsonUtils.ToJson(eventData);
             }
 
-            var eventParamsJson = JsonUtils.ToJson(eventParams);
-
-            if (string.IsNullOrEmpty(eventParamsJson))
-            {
-                MetricaSend(eventName);
-                return;
-            }
-
-            MetricaMessage(eventName, eventParamsJson);
+            Log(eventName, jsonData);
 #if !UNITY_EDITOR
-            iPlatform.MetricaSend(eventName, eventParamsJson);
+            iPlatform.MetricaSend(eventName, jsonData);
 #endif
         }
 
-        private static void MetricaMessage(string eventName, string eventParams)
+        /// <summary>
+        /// Отправить событие в Метрику с параметрами Dictionary<string, string>.
+        /// </summary>
+        /// <param name="eventName">Имя события.</param>
+        /// <param name="eventData">Данные события в формате ключ-значение (string).</param>
+        public static void MetricaSend(string eventName, Dictionary<string, string> eventData)
+        {
+            string jsonData = "{}";
+            if (eventData != null)
+            {
+                // Сериализация данных через JsonUtils
+                jsonData = JsonUtils.ToJson(eventData);
+            }
+
+            Log(eventName, jsonData);
+#if !UNITY_EDITOR
+            iPlatform.MetricaSend(eventName, jsonData);
+#endif
+        }
+
+        /// <summary>
+        /// Отправить событие в Метрику с вложенными параметрами.
+        /// </summary>
+        /// <param name="eventName">Имя события.</param>
+        /// <param name="nestedParam">Имя вложенного параметра (2 уровень).</param>
+        /// <param name="subNestedParam">Имя вложенного параметра (3 уровень).</param>
+        public static void MetricaSend(string eventName, string nestedParam, string subNestedParam)
+        {
+            var eventData = new Dictionary<string, string>
+            {
+                { nestedParam, subNestedParam }
+            };
+
+            string jsonData = JsonUtils.ToJson(eventData);
+
+            Log(eventName, jsonData);
+#if !UNITY_EDITOR
+            iPlatform.MetricaSend(eventName, jsonData);
+#endif
+        }
+
+        /// <summary>
+        /// Отправить событие в Метрику с вложенными параметрами.
+        /// </summary>
+        /// <param name="eventName">Имя события.</param>
+        /// <param name="nestedParam">Имя вложенного параметра (2 уровень).</param>
+        /// <param name="subNestedData">Объект из вложенных параметров (3 уровень).</param>
+        public static void MetricaSend(string eventName, string nestedParam, Dictionary<string, object> subNestedData)
+        {
+            var eventData = new Dictionary<string, object>
+            {
+                { nestedParam, subNestedData }
+            };
+
+            string jsonData = JsonUtils.ToJson(eventData);
+
+            Log(eventName, jsonData);
+#if !UNITY_EDITOR
+            iPlatform.MetricaSend(eventName, jsonData);
+#endif
+        }
+
+        private static void Log(string eventName, string eventParam)
         {
             if (!infoYG.Metrica.log)
                 return;
 
-            if (string.IsNullOrEmpty(eventParams))
+            if (string.IsNullOrEmpty(eventParam) || eventParam == "{}")
             {
                 Message($"Metrica send: {eventName}");
             }
             else
             {
-                Message($"Metrica send: {eventName}; {eventParams}");
+                Message($"Metrica send: {eventName}; {eventParam}");
             }
         }
     }
 }
+

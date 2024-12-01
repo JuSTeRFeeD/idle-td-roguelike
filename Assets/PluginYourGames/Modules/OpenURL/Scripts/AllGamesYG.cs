@@ -50,7 +50,7 @@ namespace YG
                     obj.GetComponent<GameYG>().Setup(YG2.allGames[i], imageURLType);
                 }
             }
-#if !Flags
+#if !Flags_yg
             DefaultSpawnList();
 #else
             if (sortUsingFlags)

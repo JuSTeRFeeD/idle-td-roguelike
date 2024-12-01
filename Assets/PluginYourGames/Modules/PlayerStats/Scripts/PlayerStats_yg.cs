@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using UnityEngine;
 using YG.Utils;
@@ -22,9 +21,6 @@ namespace YG
             iPlatform.InitStats();
 #endif
         }
-
-        [DllImport("__Internal")]
-        private static extern void GetStats_js();
 
         public static void LoadStats()
         {

@@ -5,9 +5,10 @@ namespace YG.Utils
 {
     public static class LocalStorage
     {
+#if PLATFORM_WEBGL
         [DllImport("__Internal")]
         public static extern void SetKey_LocalStorage_js(string key, string value);
-
+#endif
         public static void SetKey(string key, string value)
         {
 #if PLATFORM_WEBGL && !UNITY_EDITOR
@@ -17,10 +18,10 @@ namespace YG.Utils
             PlayerPrefs.Save();
 #endif
         }
-
+#if PLATFORM_WEBGL
         [DllImport("__Internal")]
         public static extern string GetKey_LocalStorage_js(string key);
-
+#endif
         public static string GetKey(string key, string defaultValue = "")
         {
             if (!HasKey(key))
@@ -32,11 +33,10 @@ namespace YG.Utils
             return PlayerPrefs.GetString(key);
 #endif
         }
-
-
+#if PLATFORM_WEBGL
         [DllImport("__Internal")]
         private static extern int HasKey_LocalStorage_js(string key);
-
+#endif
         public static bool HasKey(string key)
         {
 #if PLATFORM_WEBGL && !UNITY_EDITOR
@@ -53,10 +53,10 @@ namespace YG.Utils
             return PlayerPrefs.HasKey(key);
 #endif
         }
-
+#if PLATFORM_WEBGL
         [DllImport("__Internal")]
         public static extern void DeleteKey_LocalStorage_js(string key);
-
+#endif
         public static void DeleteKey(string key)
         {
 #if PLATFORM_WEBGL && !UNITY_EDITOR
@@ -65,10 +65,10 @@ namespace YG.Utils
             PlayerPrefs.DeleteKey(key);
 #endif
         }
-
+#if PLATFORM_WEBGL
         [DllImport("__Internal")]
         public static extern void ClearAllKeys_LocalStorage_js();
-
+#endif
         public static void DeleteAll()
         {
 #if PLATFORM_WEBGL && !UNITY_EDITOR

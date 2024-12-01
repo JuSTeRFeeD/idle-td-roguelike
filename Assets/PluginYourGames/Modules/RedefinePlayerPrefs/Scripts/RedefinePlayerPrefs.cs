@@ -20,6 +20,6 @@ namespace RedefineYG
         public static bool HasKey(string key) => YG2.iPlatform.HasKey(key);
         public static void DeleteKey(string key) => YG2.iPlatform.DeleteKey(key);
         public static void DeleteAll() => YG2.iPlatform.DeleteAll();
-        public static void Save() { }
+        public static void Save() => YG2.iPlatform.Save();
     }
 }

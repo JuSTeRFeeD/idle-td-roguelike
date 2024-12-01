@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.IO;
 using System.IO.Compression;
+using YG.Insides;
 
 namespace YG.EditorScr.BuildModify
 {
@@ -8,6 +9,7 @@ namespace YG.EditorScr.BuildModify
     {
         public static void Archiving(string pathToBuiltProject)
         {
+#if PLATFORM_WEBGL
             InfoYG infoYG = YG2.infoYG;
 
             if (infoYG.Basic.archivingBuild)
@@ -23,7 +25,7 @@ namespace YG.EditorScr.BuildModify
                     sign = "_b" + buildName;
                 }
 
-                string platform = YG2.infoYG.Basic.platform.nameBase;
+                string platform = PlatformSettings.currentPlatformBaseName;
 
                 if (platform != "YandexGames")
                 {
@@ -42,6 +44,7 @@ namespace YG.EditorScr.BuildModify
 
                 ZipFile.CreateFromDirectory(pathToBuiltProject, directory);
             }
+#endif
         }
     }
 }

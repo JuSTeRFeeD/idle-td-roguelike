@@ -2,7 +2,6 @@
 {
     public static partial class YG2
     {
-        public enum Device { Desktop, Mobile, Tablet, TV }
         public static EnvirData envir = new EnvirData();
 
         public class EnvirData

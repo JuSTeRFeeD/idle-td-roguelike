@@ -139,6 +139,8 @@ namespace YG
         public void _GameplayStart() => YG2.GameplayStart();
         public void _GameplayStop() => YG2.GameplayStop();
         public void _HappyTime() => YG2.optionalPlatform.HappyTime();
+        public void _PauseGame(bool pause) => YG2.PauseGame(pause);
+        public void _PauseGameNoEditEventSystem(bool pause) => YG2.PauseGameNoEditEventSystem(pause);
 
         private void OnGetSDKData()
         {

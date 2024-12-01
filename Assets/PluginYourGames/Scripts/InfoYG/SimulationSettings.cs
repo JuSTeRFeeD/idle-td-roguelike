@@ -1,4 +1,4 @@
-#if UNITY_EDITOR
+п»ї#if UNITY_EDITOR
 using System;
 using UnityEngine;
 using YG.Insides;
@@ -14,13 +14,11 @@ namespace YG
         public partial class SimulationSettings
         {
 #if RU_YG2
-            [HeaderYG("Данные окружения", 5)]
+            [HeaderYG("Р”Р°РЅРЅС‹Рµ РѕРєСЂСѓР¶РµРЅРёСЏ", 5)]
 #else
             [HeaderYG("Environment Data", 5)]
 #endif
-#if EnvirData_yg
             public YG2.Device device;
-#endif
             public string language = "ru";
 
             [HeaderYG(Langs.advSimHeader, 5)]
@@ -36,7 +34,7 @@ namespace YG
 
 #if UNITY_EDITOR
 #if RU_YG2
-            [Tooltip("Симулирование вызова ошибки при просмотре рекламы.")]
+            [Tooltip("РЎРёРјСѓР»РёСЂРѕРІР°РЅРёРµ РІС‹Р·РѕРІР° РѕС€РёР±РєРё РїСЂРё РїСЂРѕСЃРјРѕС‚СЂРµ СЂРµРєР»Р°РјС‹.")]
 #else
             [Tooltip("Click the check mark to simulate an error call when viewing ads.")]
 #endif

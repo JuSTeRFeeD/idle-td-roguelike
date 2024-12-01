@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 using YG.Insides;
 
@@ -16,7 +16,7 @@ namespace YG
 #endif
             public PlatformSettings platform;
 #if UNITY_EDITOR
-            [Tooltip(Langs.applySettingsBySwitchPlatform)]
+            [Tooltip(Langs.applySettings)]
 #endif
             public bool autoApplySettings = true;
 
@@ -25,6 +25,10 @@ namespace YG
             [Tooltip(Langs.t_autoPauseGame)]
 #endif
             public bool autoPauseGame = true;
+#if UNITY_EDITOR
+            [NestedYG(nameof(autoPauseGame)), Tooltip(Langs.t_editEventSystem)]
+#endif
+            public bool editEventSystem = true;
 #if UNITY_EDITOR
             [Tooltip(Langs.t_autoGRA)]
 #endif

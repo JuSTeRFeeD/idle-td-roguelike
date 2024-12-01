@@ -15,15 +15,18 @@ namespace YG
         public static IPlatformsYG2 iPlatformNoRealization;
         public static YGSendMessage sendMessage;
         public static OptionalPlatform optionalPlatform = new OptionalPlatform();
-        public static string platform { get => infoYG.Basic.platform.nameBase; }
+        public static string platform { get => PlatformSettings.currentPlatformBaseName; }
         public static bool isSDKEnabled { get => _SDKEnabled; }
         private static bool _SDKEnabled;
         public static bool isFirstGameSession;
+        public enum Device { Desktop, Mobile, Tablet, TV }
 
         private static bool syncInitSDKComplete, awakePassed;
 
         public static Action onGetSDKData;
         public static Action<bool> onPauseGame;
+        private static bool pauseGame;
+        public static bool isPauseGame { get => pauseGame; }
 
         public static bool nowAdsShow
         {
@@ -162,13 +165,17 @@ namespace YG
                 onGetSDKData?.Invoke();
         }
 
-        public static void PauseGame(bool pause)
+        public static void PauseGame(bool pause, bool editTimeScale, bool editAudioPause, bool editCursor, bool editEventSystem)
         {
+            if (pause == pauseGame)
+                return;
+
             if (pause)
                 GameplayStop(true);
             else
                 GameplayStart(true);
 
+            pauseGame = pause;
             onPauseGame?.Invoke(pause);
 
             if (infoYG.Basic.autoPauseGame)
@@ -178,7 +185,7 @@ namespace YG
                     GameObject pauseObj = new GameObject() { name = "PauseGameYG" };
                     MonoBehaviour.DontDestroyOnLoad(pauseObj);
                     PauseGameYG pauseScr = pauseObj.AddComponent<PauseGameYG>();
-                    pauseScr.Setup();
+                    pauseScr.Setup(editTimeScale, editAudioPause, editCursor, editEventSystem);
                 }
                 else
                 {
@@ -187,6 +194,8 @@ namespace YG
                 }
             }
         }
+        public static void PauseGame(bool pause) => PauseGame(pause, true, true, true, infoYG.Basic.editEventSystem);
+        public static void PauseGameNoEditEventSystem(bool pause) => PauseGame(pause, true, true, true, false);
 
         public static void Message(string message)
         {

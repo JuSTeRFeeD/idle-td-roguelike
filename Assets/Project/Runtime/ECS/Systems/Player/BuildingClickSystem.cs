@@ -101,7 +101,7 @@ namespace Project.Runtime.ECS.Systems.Player
             // Setup panel widgets
             _panelsManager.SetPanel(PanelType.TowerManagement);
 
-            _cameraController.SetPosition(_selectedEntity.ViewPosition() - new Vector3(2, 0, 2));
+            _cameraController.SetPosition(_selectedEntity.ViewPosition() - new Vector3(4, 0, 4));
             
             if (entity.Has<BuildingTag>())
             {

@@ -7,10 +7,11 @@ namespace YG.Insides
         public const string modulesSettings = "Модули";
         public const string simulation = "Симуляция";
         public const string platform = "Платформа";
-        public const string applySettingsBySwitchPlatform = "Применять настройки проекта под выбранную платформу при переключении платформы и перед сборкой билда?";
+        public const string applySettings = "Применять настройки проекта под выбранную платформу при переключении платформы и перед сборкой билда?";
         public const string logoImageFormat = "Формат логотипа, который отображается при загрузке игры.\n\nAssets/WebGLTemplates/YandexGames/Images/logo.format";
         public const string backgroundImgFormat = "Формат изображения на заднем плане при загрузке игры.\n\nAssets/WebGLTemplates/YandexGames/Images/background.format";
         public const string t_debugInEditor = "Запись лога в консоль в Unity Editor.";
+        public const string t_editEventSystem = "Деактивировать компонент EventSystem во время паузы?\nИногда из-за активного EventSystem во время паузы случаются баги, при нажатии на клавиши, например. Отключите эту поцию, если у вас баги наоборот из-за деактивации EventSystem.";
         public const string t_autoGRA = "При запуске игры выполнять метод Game Ready API.\n\nМомент, когда игра загрузила все ресурсы и готова к взаимодействию с пользователем.\n\nЕсли данный параметр 'AutoGRA' включен, то плагин сам выполнит метод Game Ready API сразу после загрузки игры.\n\rЕсли в Вашей игре имеются свои реализации загрузки игры, например, загрузка первой сцены, то Вам необходимо снять галку 'AutoGRA' и самостоятельно выполнять этот метод, когда игра будет полностью загружена. Выполнение метода: `YG2.GameReadyAPI();`";
         public const string t_autoPauseGame = "При просмотре рекламы и при других ситуациях когда это необходимо - игра будет ставиться на паузу.";
         public const string t_archivingBuild = "Включить автоматическую архивацию билда?\n\n •  После успешного создания билда игры, папка с содержанием билда пакуется в zip архив. Подпись _b... это номер билда. Если архив с таким же номером билда уже есть, он перезапишется новым.";
@@ -24,7 +25,8 @@ namespace YG.Insides
         public const string t_progressBar_width = "Ширина полосы загрузки.";
         public const string t_progressBar_color1 = "Основной цвет полосы загрузки.";
         public const string t_progressBar_color2 = "Второстепенный  цвет полосы загрузки (по краям). Для получения однородного цвета всей полосы загрузки укажите один и тот же цвет для color 1 и color 2.";
-        public const string t_pixelRatio = "Снижение качества изображения игры в угоду оптимизации для мобильных устройств";
+
+        public const string t_pixelRatio = "Снижение качества изображения игры в угоду оптимизации для мобильных устройств.\nЧем выше число, тем выше качество. Диапазон от 1 до 2. Попробуйте поставить 1.3.";
         public const string t_developerBuild = "Тестовая сборка. Отображает номер билда в углу экрана (нажмите на текст чтобы скрыть). Помогает убедиться в том, что на сервере черновика актуальный билд. Служит напоминанием, что перед сборкой релизного билда необходимо установить соответствующие значения для параметра Code Optimization в Build Settings.";
         public const string t_fixedAspectRatio = "Фиксировать соотношение сторон? Например 16/9 - это горизонтальный экран. 9/16 - вертикальный. Для мобильных устройств изображение будет растягиваться на полный экран.";
         public const string t_simulationInEditor = "Настройки для симуляции в Unity Editor. Можете тестировать игру, например, на разных языках.";
@@ -61,10 +63,11 @@ namespace YG.Insides
 #else
         public const string platform = "Platform";
         public const string simulation = "Simulation";
-        public const string applySettingsBySwitchPlatform = "Should I apply the project settings for the selected platform when switching platforms and before building a build?";
+        public const string applySettings = "Should I apply the project settings for the selected platform when switching platforms and before building a build?";
         public const string logoImageFormat = "The format of the logo that is displayed when loading the game.\n\nAssets/WebGLTemplates/YandexGames/Images/logo.format";
         public const string backgroundImgFormat = "The format of the image in the background when loading the game.\n\nAssets/WebGLTemplates/YandexGames/Images/background.format";
         public const string t_debugInEditor = "Writing a log to the console in Unity Editor.";
+        public const string t_editEventSystem = "Deactivate the Event System component during a pause?\nSometimes, due to the active EventSystem, bugs occur during the pause, when pressing the keys, for example. Disable this option if you have bugs on the contrary due to deactivation of the EventSystem.";
         public const string t_autoGRA = "When starting the game, execute the Game Ready API method.\n\n When the game has loaded all resources and is ready to interact with the user.\n\nIf this 'AutoGRA' parameter is enabled, the plugin will execute the Game Ready API method itself immediately after downloading the game.\n\rIf your game has its own game loading implementations, for example, loading the first scene, then you need to uncheck the 'AutoGRA' checkbox and perform this method yourself when the game is fully loaded. Method execution: `YG2.GameReadyAPI();`";
         public const string t_autoPauseGame = "When viewing ads and in other situations when it is necessary, the game will be paused.";
         public const string t_archivingBuild = "Should I enable automatic build archiving?\n\n • After the successful creation of the game build, the folder with the contents of the build is packed in a zip archive. Signature _b... this is the build number. If there is already an archive with the same build number, it will be overwritten with a new one.";
@@ -73,7 +76,7 @@ namespace YG.Insides
         public const string t_gradient = "Gradient settings. For a monochrome image, fill color 1 and color 2 with the same color.";
         public const string t_gradient_radial = "With a radial gradient, the first color will flow from the center smoothly into the second color along the edges. Radial = false - linear gradient.";
 
-        public const string t_pixelRatio = "Reducing the image quality of the game for the sake of optimization for mobile devices";
+        public const string t_pixelRatio = "Reducing the image quality of the game for the sake of optimization for mobile devices.\nThe higher the number, the higher the quality. The range is from 1 to 2. Try to put 1.3.";
         public const string t_developerBuild = "Test build. Displays the build number in the corner of the screen (click on the text to hide it). It helps to make sure that the current build is on the draft server. It serves, apparently, in order for the assembly unit to be able to set the appropriate values for optimizing the program code in the assembly settings.";
         public const string t_fixedAspectRatio = "Fix the aspect ratio? For example, 16/9 is a horizontal screen. 9/16 is vertical. For mobile devices, the image will stretch to full screen.";
         public const string t_simulationInEditor = "Simulation settings in Unity Editor. You can test the game, for example, in different languages.";
@@ -92,7 +95,7 @@ namespace YG.Insides
         public const string documentation = "Documentation";
         public const string helpChat = "Help in chat";
         public const string video = "Video";
-        
+
         public const string modulesSettings = "Modules settings";
         public const string versionsActual = "All versions are current";
         public const string versionsUpdate = "Updates are available";

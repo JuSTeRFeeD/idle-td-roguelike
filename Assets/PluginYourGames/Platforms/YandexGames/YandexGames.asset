@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d228dc2bb257eb43a856395ab5a038b, type: 3}
   m_Name: YandexGames
   m_EditorClassIdentifier: 
-  nameDefining: YandexGamesPlatform
-  applySettingsBySwitchPlatform: 1
+  nameFull: YandexGamesPlatform
   projectSettings:
     showFirstAdv: 1
     interAdvInterval: 60

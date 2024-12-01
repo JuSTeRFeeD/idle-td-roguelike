@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using UnityEngine;
 using YG.Insides;
 
@@ -50,7 +50,7 @@ namespace YG
                 public Color color2 = new Color(1f, 0.831f, 0.149f, 0.7f);
             }
 #if RU_YG2
-            [HeaderYG("Стандартный", 10)]
+            [HeaderYG("РЎС‚Р°РЅРґР°СЂС‚РЅС‹Р№", 10)]
 #else
             [HeaderYG("Default", 10)]
 #endif

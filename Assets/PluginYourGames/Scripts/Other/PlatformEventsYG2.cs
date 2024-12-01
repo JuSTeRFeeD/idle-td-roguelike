@@ -47,9 +47,7 @@ namespace YG.Insides
 
         public void ExecuteEvent()
         {
-            string platformName = InfoYG.CurrentPlatformOrigName();
-
-            if (platforms.Contains(platformName))
+            if (platforms.Contains(YG2.platform))
             {
                 platformAction?.Invoke();
             }
