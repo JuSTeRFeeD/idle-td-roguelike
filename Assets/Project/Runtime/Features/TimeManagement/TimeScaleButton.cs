@@ -24,7 +24,7 @@ namespace Project.Runtime.Features.TimeManagement
         }
 
         private TimeScaleVariant _timeScaleVariant;
-        private bool IsAdWatched = false;
+        private bool _isAdWatched = false;
         
         private void Start()
         {
@@ -33,6 +33,12 @@ namespace Project.Runtime.Features.TimeManagement
 
             YG2.onRewardAdv += RewardedWatched;
             YG2.onErrorRewardedAdv += CancelledRewardedAd;
+        }
+
+        private void OnDestroy()
+        {
+            YG2.onRewardAdv -= RewardedWatched;
+            YG2.onErrorRewardedAdv -= CancelledRewardedAd;
         }
 
         private void CancelledRewardedAd()
@@ -45,15 +51,16 @@ namespace Project.Runtime.Features.TimeManagement
         {
             if (rewardId == RewardedAdIds.TimeScaleButton.ToString())
             {
-                IsAdWatched = true;
-                rewardedWrapper.gameObject.SetActive(false);
+                _isAdWatched = true;
+                Debug.Log($"rewardedWrapper exists {rewardedWrapper != null}");
+                rewardedWrapper.SetActive(false);
             }
             CancelledRewardedAd();
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (!IsAdWatched)
+            if (!_isAdWatched)
             {
                 TimeScale.OverrideNormalTimeScale(0);
                 _soundVolume.Silence(true);
