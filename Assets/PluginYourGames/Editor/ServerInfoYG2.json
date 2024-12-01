@@ -66,7 +66,7 @@
         },
         {
             "name": "RedefinePlayerPrefs",
-            "version": "1.0",
+            "version": "1.001",
             "download": "https://max-games.ru/public/pluginYG2/modules/RedefinePlayerPrefs.unitypackage",
             "doc": "https://max-games.ru/plugin-yg/doc/storage/"
         },
@@ -106,7 +106,7 @@
             "name": "Review",
             "version": "1.0",
             "download": "https://max-games.ru/public/pluginYG2/modules/Review.unitypackage",
-            "doc": ""
+            "doc": "https://max-games.ru/other/"
         },
         {
             "name": "StickyAdv",
@@ -128,15 +128,15 @@
         },
         {
             "name": "Flags",
-            "version": "1.0",
+            "version": "1.001",
             "download": "https://max-games.ru/public/pluginYG2/modules/Flags.unitypackage",
-            "doc": ""
+            "doc": "https://max-games.ru/flags/"
         },
         {
             "name": "OpenURL",
             "version": "1.001",
             "download": "https://max-games.ru/public/pluginYG2/modules/OpenURL.unitypackage",
-            "doc": "",
+            "doc": "https://max-games.ru/open-url/",
             "dependencies": "EnvirData"
         },
         {
@@ -150,7 +150,7 @@
             "name": "GameLabel",
             "version": "1.0",
             "download": "https://max-games.ru/public/pluginYG2/modules/GameLabel.unitypackage",
-            "doc": ""
+            "doc": "https://max-games.ru/other/"
         },
         {
             "name": "QuitGameEvent",

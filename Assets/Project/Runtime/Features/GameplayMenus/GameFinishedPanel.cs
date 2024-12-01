@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using NTC.Pool;
 using Project.Runtime.Core;
 using Project.Runtime.Player;
 using Project.Runtime.Scriptable.Card;
@@ -116,6 +117,7 @@ namespace Project.Runtime.Features.GameplayMenus
 
         private void ToTheLobby()
         {
+            NightPool.DestroyAllPools();
             StartCoroutine(_sceneLoader.LoadSceneAsync("Lobby"));
             YG2.InterstitialAdvShow();
         }

@@ -51,6 +51,7 @@ namespace Project.Runtime.Features
             towerIconImage.enabled = deckCard.CardConfig.IsBuilding;
             
             var clr = deckCard.CardSaveData.isOpen ? Color.white : Color.black;
+            Debug.Log($"{deckCard.CardConfig.Title} {deckCard.CardSaveData.isOpen}");
             iconImage.color = towerIconImage.color = clr; 
             
             rarityImage.color = RarityExt.GetColorByRarity(deckCard.CardConfig.Rarity);

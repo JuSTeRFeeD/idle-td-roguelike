@@ -15,6 +15,10 @@ namespace Project.Runtime.Features.Leveling
         
         // не оч хорошо что он открытый для записи наверн, но пока пусть так
         public readonly Dictionary<string, int> AppliesCountByPerkUniqueId = new();
+
+        private int _takenTowerCards = 0;
+        private bool _towerGivenAtThisLevel;
+        private const int GiveTowersTillTakenCount = 3;
         
         [Inject]
         public LevelUpCardsManager(PlayerDeck playerDeck)
@@ -46,10 +50,21 @@ namespace Project.Runtime.Features.Leveling
                 }
                 return result;
             }
-            
+
+            _towerGivenAtThisLevel = false;
             var count = _cards.Count > 2 ? 3 : _cards.Count;
             while (result.Count < count)
             {
+                // Даем как минимум одну карточку тавера (пока х3 раза)
+                if (!_towerGivenAtThisLevel && _takenTowerCards < GiveTowersTillTakenCount)
+                {
+                    var buildings = _cards.Where(i => i.Key.IsBuilding).ToList();
+                    result.Add(buildings.ElementAt(Random.Range(0, buildings.Count)).Key);
+                    _takenTowerCards++;
+                    continue;
+                }
+                
+                // Случайная карточка
                 var rndCard = _cards.ElementAt(Random.Range(0, _cards.Count)).Key;
                 while (result.Contains(rndCard))
                 {

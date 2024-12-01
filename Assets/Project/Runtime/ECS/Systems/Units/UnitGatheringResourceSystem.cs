@@ -64,7 +64,7 @@ namespace Project.Runtime.ECS.Systems.Units
                 gathering.CurrentTime = 0;
 
                 // Adding exp for player
-                World.CreateEntity().SetComponent(new PlayerAddExp { Value = 1.5f });
+                World.CreateEntity().SetComponent(new PlayerAddExp { Value = 2f });
                 
                 // Backpack
                 ref var backpack = ref _unitBackpackStash.Get(entity);

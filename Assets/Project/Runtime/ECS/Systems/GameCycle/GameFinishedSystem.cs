@@ -100,11 +100,14 @@ namespace Project.Runtime.ECS.Systems.GameCycle
         {
             if (!_persistentPlayerData.IsInGameTutorialCompleted)
             {
+                var commonChestWallet =
+                    _persistentPlayerData.GetWalletByCurrencyId("6d53bd9a-fe18-4360-9d3b-e1844016b974");
                 currencyDrops.Add(new CurrencyTuple
                 {
                     amount = 1,
                     currencyConfig = _persistentPlayerData.GetWalletByCurrencyId("6d53bd9a-fe18-4360-9d3b-e1844016b974").CurrencyConfig
                 });
+                commonChestWallet.Add(1);
             }
         }
 

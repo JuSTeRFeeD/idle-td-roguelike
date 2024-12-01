@@ -19,9 +19,9 @@ MonoBehaviour:
   prefab: {fileID: 2426575903459579230, guid: eb4444ec3d4389d4d8d3266551ead662, type: 3}
   size: 2
   health: 5
-  unitsCountDefault: 5
+  unitsCountDefault: 3
   unitsCapacity:
     min: 0
     max: 0
-  woodStorageSize: 30
-  stoneStorageSize: 30
+  woodStorageSize: 40
+  stoneStorageSize: 40

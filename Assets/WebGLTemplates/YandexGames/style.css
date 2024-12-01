@@ -65,8 +65,8 @@ body {
     height: 24px;
     margin: 10px 20px 20px 10px;
     text-align: left;
-    border: 1px solid white;
-    padding: 0px;
+    border: 1px solid rgb(52, 162, 246);
+    padding: 2px;
 }
 
 #unity-progress-bar-full {

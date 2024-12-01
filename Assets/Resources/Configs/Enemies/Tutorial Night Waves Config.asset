@@ -20,6 +20,6 @@ MonoBehaviour:
     spawnDelayBetween: {x: 0.19033435, y: 0.27021277}
   - enemies:
     - enemyConfig: {fileID: 11400000, guid: 1a667fdbbaf4392489a9dc5733b57e47, type: 2}
-      countToSpawn: 20
+      countToSpawn: 15
       delay: 0
     spawnDelayBetween: {x: 0.1865004, y: 0.29495087}

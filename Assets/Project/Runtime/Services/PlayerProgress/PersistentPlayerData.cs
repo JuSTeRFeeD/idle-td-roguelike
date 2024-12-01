@@ -66,6 +66,7 @@ namespace Project.Runtime.Services.PlayerProgress
         
         public bool isOpen;
         public int equippedAtSlot = -1;
+        public bool isEquipped;
         
         public int level;
         public int amount; // amount for upgrades

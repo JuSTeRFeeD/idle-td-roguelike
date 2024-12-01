@@ -19,6 +19,7 @@ namespace Project.Runtime.Lobby.Shop
         [Inject] private LobbyPanelsManager _lobbyPanelsManager;
         [Inject] private PersistentPlayerData _persistentPlayerData;
         [Inject] private ISaveManager _saveManager;
+        [Inject] private PlayerDeck _playerDeck;
 
         [SerializeField] private PlayableDirector openChestPlayableDirector;
         [Space]
@@ -143,6 +144,7 @@ namespace Project.Runtime.Lobby.Shop
                 _totalDroppedItemsCount++;
             }
             _saveManager.Save();
+            _playerDeck.EquipmentChanged();
 
             switch (chestType)
             {

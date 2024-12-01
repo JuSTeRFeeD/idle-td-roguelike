@@ -10,7 +10,7 @@ namespace Project.Runtime.Features.TimeManagement
 {
     public class TimeScaleButton : MonoBehaviour, IPointerClickHandler
     {
-        [Inject] private SoundVolume soundVolume;
+        [Inject] private SoundVolume _soundVolume;
         
         [SerializeField] private TextMeshProUGUI curTimeScaleText;
         [SerializeField] private GameObject rewardedWrapper;
@@ -37,7 +37,7 @@ namespace Project.Runtime.Features.TimeManagement
 
         private void CancelledRewardedAd()
         {
-            soundVolume.Silence(false);
+            _soundVolume.Silence(false);
             TimeScale.OverrideNormalTimeScale(1);
         }
 
@@ -56,7 +56,7 @@ namespace Project.Runtime.Features.TimeManagement
             if (!IsAdWatched)
             {
                 TimeScale.OverrideNormalTimeScale(0);
-                soundVolume.Silence(true);
+                _soundVolume.Silence(true);
                 YG2.RewardedAdvShow(RewardedAdIds.TimeScaleButton.ToString());
                 return;
             }

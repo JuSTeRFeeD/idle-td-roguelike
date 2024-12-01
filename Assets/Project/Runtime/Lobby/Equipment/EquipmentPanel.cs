@@ -75,6 +75,8 @@ namespace Project.Runtime.Lobby.Equipment
 
         private void RefreshEquippedViews()
         {
+            Debug.Log("refresh equipped views");
+            
             // Equipment
             var list = _playerDeck.GetEquippedCards();
             var index = 0;
@@ -86,6 +88,12 @@ namespace Project.Runtime.Lobby.Equipment
             for (; index < equipmentItemViews.Count; index++)
             {
                 equipmentItemViews[index].Clear();
+            }
+            
+            // Inventory refresh
+            foreach (var inventoryItemView in _inventoryItemViews)
+            {
+                inventoryItemView.SetDeckCardData(inventoryItemView.DeckCard);
             }
             
             RefreshNotificationDot();

@@ -5,6 +5,7 @@ using Project.Runtime.Player.Databases;
 using Project.Runtime.Scriptable.Card;
 using Project.Runtime.Services.PlayerProgress;
 using Project.Runtime.Services.Saves;
+using UnityEngine;
 using VContainer;
 
 namespace Project.Runtime.Player
@@ -55,6 +56,7 @@ namespace Project.Runtime.Player
                         level = 0,
                         amount = 0,
                         isOpen = true,
+                        isEquipped = true,
                         equippedAtSlot = i
                     };
 
@@ -79,7 +81,8 @@ namespace Project.Runtime.Player
                         level = 0,
                         amount = 0,
                         isOpen = false,
-                        equippedAtSlot = -1
+                        equippedAtSlot = -1,
+                        isEquipped = false
                     };
                     
                     var deckCard = new DeckCard
@@ -117,7 +120,8 @@ namespace Project.Runtime.Player
                     level = 0,
                     amount = 0,
                     isOpen = false,
-                    equippedAtSlot = -1
+                    equippedAtSlot = -1,
+                    isEquipped = false
                 };
                     
                 var deckCard = new DeckCard
@@ -141,7 +145,7 @@ namespace Project.Runtime.Player
         
         public List<DeckCard> GetEquippedCards()
         {
-            return _inventoryCards.Where(i => i.CardSaveData.equippedAtSlot >= 0).ToList();
+            return _inventoryCards.Where(i => i.CardSaveData.isEquipped && i.CardSaveData.equippedAtSlot >= 0).ToList();
         }
 
         public List<DeckCard> GetInventoryCards()
@@ -151,11 +155,18 @@ namespace Project.Runtime.Player
 
         public void EquipCard(DeckCard deckCard, int toSlotIndex)
         {
+            Debug.Log("Equip card toSlot:" + toSlotIndex);
             var equipped = _inventoryCards.Find(i => i.CardSaveData.equippedAtSlot == toSlotIndex);
             equipped.CardSaveData.equippedAtSlot = -1;
+            equipped.CardSaveData.isEquipped = false;
+            
             deckCard.CardSaveData.equippedAtSlot = toSlotIndex;
+            deckCard.CardSaveData.isEquipped = true;
+            
             _saveManager.Save();
             OnChangeEquipment?.Invoke();
         }
+        
+        public void EquipmentChanged() => OnChangeEquipment?.Invoke();
     }
 }

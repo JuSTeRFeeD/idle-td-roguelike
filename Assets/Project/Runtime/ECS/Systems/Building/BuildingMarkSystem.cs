@@ -11,7 +11,7 @@ namespace Project.Runtime.ECS.Systems.Building
     //
     // Системы маркера над постройками, которые можно улучшить
     //
-    
+
     [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.NullChecks, false)]
     [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.ArrayBoundsChecks, false)]
     [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.DivideByZeroChecks, false)]
@@ -19,16 +19,16 @@ namespace Project.Runtime.ECS.Systems.Building
     {
         [Inject] private BuildingsDatabase _buildingsDatabase;
         [Inject] private WorldSetup _worldSetup;
-        
+
         public World World { get; set; }
-        
+
         private Filter _stoneStorageFilter;
         private Filter _woodStorageFilter;
         private Stash<WoodStorage> _woodStorageStash;
         private Stash<StoneStorage> _stoneStorageStash;
 
         private Filter _towersToUpgradeFilter;
-        
+
         public void OnAwake()
         {
             _woodStorageFilter = World.Filter
@@ -39,7 +39,7 @@ namespace Project.Runtime.ECS.Systems.Building
                 .Build();
             _woodStorageStash = World.GetStash<WoodStorage>();
             _stoneStorageStash = World.GetStash<StoneStorage>();
-            
+
             _towersToUpgradeFilter = World.Filter
                 .With<BuildingTag>()
                 .Without<MaxLevelReachedTag>()
@@ -55,11 +55,12 @@ namespace Project.Runtime.ECS.Systems.Building
             {
                 woodAmount += _woodStorageStash.Get(entity).Current;
             }
+
             foreach (var entity in _stoneStorageFilter)
             {
                 stoneAmount += _stoneStorageStash.Get(entity).Current;
             }
-            
+
             foreach (var tower in _towersToUpgradeFilter)
             {
                 ref readonly var buildingTag = ref tower.GetComponent<BuildingTag>();
@@ -71,14 +72,14 @@ namespace Project.Runtime.ECS.Systems.Building
                     if (price.stonePrice > stoneAmount || price.woodPrice >= woodAmount) continue;
 
                     var mark = World.CreateEntity();
-                    mark.AddComponent<UpgradeMarkTag>();
+                    mark.SetComponent(new UpgradeMarkTag { Building = tower });
                     mark.InstantiateView(_worldSetup.WorldMarkView, tower.ViewPosition(), Quaternion.identity);
-                    
+
                     tower.SetComponent(new BuildingWithUpgradeMark
                     {
                         MarkEntity = mark
                     });
-                    
+
                     return;
                 }
             }
@@ -88,7 +89,7 @@ namespace Project.Runtime.ECS.Systems.Building
         {
         }
     }
-    
+
     [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.NullChecks, false)]
     [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.ArrayBoundsChecks, false)]
     [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.DivideByZeroChecks, false)]
@@ -96,16 +97,17 @@ namespace Project.Runtime.ECS.Systems.Building
     {
         [Inject] private BuildingsDatabase _buildingsDatabase;
         [Inject] private WorldSetup _worldSetup;
-        
+
         public World World { get; set; }
-        
+
         private Filter _stoneStorageFilter;
         private Filter _woodStorageFilter;
         private Stash<WoodStorage> _woodStorageStash;
         private Stash<StoneStorage> _stoneStorageStash;
 
         private Filter _towersToUpgradeFilter;
-        
+        private Filter _markFilter;
+
         public void OnAwake()
         {
             _woodStorageFilter = World.Filter
@@ -116,26 +118,49 @@ namespace Project.Runtime.ECS.Systems.Building
                 .Build();
             _woodStorageStash = World.GetStash<WoodStorage>();
             _stoneStorageStash = World.GetStash<StoneStorage>();
-            
+
             _towersToUpgradeFilter = World.Filter
                 .With<BuildingTag>()
                 .With<BuildingWithUpgradeMark>()
                 .Build();
+            _markFilter = World.Filter.With<UpgradeMarkTag>().Build();
         }
 
         public void OnUpdate(float deltaTime)
         {
+            foreach (var entity in _markFilter)
+            {
+                ref readonly var mark = ref entity.GetComponent<UpgradeMarkTag>();
+                if (mark.Building.IsNullOrDisposed())
+                {
+                    entity.Dispose();
+                    continue;
+                }
+
+                if (mark.Building.Has<DestroyedTag>())
+                {
+                    entity.Dispose();
+                    if (mark.Building.Has<BuildingWithUpgradeMark>())
+                    {
+                        mark.Building.RemoveComponent<BuildingWithUpgradeMark>();
+                    }
+                }
+            }
+
+            World.Commit();
+
             var stoneAmount = 0;
             var woodAmount = 0;
             foreach (var entity in _woodStorageFilter)
             {
                 woodAmount += _woodStorageStash.Get(entity).Current;
             }
+
             foreach (var entity in _stoneStorageFilter)
             {
                 stoneAmount += _stoneStorageStash.Get(entity).Current;
             }
-            
+
             foreach (var tower in _towersToUpgradeFilter)
             {
                 if (tower.Has<MaxLevelReachedTag>())
@@ -143,17 +168,19 @@ namespace Project.Runtime.ECS.Systems.Building
                     ClearMark(tower);
                     continue;
                 }
-                
+
                 ref readonly var buildingTag = ref tower.GetComponent<BuildingTag>();
                 if (_buildingsDatabase.TryGetById(buildingTag.BuildingConfigId, out var buildingConfig) &&
                     buildingConfig is UpgradableTowerConfig upgradableTowerConfig &&
                     buildingTag.Level < upgradableTowerConfig.UpgradePrices.Length)
                 {
                     var price = upgradableTowerConfig.UpgradePrices[buildingTag.Level];
-                    if (price.stonePrice > stoneAmount || price.woodPrice >= woodAmount)
+                    if (price.stonePrice > stoneAmount || price.woodPrice >= woodAmount ||
+                        buildingTag.Level >= upgradableTowerConfig.UpgradePrices.Length)
                     {
                         ClearMark(tower);
                     }
+
                     return;
                 }
             }
