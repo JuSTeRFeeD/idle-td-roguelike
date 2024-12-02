@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using VContainer.Unity;
+using YG;
 
 namespace Project.Runtime.Core
 {
@@ -83,6 +84,8 @@ namespace Project.Runtime.Core
 
         private void AsyncLoad_completed(AsyncOperation obj)
         {
+            YG2.GameReadyAPI();
+            
             obj.completed -= AsyncLoad_completed;
             _loadingCanvasGroup
                 .DOFade(0, FadeTime)
