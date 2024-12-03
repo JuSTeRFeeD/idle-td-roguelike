@@ -61,7 +61,7 @@ namespace Project.Runtime.Lobby.ProgressionRewards
                 _persistentPlayerData.WalletByCurrency[reward.currencyTuple.currencyConfig].Add((ulong)reward.currencyTuple.amount);
             }
             
-            _saveManager.Save();
+            _saveManager.Save(false);
             
             rewardItemViews[i].SetCollected(true);
         }

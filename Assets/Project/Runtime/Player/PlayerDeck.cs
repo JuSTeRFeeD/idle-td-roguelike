@@ -163,7 +163,7 @@ namespace Project.Runtime.Player
             deckCard.CardSaveData.equippedAtSlot = toSlotIndex;
             deckCard.CardSaveData.isEquipped = true;
             
-            _saveManager.Save();
+            _saveManager.Save(false);
             OnChangeEquipment?.Invoke();
         }
         

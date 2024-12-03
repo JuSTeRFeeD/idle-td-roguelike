@@ -134,7 +134,7 @@ namespace Project.Runtime.Lobby.Missions.MissionsWithTimer
                     throw new ArgumentOutOfRangeException();
             }
             
-            _saveManager.Save();
+            _saveManager.Save(true);
         }
         
         /// <returns>True - need to save</returns>

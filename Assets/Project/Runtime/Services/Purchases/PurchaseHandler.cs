@@ -28,7 +28,7 @@ namespace Runtime.Services.Purchases
                 var giveAmount = uint.Parse(purchaseId.Split("_")[1]);
                 var wallet = _persistentPlayerData.GetWalletByCurrencyId(HardCurrencyId);
                 wallet.Add(giveAmount);
-                _saveManager.Save();
+                _saveManager.Save(true);
             }
         }
     }

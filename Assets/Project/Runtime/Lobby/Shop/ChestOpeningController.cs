@@ -143,7 +143,7 @@ namespace Project.Runtime.Lobby.Shop
                 });
                 _totalDroppedItemsCount++;
             }
-            _saveManager.Save();
+            _saveManager.Save(true);
             _playerDeck.EquipmentChanged();
 
             switch (chestType)

@@ -8,6 +8,7 @@ namespace Project.Runtime.Features.Tooltip
     {
         [Inject] private TooltipRenderer _tooltipRenderer;
         
+        [TextArea]
         [SerializeField] private string tooltipText;
 
         private bool _isPointerDown;

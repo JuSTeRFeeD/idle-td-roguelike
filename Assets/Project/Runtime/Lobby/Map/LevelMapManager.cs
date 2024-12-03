@@ -60,7 +60,7 @@ namespace Project.Runtime.Lobby.Map
         private void Save()
         {
             _persistentPlayerData.MapData = LevelMapGenerator.Serialize(_sceneSharedData.MapPoints);
-            _saveManager.Save();
+            _saveManager.Save(false);
         }
 
         private void InitMap()

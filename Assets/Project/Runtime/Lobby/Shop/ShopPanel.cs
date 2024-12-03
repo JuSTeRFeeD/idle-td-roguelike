@@ -119,7 +119,7 @@ namespace Project.Runtime.Lobby.Shop
                     throw new ArgumentOutOfRangeException();
             }
             
-            _saveManager.Save();
+            _saveManager.Save(true);
         }
     }
 }

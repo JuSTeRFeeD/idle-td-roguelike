@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Project.Runtime.Core;
 using Project.Runtime.Core.Data;
@@ -11,9 +12,11 @@ namespace Project.Runtime.Services.Saves.YandexSaves
 {
     public class YandexSaveManager : ISaveManager
     {
-        private PersistentPlayerData _persistentPlayerData;
-        private ICoroutineRunner _coroutineRunner;
+        private readonly PersistentPlayerData _persistentPlayerData;
+        private readonly ICoroutineRunner _coroutineRunner;
 
+        private Coroutine _saveRoutine;
+        
         [Inject]
         public YandexSaveManager(PersistentPlayerData persistentPlayerData, ICoroutineRunner coroutineRunner)
         {
@@ -27,7 +30,7 @@ namespace Project.Runtime.Services.Saves.YandexSaves
             YG2.onGetSDKData -= Load;
         }
         
-        public void Save()
+        public void Save(bool force = false)
         {
             var data = YG2.saves.playerProgressData;
             
@@ -43,7 +46,7 @@ namespace Project.Runtime.Services.Saves.YandexSaves
             
             // Balance
             data.balanceByCurrencyId?.Clear();
-            var balanceDict = new Dictionary<string, ulong> ();
+            var balanceDict = new Dictionary<string, ulong>();
             foreach (var (key, value) in _persistentPlayerData.WalletByCurrency)
             {
                 balanceDict.Add(key.uniqueID, value.Balance);
@@ -62,7 +65,21 @@ namespace Project.Runtime.Services.Saves.YandexSaves
             data.weeklyMissions = _persistentPlayerData.WeeklyMissions;
             data.dailyRewardProgressCollected = _persistentPlayerData.DailyRewardProgressCollected;
             data.weeklyRewardProgressCollected = _persistentPlayerData.WeeklyRewardProgressCollected;
-            
+
+            if (force)
+            {
+                YG2.SaveProgress();
+            }
+            else
+            {
+                if (_saveRoutine != null) _coroutineRunner.StopCoroutine(_saveRoutine);
+                _coroutineRunner.StartCoroutine(DelayedSave());
+            }
+        }
+
+        private IEnumerator DelayedSave()
+        {
+            yield return new WaitForSeconds(4.5f);
             YG2.SaveProgress();
         }
 

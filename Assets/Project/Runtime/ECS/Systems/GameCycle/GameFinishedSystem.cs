@@ -76,7 +76,7 @@ namespace Project.Runtime.ECS.Systems.GameCycle
 
                 TutorialComplete();
                 
-                _saveManager.Save();
+                _saveManager.Save(true);
                 
                 // Setup end game panel
                 _gameFinishedPanel.SetDrops(currencyDrops, randomCardDrop);

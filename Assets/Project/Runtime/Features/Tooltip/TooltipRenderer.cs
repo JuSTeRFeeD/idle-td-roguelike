@@ -37,7 +37,7 @@ namespace Project.Runtime.Features.Tooltip
             Vector3[] corners = new Vector3[4];
             targetRect.GetWorldCorners(corners); // Получаем углы элемента в мировых координатах
 
-            // Считаем центр элемента
+            // Рассчитываем центр элемента
             Vector3 targetPosition = (corners[0] + corners[2]) / 2;
 
             // Переводим мировые координаты в экранные
@@ -50,21 +50,48 @@ namespace Project.Runtime.Features.Tooltip
                 uiCamera,
                 out Vector2 localPoint);
 
-            // Определяем направление от элемента к центру экрана
-            Vector2 canvasCenter = Vector2.zero; // Центр Canvas
-            Vector2 directionToCenter = (canvasCenter - localPoint).normalized;
+            // Определяем размеры элемента
+            Vector2 elementSize = targetRect.rect.size;
 
-            // Устанавливаем позицию с учетом отступа в сторону центра и не перекрывая элемент
-            float offsetDistance = Mathf.Max(targetRect.rect.width, targetRect.rect.height) / 2 + tooltipOffset.magnitude;
-            Vector2 targetTooltipPosition = localPoint + directionToCenter * offsetDistance;
+            // Начальная позиция тултипа рядом с элементом
+            Vector2 tooltipPosition = localPoint;
 
-            // Ограничиваем тултип внутри границ Canvas
+            // Вычисляем базовые смещения
+            float horizontalOffset = elementSize.x / 2.5f + tooltipRectTransform.rect.width / 4f;
+            float verticalOffset = elementSize.y / 2f + tooltipRectTransform.rect.height / 2f;
+
+            // Попытка разместить тултип в сторону центра экрана
+            tooltipPosition.x += (localPoint.x > 0 ? -horizontalOffset : horizontalOffset);
+            tooltipPosition.y += (localPoint.y > 0 ? -verticalOffset : verticalOffset);
+
+            // Ограничиваем тултип в пределах Canvas
             RectTransform canvasRect = canvas.transform as RectTransform;
             Vector2 canvasSize = canvasRect.sizeDelta;
             Vector2 tooltipSize = tooltipRectTransform.sizeDelta;
 
-            float clampedX = Mathf.Clamp(targetTooltipPosition.x, -canvasSize.x / 2 + tooltipSize.x / 2, canvasSize.x / 2 - tooltipSize.x / 2);
-            float clampedY = Mathf.Clamp(targetTooltipPosition.y, -canvasSize.y / 2 + tooltipSize.y / 2, canvasSize.y / 2 - tooltipSize.y / 2);
+            float clampedX = Mathf.Clamp(
+                tooltipPosition.x,
+                -canvasSize.x / 2 + tooltipSize.x / 2,
+                canvasSize.x / 2 - tooltipSize.x / 2);
+
+            float clampedY = Mathf.Clamp(
+                tooltipPosition.y,
+                -canvasSize.y / 2 + tooltipSize.y / 2,
+                canvasSize.y / 2 - tooltipSize.y / 2);
+
+            // Если тултип сдвинут за границы экрана, корректируем его положение
+            if (tooltipPosition.x != clampedX)
+            {
+                tooltipPosition.x = clampedX;
+                tooltipPosition.y = localPoint.y > 0 ? localPoint.y - verticalOffset : localPoint.y + verticalOffset;
+            }
+
+            if (tooltipPosition.y != clampedY)
+            {
+                tooltipPosition.y = clampedY;
+                tooltipPosition.x =
+                    localPoint.x > 0 ? localPoint.x - horizontalOffset : localPoint.x + horizontalOffset;
+            }
 
             tooltipRectTransform.anchoredPosition = new Vector2(clampedX, clampedY);
         }

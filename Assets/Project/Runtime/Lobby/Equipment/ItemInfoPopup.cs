@@ -90,7 +90,7 @@ namespace Project.Runtime.Lobby.Equipment
                 _deckCard.CardSaveData.amount -= amountToUpgrade;
                 SetDeckCard(_deckCard);
                 _persistentPlayerData.PlayerStatistics.AddStatistics(GlobalStatisticsType.UpgradedTowers);
-                _saveManager.Save();
+                _saveManager.Save(true);
                 
                 levelText.transform.DOKill(true);
                 levelText.transform.DOPunchScale(Vector3.one * 1.2f, 1f, 1).SetLink(levelText.gameObject);

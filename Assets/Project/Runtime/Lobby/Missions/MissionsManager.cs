@@ -38,7 +38,7 @@ namespace Project.Runtime.Lobby.Missions
             WeeklyMissionsManager = new TimedMissionsManager(_serverTime, _missionTimer, 
                 TimedMissionsType.Weekly, _persistentPlayerData, _missionsDatabase, _saveManager);
 
-            _saveManager.Save();
+            _saveManager.Save(false);
         }
 
         public void Refresh()
@@ -46,7 +46,7 @@ namespace Project.Runtime.Lobby.Missions
             var needToSave = false;
             needToSave = DailyMissionsManager.Refresh();
             // needToSave = needToSave || WeeklyMissionsManager.Refresh(); // disabled for now
-            if (needToSave) _saveManager.Save();
+            if (needToSave) _saveManager.Save(false);
             OnRefreshed?.Invoke();
         }
 
