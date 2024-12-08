@@ -15,6 +15,8 @@ namespace Project.Runtime.Core
         private readonly CanvasGroup _loadingCanvasGroup;
         private const float FadeTime = 0.5f;
 
+        public static bool _ygGameReady = false;
+
         public SceneLoader(LifetimeScope currentScope, CanvasGroup loadingCanvasGroup)
         {
             _loadingCanvasGroup = loadingCanvasGroup;
@@ -84,8 +86,6 @@ namespace Project.Runtime.Core
 
         private void AsyncLoad_completed(AsyncOperation obj)
         {
-            YG2.GameReadyAPI();
-            
             obj.completed -= AsyncLoad_completed;
             _loadingCanvasGroup
                 .DOFade(0, FadeTime)
@@ -96,7 +96,18 @@ namespace Project.Runtime.Core
                     _fadeInProgress = false;
                     _loadingCanvasGroup.blocksRaycasts = false;
                     _loadingCanvasGroup.interactable = false;
+
+                    YG2GameReady();
                 });
+        }
+
+        private static void YG2GameReady()
+        {
+            if (!_ygGameReady)
+            {
+                YG2.GameReadyAPI();
+                _ygGameReady = true;
+            }
         }
     }
 }
