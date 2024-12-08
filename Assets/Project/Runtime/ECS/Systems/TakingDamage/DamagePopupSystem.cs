@@ -24,6 +24,8 @@ namespace Project.Runtime.ECS.Systems.TakingDamage
         {
             _filter = World.Filter
                 .With<DamageAccumulator>()
+                .Without<DestroyedTag>()
+                .Without<ToDestroyTag>()
                 .Build();
 
             _damageAccumulatorStash = World.GetStash<DamageAccumulator>();
@@ -34,6 +36,8 @@ namespace Project.Runtime.ECS.Systems.TakingDamage
         {
             foreach (var entity in _filter)
             {
+                Debug.Log($"Popup {entity.ID}");
+                
                 ref readonly var damageAccumulator = ref _damageAccumulatorStash.Get(entity);
                 ref readonly var viewEntity = ref _viewEntityStash.Get(entity);
                 var pos = viewEntity.Value.transform.position;

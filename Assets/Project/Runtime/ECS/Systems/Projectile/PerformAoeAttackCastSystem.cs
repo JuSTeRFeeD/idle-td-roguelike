@@ -101,7 +101,7 @@ namespace Project.Runtime.ECS.Systems.Projectile
         private void DealDamageInRange(Entity entity, in Filter filter)
         {
             var attackDamageRuntime= _performingDamageStash.Get(entity).Value;
-            var count = FindByAttackRangeExt.GetInRangeFilterNoAlloc(entity, filter, _attackRangeRuntimeStash.Get(entity).Value, _viewEntityStash, ref _hits);
+            var count = FindTargetExtension.GetInRangeFilterNoAlloc(entity, filter, _attackRangeRuntimeStash.Get(entity).Value, _viewEntityStash, ref _hits);
             for (var i = 0; i < count; i++)
             {
                 var hitTo = _hits[i];

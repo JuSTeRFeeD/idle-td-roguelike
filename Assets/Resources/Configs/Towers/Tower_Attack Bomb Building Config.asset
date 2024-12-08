@@ -45,10 +45,10 @@ MonoBehaviour:
   projectileSpeed: 2
   damage:
     min: 192
-    max: 968
+    max: 800
   attackCooldown:
-    min: 5
-    max: 30
-  attackRange:
     min: 3
-    max: 5
+    max: 20
+  attackRange:
+    min: 4.5
+    max: 6

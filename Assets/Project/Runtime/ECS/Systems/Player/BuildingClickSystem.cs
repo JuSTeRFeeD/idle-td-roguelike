@@ -25,18 +25,13 @@ namespace Project.Runtime.ECS.Systems.Player
         [Inject] private BuildingsDatabase _buildingsDatabase;
         [Inject] private MapManager _mapManager;
         [Inject] private WorldSetup _worldSetup;
+        [Inject] private ResourceCounter _resourceCounter;
 
         public World World { get; set; }
 
         private Entity _selectedEntity;
-
         private Filter _unitsFilter;
         
-        private Filter _stoneStorageFilter;
-        private Filter _woodStorageFilter;
-        private Stash<WoodStorage> _woodStorageStash;
-        private Stash<StoneStorage> _stoneStorageStash;
-
         public void OnAwake()
         {
             _cameraController.OnEntityViewClick += OnClickEntityView;
@@ -47,15 +42,6 @@ namespace Project.Runtime.ECS.Systems.Player
                 .With<UnitTag>()
                 .With<Owner>()
                 .Build();
-
-            _woodStorageFilter = World.Filter
-                .With<WoodStorage>()
-                .Build();
-            _stoneStorageFilter = World.Filter
-                .With<StoneStorage>()
-                .Build();
-            _woodStorageStash = World.GetStash<WoodStorage>();
-            _stoneStorageStash = World.GetStash<StoneStorage>();
         }
 
         private void CloseManagement()
@@ -221,17 +207,7 @@ namespace Project.Runtime.ECS.Systems.Player
             // Отображение для грейда сколько имеем ресов
             if (_selectedEntity.Has<BuildingTag>())
             {
-                var stoneAmount = 0;
-                var woodAmount = 0;
-                foreach (var entity in _woodStorageFilter)
-                {
-                    woodAmount += _woodStorageStash.Get(entity).Current;
-                }
-                foreach (var entity in _stoneStorageFilter)
-                {
-                    stoneAmount += _stoneStorageStash.Get(entity).Current;
-                }
-                _buildingManagementPanel.SetUpgradeTowerWidgetTotalResourcesAmount(woodAmount, stoneAmount);
+                _buildingManagementPanel.SetUpgradeTowerWidgetTotalResourcesAmount(_resourceCounter.WoodAmount, _resourceCounter.StoneAmount);
             }
             
             // Attack towers stats

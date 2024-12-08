@@ -117,6 +117,21 @@ namespace Project.Runtime.ECS.Systems.Player
                 AdditionalBounces = 0
             });
             
+            // Bomb
+            var bombUpgradesEntity = World.CreateEntity();
+            bombUpgradesEntity.AddComponent<BombTowerUpgradesTag>();
+            bombUpgradesEntity.SetComponent(new DontDestroyBombTowerPerk
+            {
+                ChanceToDontDestroy = 0.3f
+            });
+            bombUpgradesEntity.SetComponent(new TowerAttackUpgrades
+            {
+                AttackDamageMultiplier = 1,
+                AttackSpeedMultiplier = 1,
+                CriticalChance = criticalChance,
+                CriticalDamage = criticalDamage
+            });
+            
             // Tomb
             var tombUpgradesEntity = World.CreateEntity();
             tombUpgradesEntity.AddComponent<TombTowerUpgradesTag>();

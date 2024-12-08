@@ -48,6 +48,7 @@ namespace Project.Runtime.Core
             builder.RegisterInstance<LevelUpPanel>(levelUpPanel);
             builder.RegisterInstance<GameFinishedPanel>(gameFinishedPanel);
             
+            builder.Register<ResourceCounter>(Lifetime.Singleton);
             builder.Register<LevelUpCardsManager>(Lifetime.Singleton);
             builder.Register<InventoryStorage>(Lifetime.Singleton);
             builder.RegisterInstance<HandsManager>(handsManager);
@@ -58,6 +59,7 @@ namespace Project.Runtime.Core
             builder.RegisterInstance<MapManager>(mapManager);
             
             builder.RegisterInstance<TutorialPanel>(tutorialPanel);
+
             
             // Initialize ecs
             if (World.Default == null) World.Create("Main");

@@ -52,13 +52,14 @@ namespace Project.Runtime.ECS.Systems.Projectile
                 ref readonly var performingDamage = ref entity.GetComponent<PerformingDamage>();
                 ref readonly var splashDamage = ref entity.GetComponent<SplashDamageRuntime>();
 
-                var count = FindByAttackRangeExt.GetInRangeFilterNoAlloc(hitEntity, _enemiesFilter, splashDamage.Radius, _viewEntityStash, ref _hits);
+                var count = FindTargetExtension.GetInRangeFilterNoAlloc(hitEntity, _enemiesFilter, splashDamage.Radius, _viewEntityStash, ref _hits);
                 
-                Debug.Log($"Splash attack from{entity.ID.ToString()} | dmg {performingDamage.Value} radius {splashDamage.Radius} percentFromDamage {splashDamage.PercentFromDamage}");
+                Debug.Log($"Splash {count} attack from{entity.ID.ToString()} | dmg {performingDamage.Value} radius {splashDamage.Radius} percentFromDamage {splashDamage.PercentFromDamage}");
                 
                 for (var i = 0; i < count; i++)
                 {
                     var hitTo = _hits[i];
+                    Debug.Log($"Splash damaged to {hitTo.ID}");
                     ref var damageAccumulator = ref _damageAccumulatorStash.AddOrGet(hitTo);
                     damageAccumulator.Value += performingDamage.Value * splashDamage.PercentFromDamage;
                     damageAccumulator.IsCritical = damageAccumulator.IsCritical || performingDamage.IsCritical;

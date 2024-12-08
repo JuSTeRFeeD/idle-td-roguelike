@@ -72,6 +72,7 @@ namespace Project.Runtime.ECS
             _commonSystemsGroup.AddInitializer<ViewEntityDisposableInitializer>();
             
             // --- STATS ---
+            _commonSystemsGroup.AddSystem<ResourceCalculationSystem>();
             _commonSystemsGroup.AddSystem<RuntimeStatsResetSystem>();
             _commonSystemsGroup.AddSystem<ApplyTowerPerkUpgradesSystem>();
             

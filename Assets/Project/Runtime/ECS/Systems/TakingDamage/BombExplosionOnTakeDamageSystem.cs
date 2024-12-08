@@ -54,6 +54,9 @@ namespace Project.Runtime.ECS.Systems.TakingDamage
                     Radius = entity.GetComponent<AttackRangeRuntime>().Value,
                     PercentFromDamage = 1f
                 });
+                bombSplashDamageEntity.SetComponent(new ToDestroyTag());
+                
+                // Damage & Critical damage
                 ref readonly var damageRuntime = ref entity.GetComponent<AttackDamageRuntime>().Value;
                 var damage = damageRuntime;
                 var isCritical = false;
@@ -73,9 +76,12 @@ namespace Project.Runtime.ECS.Systems.TakingDamage
                     IsCritical = isCritical
                 });
 
+                // Chance to go to the cooldown except destroy 
                 if (_bombPerkFilter.IsNotEmpty())
                 {
-                    ref readonly var chance = ref _bombPerkFilter.First().GetComponent<DontDestroyBombTowerPerk>()
+                    ref readonly var chance = ref _bombPerkFilter
+                        .First()
+                        .GetComponent<DontDestroyBombTowerPerk>()
                         .ChanceToDontDestroy;
 
                     if (Random.Range(0f, 1f) > chance) return;

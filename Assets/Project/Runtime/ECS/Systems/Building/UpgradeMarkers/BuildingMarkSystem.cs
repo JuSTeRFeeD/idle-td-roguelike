@@ -1,42 +1,43 @@
 using Project.Runtime.ECS.Components;
+using Project.Runtime.ECS.Extensions;
 using Project.Runtime.Player.Databases;
 using Project.Runtime.Scriptable.Buildings;
-using Project.Runtime.Services.PlayerProgress;
 using Scellecs.Morpeh;
+using UnityEngine;
 using VContainer;
 
-namespace Project.Runtime.ECS.Systems.Player
+namespace Project.Runtime.ECS.Systems.Building
 {
+    //
+    // Системы маркера над постройками, которые можно улучшить
+    //
+
     [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.NullChecks, false)]
     [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.ArrayBoundsChecks, false)]
     [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.DivideByZeroChecks, false)]
-    public class AutoUpgradeTowersSystem : ISystem
+    public class BuildingMarkSystem : ISystem
     {
-        [Inject] private PersistentPlayerData _persistentPlayerData;
         [Inject] private BuildingsDatabase _buildingsDatabase;
+        [Inject] private WorldSetup _worldSetup;
         [Inject] private ResourceCounter _resourceCounter;
-        
+
         public World World { get; set; }
         
         private Filter _towersToUpgradeFilter;
-        private float _delay;
 
         public void OnAwake()
         {
             _towersToUpgradeFilter = World.Filter
                 .With<BuildingTag>()
+                .Without<IsAttackOnCooldown>()
                 .Without<MaxLevelReachedTag>()
+                .Without<BuildingWithUpgradeMark>()
+                .Without<DestroyedTag>()
                 .Build();
         }
 
         public void OnUpdate(float deltaTime)
         {
-            if (!_persistentPlayerData.AutoUpgradeTowersChecked) return;
-
-            _delay -= deltaTime;
-            if (_delay > 0) return;
-            _delay = 0.5f;
-            
             foreach (var tower in _towersToUpgradeFilter)
             {
                 ref readonly var buildingTag = ref tower.GetComponent<BuildingTag>();
@@ -50,7 +51,16 @@ namespace Project.Runtime.ECS.Systems.Player
                     {
                         continue;
                     }
-                    tower.AddComponent<UpgradeBuildingRequest>();
+
+                    var mark = World.CreateEntity();
+                    mark.SetComponent(new UpgradeMarkTag { Building = tower });
+                    mark.InstantiateView(_worldSetup.WorldMarkView, tower.ViewPosition(), Quaternion.identity);
+
+                    tower.SetComponent(new BuildingWithUpgradeMark
+                    {
+                        MarkEntity = mark
+                    });
+
                     return;
                 }
             }

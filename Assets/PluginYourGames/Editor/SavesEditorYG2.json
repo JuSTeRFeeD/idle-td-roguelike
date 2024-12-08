@@ -13,11 +13,11 @@
         false,
         false
     ],
-    "idSave": 1582,
+    "idSave": 1608,
     "playerProgressData": {
         "isInGameTutorialCompleted": true,
-        "mapSave": "0,1|1,1|1|0|1,1|2,2|1|0|2,2|2,1|0|0|2,1|2,0|0|0|2,0|3,0;1,0|0|0|3,0|4,1;3,1|0|0|4,1|4,0;4,2|0|0|4,0|5,1|0|0|5,1|n|0|2|1,0|n|0|1|3,1|n|0|1|4,2|n|0|1",
-        "curMapPointIndex": 1,
+        "mapSave": "0,1|1,1|1|0|1,1|2,2|1|0|2,2|2,1|1|0|2,1|2,0|0|0|2,0|3,0;1,0|0|0|3,0|4,1;3,1|0|0|4,1|4,0;4,2|0|0|4,0|5,1|0|0|5,1|n|0|2|1,0|n|0|1|3,1|n|0|1|4,2|n|0|1",
+        "curMapPointIndex": 3,
         "completedMapsCount": 0,
         "autoUpgradeTowersChecked": true,
         "balanceByCurrencyId": {
@@ -33,13 +33,13 @@
             ],
             "values": [
                 1075,
-                262,
-                1792,
-                3,
-                1,
-                1,
-                5,
-                0
+                910,
+                2661,
+                0,
+                0,
+                0,
+                0,
+                950
             ]
         },
         "inventoryCards": [
@@ -57,7 +57,7 @@
                 "equippedAtSlot": 1,
                 "isEquipped": true,
                 "level": 0,
-                "amount": 3
+                "amount": 4
             },
             {
                 "id": "1709d3d1-49ca-4bf8-88fe-ce61606c64c5",
@@ -65,7 +65,7 @@
                 "equippedAtSlot": 2,
                 "isEquipped": true,
                 "level": 0,
-                "amount": 4
+                "amount": 10
             },
             {
                 "id": "ef4d5bd8-82ed-427c-ad35-b533b536b36e",
@@ -73,7 +73,7 @@
                 "equippedAtSlot": 3,
                 "isEquipped": true,
                 "level": 0,
-                "amount": 3
+                "amount": 4
             },
             {
                 "id": "da32a0fd-8587-4a1b-bd9d-a8486e9592ee",
@@ -81,7 +81,7 @@
                 "equippedAtSlot": -1,
                 "isEquipped": false,
                 "level": 0,
-                "amount": 6
+                "amount": 7
             },
             {
                 "id": "130b1aea-2e2a-4b8e-99da-3a0335e10c1d",
@@ -93,11 +93,11 @@
             },
             {
                 "id": "b5e420d8-dde4-4f27-887b-30345c0c2d58",
-                "isOpen": false,
+                "isOpen": true,
                 "equippedAtSlot": -1,
                 "isEquipped": false,
                 "level": 0,
-                "amount": 0
+                "amount": 1
             },
             {
                 "id": "7fd66f83-511c-46d5-98cb-7cd642b78154",
@@ -105,7 +105,7 @@
                 "equippedAtSlot": -1,
                 "isEquipped": false,
                 "level": 0,
-                "amount": 2
+                "amount": 5
             }
         ],
         "globalStatistics": {
@@ -114,27 +114,29 @@
                 1,
                 2,
                 0,
-                3
+                3,
+                9
             ],
             "values": [
-                829,
-                27,
-                735,
-                589923,
-                2
+                1320,
+                52,
+                1112,
+                850382,
+                3,
+                6
             ]
         },
         "dailyMissions": {
             "startTime": 1721201231000,
             "missionIds": [
-                "2ee4a9c3-6b01-4c0c-bc4d-de2d8ad78e42",
-                "48e1bc4c-1629-415b-92aa-754a6c1b169b",
-                "4e6024c4-8bea-41a6-a762-74aa1eb7f626",
-                "acd561f7-e260-41e5-b663-62206292546c",
                 "19cfdceb-3755-406f-86f2-d70ec2fb1a96",
-                "388c780c-5f33-4f38-aff4-e335c87ebf0e",
+                "2f1d0b9e-8521-41b8-849b-8d17307250e2",
                 "824659a8-8307-4195-850f-e048fa27dabc",
-                "2f1d0b9e-8521-41b8-849b-8d17307250e2"
+                "388c780c-5f33-4f38-aff4-e335c87ebf0e",
+                "acd561f7-e260-41e5-b663-62206292546c",
+                "4e6024c4-8bea-41a6-a762-74aa1eb7f626",
+                "48e1bc4c-1629-415b-92aa-754a6c1b169b",
+                "2ee4a9c3-6b01-4c0c-bc4d-de2d8ad78e42"
             ],
             "valueAtStart": [
                 0,
@@ -147,24 +149,24 @@
                 0
             ],
             "completed": [
+                false,
+                false,
                 true,
                 true,
                 true,
-                false,
-                false,
-                false,
-                false,
-                false
+                true,
+                true,
+                true
             ],
             "rewarded": [
                 false,
                 false,
-                false,
-                false,
-                false,
-                false,
-                false,
-                false
+                true,
+                true,
+                true,
+                true,
+                true,
+                true
             ]
         },
         "weeklyMissions": {
@@ -183,9 +185,9 @@
             ]
         },
         "dailyRewardProgressCollected": [
-            false,
-            false,
-            false,
+            true,
+            true,
+            true,
             false
         ],
         "weeklyRewardProgressCollected": [

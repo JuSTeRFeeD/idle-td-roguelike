@@ -21,7 +21,7 @@ namespace Project.Runtime.ECS.Views
             DOTween.Sequence()
                 .Append(transform.DOMove(endPosition, AnimationDuration).SetEase(Ease.OutQuart))
                 .Join(transform.DOScale(Vector3.one * 1.1f, AnimationDuration).SetEase(Ease.Linear))
-                .Join(transform.DOScale(Vector3.zero / 2f, AnimationDuration).SetEase(Ease.InQuart))
+                .Join(transform.DOScale(Vector3.zero, AnimationDuration).SetEase(Ease.InQuart))
                 .SetLink(gameObject);
         }
 

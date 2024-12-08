@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Project.Runtime.ECS.Components;
 using Scellecs.Morpeh;
@@ -7,7 +8,7 @@ namespace Project.Runtime.ECS.Systems.FindTarget
     [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.NullChecks, false)]
     [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.ArrayBoundsChecks, false)]
     [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.DivideByZeroChecks, false)]
-    public static class FindByAttackRangeExt
+    public static class FindTargetExtension
     {
         [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.NullChecks, false)]
         [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.ArrayBoundsChecks, false)]
@@ -41,6 +42,58 @@ namespace Project.Runtime.ECS.Systems.FindTarget
                     Value = nearestEntity
                 });
             }
+        }
+        
+        [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.NullChecks, false)]
+        [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.ArrayBoundsChecks, false)]
+        [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.DivideByZeroChecks, false)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Entity GetNearestByFilter(in Entity entity, in Filter targetsFilter, float radius,
+            Stash<ViewEntity> viewStash, HashSet<Entity> used)
+        {
+            var entityPos = viewStash.Get(entity).Value.transform.position;
+
+            var nearestSqrMagnitude = radius * radius; // Начальное значение — квадрат радиуса атаки
+            Entity nearestEntity = null;
+
+            foreach (var target in targetsFilter)
+            {
+                var targetPos = viewStash.Get(target).Value.transform.position;
+                var sqrMagnitude = (targetPos - entityPos).sqrMagnitude;
+
+                // Если цель ближе и находится в радиусе атаки
+                if (sqrMagnitude > nearestSqrMagnitude || used.Contains(target)) continue;
+                nearestSqrMagnitude = sqrMagnitude;
+                nearestEntity = target;
+            }
+
+            return nearestEntity;
+        }
+        
+        [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.NullChecks, false)]
+        [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.ArrayBoundsChecks, false)]
+        [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.DivideByZeroChecks, false)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Entity GetNearestByFilter(in Entity entity, in Filter targetsFilter, float radius,
+            Stash<ViewEntity> viewStash)
+        {
+            var entityPos = viewStash.Get(entity).Value.transform.position;
+
+            var nearestSqrMagnitude = radius * radius; // Начальное значение — квадрат радиуса атаки
+            Entity nearestEntity = null;
+
+            foreach (var target in targetsFilter)
+            {
+                var targetPos = viewStash.Get(target).Value.transform.position;
+                var sqrMagnitude = (targetPos - entityPos).sqrMagnitude;
+
+                // Если цель ближе и находится в радиусе атаки
+                if (sqrMagnitude > nearestSqrMagnitude) continue;
+                nearestSqrMagnitude = sqrMagnitude;
+                nearestEntity = target;
+            }
+
+            return nearestEntity;
         }
         
         [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.NullChecks, false)]

@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using Project.Runtime.ECS.Components;
-using Project.Runtime.ECS.Extensions;
+using Project.Runtime.ECS.Systems.FindTarget;
 using Scellecs.Morpeh;
-using UnityEngine;
+using VContainer;
 
 namespace Project.Runtime.ECS.Systems.Units
 {
@@ -11,13 +11,16 @@ namespace Project.Runtime.ECS.Systems.Units
     [Unity.IL2CPP.CompilerServices.Il2CppSetOption(Unity.IL2CPP.CompilerServices.Option.DivideByZeroChecks, false)]
     public class UnitFindResourceTargetSystem : ISystem
     {
+        [Inject] private ResourceCounter _resourceCounter;
+        
         public World World { get; set; }
 
         private Filter _unitsFilter;
-        private Filter _mapResourcesFilter;
+        private Filter _anyResourcesFilter;
+        private Filter _treeResourcesFilter;
+        private Filter _stoneResourcesFilter;
         
-        private Filter _woodStorageFilter;
-        private Filter _stoneStorageFilter;
+        private Stash<ViewEntity> _viewEntityStash;
         
         public void OnAwake()
         {
@@ -29,24 +32,30 @@ namespace Project.Runtime.ECS.Systems.Units
                 .Without<MoveToResource>()
                 .Build();
             
-            _mapResourcesFilter = World.Filter
+            _anyResourcesFilter = World.Filter
                 .With<MapResourceTag>()
                 .With<ViewEntity>()
                 .Without<SomeUnitInteractsWithThisTag>()
                 .Build();
+            _treeResourcesFilter  = World.Filter
+                .With<MapResourceTag>()
+                .With<TreeTag>()
+                .With<ViewEntity>()
+                .Without<SomeUnitInteractsWithThisTag>()
+                .Build();
+            _stoneResourcesFilter = World.Filter
+                .With<MapResourceTag>()
+                .With<StoneTag>()
+                .With<ViewEntity>()
+                .Without<SomeUnitInteractsWithThisTag>()
+                .Build();
 
-            _woodStorageFilter = World.Filter.With<WoodStorage>().Without<WoodStorageFullTag>().Build();
-            _stoneStorageFilter = World.Filter.With<StoneStorage>().Without<StoneStorageFullTag>().Build();
+            _viewEntityStash = World.GetStash<ViewEntity>();
         }
 
         public void OnUpdate(float deltaTime)
         {
-            var used = new HashSet<Entity>();
-
-            var needWood = _woodStorageFilter.IsNotEmpty();
-            var needStone = _stoneStorageFilter.IsNotEmpty();
-            
-            if (!needWood && !needStone)
+            if (_resourceCounter.WoodFull && _resourceCounter.StoneFull)
             {
                 foreach (var entity in _unitsFilter)
                 {
@@ -54,55 +63,57 @@ namespace Project.Runtime.ECS.Systems.Units
                 }
                 return;
             }
-            
-            foreach (var entity in _unitsFilter)
+
+            var woodIsPrimary = _resourceCounter.WoodAmount < _resourceCounter.StoneAmount;
+            var stoneIsPrimary = _resourceCounter.WoodAmount > _resourceCounter.StoneAmount;
+            var used = new HashSet<Entity>();
+
+            if (woodIsPrimary)
             {
-                var unitPos = entity.GetComponent<ViewEntity>().Value.transform.position;
-                var minSqrDis = float.MaxValue;
-                var nearestPosition = Vector3.zero;
-                Entity nearestEntity = null; 
-            
-                foreach (var resourceEntity in _mapResourcesFilter)
+                foreach (var unitEntity in _unitsFilter)
                 {
-                    if (!needWood && resourceEntity.Has<TreeTag>()) continue;
-                    if (!needStone && resourceEntity.Has<StoneTag>()) continue;
-                    
-                    var pos = resourceEntity.ViewPosition();
-
-                    var sqrDist = Vector3.SqrMagnitude(pos - unitPos);
-                    if (sqrDist > minSqrDis || used.Contains(resourceEntity))
-                    {
-                        continue;
-                    }
-
-                    minSqrDis = sqrDist;
-                    nearestEntity = resourceEntity;
-                    nearestPosition = pos;
+                    var nearestResource = FindTargetExtension.GetNearestByFilter(unitEntity, _treeResourcesFilter, 100f, _viewEntityStash, used);
+                    if (nearestResource == null) continue;
+                    SetTargetResource(unitEntity, nearestResource, used);
                 }
-
-                entity.RemoveComponent<FindResourceRequest>();
-                if (nearestEntity == null)
-                {
-                    continue;
-                }
-            
-                entity.SetComponent(new AStarCalculatePathRequest
-                {
-                    Entity = nearestEntity,
-                    TargetPosition = nearestPosition
-                });
-                entity.SetComponent(new MoveToResource
-                {
-                    Entity = nearestEntity
-                });
-                nearestEntity.SetComponent(new SomeUnitInteractsWithThisTag());
-                used.Add(nearestEntity);
             }
             
+            if (stoneIsPrimary)
+            {
+                foreach (var unitEntity in _unitsFilter)
+                {
+                    var nearestResource = FindTargetExtension.GetNearestByFilter(unitEntity, _stoneResourcesFilter, 100f, _viewEntityStash, used);
+                    if (nearestResource == null) continue;
+                    SetTargetResource(unitEntity, nearestResource, used);
+                }
+            }
+            
+            World.Commit();
+            
+            foreach (var unitEntity in _unitsFilter)
+            {
+                var nearestResource = FindTargetExtension.GetNearestByFilter(unitEntity, _anyResourcesFilter, 100f, _viewEntityStash, used);
+                if (nearestResource == null) continue;
+                SetTargetResource(unitEntity, nearestResource, used);
+            }
         }
 
-        public void Dispose()
+        private void SetTargetResource(Entity unitEntity, Entity nearestResource, HashSet<Entity> used)
         {
+            unitEntity.RemoveComponent<FindResourceRequest>();
+            unitEntity.SetComponent(new AStarCalculatePathRequest
+            {
+                Entity = nearestResource,
+                TargetPosition = _viewEntityStash.Get(nearestResource).Value.transform.position
+            });
+            unitEntity.SetComponent(new MoveToResource
+            {
+                Entity = nearestResource
+            });
+            nearestResource.SetComponent(new SomeUnitInteractsWithThisTag());
+            used.Add(nearestResource);
         }
+
+        public void Dispose() { }
     }
 }
