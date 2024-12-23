@@ -30,6 +30,8 @@ namespace Project.Runtime.Services.PlayerProgress
         public bool[] DailyRewardProgressCollected;
         public bool[] WeeklyRewardProgressCollected;
 
+        public PlayerSkills PlayerSkills = new();
+
         public PersistentPlayerData(CurrencyConfig[] gameCurrencies)
         {
             foreach (var currencyConfig in gameCurrencies)
